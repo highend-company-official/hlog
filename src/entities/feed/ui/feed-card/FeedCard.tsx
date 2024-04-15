@@ -32,7 +32,7 @@ const FeedCard = ({
         <img
           src={thumbnail}
           alt={title}
-          className="w-[240px] max-laptop:w-[180px] max-tablet:w-0 h-64 rounded-3xl object-cover float-right ml-8"
+          className="w-[240px] max-lg:w-[180px] max-md:w-0 h-64 rounded-3xl object-cover float-right ml-8"
         />
 
         <span className="text-5xl text-gray-700 font-bold hover:text-gray-600 break-words break-keep">

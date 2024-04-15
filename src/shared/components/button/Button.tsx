@@ -16,7 +16,8 @@ function Button({ intent = "primary", children, ...props }: ButtonProps) {
       {...props}
       className={classnames(
         "my-1 w-full px-2 py-3 rounded-lg cursor-pointer",
-        INTENT_CLASSNAMES[intent]
+        INTENT_CLASSNAMES[intent],
+        props.className
       )}
     >
       {children}

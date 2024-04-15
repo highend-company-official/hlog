@@ -1,8 +1,6 @@
 import { LuSearch } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 
-import * as shared from "@/shared";
-
 function Header() {
   const navigate = useNavigate();
 
@@ -12,7 +10,7 @@ function Header() {
         <h1 className="font-['Jersey15Charted'] text-6xl">
           <Link to="/">HLOG</Link>
         </h1>
-        <h2>Tech Blog</h2>
+        <h2 className="ml-2">Trusted Tech Blog</h2>
       </div>
 
       <ul className="flex items-center">

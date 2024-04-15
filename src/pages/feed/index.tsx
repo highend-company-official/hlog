@@ -1,11 +1,17 @@
-import Button from "../../shared/components/button";
+import { useNavigate } from "react-router-dom";
+import * as shared from "@/shared";
 
 function FeedPage() {
+  const navigate = useNavigate();
+
   return (
     <>
-      <Button intent="primary">안녕</Button>
-      <Button intent="error">안녕</Button>
-      <Button intent="success">안녕</Button>
+      <shared.Button
+        onClick={() => navigate("/article-read/1")}
+        intent="primary"
+      >
+        테스트 페이지로 이동
+      </shared.Button>
     </>
   );
 }

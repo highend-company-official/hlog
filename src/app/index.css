@@ -7,6 +7,10 @@
   src: url(../shared/font/Jersey15Charted.ttf);
 }
 
+body {
+  background-color: #eff6ff;
+}
+
 /* Reset styles */
 html,
 body,
@@ -133,4 +137,9 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+body {
+  word-break: keep-all;
+  word-wrap: break-word;
 }

@@ -7,6 +7,7 @@ export type Article = {
   hits: number;
   createdAt: string;
   updatedAt: string;
+  verified: boolean;
   user: User;
   like: Like[];
 };

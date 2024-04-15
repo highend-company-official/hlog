@@ -7,8 +7,10 @@ const HeaderLayout = () => {
     <>
       <Header />
 
-      <div className="pt-28 px-36 bg-white min-h-screen">
-        <Outlet />
+      <div className="bg-white min-h-screen w-full">
+        <div className="tablet:w-[600px] laptop:w-[800px] desktop:w-[1200px] mx-auto pt-[100px]">
+          <Outlet />
+        </div>
       </div>
     </>
   );

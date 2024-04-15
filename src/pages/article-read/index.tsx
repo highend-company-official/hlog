@@ -1,6 +1,6 @@
 import * as shared from "@/shared";
 import { useEffect } from "react";
-import { MOCK_DATA } from "./model";
+import { MOCK_DATA } from "../../shared/model";
 
 function ArticleRead() {
   const { scrollToTop } = shared.useScrollToTop();

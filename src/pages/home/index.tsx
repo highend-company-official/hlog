@@ -1,50 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import { ArticleCard } from "@/entities/article";
-import * as shared from "@/shared";
-
-const getArticles = () =>
-  shared.supabase.from("articles").select(`
-    id,
-    title,
-    body,
-    summary,
-    hits,
-    thumbnail,
-    created_at,
-    updated_at,
-    users (username)
-  `);
+import { ArticleList } from "@/entities/article";
+import { Suspense } from "react";
 
 function HomePage() {
-  const { data, isFetching } = useQuery({
-    queryKey: ["articles"],
-    queryFn: getArticles,
-  });
-
-  if (isFetching) {
-    return <>Loading</>;
-  }
-
-  console.log(data);
-
   return (
     <div className="w-full">
-      {data.data?.map((articleData: shared.Article) => (
-        <ArticleCard
-          id={articleData.id}
-          updatedAt=""
-          key={articleData.id}
-          title={articleData.title}
-          body={articleData.body}
-          createdAt={articleData.createdAt}
-          hits={articleData.hits}
-          like={[]}
-          summary={articleData.summary}
-          username={articleData.username}
-          thumbnail={articleData.thumbnail}
-          verified={articleData.verified}
-        />
-      ))}
+      <Suspense fallback={<>Loading...</>}>
+        <ArticleList />
+      </Suspense>
     </div>
   );
 }

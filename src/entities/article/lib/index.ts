@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchArticle } from "../api";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { fetchArticle, fetchArticles } from "../api";
 
 export const useFetchArticle = (articleId: number) => {
   const queryKey = ["article", articleId];
@@ -8,5 +8,15 @@ export const useFetchArticle = (articleId: number) => {
     return resposne.data;
   };
 
-  return useQuery({ queryKey, queryFn });
+  return useSuspenseQuery({ queryKey, queryFn });
+};
+
+export const useFetchArticles = () => {
+  const queryKey = ["article"];
+  const queryFn = async () => {
+    const resposne = await fetchArticles();
+    return resposne.data;
+  };
+
+  return useSuspenseQuery({ queryKey, queryFn });
 };

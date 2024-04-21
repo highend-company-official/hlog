@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { fetchComments } from "../api";
 
 export const useFetchComments = (articleId: number) => {
@@ -8,5 +8,5 @@ export const useFetchComments = (articleId: number) => {
     return resposne.data;
   };
 
-  return useQuery({ queryKey, queryFn });
+  return useSuspenseQuery({ queryKey, queryFn });
 };

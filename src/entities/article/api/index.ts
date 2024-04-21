@@ -20,3 +20,22 @@ export const fetchArticle = (articleId: number) => {
     .throwOnError()
     .single<Article>();
 };
+
+export const fetchArticles = () => {
+  return supabase
+    .from("articles")
+    .select(
+      `
+        id,
+        title,
+        body,
+        summary,
+        hits,
+        thumbnail,
+        created_at,
+        updated_at,
+        users (username)
+      `
+    )
+    .returns<Article[]>();
+};

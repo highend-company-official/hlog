@@ -5,12 +5,11 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="fixed left-0 bg-white w-full flex justify-between items-center px-10 py-2">
+    <header className="fixed left-0 flex items-center justify-between w-full px-10 py-2 bg-white">
       <div className="flex items-end">
-        <h1 className="font-['Jersey15Charted'] text-6xl">
+        <h1 className="text-6xl font-['Jersey15-Regular']">
           <Link to="/">HLOG</Link>
         </h1>
-        <h2 className="ml-2">Trusted Tech Blog</h2>
       </div>
 
       <ul className="flex items-center">

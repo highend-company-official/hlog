@@ -11,11 +11,13 @@ const INTENT_CLASSNAMES = {
 };
 
 function Button({ intent = "primary", children, ...props }: ButtonProps) {
+  const baseClasses = "my-1 px-2 py-3 rounded-lg cursor-pointer";
+
   return (
     <button
       {...props}
       className={classnames(
-        "my-1 w-full px-2 py-3 rounded-lg cursor-pointer",
+        baseClasses,
         INTENT_CLASSNAMES[intent],
         props.className
       )}

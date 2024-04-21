@@ -7,6 +7,11 @@
   src: url(../shared/font/Jersey15Charted.ttf);
 }
 
+@font-face {
+  font-family: "Jersey15-Regular";
+  src: url(../shared/font/Jersey15-Regular.ttf);
+}
+
 body {
   background-color: #eff6ff;
 }

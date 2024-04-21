@@ -4,7 +4,7 @@ import { MdVerifiedUser } from "react-icons/md";
 import { BiSolidLike } from "react-icons/bi";
 import { IoMdEye } from "react-icons/io";
 
-const FeedCard = ({
+const ArticleCard = ({
   id,
   createdAt,
   hits,
@@ -14,15 +14,15 @@ const FeedCard = ({
   thumbnail,
   title,
   updatedAt,
-  user,
+  username,
 }: Article) => {
   return (
-    <div className="px-10 my-4 py-6 bg-white rounded-lg shadow-md">
+    <section className="px-10 my-4 py-6 bg-slate-50 rounded-lg shadow-md">
       <div className="flex items-center">
         {verified && (
           <MdVerifiedUser className="w-[24px] h-[24px] mr-2" color="#2563eb" />
         )}
-        <span className="font-bold text-gray-700 mr-3">{user.username}</span>
+        <span className="font-bold text-gray-700 mr-3">{username}</span>
         <span className="font-light text-gray-600">
           {updatedAt ? `글 수정일 : ${updatedAt}` : `글 작성일 : ${createdAt}`}
         </span>
@@ -61,8 +61,8 @@ const FeedCard = ({
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default FeedCard;
+export default ArticleCard;

@@ -8,7 +8,10 @@ export type Article = {
   createdAt: string;
   updatedAt: string;
   verified: boolean;
-  user: User;
+  user: {
+    username: string;
+    profileUrl: string;
+  };
   like: Like[];
 };
 
@@ -19,13 +22,14 @@ export type Like = {
 
 export type Comment = {
   id: string;
-  commentContent: string;
+  text: string;
   createdAt: string;
   updatedAt: string;
-  user: User;
-  likeNumber: number;
-  isLiked: boolean;
-  like: {
+  users: {
+    username: string;
+    profileUrl: string;
+  };
+  likes: {
     id: string;
     userId: string;
   }[];
@@ -47,4 +51,9 @@ export type User = {
   email: string;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type APIResponse<DataType, ErrorType = void> = {
+  data: DataType;
+  error: ErrorType;
 };

@@ -1,18 +1,33 @@
 import * as shared from "@/shared";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+
+import * as features from "@/features";
+
+type FormValues = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  username: string;
+};
 
 function SignUpPage() {
-  const [] = useState();
+  const { register, handleSubmit } = useForm<FormValues>();
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // TODO: Sign Up Feature
-    shared.supabase.auth.signUp({
-      email: "someone@email.com",
-      password: "wVoJiZFWitFyGXmOhRSG",
+  const handleEmailSignUp = handleSubmit((data) => {
+    const { email, password, confirmPassword, username } = data;
+
+    if (password !== confirmPassword) {
+      // TODO: 에러 메시지 표시
+      return;
+    }
+
+    features.auth.signUp.withEmail({
+      email,
+      password,
+      username,
     });
-  };
+  });
 
   return (
     <>
@@ -31,7 +46,7 @@ function SignUpPage() {
               </h1>
               <form
                 className="space-y-4 md:space-y-6"
-                onSubmit={handleFormSubmit}
+                onSubmit={handleEmailSignUp}
               >
                 <div>
                   <label
@@ -42,11 +57,11 @@ function SignUpPage() {
                   </label>
                   <input
                     type="email"
-                    name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="example@mail.com"
                     required
+                    {...register("email")}
                   />
                 </div>
                 <div>
@@ -58,27 +73,27 @@ function SignUpPage() {
                   </label>
                   <input
                     type="password"
-                    name="password"
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     required
+                    {...register("password")}
                   />
                 </div>
                 <div>
                   <label
-                    htmlFor="confirm-password"
+                    htmlFor="confirmPassword"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
                     비밀번호 재확인
                   </label>
                   <input
-                    type="confirm-password"
-                    name="confirm-password"
-                    id="confirm-password"
+                    type="password"
+                    id="confirmPassword"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     required
+                    {...register("confirmPassword")}
                   />
                 </div>
 
@@ -91,11 +106,11 @@ function SignUpPage() {
                   </label>
                   <input
                     type="username"
-                    name="username"
                     id="username"
                     placeholder="닉네임을 입력해주세요"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     required
+                    {...register("username")}
                   />
                 </div>
 

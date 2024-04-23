@@ -1,6 +1,7 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import * as pages from "@/pages";
 import Header from "@/widgets/header";
+import * as hoc from "./hoc";
 
 const HeaderLayout = () => {
   return (
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <pages.ProfilePage />,
+        element: (
+          <hoc.PrivateRoute>
+            <pages.ProfilePage />
+          </hoc.PrivateRoute>
+        ),
       },
     ],
   },

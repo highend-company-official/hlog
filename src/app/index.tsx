@@ -1,18 +1,22 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import ReactQueryClientProvider from "./query-client";
+
+import * as hoc from "./hoc";
+import router from "./router";
 
 import "./index.css";
-
-import router from "./router";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
   <React.StrictMode>
-    <ReactQueryClientProvider>
-      <RouterProvider router={router} />
-    </ReactQueryClientProvider>
+    <hoc.QueryClient>
+      <hoc.ErrorBoundary>
+        <hoc.AuthContainer>
+          <RouterProvider router={router} />
+        </hoc.AuthContainer>
+      </hoc.ErrorBoundary>
+    </hoc.QueryClient>
   </React.StrictMode>
 );

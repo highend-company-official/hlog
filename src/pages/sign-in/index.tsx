@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+import * as features from "@/features";
 import * as shared from "@/shared";
 
-function SignInPage() {
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+type FormValues = {
+  email: string;
+  password: string;
+};
 
-    // shared.supabase.auth.signInWithPassword({
-    //   email: 'someone@email.com',
-    //   password: 'wVoJiZFWitFyGXmOhRSG'
-    // })
-  };
+function SignInPage() {
+  const { register, handleSubmit } = useForm<FormValues>();
+
+  const handleEmailSignIn = handleSubmit((data) => {
+    const { email, password } = data;
+
+    features.auth.signIn.withEmail({ email, password });
+  });
 
   return (
     <>
@@ -28,7 +35,7 @@ function SignInPage() {
               </h1>
               <form
                 className="space-y-4 md:space-y-6"
-                onSubmit={handleFormSubmit}
+                onSubmit={handleEmailSignIn}
               >
                 <div>
                   <label
@@ -39,11 +46,11 @@ function SignInPage() {
                   </label>
                   <input
                     type="email"
-                    name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="example@mail.com"
                     required
+                    {...register("email")}
                   />
                 </div>
                 <div>
@@ -55,11 +62,11 @@ function SignInPage() {
                   </label>
                   <input
                     type="password"
-                    name="password"
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                     required
+                    {...register("password")}
                   />
                 </div>
                 <div className="flex items-center">

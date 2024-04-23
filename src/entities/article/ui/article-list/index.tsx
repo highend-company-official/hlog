@@ -11,7 +11,7 @@ const ArticleList = () => {
   return (
     <>
       {data.map((article) => (
-        <ArticleCard {...article} />
+        <ArticleCard key={article.id} {...article} />
       ))}
     </>
   );

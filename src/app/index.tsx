@@ -13,9 +13,9 @@ root.render(
   <React.StrictMode>
     <hoc.QueryClient>
       <hoc.ErrorBoundary>
-        <hoc.AuthContainer>
-          <RouterProvider router={router} />
-        </hoc.AuthContainer>
+        {/* <hoc.AuthContainer>
+        </hoc.AuthContainer> */}
+        <RouterProvider router={router} />
       </hoc.ErrorBoundary>
     </hoc.QueryClient>
   </React.StrictMode>

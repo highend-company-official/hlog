@@ -1,15 +1,14 @@
 import { Comment, supabase } from "@/shared";
 
-export const fetchComments = (articleId: number) => {
+export const fetchComments = (articleId: string) => {
   return supabase
     .from("comments")
     .select(
       `
         id,
-        text,
+        body,
         created_at,
-        updated_at,
-        users (username, profileUrl)
+        profiles (username, profileUrl)
       `
     )
     .match({ article_id: articleId })

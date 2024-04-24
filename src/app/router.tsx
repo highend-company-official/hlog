@@ -1,33 +1,12 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
+
 import * as pages from "@/pages";
-import Header from "@/widgets/header";
+import * as widgets from "@/widgets";
 import * as hoc from "./hoc";
-
-const HeaderLayout = () => {
-  return (
-    <>
-      <Header />
-
-      <div className="w-full min-h-screen bg-white">
-        <div className="md:w-[600px] lg:w-[800px] xl:w-[1200px] mx-auto pt-[100px]">
-          <Outlet />
-        </div>
-      </div>
-    </>
-  );
-};
-
-const AuthLayout = () => {
-  return (
-    <div className="h-screen bg-white">
-      <Outlet />
-    </div>
-  );
-};
 
 const router = createBrowserRouter([
   {
-    element: <HeaderLayout />,
+    element: <widgets.HeaderLayout />,
     children: [
       {
         index: true,
@@ -49,7 +28,7 @@ const router = createBrowserRouter([
   },
   {
     path: "auth", // Added a forward slash at the beginning
-    element: <AuthLayout />,
+    element: <widgets.AuthLayout />,
     children: [
       {
         path: "sign-in", // Added a forward slash at the beginning

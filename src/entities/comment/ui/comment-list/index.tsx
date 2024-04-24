@@ -27,7 +27,7 @@ const CommentList = () => {
       <div className="py-6" />
 
       {data.map((data) => (
-        <CommentCard {...data} />
+        <CommentCard key={data.id} {...data} />
       ))}
 
       <div className="py-10" />

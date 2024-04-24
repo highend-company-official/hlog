@@ -9,11 +9,9 @@ export const fetchArticle = (articleId: number) => {
         title,
         body,
         summary,
-        hits,
         thumbnail,
         created_at,
-        updated_at,
-        users (username, profileUrl)
+        profiles (username, profileUrl)
       `
     )
     .match({ id: articleId })
@@ -30,11 +28,9 @@ export const fetchArticles = () => {
         title,
         body,
         summary,
-        hits,
         thumbnail,
         created_at,
-        updated_at,
-        users (username)
+        profiles (username)
       `
     )
     .returns<Article[]>();

@@ -5,7 +5,7 @@ import { CommentList } from "@/entities/comment";
 
 import * as shared from "@/shared";
 
-const ReadSkeleton = () => {
+const Skeleton = () => {
   return (
     <>
       <shared.ImageSkeleton />
@@ -19,7 +19,7 @@ const ReadSkeleton = () => {
 
 function ArticleRead() {
   return (
-    <Suspense fallback={<ReadSkeleton />}>
+    <Suspense fallback={<Skeleton />}>
       <ArticleView />
 
       <LikeView />

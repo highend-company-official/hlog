@@ -8,7 +8,7 @@ type ParamsType = {
 const ArticleView = () => {
   const { article_id } = useParams<ParamsType>();
 
-  const { data } = useFetchArticle(parseInt(article_id!));
+  const { data } = useFetchArticle(article_id!);
 
   if (!data) {
     return null;
@@ -26,12 +26,12 @@ const ArticleView = () => {
 
       <section className="flex mt-5">
         <img
-          src={data?.users.profileUrl}
-          alt={data?.users.username}
+          src={data?.profiles.profileUrl}
+          alt={data?.profiles.username}
           className="w-12 h-12 mr-3 rounded-full"
         />
         <div className="flex items-center justify-center">
-          <span className="font-bold">{data?.users.username}</span>
+          <span className="font-bold">{data?.profiles.username}</span>
           {/* <span className="ml-2 font-thin">{data?.createdAt}</span> */}
         </div>
       </section>

@@ -1,18 +1,20 @@
 import * as React from "react";
-import { Navigate } from "react-router-dom";
-import useAuth from "../store/auth";
+import { useNavigate } from "react-router-dom";
+import { useSession } from "@/shared";
 
 type PrivateRouteProps = {
   children: React.ReactNode;
 };
 
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const { session } = useAuth();
+  const { data, isFetching } = useSession();
+  const navigate = useNavigate();
 
-  // TODO: Loading 상태 구현하기
-  if (!session) {
-    return <Navigate to="/auth/sign-in" />;
-  }
+  React.useEffect(() => {
+    if (!isFetching && !data) {
+      navigate(-1);
+    }
+  }, []);
 
   return <>{children}</>;
 };

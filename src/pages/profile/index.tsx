@@ -1,11 +1,18 @@
-import { useSession } from "@/shared";
+import * as shared from "@/shared";
+import * as features from "@/features";
 
 const ProfilePage = () => {
-  const { data } = useSession();
+  const { data } = shared.useSession();
 
   console.log(data);
 
-  return <>프로필 페이지</>;
+  return (
+    <>
+      <shared.Button intent="error" onClick={features.auth.signOut}>
+        로그아웃
+      </shared.Button>
+    </>
+  );
 };
 
 export default ProfilePage;

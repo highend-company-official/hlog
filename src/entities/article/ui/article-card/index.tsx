@@ -14,7 +14,7 @@ const ArticleCard = ({
   thumbnail,
   title,
   updated_at,
-  users: { username },
+  profiles: { username },
 }: Article) => {
   return (
     <section className="px-10 py-6 my-4 rounded-lg shadow-md bg-slate-50">

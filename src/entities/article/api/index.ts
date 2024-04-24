@@ -1,6 +1,6 @@
 import { Article, supabase } from "@/shared";
 
-export const fetchArticle = (articleId: number) => {
+export const fetchArticle = (articleId: string) => {
   return supabase
     .from("articles")
     .select(
@@ -29,7 +29,7 @@ export const fetchArticles = () => {
         body,
         summary,
         thumbnail,
-        created_at,
+        created_at, 
         profiles (username)
       `
     )

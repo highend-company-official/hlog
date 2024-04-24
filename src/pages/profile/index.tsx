@@ -8,6 +8,7 @@ const ProfilePage = () => {
 
   return (
     <>
+      HelloWorld
       <shared.Button intent="error" onClick={features.auth.signOut}>
         로그아웃
       </shared.Button>

@@ -12,7 +12,7 @@ type ParamsType = {
 const CommentList = () => {
   const { article_id } = useParams<ParamsType>();
 
-  const { data } = useFetchComments(parseInt(article_id!));
+  const { data } = useFetchComments(article_id!);
 
   if (!data) {
     return null;

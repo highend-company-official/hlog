@@ -8,7 +8,7 @@ export type Article = {
   created_at: string;
   updated_at: string;
   verified: boolean;
-  users: {
+  profiles: {
     username: string;
     profileUrl: string;
   };
@@ -25,7 +25,7 @@ export type Comment = {
   text: string;
   createdAt: string;
   updatedAt: string;
-  users: {
+  profiles: {
     username: string;
     profileUrl: string;
   };
@@ -40,7 +40,7 @@ export type Reply = {
   body: string;
   createdAt: string;
   updatedAt: string;
-  user: User;
+  profiles: User;
 };
 
 export type User = {
@@ -48,9 +48,7 @@ export type User = {
   username: string;
   profileUrl: string;
   description: string;
-  email: string;
   createdAt: Date;
-  updatedAt: Date;
 };
 
 export type APIResponse<DataType, ErrorType = void> = {

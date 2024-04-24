@@ -1,5 +1,6 @@
-import { ArticleList } from "@/entities/article";
 import { Suspense } from "react";
+
+import { ArticleList } from "@/entities/article";
 
 function HomePage() {
   return (

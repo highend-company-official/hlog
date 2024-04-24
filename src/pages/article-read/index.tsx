@@ -5,18 +5,27 @@ import { CommentList } from "@/entities/comment";
 
 import * as shared from "@/shared";
 
+const ReadSkeleton = () => {
+  return (
+    <>
+      <shared.ImageSkeleton />
+
+      <div className="mt-14" />
+
+      <shared.TextSkeleton repeat={5} />
+    </>
+  );
+};
+
 function ArticleRead() {
   return (
-    <Suspense fallback={<>Suspense Loading</>}>
-      {/* Article Area */}
+    <Suspense fallback={<ReadSkeleton />}>
       <ArticleView />
 
-      {/* Like Area */}
       <LikeView />
 
       <shared.Divider />
 
-      {/* Comment Area */}
       <CommentList />
     </Suspense>
   );

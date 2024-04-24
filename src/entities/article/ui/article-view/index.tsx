@@ -19,10 +19,10 @@ const ArticleView = () => {
       <img
         src={data.thumbnail}
         alt={data.summary}
-        className="rounded-xl mt-9 w-full h-96 object-cover"
+        className="object-cover w-full rounded-xl mt-9 h-96"
       />
-      <h3 className="mt-4 text-5xl break-keep break-words">{data?.title}</h3>
-      <span className="text-subTitle pt-4">{data?.summary}</span>
+      <h3 className="mt-4 text-5xl break-words break-keep">{data?.title}</h3>
+      <span className="pt-4 text-subTitle">{data?.summary}</span>
 
       <section className="flex mt-5">
         <img
@@ -32,11 +32,11 @@ const ArticleView = () => {
         />
         <div className="flex items-center justify-center">
           <span className="font-bold">{data?.users.username}</span>
-          <span className="ml-2 font-thin">{data?.createdAt}</span>
+          {/* <span className="ml-2 font-thin">{data?.createdAt}</span> */}
         </div>
       </section>
 
-      <div className="mt-9 text-base leading-6">{data?.body}</div>
+      <div className="text-base leading-6 mt-9">{data?.body}</div>
     </article>
   );
 };

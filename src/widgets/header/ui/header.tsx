@@ -1,14 +1,13 @@
 import useAuth from "@/app/store/auth";
 import { LuSearch } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
-import * as features from "@/features";
 
 function Header() {
   const navigate = useNavigate();
   const { session } = useAuth();
 
   return (
-    <header className="fixed left-0 flex items-center justify-between w-full px-10 py-2 bg-white">
+    <header className="fixed left-0 z-50 flex items-center justify-between w-full px-10 py-2 bg-white">
       <div className="flex items-end">
         <h1 className="text-6xl font-['Jersey15-Regular']">
           <Link to="/">HLOG</Link>

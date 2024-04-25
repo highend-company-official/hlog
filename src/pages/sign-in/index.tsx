@@ -5,6 +5,7 @@ import * as features from "@/features";
 import * as shared from "@/shared";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@/shared";
+import { useToast } from "@/app/store";
 
 type FormValues = {
   email: string;
@@ -14,6 +15,7 @@ type FormValues = {
 function SignInPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { addToast } = useToast();
   const { register, handleSubmit } = useForm<FormValues>();
 
   const handleEmailSignIn = handleSubmit((data) => {
@@ -22,6 +24,12 @@ function SignInPage() {
     features.auth.signIn.withEmail({ email, password }).then(() => {
       queryClient.refetchQueries({
         queryKey: useSession.pk,
+      });
+
+      addToast({
+        type: "success",
+        content: "로그인에 성공했습니다!",
+        hasCloseButton: false,
       });
 
       navigate("/", {

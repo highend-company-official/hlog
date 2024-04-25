@@ -13,6 +13,7 @@ type FormValues = {
 
 function SignUpPage() {
   const { register, handleSubmit } = useForm<FormValues>();
+  const navigate = useNavigate();
 
   const handleEmailSignUp = handleSubmit((data) => {
     const { email, password, confirmPassword, username } = data;
@@ -22,15 +23,29 @@ function SignUpPage() {
       return;
     }
 
-    features.auth.signUp.withEmail({
-      email,
-      password,
-      username,
-    });
+    features.auth.signUp
+      .withEmail({
+        email,
+        password,
+        username,
+      })
+      .then(() => {
+        navigate("/auth/sign-in");
+      });
   });
 
   return (
     <>
+      <shared.toasts.Success onClose={() => null}>
+        Hello World
+      </shared.toasts.Success>
+      <shared.toasts.Warning onClose={() => null}>
+        Hello World
+      </shared.toasts.Warning>
+      <shared.toasts.Error onClose={() => null}>
+        Hello World
+      </shared.toasts.Error>
+
       <section className="bg-gray-50">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <Link

@@ -6,6 +6,7 @@ module.exports = {
     "./src/pages/**/*.{ts,tsx}",
     "./src/shared/**/*.{ts,tsx}",
     "./src/widgets/**/*.{ts,tsx}",
+    "./index.html",
   ],
   theme: {
     extend: {

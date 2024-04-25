@@ -45,7 +45,7 @@ const UserDivision = () => {
 
 function Header() {
   return (
-    <header className="fixed left-0 z-50 flex items-center justify-between w-full px-10 py-2 bg-white">
+    <header className="fixed left-0 z-40 flex items-center justify-between w-full px-10 py-2 bg-white">
       <div className="flex items-end">
         <h1 className="text-6xl font-['Jersey15-Regular']">
           <Link to="/">HLOG</Link>

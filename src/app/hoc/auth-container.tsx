@@ -1,6 +1,5 @@
-import { supabase, useSession } from "@/shared";
+import { supabase } from "@/shared";
 import * as React from "react";
-import useAuth from "../store/auth";
 
 type Props = {
   children: React.ReactNode;
@@ -9,7 +8,7 @@ type Props = {
 const AuthContainer = ({ children }: Props) => {
   // Auth Event Handlers
   React.useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange(() => {
       // do something...
     });
   }, []);

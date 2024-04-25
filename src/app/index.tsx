@@ -14,7 +14,9 @@ root.render(
     <hoc.QueryClient>
       <hoc.ErrorBoundary>
         <hoc.AuthContainer>
-          <RouterProvider router={router} />
+          <hoc.ToastContainer>
+            <RouterProvider router={router} />
+          </hoc.ToastContainer>
         </hoc.AuthContainer>
       </hoc.ErrorBoundary>
     </hoc.QueryClient>

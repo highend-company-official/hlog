@@ -18,7 +18,7 @@ const router = createBrowserRouter(
         />
         <Route path="profile" element={<pages.ProfilePage />} />
       </Route>
-      <Route element={<widgets.AuthLayout />}>
+      <Route path="auth" element={<widgets.AuthLayout />}>
         <Route path="sign-in" element={<pages.SignInPage />} />
         <Route path="sign-up" element={<pages.SignUpPage />} />
       </Route>

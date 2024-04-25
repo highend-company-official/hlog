@@ -15,7 +15,7 @@ const UserDivision = () => {
   return (
     <li>
       <If
-        condition={!!data}
+        condition={!!data.session}
         trueRender={
           <button
             type="button"

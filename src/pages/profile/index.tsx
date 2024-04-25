@@ -4,8 +4,6 @@ import * as features from "@/features";
 const ProfilePage = () => {
   const { data } = shared.useSession();
 
-  console.log(data);
-
   return (
     <>
       HelloWorld

@@ -24,7 +24,7 @@ const router = createBrowserRouter(
           <Route
             index
             element={
-              <Suspense fallback={<shared.Skeleton height={100} />}>
+              <Suspense fallback={<shared.Skeleton height={600} />}>
                 <ProfileInfo />
               </Suspense>
             }
@@ -32,7 +32,7 @@ const router = createBrowserRouter(
           <Route
             path="articles"
             element={
-              <Suspense fallback={<shared.Skeleton height={100} />}>
+              <Suspense fallback={<shared.Skeleton height={600} />}>
                 <ProfileArticles />
               </Suspense>
             }
@@ -40,7 +40,7 @@ const router = createBrowserRouter(
           <Route
             path="settings"
             element={
-              <Suspense fallback={<shared.Skeleton height={100} />}>
+              <Suspense fallback={<shared.Skeleton height={600} />}>
                 설정 ㅋㅋ
               </Suspense>
             }

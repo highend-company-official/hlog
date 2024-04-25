@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineArticle } from "react-icons/md";
@@ -10,17 +10,14 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="md:flex">
-      <ul className="mb-4 space-y-4 text-sm font-medium text-gray-500 flex-column space-y dark:text-gray-400 md:me-4 md:mb-0">
+      <ul className="mb-4 space-y-4 text-sm font-medium text-gray-500 w-72 flex-column space-y dark:text-gray-400 md:me-4 md:mb-0">
         <li>
           <NavLink
             to=""
             className={({ isActive }) =>
-              classNames(
-                "flex items-center justify-center w-full px-4 py-3  rounded-lg",
-                {
-                  [activeClassname]: isActive,
-                }
-              )
+              classNames("flex items-center w-full px-4 py-3  rounded-lg", {
+                [activeClassname]: isActive,
+              })
             }
             end
             aria-current="page"
@@ -34,12 +31,9 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
             to="articles"
             end
             className={({ isActive }) =>
-              classNames(
-                "flex items-center justify-center w-full px-4 py-3  rounded-lg",
-                {
-                  [activeClassname]: isActive,
-                }
-              )
+              classNames("flex items-center w-full px-4 py-3  rounded-lg", {
+                [activeClassname]: isActive,
+              })
             }
           >
             <MdOutlineArticle size={16} className="mr-1" />
@@ -51,12 +45,9 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
             to="settings"
             end
             className={({ isActive }) =>
-              classNames(
-                "flex items-center justify-center w-full px-4 py-3  rounded-lg",
-                {
-                  [activeClassname]: isActive,
-                }
-              )
+              classNames("flex items-center w-full px-4 py-3  rounded-lg", {
+                [activeClassname]: isActive,
+              })
             }
           >
             <IoMdSettings size={16} className="mr-1" />

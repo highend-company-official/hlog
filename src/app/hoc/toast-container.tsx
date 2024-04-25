@@ -13,19 +13,28 @@ const ToastContainer = ({ children }: Props) => {
       switch (toast.type) {
         case "success":
           return (
-            <shared.toasts.Success onClose={() => removeToast(toast.id)}>
+            <shared.toasts.Success
+              onClose={() => removeToast(toast.id)}
+              key={toast.id}
+            >
               {toast.content}
             </shared.toasts.Success>
           );
         case "warning":
           return (
-            <shared.toasts.Warning onClose={() => removeToast(toast.id)}>
+            <shared.toasts.Warning
+              onClose={() => removeToast(toast.id)}
+              key={toast.id}
+            >
               {toast.content}
             </shared.toasts.Warning>
           );
         case "error":
           return (
-            <shared.toasts.Error onClose={() => removeToast(toast.id)}>
+            <shared.toasts.Error
+              onClose={() => removeToast(toast.id)}
+              key={toast.id}
+            >
               {toast.content}
             </shared.toasts.Error>
           );

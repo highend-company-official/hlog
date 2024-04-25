@@ -14,4 +14,12 @@ async function withEmail({ email, password }: EmailSignInParams) {
   return signInResponse;
 }
 
-export default { withEmail };
+async function withGithub() {
+  const signInResponse = await supabase.auth.signInWithOAuth({
+    provider: "github",
+  });
+
+  return signInResponse;
+}
+
+export default { withEmail, withGithub };

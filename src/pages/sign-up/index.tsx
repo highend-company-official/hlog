@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
 import * as features from "@/features";
+import { useToast } from "@/app/store";
 
 type FormValues = {
   email: string;
@@ -14,6 +15,7 @@ type FormValues = {
 function SignUpPage() {
   const { register, handleSubmit } = useForm<FormValues>();
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   const handleEmailSignUp = handleSubmit((data) => {
     const { email, password, confirmPassword, username } = data;
@@ -29,8 +31,31 @@ function SignUpPage() {
         password,
         username,
       })
-      .then(() => {
-        navigate("/auth/sign-in");
+      .then(({ error }) => {
+        if (error?.name === "AuthApiError" && error.status === 429) {
+          addToast({
+            type: "error",
+            content: "이메일 요금 제한을 초과했습니다",
+            hasCloseButton: false,
+          });
+        }
+
+        if (!error) {
+          addToast({
+            type: "success",
+            content: "회원가입에 성공했습니다",
+            hasCloseButton: false,
+          });
+          addToast({
+            type: "warning",
+            content: "로그인하기 위해서 이메일 인증을 해주세요!",
+            hasCloseButton: false,
+          });
+          navigate("/auth/sign-in");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   });
 

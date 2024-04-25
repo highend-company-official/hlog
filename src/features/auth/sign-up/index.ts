@@ -21,11 +21,6 @@ async function withEmail({ email, password, username }: EmailSignUpParams) {
   return signUpResponse;
 }
 
-async function withGithub() {}
-async function withKakao() {}
-
 export default {
   withEmail,
-  withGithub,
-  withKakao,
 };

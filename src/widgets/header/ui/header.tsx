@@ -21,10 +21,10 @@ const UserDivision = () => {
             type="button"
             className={BUTTON_CLASSNAME}
             onClick={() => {
-              navigate("/profile");
+              navigate(`/profile/${data.session?.user.id}`);
             }}
           >
-            {data.session?.user.user_metadata.username}
+            {data.session?.user.user_metadata.user_name}
           </button>
         }
         falseRender={

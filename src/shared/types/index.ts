@@ -43,10 +43,20 @@ export type Reply = {
   profiles: User;
 };
 
+export type Session = {
+  provider_token?: string | null;
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  token_type: string;
+  user: User;
+};
+
 export type User = {
   id: string;
+  email: string;
   username: string;
-  profileUrl: string;
+  profile_url: string;
   description: string;
   createdAt: Date;
 };

@@ -1,15 +1,12 @@
-import * as shared from "@/shared";
-import * as features from "@/features";
+import { ProfileTab } from "@/entities/profile";
+import { Outlet } from "react-router-dom";
 
 const ProfilePage = () => {
-  const { data } = shared.useSession();
-
   return (
     <>
-      HelloWorld
-      <shared.Button intent="error" onClick={features.auth.signOut}>
-        로그아웃
-      </shared.Button>
+      <ProfileTab>
+        <Outlet />
+      </ProfileTab>
     </>
   );
 };

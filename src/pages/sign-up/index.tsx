@@ -21,7 +21,11 @@ function SignUpPage() {
     const { email, password, confirmPassword, username } = data;
 
     if (password !== confirmPassword) {
-      // TODO: 에러 메시지 표시
+      addToast({
+        type: "error",
+        content: "비밀번호가 일치하지 않습니다.",
+        hasCloseButton: true,
+      });
       return;
     }
 
@@ -36,7 +40,7 @@ function SignUpPage() {
           addToast({
             type: "error",
             content: "이메일 요금 제한을 초과했습니다",
-            hasCloseButton: false,
+            hasCloseButton: true,
           });
         }
 
@@ -44,7 +48,7 @@ function SignUpPage() {
           addToast({
             type: "success",
             content: "회원가입에 성공했습니다",
-            hasCloseButton: false,
+            hasCloseButton: true,
           });
           addToast({
             type: "warning",
@@ -55,7 +59,12 @@ function SignUpPage() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+        addToast({
+          type: "error",
+          content: "에러가 발생했습니다.",
+          hasCloseButton: true,
+        });
       });
   });
 

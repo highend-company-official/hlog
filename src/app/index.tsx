@@ -11,14 +11,16 @@ const root = createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
   <React.StrictMode>
-    <hoc.QueryClient>
-      <hoc.ErrorBoundary>
-        <hoc.AuthContainer>
-          <hoc.ToastContainer>
-            <RouterProvider router={router} />
-          </hoc.ToastContainer>
-        </hoc.AuthContainer>
-      </hoc.ErrorBoundary>
-    </hoc.QueryClient>
+    <hoc.ErrorBoundary>
+      <hoc.QueryClient>
+        <React.Suspense fallback={<>Page Load...</>}>
+          <hoc.AuthContainer>
+            <hoc.ToastContainer>
+              <RouterProvider router={router} />
+            </hoc.ToastContainer>
+          </hoc.AuthContainer>
+        </React.Suspense>
+      </hoc.QueryClient>
+    </hoc.ErrorBoundary>
   </React.StrictMode>
 );

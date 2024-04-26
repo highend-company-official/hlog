@@ -10,6 +10,7 @@ import { ProfileInfo, ProfileArticles } from "@/entities/profile";
 import * as shared from "@/shared";
 import * as pages from "@/pages";
 import * as widgets from "@/widgets";
+import * as hoc from "./hoc";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -47,7 +48,14 @@ const router = createBrowserRouter(
           />
         </Route>
       </Route>
-      <Route path="auth" element={<widgets.AuthLayout />}>
+      <Route
+        path="auth"
+        element={
+          <hoc.PublicRoute>
+            <widgets.AuthLayout />
+          </hoc.PublicRoute>
+        }
+      >
         <Route path="sign-in" element={<pages.SignInPage />} />
         <Route path="sign-up" element={<pages.SignUpPage />} />
       </Route>

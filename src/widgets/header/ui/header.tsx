@@ -24,7 +24,10 @@ const UserDivision = () => {
               navigate(`/profile/${data.session?.user.id}`);
             }}
           >
-            {data.session?.user.user_metadata.user_name}
+            {/* NOTE: Github Provider는 user_name 형식, Email Provider는 username 형식이기 때문 */}
+            {(data.session?.user.user_metadata.user_name ||
+              data.session?.user.user_metadata.username) ??
+              "닉네임이 설정되지 않았습니다 (개발자에게 문의해주세요)"}
           </button>
         }
         falseRender={

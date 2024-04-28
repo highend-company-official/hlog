@@ -6,6 +6,8 @@ type ToastType = {
   type: "success" | "warning" | "error";
   content: string;
   hasCloseButton: boolean;
+  // Timeout 구현하기
+  // Domain 구현하기
 };
 
 type State = {

@@ -2,6 +2,7 @@ import { Skeleton, If, useSession } from "@/shared";
 import { Suspense } from "react";
 import { LuSearch } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/app/store";
 
 const UserDivision = () => {
   const { data } = useSession();
@@ -47,6 +48,8 @@ const UserDivision = () => {
 };
 
 function Header() {
+  const { addToast } = useToast();
+
   return (
     <header className="fixed left-0 z-40 flex items-center justify-between w-full px-10 py-2 bg-white">
       <div className="flex items-end">
@@ -60,14 +63,18 @@ function Header() {
           <div
             className="mr-8"
             onClick={() => {
-              console.log("Feature Search");
+              addToast({
+                type: "warning",
+                content: "검색 기능은 구현중입니다.",
+                hasCloseButton: false,
+              });
             }}
           >
             <LuSearch size={30} />
           </div>
         </li>
 
-        <Suspense fallback={<Skeleton width={150} />}>
+        <Suspense fallback={<Skeleton width={150} height={40} />}>
           <UserDivision />
         </Suspense>
       </ul>

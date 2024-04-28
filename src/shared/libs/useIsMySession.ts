@@ -5,7 +5,10 @@ const useIsMySession = (userId: string) => {
     data: { session },
   } = useSession();
 
-  return session?.user.id === userId;
+  return {
+    isMySession: session?.user.id === userId,
+    user: session?.user,
+  };
 };
 
 export default useIsMySession;

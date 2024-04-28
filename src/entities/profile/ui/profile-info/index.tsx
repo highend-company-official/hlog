@@ -1,66 +1,130 @@
 import { useParams } from "react-router-dom";
-import { AiOutlineCloudUpload } from "react-icons/ai";
+import { CiUser } from "react-icons/ci";
+
 import * as shared from "@/shared";
 import * as features from "@/features";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useSession } from "@/shared";
 
 type Params = {
   user_id: string;
 };
 
-const UserInfo = () => {
+const AuthorizationView = () => {
   const { user_id } = useParams<Params>();
-  const queryClient = useQueryClient();
-  const { data } = shared.useFetchUser(user_id!);
-  const isMyProfile = shared.useIsMySession(user_id!);
+  const { data: userData } = shared.useFetchUser(user_id!);
+  const { data: sessionData } = shared.useSession();
 
+  const queryClient = useQueryClient();
   const handleSignOut = () => {
     features.auth.signOut().then(() => {
       queryClient.refetchQueries({
-        queryKey: useSession.pk,
+        queryKey: shared.useSession.pk,
       });
     });
   };
 
-  if (!data) return null;
+  if (!userData || !sessionData) return null;
 
   return (
-    <div>
+    <>
       <div className="flex flex-col items-center justify-center">
         <shared.If
-          condition={!!data.profile_url}
+          condition={!!userData.profile_url}
           trueRender={
             <img
-              src={data.profile_url}
-              alt={data.username}
+              src={userData.profile_url}
+              alt={userData.username}
               className="w-64 h-64 rounded-full"
             />
           }
           falseRender={
             <div className="w-64 mx-auto text-center">
               <div className="w-64">
-                <div className="flex flex-col items-center justify-center w-64 h-64 transition duration-500 bg-gray-200 rounded-full cursor-pointer group hover:bg-gray-300 opacity-60">
-                  <AiOutlineCloudUpload size={50} />
-                  <span>프로필 사진을 업로드해주세요.</span>
+                <div className="flex flex-col items-center justify-center w-64 h-64 transition duration-500 bg-gray-200 rounded-full group">
+                  <CiUser size={180} />
                 </div>
               </div>
             </div>
           }
         />
-
-        <span className="text-2xl mt-7">{data.username}</span>
+        <span className="text-2xl mt-7">{userData.username}</span>
+        <span>{sessionData.session?.user.email}</span>
       </div>
 
-      {isMyProfile && (
-        <div className="flex justify-center">
-          <shared.Button intent="error" onClick={handleSignOut}>
-            로그아웃
-          </shared.Button>
-        </div>
-      )}
+      <shared.Blockquote>
+        <span className="block font-bold">
+          아래 정보는 본인에게만 노출되는 정보입니다.
+        </span>
+      </shared.Blockquote>
+
+      <li>
+        <span>최근 로그인한 시간 </span>
+        <span className="font-bold">
+          {shared.getElapsedTime(
+            sessionData?.session?.user?.last_sign_in_at ?? ""
+          )}
+        </span>
+      </li>
+      <li>
+        <span>계정 생성일 </span>
+        <span className="font-bold">
+          {sessionData?.session?.user?.created_at}
+        </span>
+      </li>
+
+      <div className="flex justify-center mt-7">
+        <shared.Button intent="error" onClick={handleSignOut}>
+          로그아웃
+        </shared.Button>
+      </div>
+    </>
+  );
+};
+
+const UnAuthorizationView = () => {
+  const { user_id } = useParams<Params>();
+  const { data: userData } = shared.useFetchUser(user_id!);
+
+  if (!userData) return null;
+
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <shared.If
+        condition={!!userData.profile_url}
+        trueRender={
+          <img
+            src={userData.profile_url}
+            alt={userData.username}
+            className="w-64 h-64 rounded-full"
+          />
+        }
+        falseRender={
+          <div className="w-64 mx-auto text-center">
+            <div className="w-64">
+              <div className="flex flex-col items-center justify-center w-64 h-64 transition duration-500 bg-gray-200 rounded-full group">
+                <CiUser size={180} />
+              </div>
+            </div>
+          </div>
+        }
+      />
+      <span className="text-2xl mt-7">{userData.username}</span>
+      <span>{userData.email}</span>
     </div>
+  );
+};
+
+const UserInfo = () => {
+  const { user_id } = useParams<Params>();
+  const { isMySession } = shared.useIsMySession(user_id!);
+
+  return (
+    <shared.If
+      condition={isMySession}
+      trueRender={<AuthorizationView />}
+      falseRender={<UnAuthorizationView />}
+    />
   );
 };
 

@@ -9,7 +9,10 @@ const useSession = () => {
     return resposne.data;
   };
 
-  return useSuspenseQuery({ queryKey: KEY, queryFn });
+  return useSuspenseQuery({
+    queryKey: KEY,
+    queryFn,
+  });
 };
 
 useSession.pk = KEY;

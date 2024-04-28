@@ -13,7 +13,7 @@ type Props = {
 const ProfileTab = ({ children }: { children: React.ReactNode }) => {
   const { user_id } = useParams<Props>();
   const activeClassname = "text-white bg-blue-700";
-  const isMySession = useIsMySession(user_id!);
+  const { isMySession } = useIsMySession(user_id!);
 
   return (
     <div className="md:flex">

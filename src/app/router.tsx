@@ -21,6 +21,7 @@ const router = createBrowserRouter(
           path="article-read/:article_id"
           element={<pages.ArticleRead />}
         />
+        <Route path="article-write" element={<pages.ArticleWrite />} />
         <Route path="profile/:user_id" element={<pages.ProfilePage />}>
           <Route
             index

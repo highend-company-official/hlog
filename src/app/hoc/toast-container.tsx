@@ -33,7 +33,9 @@ const ToastContainer = ({ children }: Props) => {
 
   return (
     <>
-      <shared.Portal portalId="toast-portal">{toastRender()}</shared.Portal>
+      <shared.Portal portalId={shared.PORTAL_CONSTS.TOAST}>
+        {toastRender()}
+      </shared.Portal>
       {children}
     </>
   );

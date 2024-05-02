@@ -11,7 +11,10 @@ import { useEditorContext } from "../lib";
 const useEditor = () => {
   const editorContextValues = useEditorContext();
   const [editorLocalStorage, setEditorLocalStoage] =
-    shared.useLocalStorage<RawDraftContentState | null>("HLOG_EDITOR", null);
+    shared.useLocalStorage<RawDraftContentState | null>(
+      shared.STORAGE_CONSTS.HLOG_EDITOR,
+      null
+    );
 
   if (!editorContextValues) {
     throw new Error(`useEditor 훅은 EditorProvider 내부에서 사용해야 합니다.`);

@@ -1,5 +1,5 @@
-import { generateRandomId } from "@/shared";
 import { create } from "zustand";
+import { generateRandomId } from "@/shared";
 
 type ToastType = {
   id: string;
@@ -7,7 +7,7 @@ type ToastType = {
   content: string;
   hasCloseButton: boolean;
   staleTime?: number;
-  // Domain 구현하기
+  //TODO: Domain 구현하기
 };
 
 type State = {

@@ -16,7 +16,9 @@ root.render(
         <React.Suspense fallback={<>Page Load...</>}>
           <hoc.AuthContainer>
             <hoc.ToastContainer>
-              <RouterProvider router={router} />
+              <hoc.ModalContainer>
+                <RouterProvider router={router} />
+              </hoc.ModalContainer>
             </hoc.ToastContainer>
           </hoc.AuthContainer>
         </React.Suspense>

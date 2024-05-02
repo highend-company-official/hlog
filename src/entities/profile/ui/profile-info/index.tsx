@@ -19,7 +19,7 @@ const AuthorizationView = () => {
   const handleSignOut = () => {
     features.auth.signOut().then(() => {
       queryClient.refetchQueries({
-        queryKey: shared.useSession.pk,
+        queryKey: [shared.useSession.pk],
       });
     });
   };

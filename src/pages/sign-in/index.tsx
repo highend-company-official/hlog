@@ -35,7 +35,7 @@ function SignInPage() {
 
         if (!error) {
           queryClient.refetchQueries({
-            queryKey: useSession.pk,
+            queryKey: [useSession.pk],
           });
 
           addToast({

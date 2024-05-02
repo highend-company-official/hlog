@@ -1,16 +1,7 @@
-import * as shared from "@/shared";
-import { ArticleEditor } from "@/entities/article";
+import Editor from "@/entities/editor";
 
 const ArticleWrite = () => {
-  return (
-    <>
-      <h1>글쓰기 페이지</h1>
-
-      <shared.Divider />
-
-      <ArticleEditor />
-    </>
-  );
+  return <Editor />;
 };
 
 export default ArticleWrite;

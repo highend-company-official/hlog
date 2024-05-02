@@ -16,6 +16,11 @@ const useClipboard = () => {
       });
 
       if (state === "denied") {
+        addToast({
+          type: "warning",
+          content: "클립보드 접근 권한에 동의해주세요.",
+          hasCloseButton: true,
+        });
         throw new DOMException("NotAllowedError");
       }
 
@@ -24,6 +29,11 @@ const useClipboard = () => {
       return value;
     } catch (error) {
       if (error instanceof DOMException) {
+        addToast({
+          type: "error",
+          content: "클립보드 오류가 발생했습니다.",
+          hasCloseButton: true,
+        });
         throw new DOMException("NotAllowedError");
       }
 

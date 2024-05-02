@@ -10,9 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mdxeditor/editor": "^3.0.1",
-    "@supabase/auth-ui-react": "^0.4.7",
-    "@supabase/auth-ui-shared": "^0.1.8",
+    "@mdx-js/mdx": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
     "@supabase/supabase-js": "^2.42.5",
     "@tanstack/react-query": "^5.29.2",
     "@tanstack/react-query-devtools": "^5.29.2",
@@ -20,6 +19,11 @@
     "@types/uuid": "^9.0.8",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.10",
+    "draft-js": "^0.11.7",
+    "highlight.js": "^11.9.0",
+    "marked": "^12.0.2",
+    "marked-highlight": "^2.1.1",
+    "marked-plaintify": "^1.0.1",
     "path": "^0.12.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -31,6 +35,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/draft-js": "^0.11.18",
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
@@ -38,10 +43,12 @@
     "@typescript-eslint/parser": "6.5.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
+    "babel-plugin-react-scoped-css": "^1.1.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "postcss": "^8.4.38",
+    "rollup-plugin-react-scoped-css": "^1.0.0-alpha.17",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"

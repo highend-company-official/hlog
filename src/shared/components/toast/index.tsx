@@ -1,11 +1,3 @@
-import Success from "./success";
-import Warning from "./warning";
-import Error from "./error";
+import ToastBase from "./toast-base";
 
-const toasts = {
-  Success,
-  Warning,
-  Error,
-};
-
-export default toasts;
+export default ToastBase;

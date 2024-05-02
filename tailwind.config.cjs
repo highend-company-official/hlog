@@ -19,6 +19,12 @@ module.exports = {
         error: "#ef4444",
         success: "#22c55e",
       },
+      keyframes: {
+        "progress-bar": {
+          "0%": { transform: "scaleX(1)" },
+          "100%": { transform: "scaleX(0);" },
+        },
+      },
     },
   },
 };

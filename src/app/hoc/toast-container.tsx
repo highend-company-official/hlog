@@ -10,37 +10,24 @@ const ToastContainer = ({ children }: Props) => {
 
   const toastRender = () => {
     return toasts.map((toast) => {
-      switch (toast.type) {
-        case "success":
-          return (
-            <shared.toasts.Success
-              onClose={() => removeToast(toast.id)}
-              key={toast.id}
-            >
-              {toast.content}
-            </shared.toasts.Success>
-          );
-        case "warning":
-          return (
-            <shared.toasts.Warning
-              onClose={() => removeToast(toast.id)}
-              key={toast.id}
-            >
-              {toast.content}
-            </shared.toasts.Warning>
-          );
-        case "error":
-          return (
-            <shared.toasts.Error
-              onClose={() => removeToast(toast.id)}
-              key={toast.id}
-            >
-              {toast.content}
-            </shared.toasts.Error>
-          );
-        default:
-          return null;
+      // auto close
+      if (toast.staleTime) {
+        setTimeout(() => {
+          removeToast(toast.id);
+        }, toast.staleTime);
       }
+
+      return (
+        <shared.ToastBase
+          onClose={() => removeToast(toast.id)}
+          staleTime={toast.staleTime}
+          key={toast.id}
+          hasCloseButton={toast.hasCloseButton}
+          type={toast.type}
+        >
+          {toast.content}
+        </shared.ToastBase>
+      );
     });
   };
 

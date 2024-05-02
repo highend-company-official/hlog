@@ -5,6 +5,9 @@ type ModalType = {
   id: string;
   title: string;
   content: string;
+  onClickAccept?: () => void;
+  onClickDecline?: () => void;
+  onClose?: () => void;
 };
 
 type State = {
@@ -14,6 +17,7 @@ type State = {
 type Action = {
   addModal: (newModal: Omit<ModalType, "id">) => void;
   removeModal: (id: string) => void;
+  removeAllModal: () => void;
 };
 
 const useModal = create<State & Action>((set) => ({
@@ -26,6 +30,7 @@ const useModal = create<State & Action>((set) => ({
     set((state) => ({
       modals: state.modals.filter((modal) => modal.id !== id),
     })),
+  removeAllModal: () => set(() => ({ modals: [] })),
 }));
 
 export default useModal;

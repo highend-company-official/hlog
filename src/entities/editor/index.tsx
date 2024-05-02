@@ -11,7 +11,9 @@ const Core = () => {
     <EditorProvider>
       <Suspense fallback={<shared.Skeleton />}>
         <Toolbar />
-        <EditorCore />
+        <div className="w-[1000px] mx-auto mt-12">
+          <EditorCore />
+        </div>
       </Suspense>
     </EditorProvider>
   );

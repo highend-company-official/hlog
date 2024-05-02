@@ -56,6 +56,7 @@ const useClipboard = () => {
       type: "success",
       content: "클립보드에 복사하였습니다.",
       hasCloseButton: true,
+      staleTime: 3000,
     });
 
     return true;
@@ -77,6 +78,7 @@ const useClipboard = () => {
           type: "success",
           content: "클립보드에 복사하였습니다.",
           hasCloseButton: true,
+          staleTime: 3000,
         });
       })
       .catch(() => {

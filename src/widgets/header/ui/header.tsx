@@ -66,6 +66,7 @@ function Header() {
               addToast({
                 type: "warning",
                 content: "검색 기능은 구현중입니다.",
+                staleTime: 3000,
                 hasCloseButton: false,
               });
             }}

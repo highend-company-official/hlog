@@ -5,6 +5,7 @@ import {
   getDefaultKeyBinding,
   type DraftEditorCommand,
 } from "draft-js";
+import "draft-js/dist/Draft.css";
 
 import useEditor from "../../hooks";
 
@@ -42,6 +43,7 @@ const EditorCore = () => {
       placeholder="값을 입력해주세요"
       handleKeyCommand={handleKeyCommand}
       keyBindingFn={customKeyBindingFunction}
+      spellCheck={false}
     />
   );
 };

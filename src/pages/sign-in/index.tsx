@@ -29,7 +29,7 @@ function SignInPage() {
           addToast({
             type: "error",
             content: "로그인 정보가 맞지 않습니다. 다시 시도해주세요.",
-            hasCloseButton: false,
+            hasCloseButton: true,
           });
         }
 
@@ -41,7 +41,8 @@ function SignInPage() {
           addToast({
             type: "success",
             content: "로그인에 성공했습니다!",
-            hasCloseButton: false,
+            hasCloseButton: true,
+            staleTime: 3000,
           });
 
           navigate("/", {
@@ -53,7 +54,7 @@ function SignInPage() {
         addToast({
           type: "error",
           content: "문제가 발생했습니다.",
-          hasCloseButton: false,
+          hasCloseButton: true,
         });
       });
   });

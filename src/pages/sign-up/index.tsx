@@ -49,11 +49,12 @@ function SignUpPage() {
             type: "success",
             content: "회원가입에 성공했습니다",
             hasCloseButton: true,
+            staleTime: 3000,
           });
           addToast({
             type: "warning",
             content: "로그인하기 위해서 이메일 인증을 해주세요!",
-            hasCloseButton: false,
+            hasCloseButton: true,
           });
           navigate("/auth/sign-in");
         }

@@ -1,7 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { type User, supabase } from "@/shared";
-
-const KEY = "user";
+import * as shared from "@/shared";
 
 export const fetchUser = (userId: string) => {
   return supabase
@@ -21,7 +20,7 @@ export const fetchUser = (userId: string) => {
 };
 
 const useFetchUser = (userId: string) => {
-  const queryKey = [KEY, userId];
+  const queryKey = [shared.QUERY_CONSTS.USER, userId];
   const queryFn = async () => {
     const resposne = await fetchUser(userId);
     return resposne.data;
@@ -30,5 +29,5 @@ const useFetchUser = (userId: string) => {
   return useSuspenseQuery({ queryKey, queryFn });
 };
 
-useFetchUser.pk = KEY;
+useFetchUser.pk = shared.QUERY_CONSTS.USER;
 export default useFetchUser;

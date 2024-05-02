@@ -1,7 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { supabase } from ".";
-
-const KEY = ["session"];
+import * as shared from "@/shared";
 
 const useSession = () => {
   const queryFn = async () => {
@@ -10,10 +9,10 @@ const useSession = () => {
   };
 
   return useSuspenseQuery({
-    queryKey: KEY,
+    queryKey: [shared.QUERY_CONSTS.SESSION],
     queryFn,
   });
 };
 
-useSession.pk = KEY;
+useSession.pk = shared.QUERY_CONSTS.SESSION;
 export default useSession;

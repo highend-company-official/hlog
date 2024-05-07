@@ -1,15 +1,29 @@
 import { createContext, useContext, useState } from "react";
 import { EditorState } from "draft-js";
 
+type EditorType = {
+  title: string;
+  content: EditorState;
+  summary: string;
+  thumbnail: string;
+  hasComment: boolean;
+};
+
 type EditorContextType = [
-  EditorState,
-  React.Dispatch<React.SetStateAction<EditorState>>
+  EditorType,
+  React.Dispatch<React.SetStateAction<EditorType>>
 ];
 
 export const EditorContext = createContext<EditorContextType | null>(null);
 
 export function EditorProvider({ children }: { children: React.ReactNode }) {
-  const editorState = useState(() => EditorState.createEmpty());
+  const editorState = useState<EditorType>({
+    title: "",
+    content: EditorState.createEmpty(),
+    summary: "",
+    thumbnail: "",
+    hasComment: true,
+  });
 
   return (
     <EditorContext.Provider value={editorState}>

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useToast } from "@/app/store";
 import {
   Editor,
@@ -6,26 +7,44 @@ import {
   type DraftEditorCommand,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
-import * as shared from "@/shared";
 
+import * as shared from "@/shared";
 import useEditor from "../../hooks";
 import "./index.css";
 
-type KeyCommandType = DraftEditorCommand | "hlog-editor-save";
+type KeyCommandType =
+  | DraftEditorCommand
+  | "hlog-editor-save"
+  | "hlog-editor-refresh";
 
 const EditorCore = () => {
-  const { editorState, setEditorState, saveCurrentContent } = useEditor();
+  const { editorState, setEditorState, saveCurrentContent, loadSavedContent } =
+    useEditor();
   const { addToast } = useToast();
+  const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
 
   const customKeyBindingFunction = (e: React.KeyboardEvent) => {
     if (e.key === "s" && KeyBindingUtil.hasCommandModifier(e)) {
       return "hlog-editor-save";
+    }
+    if (e.key === "r" && KeyBindingUtil.hasCommandModifier(e)) {
+      return "hlog-editor-refresh";
     }
     return getDefaultKeyBinding(e);
   };
 
   const handleKeyCommand = (command: KeyCommandType) => {
     if (command === "hlog-editor-save") {
+      if (editorState.content.getCurrentContent().getPlainText() === "") {
+        addToast({
+          type: "warning",
+          content: "저장을 위해서 내용을 입력해주세요",
+          hasCloseButton: false,
+          staleTime: 3000,
+        });
+        return "handled";
+      }
+
       saveCurrentContent();
       addToast({
         type: "success",
@@ -35,18 +54,66 @@ const EditorCore = () => {
       });
       return "handled";
     }
+
+    if (command === "hlog-editor-refresh") {
+      return "handled";
+    }
     return "not-handled";
   };
 
+  const loadContentToEditor = () => {
+    const loadedContent = loadSavedContent();
+
+    if (loadedContent) {
+      setEditorState((prev) => ({ ...prev, content: loadedContent }));
+      setIsSavedModalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    const loadedContent = loadSavedContent();
+
+    if (loadedContent?.getCurrentContent().getPlainText()) {
+      setIsSavedModalOpen(true);
+    }
+  }, []);
+
   return (
-    <Editor
-      editorState={editorState}
-      onChange={setEditorState}
-      placeholder={shared.EDITOR_CONST.PLACEHOLDER}
-      handleKeyCommand={handleKeyCommand}
-      keyBindingFn={customKeyBindingFunction}
-      spellCheck={false}
-    />
+    <>
+      <Editor
+        editorState={editorState.content}
+        onChange={(editorContent) =>
+          setEditorState((prev) => ({ ...prev, content: editorContent }))
+        }
+        placeholder={shared.EDITOR_CONST.PLACEHOLDER}
+        handleKeyCommand={handleKeyCommand}
+        keyBindingFn={customKeyBindingFunction}
+        spellCheck={false}
+      />
+
+      {isSavedModalOpen && (
+        <shared.Modal>
+          <shared.Modal.Header>
+            이전에 작성된 글이 있습니다.
+          </shared.Modal.Header>
+          <shared.Modal.Content>
+            해당 글을 불러오시겠습니까?
+          </shared.Modal.Content>
+          <shared.Modal.Footer align="right">
+            <shared.Modal.Button
+              type="decline"
+              onClick={() => setIsSavedModalOpen(false)}
+            >
+              아니요
+            </shared.Modal.Button>
+            <div className="ml-2" />
+            <shared.Modal.Button type="accept" onClick={loadContentToEditor}>
+              네
+            </shared.Modal.Button>
+          </shared.Modal.Footer>
+        </shared.Modal>
+      )}
+    </>
   );
 };
 

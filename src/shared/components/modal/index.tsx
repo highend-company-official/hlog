@@ -1,22 +1,26 @@
 import classNames from "classnames";
 import * as React from "react";
+import * as shared from "@/shared";
 
 type Props = {
   children: React.ReactNode;
-  onClick: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-const ModalBase = ({ children, onClick }: Props) => {
+const ModalContainer = ({ children }: Props) => {
   return (
-    <div className="absolute w-full max-w-2xl max-h-full p-4" onClick={onClick}>
-      <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-        {children}
+    <shared.Portal portalId={shared.PORTAL_CONSTS.MODAL}>
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full max-h-full overflow-x-hidden overflow-y-auto bg-black/30">
+        <div className="absolute w-full max-w-2xl max-h-full p-4">
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            {children}
+          </div>
+        </div>
       </div>
-    </div>
+    </shared.Portal>
   );
 };
 
-const Header = ({ children }: { children: React.ReactNode }) => {
+const ModalHeader = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex items-center justify-between p-4 border-b border-gray-200 border-solid rounded-t md:p-5">
       <h3 className="text-xl font-semibold text-gray-900">{children}</h3>
@@ -24,7 +28,7 @@ const Header = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const Button = ({
+const ModalButton = ({
   children,
   onClick,
   type = "normal",
@@ -54,11 +58,11 @@ const Button = ({
   );
 };
 
-const Content = ({ children }: { children: React.ReactNode }) => {
+const ModalContent = ({ children }: { children: React.ReactNode }) => {
   return <div className="p-4">{children}</div>;
 };
 
-const Footer = ({
+const ModalFOoter = ({
   children,
   align = "left",
 }: {
@@ -82,9 +86,11 @@ const Footer = ({
   );
 };
 
-ModalBase.Header = Header;
-ModalBase.Button = Button;
-ModalBase.Content = Content;
-ModalBase.Footer = Footer;
+const Modal = Object.assign(ModalContainer, {
+  Header: ModalHeader,
+  Button: ModalButton,
+  Content: ModalContent,
+  Footer: ModalFOoter,
+});
 
-export default ModalBase;
+export default Modal;

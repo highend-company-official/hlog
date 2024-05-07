@@ -3,8 +3,7 @@ import { Suspense } from "react";
 import * as shared from "@/shared";
 
 import { EditorProvider } from "@/entities/editor/lib";
-import Toolbar from "@/entities/editor/ui/toolbar";
-import EditorCore from "@/entities/editor/ui/core";
+import { Toolbar, TitleInput, EditorCore } from "@/entities/editor/ui";
 
 const ArticleWrite = () => {
   return (
@@ -14,16 +13,9 @@ const ArticleWrite = () => {
           <Toolbar />
 
           <div className="w-[1000px] mx-auto py-14 px-24 bg-white h-full">
-            <input
-              type="text"
-              className="w-full mb-2 text-5xl bg-white outline-none"
-              maxLength={50}
-              placeholder="제목을 입력해주세요"
-            />
-
+            <TitleInput />
             <shared.Divider />
             <div className="mt-7" />
-
             <EditorCore />
           </div>
         </Suspense>

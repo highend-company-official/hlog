@@ -23,7 +23,7 @@ const useEditor = () => {
   const [editorState, setEditorState] = editorContextValues;
 
   const saveCurrentContent = () => {
-    const currentContent = editorState.getCurrentContent();
+    const currentContent = editorState.content.getCurrentContent();
     const raws = convertToRaw(currentContent);
     setEditorLocalStoage(raws);
   };
@@ -32,7 +32,7 @@ const useEditor = () => {
     if (editorLocalStorage) {
       const content = convertFromRaw(editorLocalStorage);
       const loadedEditorState = EditorState.createWithContent(content);
-      setEditorState(loadedEditorState);
+      return loadedEditorState;
     }
   };
 

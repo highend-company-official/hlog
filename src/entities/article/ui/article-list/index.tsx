@@ -1,4 +1,4 @@
-import { GiVacuumCleaner } from "react-icons/gi";
+import { ImFileEmpty } from "react-icons/im";
 
 import { useFetchArticles } from "../../lib";
 import * as shared from "@/shared";
@@ -12,7 +12,7 @@ const ArticleList = () => {
   if (data?.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center mt-32 full-w">
-        <GiVacuumCleaner size={180} />
+        <ImFileEmpty size={180} />
 
         <h3 className="mt-12 text-4xl">준비된 게시글이 없습니다.</h3>
         <span className="my-5">HLOG에 기여해주세요.</span>

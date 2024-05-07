@@ -8,11 +8,11 @@ export type Article = {
   created_at: string;
   updated_at: string;
   verified: boolean;
+  has_comments: boolean;
   profiles: {
     username: string;
     profileUrl: string;
   };
-  like: Like[];
 };
 
 export type Like = {

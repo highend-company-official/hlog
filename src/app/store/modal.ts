@@ -1,13 +1,10 @@
 import { create } from "zustand";
 import { generateRandomId } from "@/shared";
+import React from "react";
 
 type ModalType = {
   id: string;
-  title: string;
-  content: string;
-  onClickAccept?: () => void;
-  onClickDecline?: () => void;
-  onClose?: () => void;
+  children: React.ReactNode;
 };
 
 type State = {

@@ -6,8 +6,10 @@ import {
   type DraftEditorCommand,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
+import * as shared from "@/shared";
 
 import useEditor from "../../hooks";
+import "./index.css";
 
 type KeyCommandType = DraftEditorCommand | "hlog-editor-save";
 
@@ -40,7 +42,7 @@ const EditorCore = () => {
     <Editor
       editorState={editorState}
       onChange={setEditorState}
-      placeholder="값을 입력해주세요"
+      placeholder={shared.EDITOR_CONST.PLACEHOLDER}
       handleKeyCommand={handleKeyCommand}
       keyBindingFn={customKeyBindingFunction}
       spellCheck={false}

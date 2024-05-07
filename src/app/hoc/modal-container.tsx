@@ -1,4 +1,5 @@
 import * as shared from "@/shared";
+import { modalContext } from "@/shared/contexts";
 import { useModal } from "../store";
 
 type Props = {
@@ -11,21 +12,15 @@ const ModalContainer = ({ children }: Props) => {
   const modalRender = () => {
     return modals.map((modal) => {
       return (
-        <shared.ModalBase
-          title={modal.title}
-          onClick={(event) => event.stopPropagation()}
-          onClickAccept={modal.onClickAccept}
-          onClickDecline={modal.onClickDecline}
-          onClose={modal.onClose}
-        >
-          {modal.content}
+        <shared.ModalBase onClick={(e) => e.stopPropagation()}>
+          {modal.children}
         </shared.ModalBase>
       );
     });
   };
 
   return (
-    <>
+    <modalContext.ModalProvider>
       <shared.Portal portalId={shared.PORTAL_CONSTS.MODAL}>
         <shared.If
           condition={modals.length > 0}
@@ -40,7 +35,7 @@ const ModalContainer = ({ children }: Props) => {
         />
       </shared.Portal>
       {children}
-    </>
+    </modalContext.ModalProvider>
   );
 };
 

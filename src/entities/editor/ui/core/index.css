@@ -1,0 +1,13 @@
+div.DraftEditor-root {
+  height: 100%;
+}
+
+div.DraftEditor-editorContainer,
+div.public-DraftEditor-content {
+  min-height: 600px;
+}
+
+div.public-DraftEditorPlaceholder-root {
+  position: absolute;
+  pointer-events: none;
+}

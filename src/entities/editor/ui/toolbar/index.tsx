@@ -10,9 +10,7 @@ import {
 
 import useEditor from "../../hooks";
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
-import { useModal } from "@/app/store";
-import { useLocalStorage, STORAGE_CONSTS } from "@/shared";
+import { unstable_usePrompt, useNavigate } from "react-router-dom";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;
@@ -34,7 +32,6 @@ const ToolbarItem = (props: ToolbarItemProps) => {
 
 const Toolbar = () => {
   const navigate = useNavigate();
-  const { addModal } = useModal();
   const { editorState, saveCurrentContent, setEditorState } = useEditor();
 
   const toggleInline =
@@ -44,28 +41,21 @@ const Toolbar = () => {
       setEditorState(RichUtils.toggleInlineStyle(editorState, type));
     };
 
-  // useBlocker 사용해보기?
-  const detectBackLinking = () => {
-    addModal({
-      title: "저장하시겠습니까?",
-      content: "저장하지 않으면 변경한 내용이 손실됩니다.",
-      onClickAccept: () => {
-        saveCurrentContent();
-        navigate(-1);
-      },
-      onClickDecline: () => {
-        navigate(-1);
-      },
-    });
-  };
+  unstable_usePrompt({
+    message: "작업이 취소될 수 있습니다. 계속 하시겠습니까?",
+    when: ({ currentLocation, nextLocation }) =>
+      editorState.getCurrentContent().hasText() &&
+      currentLocation.pathname !== nextLocation.pathname,
+  });
 
   return (
-    <div className="relative w-full h-[10%] bg-white drop-shadow-md flex align-center justify-center py-2">
-      <div className="absolute left-3">
-        <ToolbarItem>
+    <div className="fixed top-0 left-0 z-10 flex items-center justify-between w-full px-10 py-2 bg-white">
+      <div>
+        <ToolbarItem onClick={() => navigate("/")}>
           <BiArrowBack />
         </ToolbarItem>
       </div>
+
       <div className="flex items-center justify-center">
         <ToolbarItem onClick={toggleInline("BOLD")}>
           <BiBold />
@@ -80,7 +70,8 @@ const Toolbar = () => {
           <BiUnderline />
         </ToolbarItem>
       </div>
-      <div className="absolute right-8">
+
+      <div>
         <ToolbarItem onClick={saveCurrentContent} selected>
           <BiSave />
         </ToolbarItem>

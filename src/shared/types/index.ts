@@ -11,7 +11,7 @@ export type Article = {
   has_comments: boolean;
   profiles: {
     username: string;
-    profileUrl: string;
+    profile_url: string;
   };
 };
 

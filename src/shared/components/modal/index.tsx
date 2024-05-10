@@ -20,7 +20,7 @@ const ModalContainer = ({ children }: Props) => {
   );
 };
 
-const ModalHeader = ({ children }: { children: React.ReactNode }) => {
+const ModalHeader = ({ children }: Props) => {
   return (
     <div className="flex items-center justify-between p-4 border-b border-gray-200 border-solid rounded-t md:p-5">
       <h3 className="text-xl font-semibold text-gray-900">{children}</h3>
@@ -31,10 +31,12 @@ const ModalHeader = ({ children }: { children: React.ReactNode }) => {
 const ModalButton = ({
   children,
   onClick,
+  disabled,
   type = "normal",
 }: {
   children: React.ReactNode;
   onClick?: () => void;
+  disabled?: boolean;
   type?: "accept" | "normal" | "decline";
 }) => {
   const TYPE_CLASSNAME = {
@@ -47,10 +49,12 @@ const ModalButton = ({
     <button
       onClick={onClick}
       data-modal-hide="default-modal"
+      disabled={disabled}
       type="button"
       className={classNames(
         "focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center",
-        TYPE_CLASSNAME[type]
+        TYPE_CLASSNAME[type],
+        "disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
       )}
     >
       {children}
@@ -62,7 +66,7 @@ const ModalContent = ({ children }: { children: React.ReactNode }) => {
   return <div className="p-4">{children}</div>;
 };
 
-const ModalFOoter = ({
+const ModalFooter = ({
   children,
   align = "left",
 }: {
@@ -90,7 +94,7 @@ const Modal = Object.assign(ModalContainer, {
   Header: ModalHeader,
   Button: ModalButton,
   Content: ModalContent,
-  Footer: ModalFOoter,
+  Footer: ModalFooter,
 });
 
 export default Modal;

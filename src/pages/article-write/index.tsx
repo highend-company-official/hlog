@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { useBeforeunload } from "react-beforeunload";
 
 import * as shared from "@/shared";
 
@@ -6,6 +7,8 @@ import { EditorProvider } from "@/entities/editor/lib";
 import { Toolbar, TitleInput, EditorCore } from "@/entities/editor/ui";
 
 const ArticleWrite = () => {
+  useBeforeunload((event) => event.preventDefault());
+
   return (
     <div className="relative min-h-screen pt-20 bg-slate-200">
       <EditorProvider>

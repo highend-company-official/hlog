@@ -11,7 +11,7 @@ export const fetchArticle = (articleId: string) => {
         summary,
         thumbnail,
         created_at,
-        profiles (username, profileUrl)
+        profiles (username, profile_url)
       `
     )
     .match({ id: articleId })

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { EditorState } from "draft-js";
 
-type EditorType = {
+export type EditorType = {
   title: string;
   content: EditorState;
   summary: string;

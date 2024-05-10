@@ -1,17 +1,25 @@
 import {
-  EditorState,
-  convertToRaw,
   convertFromRaw,
+  convertToRaw,
+  EditorState,
   RawDraftContentState,
 } from "draft-js";
 
 import * as shared from "@/shared";
 import { useEditorContext } from "../lib";
 
+type LocalStorageType = {
+  title: string;
+  content: RawDraftContentState;
+  summary: string;
+  thumbnail: string;
+  hasComment: boolean;
+};
+
 const useEditor = () => {
   const editorContextValues = useEditorContext();
   const [editorLocalStorage, setEditorLocalStoage] =
-    shared.useLocalStorage<RawDraftContentState | null>(
+    shared.useLocalStorage<LocalStorageType | null>(
       shared.STORAGE_CONSTS.HLOG_EDITOR,
       null
     );
@@ -23,23 +31,37 @@ const useEditor = () => {
   const [editorState, setEditorState] = editorContextValues;
 
   const saveCurrentContent = () => {
-    const currentContent = editorState.content.getCurrentContent();
-    const raws = convertToRaw(currentContent);
-    setEditorLocalStoage(raws);
+    setEditorLocalStoage({
+      ...editorState,
+      content: convertToRaw(editorState.content.getCurrentContent()),
+    });
   };
 
   const loadSavedContent = () => {
     if (editorLocalStorage) {
-      const content = convertFromRaw(editorLocalStorage);
-      const loadedEditorState = EditorState.createWithContent(content);
-      return loadedEditorState;
+      return {
+        ...editorLocalStorage,
+        content: convertFromRaw(editorLocalStorage.content),
+      };
     }
+  };
+
+  const resetSavedContent = () => {
+    setEditorState({
+      title: "",
+      content: EditorState.createEmpty(),
+      summary: "",
+      thumbnail: "",
+      hasComment: true,
+    });
+    setEditorLocalStoage(null);
   };
 
   return {
     editorState,
     setEditorState,
     saveCurrentContent,
+    resetSavedContent,
     loadSavedContent,
   };
 };

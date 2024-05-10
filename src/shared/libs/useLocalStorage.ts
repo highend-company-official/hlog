@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-const useLocalStorage = <T>(key: string, initialValue: T) => {
+type ReturnTypes<T> = [T, React.Dispatch<React.SetStateAction<T>>];
+
+const useLocalStorage = <T>(key: string, initialValue: T): ReturnTypes<T> => {
   const [savedValue, setSavedValue] = useState(() => {
     try {
       const item = window.localStorage.getItem(key);

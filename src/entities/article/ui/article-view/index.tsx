@@ -1,3 +1,5 @@
+import { supabase } from "@/shared";
+import useBucket from "@/shared/libs/useBucket";
 import { useParams } from "react-router-dom";
 import { useFetchArticle } from "../../lib";
 
@@ -14,10 +16,12 @@ const ArticleView = () => {
     return null;
   }
 
+  const url = useBucket("thumbnails", data.thumbnail);
+
   return (
     <article>
       <img
-        src={data.thumbnail}
+        src={url}
         alt={data.summary}
         className="object-cover w-full rounded-xl mt-9 h-96"
       />
@@ -26,7 +30,7 @@ const ArticleView = () => {
 
       <section className="flex mt-5">
         <img
-          src={data?.profiles.profileUrl}
+          src={data?.profiles.profile_url}
           alt={data?.profiles.username}
           className="w-12 h-12 mr-3 rounded-full"
         />
@@ -36,7 +40,12 @@ const ArticleView = () => {
         </div>
       </section>
 
-      <div className="text-base leading-6 mt-9">{data?.body}</div>
+      <div
+        className="text-base leading-6 mt-9"
+        dangerouslySetInnerHTML={{
+          __html: data?.body,
+        }}
+      />
     </article>
   );
 };

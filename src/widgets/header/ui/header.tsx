@@ -1,6 +1,7 @@
 import { Skeleton, If, useSession } from "@/shared";
 import { Suspense } from "react";
 import { LuSearch } from "react-icons/lu";
+import { FaPen } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/app/store";
 
@@ -49,6 +50,7 @@ const UserDivision = () => {
 
 function Header() {
   const { addToast } = useToast();
+  const navigate = useNavigate();
 
   return (
     <header className="fixed left-0 z-40 flex items-center justify-between w-full px-10 py-2 bg-white">
@@ -61,7 +63,7 @@ function Header() {
       <ul className="flex items-center">
         <li id="search">
           <div
-            className="mr-8"
+            className="mr-8 cursor-pointer"
             onClick={() => {
               addToast({
                 type: "warning",
@@ -72,6 +74,15 @@ function Header() {
             }}
           >
             <LuSearch size={30} />
+          </div>
+        </li>
+
+        <li id="write">
+          <div
+            className="mr-8 cursor-pointer"
+            onClick={() => navigate("/article-write")}
+          >
+            <FaPen size={30} />
           </div>
         </li>
 

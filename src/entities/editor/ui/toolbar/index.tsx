@@ -1,7 +1,7 @@
 import { useState } from "react";
 import classNames from "classnames";
 import { RichUtils, DraftInlineStyleType } from "draft-js";
-import { unstable_usePrompt, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   BiBold,
   BiItalic,
@@ -51,13 +51,6 @@ const Toolbar = () => {
   const handlePostArticle = () => {
     setIsModalOpen(true);
   };
-
-  unstable_usePrompt({
-    message: "작업이 취소될 수 있습니다. 계속 하시겠습니까?",
-    when: ({ currentLocation, nextLocation }) =>
-      editorState.content.getCurrentContent().hasText() &&
-      currentLocation.pathname !== nextLocation.pathname,
-  });
 
   return (
     <>

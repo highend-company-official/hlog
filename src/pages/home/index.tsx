@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { ArticleList } from "@/entities/article";
+import { ArticleList, ArticleViewSelector } from "@/entities/article";
 import * as shared from "@/shared";
 
 const Skeleton = () => {
@@ -18,6 +18,7 @@ const Skeleton = () => {
 function HomePage() {
   return (
     <div className="w-full">
+      <ArticleViewSelector />
       <Suspense fallback={<Skeleton />}>
         <ArticleList />
       </Suspense>

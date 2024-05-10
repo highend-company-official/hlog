@@ -5,6 +5,7 @@ import {
   KeyBindingUtil,
   getDefaultKeyBinding,
   type DraftEditorCommand,
+  EditorState,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
 
@@ -18,10 +19,10 @@ type KeyCommandType =
   | "hlog-editor-refresh";
 
 const EditorCore = () => {
-  const { editorState, setEditorState, saveCurrentContent, loadSavedContent } =
-    useEditor();
   const { addToast } = useToast();
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
+  const { editorState, setEditorState, saveCurrentContent, loadSavedContent } =
+    useEditor();
 
   const customKeyBindingFunction = (e: React.KeyboardEvent) => {
     if (e.key === "s" && KeyBindingUtil.hasCommandModifier(e)) {
@@ -65,15 +66,17 @@ const EditorCore = () => {
     const loadedContent = loadSavedContent();
 
     if (loadedContent) {
-      setEditorState((prev) => ({ ...prev, content: loadedContent }));
+      setEditorState({
+        ...loadedContent,
+        content: EditorState.createWithContent(loadedContent.content),
+      });
       setIsSavedModalOpen(false);
     }
   };
 
   useEffect(() => {
     const loadedContent = loadSavedContent();
-
-    if (loadedContent?.getCurrentContent().getPlainText()) {
+    if (loadedContent?.content.hasText()) {
       setIsSavedModalOpen(true);
     }
   }, []);

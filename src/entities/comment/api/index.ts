@@ -8,7 +8,7 @@ export const fetchComments = (articleId: string) => {
         id,
         body,
         created_at,
-        profiles (username, profileUrl)
+        profiles (username, profile_url)
       `
     )
     .match({ article_id: articleId })

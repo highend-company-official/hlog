@@ -17,7 +17,7 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="md:flex">
-      <ul className="mb-4 space-y-4 text-sm font-medium text-gray-500 w-72 flex-column space-y dark:text-gray-400 md:me-4 md:mb-0">
+      <ul className="w-full mb-4 space-y-4 text-sm font-medium text-gray-500 flex-column space-y dark:text-gray-400 md:me-4 md:mb-0 md:w-72">
         <li>
           <NavLink
             to=""

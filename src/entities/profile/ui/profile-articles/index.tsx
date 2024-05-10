@@ -5,19 +5,6 @@ import * as shared from "@/shared";
 import { useFetchUserArticles } from "../../lib";
 import { ArticleCard } from "@/entities/article";
 
-const ArticleItem = () => {
-  return (
-    <div className="flex">
-      <img src="" alt="" />
-
-      <div>
-        <h3>타이틀</h3>
-        <span>설명</span>
-      </div>
-    </div>
-  );
-};
-
 type Params = {
   user_id: string;
 };

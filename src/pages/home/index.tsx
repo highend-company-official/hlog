@@ -2,6 +2,7 @@ import { Suspense } from "react";
 
 import { ArticleList, ArticleViewSelector } from "@/entities/article";
 import * as shared from "@/shared";
+import useArticle from "@/app/store/article";
 
 const Skeleton = () => {
   return (
@@ -16,11 +17,13 @@ const Skeleton = () => {
 };
 
 function HomePage() {
+  const { articleViewMode } = useArticle();
+
   return (
     <div className="w-full">
       <ArticleViewSelector />
       <Suspense fallback={<Skeleton />}>
-        <ArticleList />
+        <ArticleList viewMode={articleViewMode} />
       </Suspense>
     </div>
   );

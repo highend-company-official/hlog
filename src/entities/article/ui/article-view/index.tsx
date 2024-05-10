@@ -1,4 +1,3 @@
-import { supabase } from "@/shared";
 import useBucket from "@/shared/libs/useBucket";
 import { useParams } from "react-router-dom";
 import { useFetchArticle } from "../../lib";

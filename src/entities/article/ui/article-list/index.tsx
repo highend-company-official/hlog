@@ -4,7 +4,7 @@ import { useFetchArticles } from "../../lib";
 import * as shared from "@/shared";
 import ArticleCard from "../article-card";
 import { useNavigate } from "react-router-dom";
-import useArticle from "@/app/store/article";
+import { ViewMode } from "@/app/store/article";
 
 type Props = { children: JSX.Element[] };
 
@@ -22,10 +22,9 @@ const GalleryContainer = ({ children }: Props) => {
   );
 };
 
-const ArticleList = () => {
+const ArticleList = ({ viewMode }: { viewMode: ViewMode }) => {
   const { data } = useFetchArticles();
   const navigate = useNavigate();
-  const { articleViewMode } = useArticle();
 
   if (data?.length === 0) {
     return (
@@ -42,24 +41,26 @@ const ArticleList = () => {
   }
 
   const articleMap =
-    data?.map((article) => <ArticleCard key={article.id} {...article} />) ?? [];
+    data?.map((article) => (
+      <ArticleCard viewMode={viewMode} key={article.id} {...article} />
+    )) ?? [];
 
   return (
     <>
       <div className="mt-3" />
 
       <shared.If
-        condition={articleViewMode === "card"}
+        condition={viewMode === "card"}
         trueRender={<CardContainer>{articleMap}</CardContainer>}
       />
 
       <shared.If
-        condition={articleViewMode === "gallery"}
+        condition={viewMode === "gallery"}
         trueRender={<GalleryContainer>{articleMap}</GalleryContainer>}
       />
 
       <shared.If
-        condition={articleViewMode === "list"}
+        condition={viewMode === "list"}
         trueRender={<ListContainer>{articleMap}</ListContainer>}
       />
     </>

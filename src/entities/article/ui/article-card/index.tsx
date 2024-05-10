@@ -106,9 +106,7 @@ const Gallery = (props: Article) => {
   );
 };
 
-const ArticleCard = (props: Article) => {
-  const { articleViewMode } = useArticle();
-
+const ArticleCard = (props: Article & { viewMode: ViewMode }) => {
   type ViewMap = {
     [mode in ViewMode]: React.ReactNode;
   };
@@ -119,7 +117,7 @@ const ArticleCard = (props: Article) => {
     gallery: <Gallery {...props} />,
   };
 
-  return (VIEW_MAP[articleViewMode] ?? <Card {...props} />) as JSX.Element;
+  return (VIEW_MAP[props.viewMode] ?? <Card {...props} />) as JSX.Element;
 };
 
 export default ArticleCard;

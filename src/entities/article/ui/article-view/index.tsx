@@ -8,14 +8,12 @@ type ParamsType = {
 
 const ArticleView = () => {
   const { article_id } = useParams<ParamsType>();
-
   const { data } = useFetchArticle(article_id!);
+  const url = useBucket("thumbnails", data.thumbnail);
 
   if (!data) {
     return null;
   }
-
-  const url = useBucket("thumbnails", data.thumbnail);
 
   return (
     <article>

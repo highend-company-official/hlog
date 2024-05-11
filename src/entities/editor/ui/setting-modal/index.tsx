@@ -34,7 +34,7 @@ const SettingModal = ({ onCancel }: Props) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const thumbnail = event.currentTarget.files?.[0];
-    if (!!thumbnail) {
+    if (thumbnail) {
       setSetting((prev) => ({ ...prev, thumbnail }));
     }
   };
@@ -57,18 +57,14 @@ const SettingModal = ({ onCancel }: Props) => {
 
   const handleUploadThumbnail = async () => {
     if (setting.thumbnail) {
-      try {
-        const { data } = await supabase.storage
-          .from("thumbnails")
-          .upload(`${generateRandomId()}`, setting.thumbnail, {
-            cacheControl: "3600",
-            upsert: false,
-          });
+      const { data } = await supabase.storage
+        .from("thumbnails")
+        .upload(`${generateRandomId()}`, setting.thumbnail, {
+          cacheControl: "3600",
+          upsert: false,
+        });
 
-        return data;
-      } catch (error) {
-        throw error;
-      }
+      return data;
     }
   };
 
@@ -86,31 +82,27 @@ const SettingModal = ({ onCancel }: Props) => {
   };
 
   const handleUploadArticle = async (thumbnailUrl: string) => {
-    try {
-      const response = await supabase
-        .from("articles")
-        .insert({
-          title,
-          body: createContentToHTML(content.getCurrentContent()),
-          summary,
-          thumbnail: thumbnailUrl,
-          has_comments: hasComment,
-        })
-        .select("id");
+    const response = await supabase
+      .from("articles")
+      .insert({
+        title,
+        body: createContentToHTML(content.getCurrentContent()),
+        summary,
+        thumbnail: thumbnailUrl,
+        has_comments: hasComment,
+      })
+      .select("id");
 
-      addToast({
-        type: "success",
-        content: "아티클 발행에 성공하였습니다.",
-        hasCloseButton: true,
-        staleTime: 3000,
-      });
+    addToast({
+      type: "success",
+      content: "아티클 발행에 성공하였습니다.",
+      hasCloseButton: true,
+      staleTime: 3000,
+    });
 
-      resetSavedContent();
-      const createdArticleId = response.data?.[0].id;
-      navigate(`/article-read/${createdArticleId}`, { replace: true });
-    } catch (error) {
-      throw error;
-    }
+    resetSavedContent();
+    const createdArticleId = response.data?.[0].id;
+    navigate(`/article-read/${createdArticleId}`, { replace: true });
   };
 
   return (

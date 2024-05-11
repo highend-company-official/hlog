@@ -1,7 +1,6 @@
-import path from "path";
+import * as path from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { reactScopedCssPlugin } from "rollup-plugin-react-scoped-css";
 
 export default defineConfig({
   resolve: {
@@ -9,7 +8,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  plugins: [react(), reactScopedCssPlugin() as any],
+  plugins: [react()],
   base: "./",
   // Vite에서 Global 세팅을 기본적으로 해주지 않기 때문
   define: {

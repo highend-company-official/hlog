@@ -1,6 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
-import { RichUtils, DraftInlineStyleType } from "draft-js";
+import { RichUtils, DraftInlineStyleType, DraftBlockType } from "draft-js";
 import { useNavigate } from "react-router-dom";
 import {
   BiBold,
@@ -14,6 +14,7 @@ import {
 import useEditor from "../../hooks";
 
 import ArticleSettingModal from "../setting-modal";
+import { SelectBox } from "@/shared";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;
@@ -33,6 +34,52 @@ const ToolbarItem = (props: ToolbarItemProps) => {
   );
 };
 
+const INLINE_MAP: { type: DraftInlineStyleType; icon: React.ReactElement }[] = [
+  {
+    type: "BOLD",
+    icon: <BiBold />,
+  },
+  {
+    type: "ITALIC",
+    icon: <BiItalic />,
+  },
+  {
+    type: "STRIKETHROUGH",
+    icon: <BiStrikethrough />,
+  },
+  {
+    type: "UNDERLINE",
+    icon: <BiUnderline />,
+  },
+];
+
+const HEADERS_MAP: { type: DraftBlockType; label: string }[] = [
+  {
+    type: "header-one",
+    label: "H1",
+  },
+  {
+    type: "header-two",
+    label: "H2",
+  },
+  {
+    type: "header-three",
+    label: "H3",
+  },
+  {
+    type: "header-four",
+    label: "H4",
+  },
+  {
+    type: "header-five",
+    label: "H5",
+  },
+  {
+    type: "header-six",
+    label: "H6",
+  },
+];
+
 const Toolbar = () => {
   const navigate = useNavigate();
   const { editorState, setEditorState } = useEditor();
@@ -48,8 +95,20 @@ const Toolbar = () => {
       }));
     };
 
+  const toggleBlock = (type: DraftBlockType) => {
+    setEditorState((prev) => ({
+      ...prev,
+      content: RichUtils.toggleBlockType(editorState.content, type),
+    }));
+  };
+
   const handlePostArticle = () => {
     setIsModalOpen(true);
+  };
+
+  const isActiveInlineStyle = (type: string): boolean => {
+    const currentStyle = editorState.content.getCurrentInlineStyle();
+    return currentStyle.has(type);
   };
 
   return (
@@ -62,18 +121,26 @@ const Toolbar = () => {
         </div>
 
         <div className="flex items-center justify-center">
-          <ToolbarItem onClick={toggleInline("BOLD")}>
-            <BiBold />
-          </ToolbarItem>
-          <ToolbarItem onClick={toggleInline("ITALIC")}>
-            <BiItalic />
-          </ToolbarItem>
-          <ToolbarItem onClick={toggleInline("STRIKETHROUGH")}>
-            <BiStrikethrough />
-          </ToolbarItem>
-          <ToolbarItem onClick={toggleInline("UNDERLINE")}>
-            <BiUnderline />
-          </ToolbarItem>
+          <SelectBox onChange={(type) => toggleBlock(type)}>
+            {HEADERS_MAP.map(({ type, label }) => (
+              <SelectBox.Option
+                selected={isActiveInlineStyle(type)}
+                label={label}
+                value={type}
+              />
+            ))}
+          </SelectBox>
+
+          <div className="mr-2" />
+
+          {INLINE_MAP.map(({ type, icon }) => (
+            <ToolbarItem
+              onClick={toggleInline(type)}
+              selected={isActiveInlineStyle(type)}
+            >
+              {icon}
+            </ToolbarItem>
+          ))}
         </div>
 
         <div>

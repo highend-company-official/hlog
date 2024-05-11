@@ -1,13 +1,14 @@
-import { Article, getElapsedTime } from "@/shared";
+import { getElapsedTime } from "@/shared";
 import { Link } from "react-router-dom";
 import { MdVerifiedUser } from "react-icons/md";
 import { BiSolidLike } from "react-icons/bi";
 import { IoMdEye } from "react-icons/io";
 import useBucket from "@/shared/libs/useBucket";
-import useArticle, { ViewMode } from "@/app/store/article";
+import { ViewMode } from "@/app/store/article";
 import React from "react";
+import { ArticleType } from "@/shared/schema";
 
-const Card = (props: Article) => {
+const Card = (props: ArticleType) => {
   const url = useBucket("thumbnails", props.thumbnail);
 
   return (
@@ -63,7 +64,7 @@ const Card = (props: Article) => {
   );
 };
 
-const List = (props: Article) => {
+const List = (props: ArticleType) => {
   const url = useBucket("thumbnails", props.thumbnail);
   return (
     <Link to={`/article-read/${props.id}`}>
@@ -86,7 +87,7 @@ const List = (props: Article) => {
   );
 };
 
-const Gallery = (props: Article) => {
+const Gallery = (props: ArticleType) => {
   const url = useBucket("thumbnails", props.thumbnail);
   return (
     <div className="relative place-items-center group">
@@ -106,7 +107,7 @@ const Gallery = (props: Article) => {
   );
 };
 
-const ArticleCard = (props: Article & { viewMode: ViewMode }) => {
+const ArticleCard = (props: ArticleType & { viewMode: ViewMode }) => {
   type ViewMap = {
     [mode in ViewMode]: React.ReactNode;
   };

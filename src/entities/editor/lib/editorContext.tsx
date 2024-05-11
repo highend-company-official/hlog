@@ -32,7 +32,7 @@ export function EditorProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const useEditorContext = () => {
+export function useEditorContext() {
   const value = useContext(EditorContext) as EditorContextType;
 
   if (!value) {
@@ -40,4 +40,4 @@ export const useEditorContext = () => {
   }
 
   return value;
-};
+}

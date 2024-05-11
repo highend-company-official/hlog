@@ -5,7 +5,7 @@ import "dayjs/locale/ko";
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
 
-const getElapsedTime = (date: string) => {
+const getElapsedTime = (date: Date) => {
   return dayjs().to(dayjs(date).format("YYYY-MM-DD HH:mm:ss"));
 };
 

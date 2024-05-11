@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { useEditorStore, useToastStore } from "@/app/store";
+import Editor from "@draft-js-plugins/editor";
 import {
-  Editor,
   KeyBindingUtil,
   getDefaultKeyBinding,
   type DraftEditorCommand,
@@ -11,13 +11,14 @@ import {
   RichUtils,
   DraftBlockType,
 } from "draft-js";
+import createInlineToolbarPlugin from "@draft-js-plugins/inline-toolbar";
 
 import "draft-js/dist/Draft.css";
 import "prismjs/themes/prism.css";
 import "@draft-js-plugins/inline-toolbar/lib/plugin.css";
+import "./index.css";
 
 import * as shared from "@/shared";
-import "./index.css";
 import useEditorUtils from "../../hooks";
 
 type KeyCommandType =
@@ -41,6 +42,8 @@ const EditorCore = memo(() => {
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
   const { editorMetaData, setEditorMetaData } = useEditorStore();
   const { saveCurrentContent, loadSavedContent } = useEditorUtils();
+
+  const PLUGINS = [createInlineToolbarPlugin()];
 
   const toggleInline = (type: DraftInlineStyleType) => {
     setEditorMetaData({
@@ -247,6 +250,7 @@ const EditorCore = memo(() => {
         keyBindingFn={customKeyBindingFunction}
         spellCheck={false}
         blockStyleFn={blockStyleFunction}
+        plugins={PLUGINS}
       />
 
       {isSavedModalOpen && (

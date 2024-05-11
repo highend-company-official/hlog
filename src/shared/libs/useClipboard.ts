@@ -1,7 +1,7 @@
-import { useToast } from "@/app/store";
+import { useToastStore } from "@/app/store";
 
 const useClipboard = () => {
-  const { addToast } = useToast();
+  const { addToast } = useToastStore();
 
   /**
    *

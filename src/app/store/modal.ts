@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { generateRandomId } from "@/shared";
 import React from "react";
+import { devtools } from "zustand/middleware";
 
 type ModalType = {
   id: string;
@@ -17,17 +18,19 @@ type Action = {
   removeAllModal: () => void;
 };
 
-const useModal = create<State & Action>((set) => ({
-  modals: [],
-  addModal: (modal) =>
-    set((state) => ({
-      modals: [...state.modals, { id: generateRandomId(), ...modal }],
-    })),
-  removeModal: (id) =>
-    set((state) => ({
-      modals: state.modals.filter((modal) => modal.id !== id),
-    })),
-  removeAllModal: () => set(() => ({ modals: [] })),
-}));
+const useModalStore = create<State & Action>()(
+  devtools((set) => ({
+    modals: [],
+    addModal: (newModal: Omit<ModalType, "id">) =>
+      set((state) => ({
+        modals: [...state.modals, { id: generateRandomId(), ...newModal }],
+      })),
+    removeModal: (id: string) =>
+      set((state) => ({
+        modals: state.modals.filter((modal) => modal.id !== id),
+      })),
+    removeAllModal: () => set(() => ({ modals: [] })),
+  }))
+);
 
-export default useModal;
+export default useModalStore;

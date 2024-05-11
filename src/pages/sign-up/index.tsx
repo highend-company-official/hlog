@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
 import * as features from "@/features";
-import { useToast } from "@/app/store";
+import { useToastStore } from "@/app/store";
 
 type FormValues = {
   email: string;
@@ -15,7 +15,7 @@ type FormValues = {
 function SignUpPage() {
   const { register, handleSubmit } = useForm<FormValues>();
   const navigate = useNavigate();
-  const { addToast } = useToast();
+  const { addToast } = useToastStore();
 
   const handleEmailSignUp = handleSubmit((data) => {
     const { email, password, confirmPassword, username } = data;

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 import { generateRandomId } from "@/shared";
 
 type ToastType = {
@@ -19,16 +20,18 @@ type Action = {
   removeToast: (id: string) => void;
 };
 
-const useToast = create<State & Action>((set) => ({
-  toasts: [],
-  addToast: (toast) =>
-    set((state) => ({
-      toasts: [...state.toasts, { id: generateRandomId(), ...toast }],
-    })),
-  removeToast: (id) =>
-    set((state) => ({
-      toasts: state.toasts.filter((toast) => toast.id !== id),
-    })),
-}));
+const toastStore = create<State & Action>()(
+  devtools((set) => ({
+    toasts: [],
+    addToast: (toast: Omit<ToastType, "id">) =>
+      set((state) => ({
+        toasts: [...state.toasts, { id: generateRandomId(), ...toast }],
+      })),
+    removeToast: (id: string) =>
+      set((state) => ({
+        toasts: state.toasts.filter((toast) => toast.id !== id),
+      })),
+  }))
+);
 
-export default useToast;
+export default toastStore;

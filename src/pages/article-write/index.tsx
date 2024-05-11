@@ -5,6 +5,7 @@ import * as shared from "@/shared";
 
 import { EditorProvider } from "@/entities/editor/lib";
 import { Toolbar, TitleInput, EditorCore } from "@/entities/editor/ui";
+import "@/shared/styles/index.css";
 
 const ArticleWrite = () => {
   useBeforeunload((event) => event.preventDefault());

@@ -1,12 +1,12 @@
 import * as shared from "@/shared";
-import { useToast } from "../store";
+import { useToastStore } from "../store";
 
 type Props = {
   children: React.ReactNode;
 };
 
 const ToastContainer = ({ children }: Props) => {
-  const { toasts, removeToast } = useToast();
+  const { toasts, removeToast } = useToastStore();
 
   const toastRender = () => {
     return toasts.map((toast) => {

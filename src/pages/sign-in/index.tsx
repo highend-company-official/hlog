@@ -6,7 +6,7 @@ import * as features from "@/features";
 import * as shared from "@/shared";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@/shared";
-import { useToast } from "@/app/store";
+import { useToastStore } from "@/app/store";
 
 type FormValues = {
   email: string;
@@ -16,7 +16,7 @@ type FormValues = {
 function SignInPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { addToast } = useToast();
+  const { addToast } = useToastStore();
   const { register, handleSubmit } = useForm<FormValues>();
 
   const handleEmailSignIn = handleSubmit((data) => {

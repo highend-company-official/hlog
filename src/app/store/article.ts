@@ -10,9 +10,9 @@ type Action = {
   changeViewMode: (mode: ViewMode) => void;
 };
 
-const useArticle = create<State & Action>((set) => ({
+const useArticleStore = create<State & Action>((set) => ({
   articleViewMode: "card",
   changeViewMode: (mode) => set(() => ({ articleViewMode: mode })),
 }));
 
-export default useArticle;
+export default useArticleStore;

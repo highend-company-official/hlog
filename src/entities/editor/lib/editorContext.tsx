@@ -1,5 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { EditorState } from "draft-js";
+import PrismDecorator from "draft-js-prism";
+import Prism from "prismjs";
 
 export type EditorType = {
   title: string;
@@ -17,9 +19,14 @@ type EditorContextType = [
 export const EditorContext = createContext<EditorContextType | null>(null);
 
 export function EditorProvider({ children }: { children: React.ReactNode }) {
+  const decorator = new PrismDecorator({
+    prism: Prism,
+    defaultSyntax: "javascript",
+  });
+
   const editorState = useState<EditorType>({
     title: "",
-    content: EditorState.createEmpty(),
+    content: EditorState.createEmpty(decorator),
     summary: "",
     thumbnail: "",
     hasComment: true,

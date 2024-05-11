@@ -1,10 +1,10 @@
-import { useToast } from "@/app/store";
+import { useEditorStore, useToastStore } from "@/app/store";
 import { Modal, supabase, generateRandomId } from "@/shared";
 import { ContentState } from "draft-js";
 import React, { useState } from "react";
 import { convertToHTML } from "draft-convert";
-import useEditor from "../../hooks";
 import { useNavigate } from "react-router-dom";
+import useEditorUtils from "../../hooks";
 
 type Props = {
   onCancel: () => void;
@@ -19,10 +19,10 @@ type SettingState = {
 const SettingModal = ({ onCancel }: Props) => {
   const navigate = useNavigate();
   const {
-    editorState: { title, content, summary, hasComment },
-    resetSavedContent,
-  } = useEditor();
-  const { addToast } = useToast();
+    editorMetaData: { title, content, summary, hasComment },
+  } = useEditorStore();
+  const { resetSavedContent } = useEditorUtils();
+  const { addToast } = useToastStore();
 
   const [setting, setSetting] = useState<SettingState>({
     thumbnail: null,

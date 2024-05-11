@@ -2,19 +2,11 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import { RichUtils, DraftInlineStyleType, DraftBlockType } from "draft-js";
 import { useNavigate } from "react-router-dom";
-import {
-  BiBold,
-  BiItalic,
-  BiStrikethrough,
-  BiUnderline,
-  BiArrowBack,
-  BiSend,
-} from "react-icons/bi";
-
-import useEditor from "../../hooks";
+import { BiArrowBack, BiSend } from "react-icons/bi";
 
 import ArticleSettingModal from "../setting-modal";
-import { SelectBox } from "@/shared";
+import * as constants from "../../constants";
+import { useEditorStore } from "@/app/store";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;
@@ -34,72 +26,26 @@ const ToolbarItem = (props: ToolbarItemProps) => {
   );
 };
 
-const INLINE_MAP: { type: DraftInlineStyleType; icon: React.ReactElement }[] = [
-  {
-    type: "BOLD",
-    icon: <BiBold />,
-  },
-  {
-    type: "ITALIC",
-    icon: <BiItalic />,
-  },
-  {
-    type: "STRIKETHROUGH",
-    icon: <BiStrikethrough />,
-  },
-  {
-    type: "UNDERLINE",
-    icon: <BiUnderline />,
-  },
-];
-
-const HEADERS_MAP: { type: DraftBlockType; label: string }[] = [
-  {
-    type: "header-one",
-    label: "H1",
-  },
-  {
-    type: "header-two",
-    label: "H2",
-  },
-  {
-    type: "header-three",
-    label: "H3",
-  },
-  {
-    type: "header-four",
-    label: "H4",
-  },
-  {
-    type: "header-five",
-    label: "H5",
-  },
-  {
-    type: "header-six",
-    label: "H6",
-  },
-];
-
 const Toolbar = () => {
   const navigate = useNavigate();
-  const { editorState, setEditorState } = useEditor();
+  const { editorMetaData, setEditorMetaData } = useEditorStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleInline =
     (type: DraftInlineStyleType) =>
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
-      setEditorState((prev) => ({
-        ...prev,
-        content: RichUtils.toggleInlineStyle(editorState.content, type),
-      }));
+      setEditorMetaData({
+        ...editorMetaData,
+        content: RichUtils.toggleInlineStyle(editorMetaData.content, type),
+      });
     };
 
   const toggleBlock = (type: DraftBlockType) => {
-    setEditorState((prev) => ({
-      ...prev,
-      content: RichUtils.toggleBlockType(editorState.content, type),
-    }));
+    setEditorMetaData({
+      ...editorMetaData,
+      content: RichUtils.toggleBlockType(editorMetaData.content, type),
+    });
   };
 
   const handlePostArticle = () => {
@@ -107,8 +53,18 @@ const Toolbar = () => {
   };
 
   const isActiveInlineStyle = (type: string): boolean => {
-    const currentStyle = editorState.content.getCurrentInlineStyle();
+    const currentStyle = editorMetaData.content.getCurrentInlineStyle();
     return currentStyle.has(type);
+  };
+
+  const isActiveBlockStyle = (type: string): boolean => {
+    const selection = editorMetaData.content.getSelection();
+    const blockType = editorMetaData.content
+      .getCurrentContent()
+      .getBlockForKey(selection.getStartKey())
+      .getType();
+
+    return blockType === type;
   };
 
   return (
@@ -121,22 +77,33 @@ const Toolbar = () => {
         </div>
 
         <div className="flex items-center justify-center">
-          <SelectBox onChange={(type) => toggleBlock(type)}>
-            {HEADERS_MAP.map(({ type, label }) => (
-              <SelectBox.Option
-                selected={isActiveInlineStyle(type)}
-                label={label}
-                value={type}
-              />
-            ))}
-          </SelectBox>
-
-          <div className="mr-2" />
-
-          {INLINE_MAP.map(({ type, icon }) => (
+          {constants.HEADERS_MAP.map(({ type, label }) => (
             <ToolbarItem
+              key={type}
+              onClick={() => toggleBlock(type)}
+              selected={isActiveBlockStyle(type)}
+            >
+              {label}
+            </ToolbarItem>
+          ))}
+
+          <div className="h-[30px] mx-2 border-r border-gray-300 border-solid" />
+
+          {constants.INLINE_MAP.map(({ type, icon }) => (
+            <ToolbarItem
+              key={type}
               onClick={toggleInline(type)}
               selected={isActiveInlineStyle(type)}
+            >
+              {icon}
+            </ToolbarItem>
+          ))}
+
+          {constants.BLOCK_MAP.map(({ type, icon }) => (
+            <ToolbarItem
+              key={type}
+              onClick={() => toggleBlock(type)}
+              selected={isActiveBlockStyle(type)}
             >
               {icon}
             </ToolbarItem>

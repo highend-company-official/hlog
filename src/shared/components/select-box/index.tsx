@@ -39,7 +39,7 @@ type OptionProps = {
 };
 
 const Option = ({ value, selected = false, label }: OptionProps) => (
-  <option value={value} selected={selected}>
+  <option value={value} defaultChecked={selected}>
     {label}
   </option>
 );

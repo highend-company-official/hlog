@@ -14,7 +14,7 @@ const ArticleViewSelector = () => {
         type="button"
         onClick={() => changeViewMode("card")}
         className={classNames(
-          "px-4 py-2 text-sm font-medium text-gray-400 hover:text-primary",
+          "pr-4 py-2 text-sm font-medium text-gray-400 hover:text-primary",
           {
             "text-primary": articleViewMode === "card",
           }
@@ -26,7 +26,7 @@ const ArticleViewSelector = () => {
         type="button"
         onClick={() => changeViewMode("gallery")}
         className={classNames(
-          "px-4 py-2 text-sm font-medium text-gray-400 hover:text-primary",
+          "pr-4 py-2 text-sm font-medium text-gray-400 hover:text-primary",
           {
             "text-primary": articleViewMode === "gallery",
           }
@@ -38,7 +38,7 @@ const ArticleViewSelector = () => {
         type="button"
         onClick={() => changeViewMode("list")}
         className={classNames(
-          "px-4 py-2 text-sm font-medium text-gray-400 hover:text-primary",
+          "pr-4 py-2 text-sm font-medium text-gray-400 hover:text-primary",
           {
             "text-primary": articleViewMode === "list",
           }

@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { LuSearch } from "react-icons/lu";
 import { FaPen } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useToast } from "@/app/store";
+import { useToastStore } from "@/app/store";
 
 const UserDivision = () => {
   const { data } = useSession();
@@ -49,7 +49,7 @@ const UserDivision = () => {
 };
 
 function Header() {
-  const { addToast } = useToast();
+  const { addToast } = useToastStore();
   const navigate = useNavigate();
 
   return (

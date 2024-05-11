@@ -1,34 +1,102 @@
-import { useEffect, useState } from "react";
-import { useToast } from "@/app/store";
+import { memo, useEffect, useState } from "react";
+import { useEditorStore, useToastStore } from "@/app/store";
 import {
   Editor,
   KeyBindingUtil,
   getDefaultKeyBinding,
   type DraftEditorCommand,
   EditorState,
+  ContentBlock,
+  DraftInlineStyleType,
+  RichUtils,
+  DraftBlockType,
 } from "draft-js";
+
 import "draft-js/dist/Draft.css";
+import "prismjs/themes/prism.css";
+import "@draft-js-plugins/inline-toolbar/lib/plugin.css";
 
 import * as shared from "@/shared";
-import useEditor from "../../hooks";
 import "./index.css";
+import useEditorUtils from "../../hooks";
 
 type KeyCommandType =
   | DraftEditorCommand
+  | "header-one"
+  | "header-two"
+  | "header-three"
+  | "header-four"
+  | "unordered-list-item"
+  | "ordered-list-item"
+  | "blockquote"
+  | "code-block"
+  | "header-five"
+  | "header-six"
   | "hlog-editor-save"
   | "hlog-editor-refresh";
 
-const EditorCore = () => {
-  const { addToast } = useToast();
+const EditorCore = memo(() => {
+  // NOTE: 원인 editorState가 객체라서 업데이트할 때 문제가 생기는 것으로 확인됨.
+  const { addToast } = useToastStore();
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
-  const { editorState, setEditorState, saveCurrentContent, loadSavedContent } =
-    useEditor();
+  const { editorMetaData, setEditorMetaData } = useEditorStore();
+  const { saveCurrentContent, loadSavedContent } = useEditorUtils();
+
+  const toggleInline = (type: DraftInlineStyleType) => {
+    setEditorMetaData({
+      ...editorMetaData,
+      content: RichUtils.toggleInlineStyle(editorMetaData.content, type),
+    });
+  };
+
+  const toggleBlock = (type: DraftBlockType) => {
+    setEditorMetaData({
+      ...editorMetaData,
+      content: RichUtils.toggleBlockType(editorMetaData.content, type),
+    });
+  };
 
   const customKeyBindingFunction = (e: React.KeyboardEvent) => {
-    if (e.key === "s" && KeyBindingUtil.hasCommandModifier(e)) {
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "1") {
+      return "header-one";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "2") {
+      return "header-two";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "3") {
+      return "header-three";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "4") {
+      return "header-four";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "5") {
+      return "header-five";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "6") {
+      return "header-six";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.shiftKey && e.key === "o") {
+      return "ordered-list-item";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.shiftKey && e.key === "u") {
+      return "unordered-list-item";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.shiftKey && e.key === "b") {
+      return "blockquote";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === ",") {
+      return "code-block";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "x") {
+      return "strikethrough";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "u") {
+      return "underline";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "s") {
       return "hlog-editor-save";
     }
-    if (e.key === "r" && KeyBindingUtil.hasCommandModifier(e)) {
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "r") {
       return "hlog-editor-refresh";
     }
     return getDefaultKeyBinding(e);
@@ -36,7 +104,7 @@ const EditorCore = () => {
 
   const handleKeyCommand = (command: KeyCommandType) => {
     if (command === "hlog-editor-save") {
-      if (editorState.content.getCurrentContent().getPlainText() === "") {
+      if (editorMetaData.content.getCurrentContent().getPlainText() === "") {
         addToast({
           type: "warning",
           content: "저장을 위해서 내용을 입력해주세요",
@@ -55,18 +123,102 @@ const EditorCore = () => {
       });
       return "handled";
     }
-
+    if (command === "header-one") {
+      toggleBlock(command);
+      return "handled";
+    }
+    if (command === "header-two") {
+      toggleBlock(command);
+      return "handled";
+    }
+    if (command === "header-three") {
+      toggleBlock(command);
+      return "handled";
+    }
+    if (command === "header-four") {
+      toggleBlock(command);
+      return "handled";
+    }
+    if (command === "header-five") {
+      toggleBlock(command);
+      return "handled";
+    }
+    if (command === "header-six") {
+      toggleBlock(command);
+      return "handled";
+    }
+    if (command === "strikethrough") {
+      toggleInline("STRIKETHROUGH");
+      return "handled";
+    }
+    if (command === "bold") {
+      toggleInline("BOLD");
+      return "handled";
+    }
+    if (command === "italic") {
+      toggleInline("ITALIC");
+      return "handled";
+    }
+    if (command === "underline") {
+      toggleInline("UNDERLINE");
+      return "handled";
+    }
+    if (command === "ordered-list-item") {
+      toggleBlock(command);
+      return "handled";
+    }
+    if (command === "unordered-list-item") {
+      toggleBlock(command);
+      return "handled";
+    }
+    if (command === "code-block") {
+      toggleBlock(command);
+      return "handled";
+    }
+    if (command === "blockquote") {
+      toggleBlock(command);
+      return "handled";
+    }
     if (command === "hlog-editor-refresh") {
       return "handled";
     }
     return "not-handled";
   };
 
+  const blockStyleFunction = (contentBlock: ContentBlock) => {
+    const type = contentBlock.getType();
+
+    switch (type) {
+      case "blockquote":
+        return "hlog_blockquote";
+      case "header-one":
+        return "hlog_header_one";
+      case "header-two":
+        return "hlog_header_two";
+      case "header-three":
+        return "hlog_header_three";
+      case "header-four":
+        return "hlog_header_four";
+      case "header-five":
+        return "hlog_header_five";
+      case "header-six":
+        return "hlog_header_six";
+      case "unordered-list-item":
+        return "hlog_unordered-list";
+      case "ordered-list-item":
+        return "hlog_ordered-list";
+      case "code-block":
+        return "hlog-code_block";
+      default:
+        return "";
+    }
+  };
+
   const loadContentToEditor = () => {
     const loadedContent = loadSavedContent();
 
     if (loadedContent) {
-      setEditorState({
+      setEditorMetaData({
         ...loadedContent,
         content: EditorState.createWithContent(loadedContent.content),
       });
@@ -74,24 +226,27 @@ const EditorCore = () => {
     }
   };
 
+  const handleChangeEditor = (editorContent: EditorState) => {
+    setEditorMetaData({ ...editorMetaData, content: editorContent });
+  };
+
   useEffect(() => {
     const loadedContent = loadSavedContent();
     if (loadedContent?.content.hasText()) {
       setIsSavedModalOpen(true);
     }
-  }, []);
+  }, [loadSavedContent]);
 
   return (
     <>
       <Editor
-        editorState={editorState.content}
-        onChange={(editorContent) =>
-          setEditorState((prev) => ({ ...prev, content: editorContent }))
-        }
+        editorState={editorMetaData.content}
+        onChange={handleChangeEditor}
         placeholder={shared.EDITOR_CONST.PLACEHOLDER}
         handleKeyCommand={handleKeyCommand}
         keyBindingFn={customKeyBindingFunction}
         spellCheck={false}
+        blockStyleFn={blockStyleFunction}
       />
 
       {isSavedModalOpen && (
@@ -118,6 +273,6 @@ const EditorCore = () => {
       )}
     </>
   );
-};
+});
 
 export default EditorCore;

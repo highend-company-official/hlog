@@ -6,7 +6,8 @@ import {
 } from "draft-js";
 
 import * as shared from "@/shared";
-import { useEditorContext } from "../lib";
+import { useCallback } from "react";
+import { useEditorStore } from "@/app/store";
 
 type LocalStorageType = {
   title: string;
@@ -16,38 +17,32 @@ type LocalStorageType = {
   hasComment: boolean;
 };
 
-const useEditor = () => {
-  const editorContextValues = useEditorContext();
+const useEditorUtils = () => {
+  const { editorMetaData, setEditorMetaData } = useEditorStore();
   const [editorLocalStorage, setEditorLocalStoage] =
     shared.useLocalStorage<LocalStorageType | null>(
       shared.STORAGE_CONSTS.HLOG_EDITOR,
       null
     );
 
-  if (!editorContextValues) {
-    throw new Error(`useEditor 훅은 EditorProvider 내부에서 사용해야 합니다.`);
-  }
-
-  const [editorState, setEditorState] = editorContextValues;
-
-  const saveCurrentContent = () => {
+  const saveCurrentContent = useCallback(() => {
     setEditorLocalStoage({
-      ...editorState,
-      content: convertToRaw(editorState.content.getCurrentContent()),
+      ...editorMetaData,
+      content: convertToRaw(editorMetaData.content.getCurrentContent()),
     });
-  };
+  }, [editorMetaData, setEditorLocalStoage]);
 
-  const loadSavedContent = () => {
+  const loadSavedContent = useCallback(() => {
     if (editorLocalStorage) {
       return {
         ...editorLocalStorage,
         content: convertFromRaw(editorLocalStorage.content),
       };
     }
-  };
+  }, [editorLocalStorage]);
 
-  const resetSavedContent = () => {
-    setEditorState({
+  const resetSavedContent = useCallback(() => {
+    setEditorMetaData({
       title: "",
       content: EditorState.createEmpty(),
       summary: "",
@@ -55,15 +50,13 @@ const useEditor = () => {
       hasComment: true,
     });
     setEditorLocalStoage(null);
-  };
+  }, [setEditorLocalStoage, setEditorMetaData]);
 
   return {
-    editorState,
-    setEditorState,
     saveCurrentContent,
     resetSavedContent,
     loadSavedContent,
   };
 };
 
-export default useEditor;
+export default useEditorUtils;

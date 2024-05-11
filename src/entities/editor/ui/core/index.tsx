@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { useEditorStore, useToastStore } from "@/app/store";
 import Editor from "@draft-js-plugins/editor";
 import {
@@ -13,13 +13,13 @@ import {
 } from "draft-js";
 import createInlineToolbarPlugin from "@draft-js-plugins/inline-toolbar";
 
+import useEditorUtils from "../../hooks";
+import * as shared from "@/shared";
+
 import "draft-js/dist/Draft.css";
 import "prismjs/themes/prism.css";
 import "@draft-js-plugins/inline-toolbar/lib/plugin.css";
 import "./index.css";
-
-import * as shared from "@/shared";
-import useEditorUtils from "../../hooks";
 
 type KeyCommandType =
   | DraftEditorCommand
@@ -37,13 +37,16 @@ type KeyCommandType =
   | "hlog-editor-refresh";
 
 const EditorCore = memo(() => {
-  // NOTE: 원인 editorState가 객체라서 업데이트할 때 문제가 생기는 것으로 확인됨.
   const { addToast } = useToastStore();
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
   const { editorMetaData, setEditorMetaData } = useEditorStore();
   const { saveCurrentContent, loadSavedContent } = useEditorUtils();
 
-  const PLUGINS = [createInlineToolbarPlugin()];
+  // const PLUGINS = [createInlineToolbarPlugin()];
+  const [plugins, InlineToolbar] = useMemo(() => {
+    const inlineToolbarPlugin = createInlineToolbarPlugin();
+    return [[inlineToolbarPlugin], inlineToolbarPlugin.InlineToolbar];
+  }, []);
 
   const toggleInline = (type: DraftInlineStyleType) => {
     setEditorMetaData({
@@ -250,8 +253,10 @@ const EditorCore = memo(() => {
         keyBindingFn={customKeyBindingFunction}
         spellCheck={false}
         blockStyleFn={blockStyleFunction}
-        plugins={PLUGINS}
+        plugins={plugins}
       />
+
+      <InlineToolbar />
 
       {isSavedModalOpen && (
         <shared.Modal>

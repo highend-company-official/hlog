@@ -39,10 +39,14 @@ type KeyCommandType =
 const EditorCore = memo(() => {
   const { addToast } = useToastStore();
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
-  const { editorMetaData, setEditorMetaData } = useEditorStore();
+  const {
+    editorMetaData,
+    setEditorMetaData,
+    reset: resetEditorStore,
+  } = useEditorStore();
   const { saveCurrentContent, loadSavedContent } = useEditorUtils();
 
-  // const PLUGINS = [createInlineToolbarPlugin()];
+  // When Exit Reset State !!
   const [plugins, InlineToolbar] = useMemo(() => {
     const inlineToolbarPlugin = createInlineToolbarPlugin();
     return [[inlineToolbarPlugin], inlineToolbarPlugin.InlineToolbar];
@@ -242,6 +246,13 @@ const EditorCore = memo(() => {
       setIsSavedModalOpen(true);
     }
   }, [loadSavedContent]);
+
+  useEffect(
+    () => () => {
+      resetEditorStore();
+    },
+    [resetEditorStore]
+  );
 
   return (
     <>

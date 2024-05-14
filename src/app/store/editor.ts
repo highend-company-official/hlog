@@ -16,19 +16,25 @@ type State = {
 
 type Action = {
   setEditorMetaData: (newMetaData: EditorMetaData) => void;
+  reset: () => void;
+};
+
+const initialState: State = {
+  editorMetaData: {
+    title: "",
+    content: EditorState.createEmpty(),
+    summary: "",
+    thumbnail: "",
+    hasComment: true,
+  },
 };
 
 const useEditorStore = create<State & Action>()(
   devtools((set) => ({
-    editorMetaData: {
-      title: "",
-      content: EditorState.createEmpty(),
-      summary: "",
-      thumbnail: "",
-      hasComment: true,
-    },
+    ...initialState,
     setEditorMetaData: (newMetaData: EditorMetaData) =>
       set(() => ({ editorMetaData: newMetaData })),
+    reset: () => set(() => ({ ...initialState })),
   }))
 );
 

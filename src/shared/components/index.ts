@@ -7,4 +7,5 @@ export { default as Modal } from "./modal";
 export { default as Portal } from "./portal";
 export { default as Table } from "./table";
 export { default as SelectBox } from "./select-box";
+export { default as Switch } from "./switch";
 export * from "./skeleton";

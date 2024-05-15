@@ -4,9 +4,9 @@ import { RichUtils, DraftInlineStyleType, DraftBlockType } from "draft-js";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack, BiSend } from "react-icons/bi";
 
-import ArticleSettingModal from "../setting-modal";
 import * as constants from "../../constants";
 import { useEditorStore } from "@/app/store";
+import { ArticleWriteModal } from "..";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;
@@ -118,7 +118,7 @@ const Toolbar = () => {
       </div>
 
       {isModalOpen && (
-        <ArticleSettingModal onCancel={() => setIsModalOpen(false)} />
+        <ArticleWriteModal onCancel={() => setIsModalOpen(false)} />
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import { Article, supabase } from "@/shared";
+import { ArticleType, supabase } from "@/shared";
 
 export const fetchArticle = (articleId: string) => {
   return supabase
@@ -16,7 +16,7 @@ export const fetchArticle = (articleId: string) => {
     )
     .match({ id: articleId })
     .throwOnError()
-    .single<Article>();
+    .single<ArticleType>();
 };
 
 export const fetchArticles = () => {
@@ -33,5 +33,5 @@ export const fetchArticles = () => {
         profiles (username)
       `
     )
-    .returns<Article[]>();
+    .returns<ArticleType[]>();
 };

@@ -9,7 +9,7 @@ import React from "react";
 import { ArticleType } from "@/shared/schema";
 
 const Card = (props: ArticleType) => {
-  const url = useBucket("thumbnails", props.thumbnail);
+  const { read } = useBucket("thumbnails", props.thumbnail);
 
   return (
     <section className="px-10 py-6 my-4 rounded-lg shadow-md bg-slate-50">
@@ -29,7 +29,7 @@ const Card = (props: ArticleType) => {
 
       <div className="inline-block w-full mt-2">
         <img
-          src={url}
+          src={read()}
           alt={props.title}
           className="w-[240px] max-lg:w-[180px] max-md:w-0 h-64 rounded-3xl object-cover float-right ml-8"
         />
@@ -65,13 +65,13 @@ const Card = (props: ArticleType) => {
 };
 
 const List = (props: ArticleType) => {
-  const url = useBucket("thumbnails", props.thumbnail);
+  const { read } = useBucket("thumbnails", props.thumbnail);
   return (
     <Link to={`/article-read/${props.id}`}>
       <li className="flex items-center h-20 list-none border-b border-gray-300 border-solid group hover:bg-black/10">
         <div>
           <img
-            src={url}
+            src={read()}
             alt={props.title}
             className="block object-cover w-20 h-20 min-h-10"
           />
@@ -88,11 +88,11 @@ const List = (props: ArticleType) => {
 };
 
 const Gallery = (props: ArticleType) => {
-  const url = useBucket("thumbnails", props.thumbnail);
+  const { read } = useBucket("thumbnails", props.thumbnail);
   return (
     <div className="relative place-items-center group">
       <Link to={`/article-read/${props.id}`}>
-        <img src={url} alt={props.title} className="w-full h-full" />
+        <img src={read()} alt={props.title} className="w-full h-full" />
 
         <div className="absolute top-0 left-0 hidden w-full h-full p-4 text-white group-hover:bg-black/70 group-hover:inline-block ">
           <span className="overflow-y-hidden font-bold">{props.title}</span>

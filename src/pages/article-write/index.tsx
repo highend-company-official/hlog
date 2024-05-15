@@ -16,7 +16,7 @@ const ArticleWrite = () => {
         <Suspense fallback={<shared.Skeleton />}>
           <Toolbar />
 
-          <div className="w-[1000px] mx-auto py-14 px-24 bg-white h-full">
+          <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
             <TitleInput />
             <shared.Divider />
             <div className="mt-7" />

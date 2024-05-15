@@ -1,6 +1,6 @@
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useState } from "react";
 import { useEditorStore, useToastStore } from "@/app/store";
-import Editor from "@draft-js-plugins/editor";
+
 import {
   KeyBindingUtil,
   getDefaultKeyBinding,
@@ -10,16 +10,18 @@ import {
   DraftInlineStyleType,
   RichUtils,
   DraftBlockType,
+  DraftHandleValue,
+  AtomicBlockUtils,
+  Editor,
 } from "draft-js";
-import createInlineToolbarPlugin from "@draft-js-plugins/inline-toolbar";
 
 import useEditorUtils from "../../hooks";
 import * as shared from "@/shared";
 
-import "draft-js/dist/Draft.css";
-import "prismjs/themes/prism.css";
-import "@draft-js-plugins/inline-toolbar/lib/plugin.css";
 import "./index.css";
+import "draft-js/dist/Draft.css";
+import Image from "../editor-image";
+import { useMount, useUnmount } from "@/shared";
 
 type KeyCommandType =
   | DraftEditorCommand
@@ -45,12 +47,6 @@ const EditorCore = memo(() => {
     reset: resetEditorStore,
   } = useEditorStore();
   const { saveCurrentContent, loadSavedContent } = useEditorUtils();
-
-  // When Exit Reset State !!
-  const [plugins, InlineToolbar] = useMemo(() => {
-    const inlineToolbarPlugin = createInlineToolbarPlugin();
-    return [[inlineToolbarPlugin], inlineToolbarPlugin.InlineToolbar];
-  }, []);
 
   const toggleInline = (type: DraftInlineStyleType) => {
     setEditorMetaData({
@@ -224,6 +220,28 @@ const EditorCore = memo(() => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const Media = (props: any) => {
+    const { contentState, block } = props;
+
+    console.log(block.getEntityAt(0));
+    const entity = contentState.getEntity(block.getEntityAt(0));
+    const { src } = entity.getData();
+    const type = entity.getType();
+    if (type === "IMAGE") {
+      return <Image src={src} />;
+    }
+
+    return null;
+  };
+
+  function mediaBlockRenderer(block: ContentBlock) {
+    if (block.getType() === "atomic") {
+      return { component: Media, editable: false };
+    }
+    return null;
+  }
+
   const loadContentToEditor = () => {
     const loadedContent = loadSavedContent();
 
@@ -236,23 +254,55 @@ const EditorCore = memo(() => {
     }
   };
 
+  const insertPastedImage = (url: string) => {
+    const currentContent = editorMetaData.content.getCurrentContent();
+    const contentStateWithEntity = currentContent.createEntity(
+      "IMAGE",
+      "IMMUTABLE",
+      {
+        src: url,
+      }
+    );
+
+    const imageEntityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(editorMetaData.content, {
+      currentContent: contentStateWithEntity,
+    });
+
+    return AtomicBlockUtils.insertAtomicBlock(
+      newEditorState,
+      imageEntityKey,
+      " "
+    );
+  };
+
+  // Event Handlers
   const handleChangeEditor = (editorContent: EditorState) => {
     setEditorMetaData({ ...editorMetaData, content: editorContent });
   };
 
-  useEffect(() => {
+  const handlePasteFile = (files: Blob[]): DraftHandleValue => {
+    const formData = new FormData();
+    formData.append("file", files[0]);
+
+    // Image Upload
+    setEditorMetaData({
+      ...editorMetaData,
+      content: insertPastedImage(URL.createObjectURL(files[0])),
+    });
+
+    return "handled";
+  };
+
+  // Effects
+  useMount(() => {
     const loadedContent = loadSavedContent();
     if (loadedContent?.content.hasText()) {
       setIsSavedModalOpen(true);
     }
-  }, [loadSavedContent]);
+  });
 
-  useEffect(
-    () => () => {
-      resetEditorStore();
-    },
-    [resetEditorStore]
-  );
+  useUnmount(() => resetEditorStore());
 
   return (
     <>
@@ -264,10 +314,9 @@ const EditorCore = memo(() => {
         keyBindingFn={customKeyBindingFunction}
         spellCheck={false}
         blockStyleFn={blockStyleFunction}
-        plugins={plugins}
+        blockRendererFn={mediaBlockRenderer}
+        handlePastedFiles={handlePasteFile}
       />
-
-      <InlineToolbar />
 
       {isSavedModalOpen && (
         <shared.Modal>

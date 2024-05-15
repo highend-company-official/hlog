@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@draft-js-plugins/drag-n-drop": "^4.2.3",
     "@draft-js-plugins/editor": "^4.1.4",
+    "@draft-js-plugins/focus": "^4.1.5",
+    "@draft-js-plugins/image": "^4.1.4",
     "@draft-js-plugins/inline-toolbar": "^4.2.1",
     "@mdx-js/mdx": "^3.0.1",
     "@mdx-js/react": "^3.0.1",

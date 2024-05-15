@@ -240,6 +240,13 @@
   dependencies:
     clsx "^1.2.1"
 
+"@draft-js-plugins/drag-n-drop@^4.2.3":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/drag-n-drop/-/drag-n-drop-4.2.3.tgz#7d5aa46de07caef48adbab03e896ba6a72092b30"
+  integrity sha512-COXJM+u6+zgQe1IzmJri5QbuPps83i9OB7/WWbWU81xM7wJqKS851TnTE9ghP9LWXKhCyYZyCYvM/0QnAi6qqQ==
+  dependencies:
+    immutable "~3.7.4"
+
 "@draft-js-plugins/editor@^4.1.4":
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@draft-js-plugins/editor/-/editor-4.1.4.tgz#456e01b032b8ef44f0c77ea777aa3c44172de892"
@@ -247,6 +254,21 @@
   dependencies:
     immutable "~3.7.4"
     prop-types "^15.8.1"
+
+"@draft-js-plugins/focus@^4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/focus/-/focus-4.1.5.tgz#fcc3cdd220408ec0b6f019452a358f6ca9359fe5"
+  integrity sha512-wHDi8dM5SL9w98pqc4MhzzbCmaK1zDsknfdu+6sfGyVAwAUTBtD2OMbAYltWfOMKGgIrM5hhKaSgSQnJ3Jf0Fg==
+  dependencies:
+    clsx "^1.2.1"
+    immutable "~3.7.4"
+
+"@draft-js-plugins/image@^4.1.4":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/image/-/image-4.1.4.tgz#26b55d573252ef64e883491ff274507e0448cb8c"
+  integrity sha512-gLEYjhG2n9v5Y+e9sH9OD0/XVbHOaBwSBo3loXScmwSOTFP+9GBwp6HxCXvnBJj15SOQqGVvEkf6W3Jlzu/8ng==
+  dependencies:
+    clsx "^1.2.1"
 
 "@draft-js-plugins/inline-toolbar@^4.2.1":
   version "4.2.1"

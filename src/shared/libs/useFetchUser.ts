@@ -19,14 +19,20 @@ export const fetchUser = (userId: string) => {
     .single<UserType>();
 };
 
-const useFetchUser = (userId: string) => {
+const useFetchUser = (userId: string | null) => {
   const queryKey = [shared.QUERY_CONSTS.USER, userId];
   const queryFn = async () => {
+    if (!userId) {
+      return null;
+    }
     const resposne = await fetchUser(userId);
     return resposne.data;
   };
 
-  return useSuspenseQuery({ queryKey, queryFn });
+  return useSuspenseQuery({
+    queryKey,
+    queryFn,
+  });
 };
 
 useFetchUser.pk = shared.QUERY_CONSTS.USER;

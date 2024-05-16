@@ -52,7 +52,14 @@ const router = createBrowserRouter(
           />
         </Route>
       </Route>
-      <Route path="article-write" element={<pages.ArticleWrite />} />
+      <Route
+        path="article-write"
+        element={
+          <hoc.PrivateRoute>
+            <pages.ArticleWrite />
+          </hoc.PrivateRoute>
+        }
+      />
       <Route
         path="auth"
         element={

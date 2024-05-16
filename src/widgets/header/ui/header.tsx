@@ -3,11 +3,12 @@ import { Suspense } from "react";
 import { LuSearch } from "react-icons/lu";
 import { FaPen } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useToastStore } from "@/app/store";
 
 const UserDivision = () => {
   const { data } = useSession();
-  const { data: userData } = useFetchUser(data.session?.user.id ?? "");
+  const { data: userData } = useFetchUser(data.session?.user.id ?? null);
   const navigate = useNavigate();
 
   const BUTTON_CLASSNAME =
@@ -19,7 +20,7 @@ const UserDivision = () => {
         condition={!!data.session}
         trueRender={
           <img
-            src={userData?.profile_url}
+            src={userData?.profile_url ?? defaultProfile}
             className="w-8 h-8 rounded-full shadow-sm cursor-pointer"
             alt={userData?.username}
             onClick={() => {

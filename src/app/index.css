@@ -1,15 +1,11 @@
+@import url("https://unpkg.com/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Jersey15Charted";
-  src: url(../shared/font/Jersey15Charted.ttf);
-}
-
-@font-face {
-  font-family: "Jersey15-Regular";
-  src: url(../shared/font/Jersey15-Regular.ttf);
+* {
+  font-family: "Pretendard" !important;
 }
 
 body {

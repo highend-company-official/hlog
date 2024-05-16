@@ -48,7 +48,7 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="fixed left-0 z-40 flex items-center justify-between w-full px-10 py-2 bg-white">
+    <header className="fixed left-0 z-40 flex items-center justify-between w-full px-10 py-5 bg-white drop-shadow-sm">
       <div className="flex items-end">
         <h1 className="text-2xl font-semibold">
           <Link to="/">

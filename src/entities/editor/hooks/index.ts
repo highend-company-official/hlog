@@ -15,6 +15,8 @@ type LocalStorageType = {
   summary: string;
   thumbnail: File | null;
   hasComment: boolean;
+  hasLike: boolean;
+  hasHit: boolean;
 };
 
 const useEditorUtils = () => {

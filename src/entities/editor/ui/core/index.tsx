@@ -87,14 +87,14 @@ const EditorCore = memo(() => {
     if (KeyBindingUtil.hasCommandModifier(e) && e.shiftKey && e.key === "u") {
       return "unordered-list-item";
     }
-    if (KeyBindingUtil.hasCommandModifier(e) && e.shiftKey && e.key === "b") {
+    if (KeyBindingUtil.hasCommandModifier(e) && e.shiftKey && e.key === "q") {
       return "blockquote";
     }
-    if (KeyBindingUtil.hasCommandModifier(e) && e.key === ",") {
-      return "code-block";
-    }
-    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "x") {
+    if (KeyBindingUtil.hasCommandModifier(e) && e.shiftKey && e.key === "x") {
       return "strikethrough";
+    }
+    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "c") {
+      return "code-block";
     }
     if (KeyBindingUtil.hasCommandModifier(e) && e.key === "u") {
       return "underline";
@@ -224,7 +224,6 @@ const EditorCore = memo(() => {
   const Media = (props: any) => {
     const { contentState, block } = props;
 
-    console.log(block.getEntityAt(0));
     const entity = contentState.getEntity(block.getEntityAt(0));
     const { src } = entity.getData();
     const type = entity.getType();

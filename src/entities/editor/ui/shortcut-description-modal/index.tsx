@@ -92,7 +92,7 @@ const ShortcutDescriptionModal = ({ onClose }: Props) => {
                 >
                   (<Kbd>Command</Kbd>
                   <span className="mx-2">or</span>
-                  <Kbd>Ctrl</Kbd>) + <Kbd>Shift</Kbd> + <Kbd>7</Kbd>
+                  <Kbd>Ctrl</Kbd>) + <Kbd>Shift</Kbd> + <Kbd>O</Kbd>
                 </th>
                 <td className="px-6 py-4">1. 순서가 있는 목록을 지정합니다.</td>
               </tr>
@@ -104,10 +104,24 @@ const ShortcutDescriptionModal = ({ onClose }: Props) => {
                 >
                   (<Kbd>Command</Kbd>
                   <span className="mx-2">or</span>
-                  <Kbd>Ctrl</Kbd>) + <Kbd>Shift</Kbd> + <Kbd>8</Kbd>
+                  <Kbd>Ctrl</Kbd>) + <Kbd>Shift</Kbd> + <Kbd>U</Kbd>
                 </th>
                 <td className="px-6 py-4">
                   <li>순서가 없는 목록을 지정합니다.</li>
+                </td>
+              </tr>
+
+              <tr className="bg-white border-b">
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap"
+                >
+                  (<Kbd>Command</Kbd>
+                  <span className="mx-2">or</span>
+                  <Kbd>Ctrl</Kbd>) + <Kbd>Shift</Kbd> + <Kbd>X</Kbd>
+                </th>
+                <td className="px-6 py-4">
+                  <span className="line-through">취소선</span>을 지정합니다.
                 </td>
               </tr>
 
@@ -133,6 +147,18 @@ const ShortcutDescriptionModal = ({ onClose }: Props) => {
                   <Kbd>Ctrl</Kbd>) + <Kbd>Shift</Kbd> + <Kbd>C</Kbd>
                 </th>
                 <td className="px-6 py-4">코드 블록을 토글합니다.</td>
+              </tr>
+
+              <tr className="bg-white border-b">
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap"
+                >
+                  (<Kbd>Command</Kbd>
+                  <span className="mx-2">or</span>
+                  <Kbd>Ctrl</Kbd>) + <Kbd>S</Kbd>
+                </th>
+                <td className="px-6 py-4">내용을 저장합니다.</td>
               </tr>
             </tbody>
           </table>

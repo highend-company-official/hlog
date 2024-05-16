@@ -55,9 +55,11 @@ const router = createBrowserRouter(
       <Route
         path="article-write"
         element={
-          <hoc.PrivateRoute>
-            <pages.ArticleWrite />
-          </hoc.PrivateRoute>
+          <Suspense fallback={<shared.Skeleton height={600} />}>
+            <hoc.PrivateRoute>
+              <pages.ArticleWrite />
+            </hoc.PrivateRoute>
+          </Suspense>
         }
       />
       <Route

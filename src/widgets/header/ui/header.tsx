@@ -58,9 +58,9 @@ function Header() {
             </span>
           </Link>
         </h1>
-        <span className="ml-5 text-base italic font-semibold text-center text-slate-900">
+        <h2 className="ml-5 text-base italic font-semibold text-center text-slate-900">
           새로운 테크블로그, 여기서 시작하세요.
-        </span>
+        </h2>
       </div>
 
       <ul className="flex items-center">

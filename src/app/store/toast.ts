@@ -6,7 +6,7 @@ type ToastType = {
   id: string;
   type: "success" | "warning" | "error";
   content: string;
-  hasCloseButton: boolean;
+  hasCloseButton?: boolean;
   staleTime?: number;
   //TODO: Domain 구현하기
 };

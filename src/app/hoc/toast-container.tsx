@@ -22,7 +22,7 @@ const ToastContainer = ({ children }: Props) => {
           onClose={() => removeToast(toast.id)}
           staleTime={toast.staleTime}
           key={toast.id}
-          hasCloseButton={toast.hasCloseButton}
+          hasCloseButton={toast.hasCloseButton ?? true}
           type={toast.type}
         >
           {toast.content}

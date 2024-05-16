@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useSession } from "@/shared";
+import { useMount, useSession } from "@/shared";
+import { useToastStore } from "../store";
 
 type PrivateRouteProps = {
   children: React.ReactNode;
@@ -9,15 +10,26 @@ type PrivateRouteProps = {
 
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { data, isFetching } = useSession();
+  const { addToast } = useToastStore();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useMount(() => {
     if (!isFetching && !data.session) {
-      navigate("/", { replace: true });
+      addToast({
+        type: "warning",
+        content: "로그인이 필요한 서비스입니다.",
+        staleTime: 5000,
+        hasCloseButton: true,
+      });
+      navigate("/auth/sign-in", { replace: true });
     }
-  }, [data, isFetching, navigate]);
+  });
 
-  return <>{children}</>;
+  if (data.session) {
+    return <>{children}</>;
+  }
+
+  return null;
 };
 
 export default PrivateRoute;

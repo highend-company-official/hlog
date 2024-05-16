@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { type User, supabase } from "@/shared";
+import { type UserType, supabase } from "@/shared";
 import * as shared from "@/shared";
 
 export const fetchUser = (userId: string) => {
@@ -16,7 +16,7 @@ export const fetchUser = (userId: string) => {
     )
     .match({ id: userId })
     .throwOnError()
-    .single<User>();
+    .single<UserType>();
 };
 
 const useFetchUser = (userId: string) => {

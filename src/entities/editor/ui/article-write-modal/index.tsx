@@ -1,7 +1,8 @@
 import { useEditorStore } from "@/app/store";
-import { If, Modal } from "@/shared";
-import { useState } from "react";
+import { If, Modal, Skeleton } from "@/shared";
+import { Suspense, useState } from "react";
 import { Stepper } from "..";
+import ConfirmPart from "./confirm-part";
 import SettingPart from "./setting-part";
 
 type Props = {
@@ -74,8 +75,22 @@ const ArticleWriteModal = ({ onCancel }: Props) => {
           <Stepper currentStep={currentStep} numberOfSteps={NUMBER_OF_STEPS} />
         </div>
 
-        <If condition={currentStep === 0} trueRender={<SettingPart />} />
-        <If condition={currentStep === 1} trueRender={<>구현중</>} />
+        <If
+          condition={currentStep === 0}
+          trueRender={
+            <Suspense fallback={<Skeleton />}>
+              <SettingPart />
+            </Suspense>
+          }
+        />
+        <If
+          condition={currentStep === 1}
+          trueRender={
+            <Suspense fallback={<Skeleton />}>
+              <ConfirmPart />
+            </Suspense>
+          }
+        />
       </Modal.Content>
       <Modal.Footer align="right">
         <If

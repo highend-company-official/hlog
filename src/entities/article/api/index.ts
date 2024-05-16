@@ -26,11 +26,10 @@ export const fetchArticles = () => {
       `
         id,
         title,
-        body,
         summary,
         thumbnail,
         created_at, 
-        profiles (username)
+        profiles (username, profile_url)
       `
     )
     .returns<ArticleType[]>();

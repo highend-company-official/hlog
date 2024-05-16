@@ -1,12 +1,15 @@
-import { getElapsedTime } from "@/shared";
+import React from "react";
 import { Link } from "react-router-dom";
 import { MdVerifiedUser } from "react-icons/md";
 import { BiSolidLike } from "react-icons/bi";
 import { IoMdEye } from "react-icons/io";
-import useBucket from "@/shared/libs/useBucket";
+
 import { ViewMode } from "@/app/store/article";
-import React from "react";
-import { ArticleType } from "@/shared/schema";
+
+import { getElapsedTime } from "@/shared";
+import { type ArticleType } from "@/shared/schema";
+import useBucket from "@/shared/libs/useBucket";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 const Card = (props: ArticleType) => {
   const { read } = useBucket("thumbnails", props.thumbnail);
@@ -17,9 +20,16 @@ const Card = (props: ArticleType) => {
         {props.verified && (
           <MdVerifiedUser className="w-[24px] h-[24px] mr-2" color="#2563eb" />
         )}
-        <span className="mr-3 font-bold text-gray-700">
-          {props.profiles.username}
-        </span>
+        <div className="flex items-center">
+          <img
+            src={props.profiles.profile_url ?? defaultProfile}
+            alt={props.profiles.username}
+            className="w-6 h-6 rounded-full"
+          />
+          <span className="mr-3 font-bold text-gray-700">
+            {props.profiles.username}
+          </span>
+        </div>
         <span className="font-light text-gray-600">
           {props.updated_at
             ? `글 수정일 : ${props.updated_at}`

@@ -3,10 +3,12 @@ import classNames from "classnames";
 import { RichUtils, DraftInlineStyleType, DraftBlockType } from "draft-js";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack, BiSend } from "react-icons/bi";
+import { IoHelp } from "react-icons/io5";
 
 import * as constants from "../../constants";
 import { useEditorStore } from "@/app/store";
 import { ArticleWriteModal } from "..";
+import ShortcutDescriptionModal from "../shortcut-description-modal";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;
@@ -30,7 +32,8 @@ const ToolbarItem = (props: ToolbarItemProps) => {
 const Toolbar = () => {
   const navigate = useNavigate();
   const { editorMetaData, setEditorMetaData } = useEditorStore();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
 
   const isPublishDisabled =
     editorMetaData.title.trim() === "" ||
@@ -54,7 +57,7 @@ const Toolbar = () => {
   };
 
   const handlePostArticle = () => {
-    setIsModalOpen(true);
+    setIsWriteModalOpen(true);
   };
 
   const isActiveInlineStyle = (type: string): boolean => {
@@ -113,6 +116,12 @@ const Toolbar = () => {
               {icon}
             </ToolbarItem>
           ))}
+
+          <div className="h-[30px] mx-2 border-r border-gray-300 border-solid" />
+
+          <ToolbarItem onClick={() => setIsDescriptionModalOpen(true)}>
+            <IoHelp />
+          </ToolbarItem>
         </div>
 
         <div>
@@ -126,8 +135,13 @@ const Toolbar = () => {
         </div>
       </div>
 
-      {isModalOpen && (
-        <ArticleWriteModal onCancel={() => setIsModalOpen(false)} />
+      {isWriteModalOpen && (
+        <ArticleWriteModal onClose={() => setIsWriteModalOpen(false)} />
+      )}
+      {isDescriptionModalOpen && (
+        <ShortcutDescriptionModal
+          onClose={() => setIsDescriptionModalOpen(false)}
+        />
       )}
     </>
   );

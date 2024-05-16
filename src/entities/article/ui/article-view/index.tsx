@@ -1,4 +1,5 @@
 import useBucket from "@/shared/libs/useBucket";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useParams } from "react-router-dom";
 import { useFetchArticle } from "../../lib";
 
@@ -27,7 +28,7 @@ const ArticleView = () => {
 
       <section className="flex mt-5">
         <img
-          src={data?.profiles.profile_url}
+          src={data?.profiles.profile_url ?? defaultProfile}
           alt={data?.profiles.username}
           className="w-12 h-12 mr-3 rounded-full"
         />

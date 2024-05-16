@@ -46,7 +46,9 @@ const router = createBrowserRouter(
             path="settings"
             element={
               <Suspense fallback={<shared.Skeleton height={600} />}>
-                <ProfileSettings />
+                <hoc.PrivateRoute>
+                  <ProfileSettings />
+                </hoc.PrivateRoute>
               </Suspense>
             }
           />

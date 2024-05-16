@@ -48,6 +48,8 @@ const useEditorUtils = () => {
       summary: "",
       thumbnail: null,
       hasComment: true,
+      hasLike: true,
+      hasHit: true,
     });
     setEditorLocalStoage(null);
   }, [setEditorLocalStoage, setEditorMetaData]);

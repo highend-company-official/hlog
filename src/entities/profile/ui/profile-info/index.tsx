@@ -2,9 +2,6 @@ import { useParams } from "react-router-dom";
 import { CiUser } from "react-icons/ci";
 
 import * as shared from "@/shared";
-import * as features from "@/features";
-
-import { useQueryClient } from "@tanstack/react-query";
 
 type Params = {
   user_id: string;
@@ -14,15 +11,6 @@ const AuthorizationView = () => {
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
   const { data: sessionData } = shared.useSession();
-
-  const queryClient = useQueryClient();
-  const handleSignOut = () => {
-    features.auth.signOut().then(() => {
-      queryClient.refetchQueries({
-        queryKey: [shared.useSession.pk],
-      });
-    });
-  };
 
   if (!userData || !sessionData) return null;
 
@@ -62,7 +50,7 @@ const AuthorizationView = () => {
         <span>최근 로그인한 시간 </span>
         <span className="font-bold">
           {shared.getElapsedTime(
-            sessionData?.session?.user?.last_sign_in_at ?? ""
+            new Date(sessionData?.session?.user?.last_sign_in_at ?? "")
           )}
         </span>
       </li>
@@ -72,12 +60,6 @@ const AuthorizationView = () => {
           {sessionData?.session?.user?.created_at}
         </span>
       </li>
-
-      <div className="flex justify-center mt-7">
-        <shared.Button intent="error" onClick={handleSignOut}>
-          로그아웃
-        </shared.Button>
-      </div>
     </>
   );
 };

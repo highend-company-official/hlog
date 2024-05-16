@@ -6,12 +6,12 @@ import ConfirmPart from "./confirm-part";
 import SettingPart from "./setting-part";
 
 type Props = {
-  onCancel: () => void;
+  onClose: () => void;
 };
 
 const NUMBER_OF_STEPS = 2 as const;
 
-const ArticleWriteModal = ({ onCancel }: Props) => {
+const ArticleWriteModal = ({ onClose }: Props) => {
   const [currentStep, setCurrentStep] = useState(0);
   const { editorMetaData } = useEditorStore();
 
@@ -97,7 +97,7 @@ const ArticleWriteModal = ({ onCancel }: Props) => {
           condition={isStartOfStep}
           trueRender={
             <>
-              <Modal.Button type="normal" onClick={onCancel}>
+              <Modal.Button type="normal" onClick={onClose}>
                 취소
               </Modal.Button>
               <div className="ml-2" />

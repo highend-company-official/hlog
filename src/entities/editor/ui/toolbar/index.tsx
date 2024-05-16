@@ -10,6 +10,7 @@ import { ArticleWriteModal } from "..";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;
+  disabled?: boolean;
 };
 
 const ToolbarItem = (props: ToolbarItemProps) => {
@@ -17,7 +18,7 @@ const ToolbarItem = (props: ToolbarItemProps) => {
     <button
       {...props}
       className={classNames(
-        `w-10 h-10 flex items-center justify-center rounded-sm drop-shadow-sm`,
+        `w-10 h-10 flex items-center justify-center transition ease-in-out rounded-sm drop-shadow-sm disabled:cursor-not-allowed disabled:opacity-50`,
         {
           "bg-primary text-white": !!props.selected,
         }
@@ -30,6 +31,10 @@ const Toolbar = () => {
   const navigate = useNavigate();
   const { editorMetaData, setEditorMetaData } = useEditorStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const isPublishDisabled =
+    editorMetaData.title.trim() === "" ||
+    !editorMetaData.content.getCurrentContent().hasText();
 
   const toggleInline =
     (type: DraftInlineStyleType) =>
@@ -111,7 +116,11 @@ const Toolbar = () => {
         </div>
 
         <div>
-          <ToolbarItem onClick={handlePostArticle} selected>
+          <ToolbarItem
+            onClick={handlePostArticle}
+            selected
+            disabled={isPublishDisabled}
+          >
             <BiSend />
           </ToolbarItem>
         </div>

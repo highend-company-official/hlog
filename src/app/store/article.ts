@@ -1,3 +1,4 @@
+import { createSelectors } from "@/shared";
 import { create } from "zustand";
 
 export type ViewMode = "card" | "list" | "gallery";
@@ -10,9 +11,11 @@ type Action = {
   changeViewMode: (mode: ViewMode) => void;
 };
 
-const useArticleStore = create<State & Action>((set) => ({
+const useArticleStoreBase = create<State & Action>((set) => ({
   articleViewMode: "card",
   changeViewMode: (mode) => set(() => ({ articleViewMode: mode })),
 }));
+
+const useArticleStore = createSelectors(useArticleStoreBase);
 
 export default useArticleStore;

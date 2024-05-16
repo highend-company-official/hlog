@@ -1,14 +1,16 @@
 type Props = {
+  name: string;
   checked: boolean;
   disabled?: boolean;
   onChange: () => void;
   label?: string;
 };
 
-const Switch = ({ checked, disabled, onChange, label }: Props) => {
+const Switch = ({ name, checked, disabled, onChange, label }: Props) => {
   return (
     <label className="inline-flex items-center mb-5 cursor-pointer">
       <input
+        name={name}
         type="checkbox"
         value=""
         className="sr-only peer"

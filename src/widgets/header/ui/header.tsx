@@ -55,9 +55,16 @@ function Header() {
   return (
     <header className="fixed left-0 z-40 flex items-center justify-between w-full px-10 py-2 bg-white">
       <div className="flex items-end">
-        <h1 className="text-6xl font-['Jersey15-Regular']">
-          <Link to="/">HLOG</Link>
+        <h1 className="text-2xl font-semibold">
+          <Link to="/">
+            <span className="relative inline-block before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-primary">
+              <span className="relative text-white">HLOG</span>
+            </span>
+          </Link>
         </h1>
+        <span className="ml-5 text-base italic font-semibold text-center text-slate-900">
+          새로운 테크블로그, 여기서 시작하세요.
+        </span>
       </div>
 
       <ul className="flex items-center">

@@ -13,7 +13,7 @@ type LocalStorageType = {
   title: string;
   content: RawDraftContentState;
   summary: string;
-  thumbnail: string;
+  thumbnail: File | null;
   hasComment: boolean;
 };
 
@@ -46,7 +46,7 @@ const useEditorUtils = () => {
       title: "",
       content: EditorState.createEmpty(),
       summary: "",
-      thumbnail: "",
+      thumbnail: null,
       hasComment: true,
     });
     setEditorLocalStoage(null);

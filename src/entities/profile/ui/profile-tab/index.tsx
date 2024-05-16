@@ -12,17 +12,17 @@ type Props = {
 
 const ProfileTab = ({ children }: { children: React.ReactNode }) => {
   const { user_id } = useParams<Props>();
-  const activeClassname = "text-white bg-blue-700";
+  const activeClassname = "text-white bg-primary";
   const { isMySession } = useIsMySession(user_id!);
 
   return (
     <div className="md:flex">
-      <ul className="w-full mb-4 space-y-4 text-sm font-medium text-gray-500 flex-column space-y dark:text-gray-400 md:me-4 md:mb-0 md:w-72">
+      <ul className="w-full mb-4 space-y-4 text-sm font-medium text-gray-500 flex-column space-y md:me-4 md:mb-0 md:w-72">
         <li>
           <NavLink
             to=""
             className={({ isActive }) =>
-              classNames("flex items-center w-full px-4 py-3  rounded-lg", {
+              classNames("flex items-center w-full px-4 py-3 rounded-lg", {
                 [activeClassname]: isActive,
               })
             }
@@ -38,7 +38,7 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
             to="articles"
             end
             className={({ isActive }) =>
-              classNames("flex items-center w-full px-4 py-3  rounded-lg", {
+              classNames("flex items-center w-full px-4 py-3 rounded-lg", {
                 [activeClassname]: isActive,
               })
             }
@@ -55,7 +55,7 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
                 to="settings"
                 end
                 className={({ isActive }) =>
-                  classNames("flex items-center w-full px-4 py-3  rounded-lg", {
+                  classNames("flex items-center w-full px-4 py-3 rounded-lg", {
                     [activeClassname]: isActive,
                   })
                 }
@@ -67,7 +67,7 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
           }
         />
       </ul>
-      <div className="w-full p-6 text-gray-500 rounded-lg bg-gray-50 text-medium dark:text-gray-400 dark:bg-gray-800">
+      <div className="w-full p-6 text-gray-500 rounded-lg bg-gray-50 text-medium">
         {children}
       </div>
     </div>

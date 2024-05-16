@@ -8,8 +8,7 @@ type Props = {
 
 const If = ({ condition, trueRender, falseRender }: Props) => {
   if (condition) return <>{trueRender}</>;
-
-  return <>{falseRender}</>;
+  else return <>{falseRender}</>;
 };
 
 export default If;

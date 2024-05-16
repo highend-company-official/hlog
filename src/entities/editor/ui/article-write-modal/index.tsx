@@ -1,3 +1,4 @@
+import { useEditorStore } from "@/app/store";
 import { If, Modal } from "@/shared";
 import { useState } from "react";
 import { Stepper } from "..";
@@ -11,10 +12,12 @@ const NUMBER_OF_STEPS = 2 as const;
 
 const ArticleWriteModal = ({ onCancel }: Props) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const { editorMetaData } = useEditorStore();
 
   const isStartOfStep = currentStep === 0;
   const isEndOfStep = currentStep === NUMBER_OF_STEPS - 1;
   const isStepping = !isStartOfStep && !isEndOfStep;
+  const isDisabledNextStep = !editorMetaData.thumbnail;
 
   const goToNextStep = () =>
     setCurrentStep((prev) => (prev === NUMBER_OF_STEPS - 1 ? prev : prev + 1));
@@ -83,7 +86,11 @@ const ArticleWriteModal = ({ onCancel }: Props) => {
                 취소
               </Modal.Button>
               <div className="ml-2" />
-              <Modal.Button onClick={goToNextStep} type="accept">
+              <Modal.Button
+                onClick={goToNextStep}
+                type="accept"
+                disabled={isDisabledNextStep}
+              >
                 다음
               </Modal.Button>
             </>

@@ -6,8 +6,10 @@ type EditorMetaData = {
   title: string;
   content: EditorState;
   summary: string;
-  thumbnail: string;
+  thumbnail: File | null;
   hasComment: boolean;
+  hasLike: boolean;
+  hasHit: boolean;
 };
 
 type State = {
@@ -24,8 +26,10 @@ const initialState: State = {
     title: "",
     content: EditorState.createEmpty(),
     summary: "",
-    thumbnail: "",
+    thumbnail: null,
     hasComment: true,
+    hasLike: true,
+    hasHit: true,
   },
 };
 

@@ -2,8 +2,8 @@ import { generateRandomId, supabase } from ".";
 
 type BucketName = "thumbnails" | "profiles" | "articles";
 
-const useBucket = (bucketName: BucketName, url: string) => {
-  const read = () => {
+const useBucket = (bucketName: BucketName) => {
+  const read = (url: string) => {
     const data = supabase.storage.from(bucketName).getPublicUrl(url);
 
     return data.data.publicUrl;

@@ -7,13 +7,13 @@ const CommentCard = ({
   created_at,
   profiles: { username, profile_url },
 }: CommentType) => {
-  const profileUrl = useBucket("profiles", profile_url);
+  const { read } = useBucket("profiles");
 
   return (
     <article className="px-6 py-8 mb-5 text-base rounded-lg bg-gray-50">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center">
-          <img src={profileUrl} alt="" />
+          <img src={read(profile_url)} alt="" />
           <p className="inline-flex items-center mr-3 text-sm font-semibold text-gray-900">
             {username}
           </p>

@@ -1,19 +1,19 @@
-import { Article, supabase } from "@/shared";
+import { ArticleType, supabase } from "@/shared";
 
 export const fetchUserArticles = (userId: string) => {
   return supabase
     .from("articles")
     .select(
       `
-          id,
-          title,
-          body,
-          summary,
-          thumbnail,
-          created_at, 
-          profiles (username)
-        `
+        id,
+        title,
+        body,
+        summary,
+        thumbnail,
+        created_at, 
+        profiles (username)
+      `
     )
     .eq("user_id", userId)
-    .returns<Article[]>();
+    .returns<ArticleType[]>();
 };

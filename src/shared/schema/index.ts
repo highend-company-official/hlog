@@ -11,6 +11,8 @@ export const ArticleSchema = z.object({
   updated_at: z.date().optional(),
   verified: z.boolean(),
   has_comments: z.boolean(),
+  has_like: z.boolean(),
+  has_hit: z.boolean(),
   profiles: z.object({
     username: z.string(),
     profile_url: z.string(),

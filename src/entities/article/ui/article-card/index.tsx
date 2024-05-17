@@ -12,7 +12,7 @@ import useBucket from "@/shared/libs/useBucket";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 const Card = (props: ArticleType) => {
-  const { read } = useBucket("thumbnails", props.thumbnail);
+  const { read } = useBucket("thumbnails");
 
   return (
     <section className="px-10 py-6 my-4 rounded-lg shadow-md bg-slate-50">
@@ -39,7 +39,7 @@ const Card = (props: ArticleType) => {
 
       <div className="inline-block w-full mt-2">
         <img
-          src={read()}
+          src={read(props.thumbnail)}
           alt={props.title}
           className="w-[240px] max-lg:w-[180px] max-md:w-0 h-64 rounded-3xl object-cover float-right ml-8"
         />
@@ -75,13 +75,13 @@ const Card = (props: ArticleType) => {
 };
 
 const List = (props: ArticleType) => {
-  const { read } = useBucket("thumbnails", props.thumbnail);
+  const { read } = useBucket("thumbnails");
   return (
     <Link to={`/article-read/${props.id}`}>
       <li className="flex items-center h-20 list-none border-b border-gray-300 border-solid group hover:bg-black/10">
         <div>
           <img
-            src={read()}
+            src={read(props.thumbnail)}
             alt={props.title}
             className="block object-cover w-20 h-20 min-h-10"
           />
@@ -98,11 +98,15 @@ const List = (props: ArticleType) => {
 };
 
 const Gallery = (props: ArticleType) => {
-  const { read } = useBucket("thumbnails", props.thumbnail);
+  const { read } = useBucket("thumbnails");
   return (
     <div className="relative place-items-center group">
       <Link to={`/article-read/${props.id}`}>
-        <img src={read()} alt={props.title} className="w-full h-full" />
+        <img
+          src={read(props.thumbnail)}
+          alt={props.title}
+          className="w-full h-full"
+        />
 
         <div className="absolute top-0 left-0 hidden w-full h-full p-4 text-white group-hover:bg-black/70 group-hover:inline-block ">
           <span className="overflow-y-hidden font-bold">{props.title}</span>

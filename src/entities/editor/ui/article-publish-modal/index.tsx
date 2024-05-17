@@ -1,10 +1,15 @@
-import { useEditorStore } from "@/app/store";
+import { useEditorStore, useToastStore } from "@/app/store";
 import { If, Modal, Skeleton } from "@/shared";
 import { Suspense, useState } from "react";
+
+import { convertToHTML } from "draft-convert";
 import { Stepper } from "..";
+import { usePostArticle } from "../../lib";
 import PolicyPart from "./policy-part";
 import PreviewPart from "./preview-part";
 import SettingPart from "./setting-part";
+import { useNavigate } from "react-router-dom";
+import useEditorUtils from "../../hooks";
 
 type Props = {
   onClose: () => void;
@@ -18,54 +23,45 @@ enum Steps {
 }
 
 const ArticleWriteModal = ({ onClose }: Props) => {
+  const { addToast } = useToastStore();
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const { editorMetaData } = useEditorStore();
+  const { resetSavedContent } = useEditorUtils();
   const [isPolicyChecked, setIsPolicyChecked] = useState(false);
+  const { mutateAsync: publishArticle } = usePostArticle();
 
   const goToNextStep = () =>
     setCurrentStep((prev) => (prev === NUMBER_OF_STEPS - 1 ? prev : prev + 1));
   const goToPreviousStep = () =>
     setCurrentStep((prev) => (prev <= 0 ? prev : prev - 1));
 
-  // const handleDetectPublish = async () => {
-  //   try {
-  //     const data = await handleUploadThumbnail();
+  const handleUploadArticle = async () => {
+    const { title, hasComment, hasHit, hasLike, summary, content, thumbnail } =
+      editorMetaData;
 
-  //     if (data && data.path) {
-  //       await handleUploadArticle(data.path);
-  //     }
-  //   } catch (error) {
-  //     addToast({
-  //       type: "error",
-  //       content: "아티클 발행중 에기치 못한 에러가 오류가 발생했습니다.",
-  //       hasCloseButton: false,
-  //     });
-  //   }
-  // };
+    const parsedHTML = convertToHTML({})(content.getCurrentContent());
 
-  // const handleUploadArticle = async (thumbnailUrl: string) => {
-  //   const response = await supabase
-  //     .from("articles")
-  //     .insert({
-  //       title,
-  //       body: createContentToHTML(content.getCurrentContent()),
-  //       summary,
-  //       thumbnail: thumbnailUrl,
-  //       has_comments: hasComment,
-  //     })
-  //     .select("id");
-
-  //   addToast({
-  //     type: "success",
-  //     content: "아티클 발행에 성공하였습니다.",
-  //     hasCloseButton: true,
-  //     staleTime: 3000,
-  //   });
-
-  //   resetSavedContent();
-  //   const createdArticleId = response.data?.[0].id;
-  //   navigate(`/article-read/${createdArticleId}`, { replace: true });
-  // };
+    publishArticle({
+      articleMetaData: {
+        title,
+        has_comments: hasComment,
+        has_hit: hasHit,
+        has_like: hasLike,
+        summary,
+        body: parsedHTML,
+      },
+      thumbnailFile: thumbnail!,
+    }).then((response) => {
+      addToast({
+        type: "success",
+        content: "발행에 성공했습니다!",
+        staleTime: 5000,
+      });
+      resetSavedContent();
+      navigate(`/article-read/${response.id}`, { replace: true });
+    });
+  };
 
   return (
     <Modal>
@@ -147,7 +143,7 @@ const ArticleWriteModal = ({ onClose }: Props) => {
               </Modal.Button>
               <div className="ml-2" />
               <Modal.Button
-                onClick={() => alert("구현중")}
+                onClick={handleUploadArticle}
                 type="accept"
                 disabled={!isPolicyChecked}
               >

@@ -10,7 +10,7 @@ type ParamsType = {
 const ArticleView = () => {
   const { article_id } = useParams<ParamsType>();
   const { data } = useFetchArticle(article_id!);
-  const { read } = useBucket("thumbnails", data!.thumbnail);
+  const { read } = useBucket("thumbnails");
 
   if (!data) {
     return null;
@@ -19,7 +19,7 @@ const ArticleView = () => {
   return (
     <article>
       <img
-        src={read()}
+        src={read(data!.thumbnail)}
         alt={data.summary}
         className="object-cover w-full rounded-xl mt-9 h-96"
       />

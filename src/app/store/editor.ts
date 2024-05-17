@@ -2,7 +2,7 @@ import { EditorState } from "draft-js";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-type EditorMetaData = {
+export type EditorMetaData = {
   title: string;
   content: EditorState;
   summary: string;

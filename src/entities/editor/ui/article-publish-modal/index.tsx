@@ -2,23 +2,25 @@ import { useEditorStore } from "@/app/store";
 import { If, Modal, Skeleton } from "@/shared";
 import { Suspense, useState } from "react";
 import { Stepper } from "..";
-import ConfirmPart from "./confirm-part";
+import PolicyPart from "./policy-part";
+import PreviewPart from "./preview-part";
 import SettingPart from "./setting-part";
 
 type Props = {
   onClose: () => void;
 };
 
-const NUMBER_OF_STEPS = 2 as const;
+const NUMBER_OF_STEPS = 3 as const;
+enum Steps {
+  setting = 0,
+  preview,
+  policy,
+}
 
 const ArticleWriteModal = ({ onClose }: Props) => {
   const [currentStep, setCurrentStep] = useState(0);
   const { editorMetaData } = useEditorStore();
-
-  const isStartOfStep = currentStep === 0;
-  const isEndOfStep = currentStep === NUMBER_OF_STEPS - 1;
-  const isStepping = !isStartOfStep && !isEndOfStep;
-  const isDisabledNextStep = !editorMetaData.thumbnail;
+  const [isPolicyChecked, setIsPolicyChecked] = useState(false);
 
   const goToNextStep = () =>
     setCurrentStep((prev) => (prev === NUMBER_OF_STEPS - 1 ? prev : prev + 1));
@@ -76,7 +78,7 @@ const ArticleWriteModal = ({ onClose }: Props) => {
         </div>
 
         <If
-          condition={currentStep === 0}
+          condition={currentStep === Steps.setting}
           trueRender={
             <Suspense fallback={<Skeleton />}>
               <SettingPart />
@@ -84,17 +86,26 @@ const ArticleWriteModal = ({ onClose }: Props) => {
           }
         />
         <If
-          condition={currentStep === 1}
+          condition={currentStep === Steps.preview}
+          trueRender={<PreviewPart />}
+        />
+
+        <If
+          condition={currentStep === Steps.policy}
           trueRender={
             <Suspense fallback={<Skeleton />}>
-              <ConfirmPart />
+              <PolicyPart
+                value={isPolicyChecked}
+                onChange={() => setIsPolicyChecked((prev) => !prev)}
+              />
             </Suspense>
           }
         />
       </Modal.Content>
+
       <Modal.Footer align="right">
         <If
-          condition={isStartOfStep}
+          condition={currentStep === Steps.setting}
           trueRender={
             <>
               <Modal.Button type="normal" onClick={onClose}>
@@ -104,7 +115,7 @@ const ArticleWriteModal = ({ onClose }: Props) => {
               <Modal.Button
                 onClick={goToNextStep}
                 type="accept"
-                disabled={isDisabledNextStep}
+                disabled={!editorMetaData.thumbnail}
               >
                 다음
               </Modal.Button>
@@ -113,7 +124,7 @@ const ArticleWriteModal = ({ onClose }: Props) => {
         />
 
         <If
-          condition={isStepping}
+          condition={currentStep === Steps.preview}
           trueRender={
             <>
               <Modal.Button type="normal" onClick={goToPreviousStep}>
@@ -128,14 +139,18 @@ const ArticleWriteModal = ({ onClose }: Props) => {
         />
 
         <If
-          condition={isEndOfStep}
+          condition={currentStep === Steps.policy}
           trueRender={
             <>
               <Modal.Button type="normal" onClick={goToPreviousStep}>
                 뒤로
               </Modal.Button>
               <div className="ml-2" />
-              <Modal.Button onClick={() => alert("구현중")} type="accept">
+              <Modal.Button
+                onClick={() => alert("구현중")}
+                type="accept"
+                disabled={!isPolicyChecked}
+              >
                 발행
               </Modal.Button>
             </>

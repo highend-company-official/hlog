@@ -7,7 +7,7 @@ import { IoHelp } from "react-icons/io5";
 
 import * as constants from "../../constants";
 import { useEditorStore } from "@/app/store";
-import { ArticleWriteModal } from "..";
+import { ArticlePublishModal } from "..";
 import ShortcutDescriptionModal from "../shortcut-description-modal";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -136,7 +136,7 @@ const Toolbar = () => {
       </div>
 
       {isWriteModalOpen && (
-        <ArticleWriteModal onClose={() => setIsWriteModalOpen(false)} />
+        <ArticlePublishModal onClose={() => setIsWriteModalOpen(false)} />
       )}
       {isDescriptionModalOpen && (
         <ShortcutDescriptionModal

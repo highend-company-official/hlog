@@ -1,7 +1,7 @@
 import { useEditorStore } from "@/app/store";
 import React, { useRef } from "react";
 import * as shared from "@/shared";
-import { Blockquote } from "@/shared";
+import { Blockquote, Modal } from "@/shared";
 
 const SettingPart = () => {
   const {
@@ -97,6 +97,7 @@ const SettingPart = () => {
             })
           }
         />
+        <div className="mb-4" />
 
         <shared.Switch
           name="has-like"
@@ -109,6 +110,7 @@ const SettingPart = () => {
             })
           }
         />
+        <div className="mb-4" />
 
         <shared.Switch
           name="has-hit"
@@ -121,6 +123,7 @@ const SettingPart = () => {
             })
           }
         />
+        <div className="mb-4" />
       </div>
       <Blockquote>
         <span>

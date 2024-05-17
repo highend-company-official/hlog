@@ -58,8 +58,8 @@ function Header() {
             </span>
           </Link>
         </h1>
-        <h2 className="ml-5 text-base italic font-semibold text-center text-slate-900">
-          새로운 테크블로그, 여기서 시작하세요.
+        <h2 className="ml-5 text-base font-semibold text-center text-slate-700">
+          "New tech blog, start here."
         </h2>
       </div>
 

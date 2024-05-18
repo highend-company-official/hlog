@@ -9,7 +9,7 @@ import React, {
 
 export type ContextProvideWithState<T> = [T, Dispatch<SetStateAction<T>>];
 
-export const useProtectedContext = <T,>(
+const useProtectedContext = <T,>(
   context: React.Context<ContextProvideWithState<T> | null>
 ): ContextProvideWithState<T> => {
   const contextValue = useContext(context);
@@ -21,7 +21,7 @@ export const useProtectedContext = <T,>(
   return contextValue;
 };
 
-export function createContextProviderWithState<T>(defaultValue: T) {
+const createContextProviderWithState = <T,>(defaultValue: T) => {
   const context = createContext<ContextProvideWithState<T> | null>(null);
 
   const Provider = ({ children }: { children: ReactNode }) => {
@@ -35,4 +35,9 @@ export function createContextProviderWithState<T>(defaultValue: T) {
     Provider,
     context,
   };
-}
+};
+
+export default {
+  useProtectedContext,
+  createContextProviderWithState,
+};

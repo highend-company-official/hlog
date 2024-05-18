@@ -1,5 +1,9 @@
-import { Dropdown } from "@/shared";
-import { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
+
+import { IoMdTrendingUp } from "react-icons/io";
+import { PiSortDescendingLight, PiSortAscendingLight } from "react-icons/pi";
+
+import { Dropdown, useOutsideClick } from "@/shared";
 
 enum SortType {
   trend = "trend",
@@ -7,26 +11,55 @@ enum SortType {
   new = "new",
 }
 
-const SORT_MAP = {
-  trend: "트렌드",
-  old: "오래된 순",
-  new: "최신 순",
+const SortItem = ({
+  sortType,
+  icon,
+}: {
+  icon: React.ReactNode;
+  sortType: string;
+}) => (
+  <div className="flex items-center justify-start">
+    <div className="mr-3">{icon}</div>
+    <div className="mr-1">정렬 기준 :</div>
+    <span className="font-bold text-primary">{sortType}</span>
+  </div>
+);
+
+const CustomDropdownTrigger = ({ label }: { label: React.ReactNode }) => {
+  const [isOpen, setIsOpen] = Dropdown.useDropdownContext();
+
+  return (
+    <div
+      onClick={() => setIsOpen((prev) => !prev)}
+      className="items-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-pointer flex w-[200px] p-2.5 hover:bg-black/10 transition ease-in-out h-[48px]"
+    >
+      {label}
+      {isOpen ? "열림" : "닫힘"}
+    </div>
+  );
 };
 
 const ArticleSortSelector = () => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [sortType, setSortType] = useState<SortType>(SortType.trend);
+
+  const SORT_MAP = {
+    trend: <SortItem icon={<IoMdTrendingUp />} sortType="트렌드" />,
+    old: <SortItem icon={<PiSortDescendingLight />} sortType="오래된 순" />,
+    new: <SortItem icon={<PiSortAscendingLight />} sortType="최신 순" />,
+  };
 
   const handleClickItem = (nextSortType: SortType) => {
     setSortType(nextSortType);
   };
 
-  useEffect(() => {
-    console.log(sortType); // Refetch Query
-  }, [sortType]);
+  const handleDetectOutsideClick = () => {};
+
+  useOutsideClick(dropdownRef, handleDetectOutsideClick);
 
   return (
     <Dropdown>
-      <Dropdown.Trigger>Hello world</Dropdown.Trigger>
+      <CustomDropdownTrigger label={SORT_MAP[sortType]} />
       <Dropdown.Menu>
         {Object.entries(SORT_MAP).map(([key, value]) => {
           return (

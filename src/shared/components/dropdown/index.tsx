@@ -1,33 +1,63 @@
-import { contextHelper, useOutsideClick } from "@/shared/libs";
 import { useRef } from "react";
-import { If } from "..";
+import { contextHelper, useOutsideClick, If } from "@/shared";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-const { Provider, context } =
+const { Provider: DropdownProvider, context: dropdownContext } =
   contextHelper.createContextProviderWithState<boolean>(false);
+const useDropdownContext = () =>
+  contextHelper.useProtectedContext(dropdownContext);
 
-const Dropdown = ({ children }: Props) => {
-  return <Provider>{children}</Provider>;
+const Dropdown = ({
+  children,
+  onClose,
+}: {
+  children: React.ReactNode;
+  onClose?: () => void;
+}) => {
+  return (
+    <DropdownProvider>
+      <DropdownContainer onClose={onClose}>{children}</DropdownContainer>
+    </DropdownProvider>
+  );
 };
 
-const Menu = ({ children }: { children: React.ReactNode }) => {
-  const [isOpen, setIsOpen] = contextHelper.useProtectedContext(context);
+const DropdownContainer = ({
+  children,
+  onClose,
+}: {
+  children: React.ReactNode;
+  onClose?: () => void;
+}) => {
+  const [, setIsOpen] = useDropdownContext();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(dropdownRef, (event) => {
-    event.stopPropagation();
-    setIsOpen(false);
+  const setClose = () => setIsOpen(false);
+
+  useOutsideClick(dropdownRef, () => {
+    setClose();
+    onClose?.();
   });
 
   return (
-    <div ref={dropdownRef}>
+    <div ref={dropdownRef} className="relative">
+      {children}
+    </div>
+  );
+};
+
+const Menu = ({
+  children,
+}: {
+  children: React.ReactNode;
+  onClose?: () => void;
+}) => {
+  const [isOpen] = useDropdownContext();
+
+  return (
+    <div className="mt-2">
       <If
         condition={isOpen}
         trueRender={
-          <div className="absolute z-10 transform -translate-x-1/2 bg-white divide-y divide-gray-100 rounded-lg shadow w-60 left-1/2">
+          <div className="absolute z-10 transform -translate-x-1/2 divide-y divide-gray-100 rounded-lg shadow bg-slate-50 w-60 left-1/2 top-full">
             <ul className="p-3 space-y-1 text-sm text-gray-700">{children}</ul>
           </div>
         }
@@ -37,14 +67,14 @@ const Menu = ({ children }: { children: React.ReactNode }) => {
 };
 
 type TriggerProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const Trigger = ({ children }: TriggerProps) => {
-  const [, setIsOpen] = contextHelper.useProtectedContext(context);
+  const [, setIsOpen] = useDropdownContext();
   return (
     <button
-      className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      className="text-white bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       type="button"
       onClick={() => setIsOpen((prev) => !prev)}
     >
@@ -62,7 +92,7 @@ type ItemProps<T> = {
 const Item = <T,>({ onClick, children, value }: ItemProps<T>) => {
   return (
     <li
-      className="block px-4 py-2 cursor-pointer hover:bg-black/10 "
+      className="block px-4 py-2 cursor-pointer hover:bg-black/10"
       onClick={() => {
         onClick(value);
       }}
@@ -72,7 +102,9 @@ const Item = <T,>({ onClick, children, value }: ItemProps<T>) => {
   );
 };
 
-Dropdown.Item = Item;
-Dropdown.Menu = Menu;
-Dropdown.Trigger = Trigger;
-export default Dropdown;
+export default Object.assign(Dropdown, {
+  Item,
+  Menu,
+  Trigger,
+  useDropdownContext,
+});

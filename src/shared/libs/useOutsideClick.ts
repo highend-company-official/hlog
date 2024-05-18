@@ -6,6 +6,7 @@ function useOutsideClick(
 ) {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
+      event.stopPropagation();
       if (ref.current && !ref.current.contains(event.target as Node)) {
         cb(event);
       }

@@ -15,7 +15,7 @@ const Card = (props: ArticleType) => {
   const { read } = useBucket("thumbnails");
 
   return (
-    <section className="px-10 py-6 my-4 rounded-lg shadow-md bg-slate-50">
+    <section className="px-10 py-6 my-4 transition ease-in rounded-lg shadow-md bg-slate-50">
       <div className="flex items-center">
         {props.verified && (
           <MdVerifiedUser className="w-[24px] h-[24px] mr-2" color="#2563eb" />
@@ -78,7 +78,7 @@ const List = (props: ArticleType) => {
   const { read } = useBucket("thumbnails");
   return (
     <Link to={`/article-read/${props.id}`}>
-      <li className="flex items-center h-20 mb-2 list-none border-solid group hover:bg-black/10 rounded-xl">
+      <li className="flex items-center h-20 mb-2 list-none transition ease-in border-solid group hover:bg-black/10 rounded-xl">
         <img
           src={read(props.thumbnail)}
           alt={props.title}
@@ -101,7 +101,7 @@ const List = (props: ArticleType) => {
 const Gallery = (props: ArticleType) => {
   const { read } = useBucket("thumbnails");
   return (
-    <div className="relative h-80 place-items-center group">
+    <div className="relative transition ease-in h-80 place-items-center group">
       <Link to={`/article-read/${props.id}`}>
         <img
           src={read(props.thumbnail)}
@@ -109,7 +109,7 @@ const Gallery = (props: ArticleType) => {
           className="object-cover w-full h-full"
         />
 
-        <div className="absolute top-0 left-0 hidden w-full h-full p-4 text-white group-hover:bg-black/70 group-hover:inline-block ">
+        <div className="absolute top-0 left-0 hidden w-full h-full p-4 text-white transition ease-in group-hover:bg-black/70 group-hover:inline-block ">
           <span className="overflow-y-hidden font-bold">{props.title}</span>
           <p className="mt-3 truncate">{props.summary}</p>
 

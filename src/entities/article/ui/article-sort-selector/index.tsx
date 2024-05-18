@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 
 import { IoMdTrendingUp } from "react-icons/io";
 import { PiSortDescendingLight, PiSortAscendingLight } from "react-icons/pi";
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
 import { Dropdown, useOutsideClick } from "@/shared";
 
@@ -31,10 +32,13 @@ const CustomDropdownTrigger = ({ label }: { label: React.ReactNode }) => {
   return (
     <div
       onClick={() => setIsOpen((prev) => !prev)}
-      className="items-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-pointer flex w-[200px] p-2.5 hover:bg-black/10 transition ease-in-out h-[48px]"
+      className="select-none items-center bg-gray-50 border-2 border-solid border-primary text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-pointer flex w-[200px] p-2.5 hover:bg-black/10 transition ease-in-out h-[48px]"
     >
       {label}
-      {isOpen ? "열림" : "닫힘"}
+
+      <div className="ml-auto">
+        {isOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
+      </div>
     </div>
   );
 };
@@ -45,8 +49,8 @@ const ArticleSortSelector = () => {
 
   const SORT_MAP = {
     trend: <SortItem icon={<IoMdTrendingUp />} sortType="트렌드" />,
-    old: <SortItem icon={<PiSortDescendingLight />} sortType="오래된 순" />,
-    new: <SortItem icon={<PiSortAscendingLight />} sortType="최신 순" />,
+    new: <SortItem icon={<PiSortDescendingLight />} sortType="최신 순" />,
+    old: <SortItem icon={<PiSortAscendingLight />} sortType="오래된 순" />,
   };
 
   const handleClickItem = (nextSortType: SortType) => {

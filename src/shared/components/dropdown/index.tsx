@@ -1,8 +1,24 @@
-import { useRef } from "react";
-import { contextHelper, useOutsideClick, If } from "@/shared";
+import { createContext, ReactNode, useRef, useState } from "react";
+import { useOutsideClick, If } from "@/shared";
+import { contextHelper } from "@/shared";
+import { ContextProvideWithState } from "@/shared/libs/contextHelper";
+
+const createContextProviderWithState = <T,>(defaultValue: T) => {
+  const context = createContext<ContextProvideWithState<T> | null>(null);
+
+  const Provider = ({ children }: { children: ReactNode }) => {
+    const state = useState<T>(defaultValue);
+    return <context.Provider value={state}>{children}</context.Provider>;
+  };
+
+  return {
+    Provider,
+    context,
+  };
+};
 
 const { Provider: DropdownProvider, context: dropdownContext } =
-  contextHelper.createContextProviderWithState<boolean>(false);
+  createContextProviderWithState<boolean>(false);
 const useDropdownContext = () =>
   contextHelper.useProtectedContext(dropdownContext);
 

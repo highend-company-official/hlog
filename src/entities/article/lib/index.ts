@@ -21,3 +21,5 @@ export const useFetchArticles = () => {
 
   return useSuspenseQuery({ queryKey, queryFn });
 };
+
+export const usePatchArticleHit = () => {};

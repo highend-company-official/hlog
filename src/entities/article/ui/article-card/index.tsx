@@ -78,18 +78,19 @@ const List = (props: ArticleType) => {
   const { read } = useBucket("thumbnails");
   return (
     <Link to={`/article-read/${props.id}`}>
-      <li className="flex items-center h-20 list-none border-b border-gray-300 border-solid group hover:bg-black/10">
-        <div>
-          <img
-            src={read(props.thumbnail)}
-            alt={props.title}
-            className="block object-cover w-20 h-20 min-h-10"
-          />
+      <li className="flex items-center h-20 mb-2 list-none border-solid group hover:bg-black/10 rounded-xl">
+        <img
+          src={read(props.thumbnail)}
+          alt={props.title}
+          className="block object-cover w-20 h-20 min-h-10 rounded-xl max-sm:hidden"
+        />
+        <div className="pl-5 border-b border-gray-300">
+          <span className="font-bold group-hover:underline">
+            {props.title} [{props.hits ?? 0}]
+          </span>
+          <p className="text-gray-400 max-sm:hidden">{props.summary}</p>
         </div>
-        <div className="pl-5 font-bold group-hover:underline">
-          <span>{props.title}</span>
-        </div>
-        <div className="ml-auto">
+        <div className="ml-auto mr-3">
           <span>{getElapsedTime(props.created_at)}</span>
         </div>
       </li>
@@ -100,12 +101,12 @@ const List = (props: ArticleType) => {
 const Gallery = (props: ArticleType) => {
   const { read } = useBucket("thumbnails");
   return (
-    <div className="relative place-items-center group">
+    <div className="relative h-80 place-items-center group">
       <Link to={`/article-read/${props.id}`}>
         <img
           src={read(props.thumbnail)}
           alt={props.title}
-          className="w-full h-full"
+          className="object-cover w-full h-full"
         />
 
         <div className="absolute top-0 left-0 hidden w-full h-full p-4 text-white group-hover:bg-black/70 group-hover:inline-block ">

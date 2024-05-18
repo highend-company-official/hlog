@@ -1,4 +1,4 @@
-import { Comment, supabase } from "@/shared";
+import { CommentType, supabase } from "@/shared";
 
 export const fetchComments = (articleId: string) => {
   return supabase
@@ -13,5 +13,5 @@ export const fetchComments = (articleId: string) => {
     )
     .match({ article_id: articleId })
     .throwOnError()
-    .returns<Comment[]>();
+    .returns<CommentType[]>();
 };

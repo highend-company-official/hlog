@@ -1,5 +1,6 @@
 import { useEditorStore, useToastStore } from "@/app/store";
-import { If, Modal, Skeleton } from "@/shared";
+import { useQueryClient } from "@tanstack/react-query";
+import { If, Modal, Skeleton, QUERY_CONSTS } from "@/shared";
 import { Suspense, useState } from "react";
 
 import { convertToHTML } from "draft-convert";
@@ -23,13 +24,14 @@ enum Steps {
 }
 
 const ArticleWriteModal = ({ onClose }: Props) => {
+  const queryClient = useQueryClient();
   const { addToast } = useToastStore();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const { editorMetaData } = useEditorStore();
   const { resetSavedContent } = useEditorUtils();
   const [isPolicyChecked, setIsPolicyChecked] = useState(false);
-  const { mutateAsync: publishArticle } = usePostArticle();
+  const { mutateAsync: publishArticle, isPending } = usePostArticle();
 
   const goToNextStep = () =>
     setCurrentStep((prev) => (prev === NUMBER_OF_STEPS - 1 ? prev : prev + 1));
@@ -59,6 +61,7 @@ const ArticleWriteModal = ({ onClose }: Props) => {
         staleTime: 5000,
       });
       resetSavedContent();
+      queryClient.invalidateQueries({ queryKey: [QUERY_CONSTS.ARTICLE] });
       navigate(`/article-read/${response.id}`, { replace: true });
     });
   };
@@ -138,14 +141,18 @@ const ArticleWriteModal = ({ onClose }: Props) => {
           condition={currentStep === Steps.policy}
           trueRender={
             <>
-              <Modal.Button type="normal" onClick={goToPreviousStep}>
+              <Modal.Button
+                type="normal"
+                onClick={goToPreviousStep}
+                disabled={isPending}
+              >
                 뒤로
               </Modal.Button>
               <div className="ml-2" />
               <Modal.Button
                 onClick={handleUploadArticle}
                 type="accept"
-                disabled={!isPolicyChecked}
+                disabled={!isPolicyChecked || isPending}
               >
                 발행
               </Modal.Button>

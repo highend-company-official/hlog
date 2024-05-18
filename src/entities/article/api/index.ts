@@ -34,3 +34,9 @@ export const fetchArticles = () => {
     )
     .returns<ArticleType[]>();
 };
+
+// export const patchArticleHit = () => {
+//   return supabase.from("articles").update({
+//     hits: 1,
+//   }).
+// };

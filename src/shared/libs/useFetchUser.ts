@@ -35,5 +35,4 @@ const useFetchUser = (userId: string | null) => {
   });
 };
 
-useFetchUser.pk = shared.QUERY_CONSTS.USER;
 export default useFetchUser;

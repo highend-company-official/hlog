@@ -16,7 +16,7 @@ const ListContainer = ({ children }: Props) => {
 };
 const GalleryContainer = ({ children }: Props) => {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {children}
     </div>
   );
@@ -28,7 +28,7 @@ const ArticleList = ({ viewMode }: { viewMode: ViewMode }) => {
 
   if (data?.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center mt-32 full-w">
+      <div className="flex flex-col items-center justify-center w-full mt-32">
         <ImFileEmpty size={180} />
 
         <h3 className="mt-12 text-4xl">준비된 게시글이 없습니다.</h3>

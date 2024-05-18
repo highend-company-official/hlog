@@ -9,6 +9,10 @@ import "./index.css";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
+if (module.hot) {
+  module.hot.accept();
+}
+
 root.render(
   <React.StrictMode>
     <hoc.ErrorBoundary>

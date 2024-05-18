@@ -1,7 +1,7 @@
 import { useEditorStore } from "@/app/store";
 import React, { useRef } from "react";
 import * as shared from "@/shared";
-import { Blockquote, Modal } from "@/shared";
+import { Blockquote } from "@/shared";
 
 const SettingPart = () => {
   const {

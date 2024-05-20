@@ -1,6 +1,7 @@
 import { memo, useState } from "react";
 import { useEditorStore, useToastStore } from "@/app/store";
 
+import Editor from "@draft-js-plugins/editor";
 import {
   KeyBindingUtil,
   getDefaultKeyBinding,
@@ -12,16 +13,17 @@ import {
   DraftBlockType,
   DraftHandleValue,
   AtomicBlockUtils,
-  Editor,
 } from "draft-js";
+import createImagePlugin from "@draft-js-plugins/image";
 
 import useEditorUtils from "../../hooks";
 import * as shared from "@/shared";
 
 import "./index.css";
 import "draft-js/dist/Draft.css";
-import Image from "../editor-image";
-import { useMount, useUnmount } from "@/shared";
+
+import { generateRandomId, useBucket, useMount, useUnmount } from "@/shared";
+import { uploadArticleImage } from "../../lib";
 
 type KeyCommandType =
   | DraftEditorCommand
@@ -38,8 +40,12 @@ type KeyCommandType =
   | "hlog-editor-save"
   | "hlog-editor-refresh";
 
+const imagePlugin = createImagePlugin();
+const plugins = [imagePlugin];
+
 const EditorCore = memo(() => {
   const { addToast } = useToastStore();
+  const { read: readArticles } = useBucket("articles");
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
   const {
     editorMetaData,
@@ -47,6 +53,7 @@ const EditorCore = memo(() => {
     reset: resetEditorStore,
   } = useEditorStore();
   const { saveCurrentContent, loadSavedContent } = useEditorUtils();
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const toggleInline = (type: DraftInlineStyleType) => {
     setEditorMetaData({
@@ -220,27 +227,6 @@ const EditorCore = memo(() => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const Media = (props: any) => {
-    const { contentState, block } = props;
-
-    const entity = contentState.getEntity(block.getEntityAt(0));
-    const { src } = entity.getData();
-    const type = entity.getType();
-    if (type === "IMAGE") {
-      return <Image src={src} />;
-    }
-
-    return null;
-  };
-
-  function mediaBlockRenderer(block: ContentBlock) {
-    if (block.getType() === "atomic") {
-      return { component: Media, editable: false };
-    }
-    return null;
-  }
-
   const loadContentToEditor = () => {
     const loadedContent = loadSavedContent();
 
@@ -280,15 +266,39 @@ const EditorCore = memo(() => {
     setEditorMetaData({ ...editorMetaData, content: editorContent });
   };
 
-  const handlePasteFile = (files: Blob[]): DraftHandleValue => {
-    const formData = new FormData();
-    formData.append("file", files[0]);
-
+  const handleUploadedSuccess = (url: string) => {
     // Image Upload
+    setIsImageUploading(false);
+    addToast({
+      type: "success",
+      content: "이미지 업로드 완료",
+      staleTime: 3000,
+    });
     setEditorMetaData({
       ...editorMetaData,
-      content: insertPastedImage(URL.createObjectURL(files[0])),
+      content: insertPastedImage(readArticles(url)),
     });
+  };
+
+  const handleUploadedError = (error: string) => {
+    setIsImageUploading(false);
+    addToast({
+      type: "error",
+      content: error,
+      staleTime: 3000,
+    });
+  };
+
+  const handlePasteFile = (files: Blob[]): DraftHandleValue => {
+    const pastedFile = files[0];
+
+    setIsImageUploading(true);
+    uploadArticleImage(
+      generateRandomId(),
+      pastedFile as File,
+      handleUploadedSuccess,
+      handleUploadedError
+    );
 
     return "handled";
   };
@@ -313,9 +323,11 @@ const EditorCore = memo(() => {
         keyBindingFn={customKeyBindingFunction}
         spellCheck={false}
         blockStyleFn={blockStyleFunction}
-        blockRendererFn={mediaBlockRenderer}
+        plugins={plugins}
         handlePastedFiles={handlePasteFile}
       />
+
+      {isImageUploading && <>이미지 업로드중...</>}
 
       {isSavedModalOpen && (
         <shared.Modal>

@@ -9,8 +9,8 @@ import { MdModeEdit, MdDone } from "react-icons/md";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 import * as shared from "@/shared";
-import * as features from "@/features";
-import { Blockquote, QUERY_CONSTS, useFetchUser } from "@/shared";
+
+import { Blockquote, useFetchUser } from "@/shared";
 import { useParams } from "react-router-dom";
 
 import { usePatchProfileImage, usePatchProfileImageReset } from "../../lib";

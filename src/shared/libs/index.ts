@@ -13,3 +13,4 @@ export { default as createSelectors } from "./createSelectors";
 export { default as useOutsideClick } from "./useOutsideClick";
 export { default as useBucket } from "./useBucket";
 export { default as contextHelper } from "./contextHelper";
+export { default as isProviderURL } from "./isProviderURL";

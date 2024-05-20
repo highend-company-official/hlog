@@ -1,4 +1,11 @@
-import { Skeleton, If, useSession, useFetchUser, useBucket } from "@/shared";
+import {
+  Skeleton,
+  If,
+  useSession,
+  useFetchUser,
+  useBucket,
+  isProviderURL,
+} from "@/shared";
 import { Suspense } from "react";
 import { LuSearch } from "react-icons/lu";
 import { FaPen } from "react-icons/fa";
@@ -23,7 +30,9 @@ const UserDivision = () => {
           <img
             src={
               userData?.profile_url
-                ? read(userData?.profile_url)
+                ? isProviderURL(userData?.profile_url)
+                  ? userData?.profile_url
+                  : read(userData?.profile_url)
                 : defaultProfile
             }
             className="object-cover w-8 h-8 rounded-full shadow-sm cursor-pointer"

@@ -7,6 +7,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
 
 import * as shared from "@/shared";
+import { isProviderURL } from "@/shared";
 
 type Params = {
   user_id: string;
@@ -55,7 +56,11 @@ const AuthorizationView = () => {
           condition={!!userData.profile_url}
           trueRender={
             <img
-              src={read(userData.profile_url)}
+              src={
+                isProviderURL(userData.profile_url)
+                  ? userData.profile_url
+                  : read(userData.profile_url)
+              }
               alt={userData.username}
               className="object-cover w-64 h-64 rounded-full select-none"
             />

@@ -12,7 +12,7 @@ import defaultProfile from "@/shared/assets/default-profile.jpg";
 import * as features from "@/features";
 import * as shared from "@/shared";
 
-import { Blockquote, Modal, useFetchUser } from "@/shared";
+import { Blockquote, isProviderURL, Modal, useFetchUser } from "@/shared";
 import { useParams } from "react-router-dom";
 
 import {
@@ -114,7 +114,11 @@ const ProfileSettingSection = () => {
             condition={hasProfile}
             trueRender={
               <img
-                src={(userData && read(userData.profile_url!)) ?? ""}
+                src={
+                  isProviderURL(userData?.profile_url ?? "")
+                    ? userData!.profile_url
+                    : read(userData!.profile_url)
+                }
                 alt={userData?.username}
                 className="object-cover w-full h-full rounded-full"
               />
@@ -349,6 +353,7 @@ const OptionsSection = () => {
 };
 
 const AuthSection = () => {
+  const params = useParams<{ user_id: string }>();
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
 
@@ -358,17 +363,21 @@ const AuthSection = () => {
     await features.auth.signOut();
 
     queryClient.refetchQueries({
-      queryKey: [shared.QUERY_CONSTS.SESSION, shared.QUERY_CONSTS.USER],
+      queryKey: [shared.QUERY_CONSTS.USER, params.user_id],
     });
   };
 
   const handleDeleteUser = async () => {
     try {
-      await features.auth.quit();
       await features.auth.signOut();
+      await features.auth.quit();
 
       queryClient.refetchQueries({
-        queryKey: [shared.QUERY_CONSTS.SESSION, shared.QUERY_CONSTS.USER],
+        queryKey: [
+          shared.QUERY_CONSTS.SESSION,
+          shared.QUERY_CONSTS.USER,
+          params.user_id,
+        ],
       });
       addToast({
         type: "success",

@@ -2,6 +2,7 @@ import useBucket from "@/shared/libs/useBucket";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useParams } from "react-router-dom";
 import { useFetchArticle } from "../../lib";
+import { isProviderURL } from "@/shared";
 
 type ParamsType = {
   article_id: string;
@@ -29,7 +30,13 @@ const ArticleView = () => {
 
       <section className="flex mt-5">
         <img
-          src={readProfiles(data?.profiles.profile_url) ?? defaultProfile}
+          src={
+            data?.profiles.profile_url
+              ? isProviderURL(data?.profiles.profile_url)
+                ? data?.profiles.profile_url
+                : readProfiles(data?.profiles.profile_url)
+              : defaultProfile
+          }
           alt={data?.profiles.username}
           className="object-cover w-12 h-12 mr-3 rounded-full"
         />

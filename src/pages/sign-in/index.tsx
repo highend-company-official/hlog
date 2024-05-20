@@ -5,7 +5,6 @@ import { FaGithub } from "react-icons/fa";
 import * as features from "@/features";
 import * as shared from "@/shared";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSession } from "@/shared";
 import { useToastStore } from "@/app/store";
 
 type FormValues = {
@@ -35,7 +34,7 @@ function SignInPage() {
 
         if (!error) {
           queryClient.refetchQueries({
-            queryKey: [useSession.pk],
+            queryKey: [shared.QUERY_CONSTS.SESSION],
           });
 
           addToast({

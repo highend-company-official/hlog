@@ -1,4 +1,4 @@
-import { Skeleton, If, useSession, useFetchUser } from "@/shared";
+import { Skeleton, If, useSession, useFetchUser, useBucket } from "@/shared";
 import { Suspense } from "react";
 import { LuSearch } from "react-icons/lu";
 import { FaPen } from "react-icons/fa";
@@ -9,6 +9,7 @@ import { useToastStore } from "@/app/store";
 const UserDivision = () => {
   const { data } = useSession();
   const { data: userData } = useFetchUser(data.session?.user.id ?? null);
+  const { read } = useBucket("profiles");
   const navigate = useNavigate();
 
   const BUTTON_CLASSNAME =
@@ -20,8 +21,12 @@ const UserDivision = () => {
         condition={!!data.session}
         trueRender={
           <img
-            src={userData?.profile_url ?? defaultProfile}
-            className="w-8 h-8 rounded-full shadow-sm cursor-pointer"
+            src={
+              userData?.profile_url
+                ? read(userData?.profile_url)
+                : defaultProfile
+            }
+            className="object-cover w-8 h-8 rounded-full shadow-sm cursor-pointer"
             alt={userData?.username}
             onClick={() => {
               navigate(`/profile/${data.session?.user.id}`);

@@ -1,16 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 import { IoMdTrendingUp } from "react-icons/io";
 import { PiSortDescendingLight, PiSortAscendingLight } from "react-icons/pi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
 import { Dropdown, useOutsideClick } from "@/shared";
-
-enum SortType {
-  trend = "trend",
-  old = "old",
-  new = "new",
-}
+import useArticleStore, { SortType } from "@/app/store/article";
 
 const SortItem = ({
   sortType,
@@ -32,7 +27,7 @@ const CustomDropdownTrigger = ({ label }: { label: React.ReactNode }) => {
   return (
     <div
       onClick={() => setIsOpen((prev) => !prev)}
-      className="select-none items-center bg-gray-50 border-2 border-solid border-primary text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-pointer flex w-[200px] p-2.5 hover:bg-black/10 transition ease-in-out h-[48px]"
+      className="select-none items-center bg-gray-50 border-2 border-solid border-primary text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-pointer flex w-[200px] p-2.5 hover:bg-black/10 transition ease-in-out"
     >
       {label}
 
@@ -45,16 +40,12 @@ const CustomDropdownTrigger = ({ label }: { label: React.ReactNode }) => {
 
 const ArticleSortSelector = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [sortType, setSortType] = useState<SortType>(SortType.trend);
+  const { sortType, changeSortType } = useArticleStore();
 
   const SORT_MAP = {
     trend: <SortItem icon={<IoMdTrendingUp />} sortType="트렌드" />,
     new: <SortItem icon={<PiSortDescendingLight />} sortType="최신 순" />,
     old: <SortItem icon={<PiSortAscendingLight />} sortType="오래된 순" />,
-  };
-
-  const handleClickItem = (nextSortType: SortType) => {
-    setSortType(nextSortType);
   };
 
   const handleDetectOutsideClick = () => {};
@@ -67,7 +58,11 @@ const ArticleSortSelector = () => {
       <Dropdown.Menu>
         {Object.entries(SORT_MAP).map(([key, value]) => {
           return (
-            <Dropdown.Item value={key as SortType} onClick={handleClickItem}>
+            <Dropdown.Item
+              value={key as SortType}
+              onClick={changeSortType}
+              key={key}
+            >
               {value}
             </Dropdown.Item>
           );

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useMount, useSession } from "@/shared";
+import { useSession } from "@/shared";
 import { useToastStore } from "../store";
 
 type PrivateRouteProps = {
@@ -13,7 +13,7 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { addToast } = useToastStore();
   const navigate = useNavigate();
 
-  useMount(() => {
+  React.useEffect(() => {
     if (!isFetching && !data.session) {
       addToast({
         type: "warning",
@@ -23,7 +23,7 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
       });
       navigate("/auth/sign-in", { replace: true });
     }
-  });
+  }, [addToast, data.session, isFetching, navigate]);
 
   if (data.session) {
     return <>{children}</>;

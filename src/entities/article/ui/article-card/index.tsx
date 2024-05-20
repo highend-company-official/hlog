@@ -12,7 +12,8 @@ import useBucket from "@/shared/libs/useBucket";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 const Card = (props: ArticleType) => {
-  const { read } = useBucket("thumbnails");
+  const { read: readThubmnails } = useBucket("thumbnails");
+  const { read: readProfiles } = useBucket("profiles");
 
   return (
     <section className="px-10 py-6 my-4 transition ease-in rounded-lg shadow-md bg-slate-50">
@@ -22,7 +23,11 @@ const Card = (props: ArticleType) => {
         )}
         <div className="flex items-center">
           <img
-            src={props.profiles.profile_url ?? defaultProfile}
+            src={
+              props.profiles.profile_url
+                ? readProfiles(props.profiles.profile_url)
+                : defaultProfile
+            }
             alt={props.profiles.username}
             className="w-6 h-6 rounded-full"
           />
@@ -39,7 +44,7 @@ const Card = (props: ArticleType) => {
 
       <div className="inline-block w-full mt-2">
         <img
-          src={read(props.thumbnail)}
+          src={readThubmnails(props.thumbnail)}
           alt={props.title}
           className="w-[240px] max-lg:w-[180px] max-md:w-0 h-64 rounded-3xl object-cover float-right ml-8"
         />

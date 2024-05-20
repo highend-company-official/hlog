@@ -4,7 +4,7 @@ import { useFetchArticles } from "../../lib";
 import * as shared from "@/shared";
 import ArticleCard from "../article-card";
 import { useNavigate } from "react-router-dom";
-import { ViewMode } from "@/app/store/article";
+import useArticleStore, { ViewMode } from "@/app/store/article";
 
 type Props = { children: JSX.Element[] };
 
@@ -23,7 +23,8 @@ const GalleryContainer = ({ children }: Props) => {
 };
 
 const ArticleList = ({ viewMode }: { viewMode: ViewMode }) => {
-  const { data } = useFetchArticles();
+  const { sortType } = useArticleStore();
+  const { data } = useFetchArticles(sortType);
   const navigate = useNavigate();
 
   if (data?.length === 0) {

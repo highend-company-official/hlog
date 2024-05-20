@@ -11,4 +11,5 @@ export { default as useMount } from "./useMount";
 export { default as useUnmount } from "./useUnmount";
 export { default as createSelectors } from "./createSelectors";
 export { default as useOutsideClick } from "./useOutsideClick";
+export { default as useBucket } from "./useBucket";
 export { default as contextHelper } from "./contextHelper";

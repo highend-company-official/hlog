@@ -15,7 +15,7 @@ const uploadArticle = async ({
 }: Params): Promise<ArticleType> => {
   const { data } = await supabase.storage
     .from("thumbnails")
-    .upload(`thumbnails/${generateRandomId()}`, thumbnailFile, {
+    .upload(`${generateRandomId()}`, thumbnailFile, {
       cacheControl: "3600",
       upsert: false,
     });
@@ -42,8 +42,6 @@ const uploadArticle = async ({
 const usePostArticle = () =>
   useMutation<ArticleType, Error, Params>({
     mutationFn: uploadArticle,
-    onSuccess: () => {},
-    onError: () => {},
   });
 
 export default usePostArticle;

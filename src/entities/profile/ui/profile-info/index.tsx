@@ -1,16 +1,28 @@
 import { useParams } from "react-router-dom";
-import { CiUser } from "react-icons/ci";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 import * as shared from "@/shared";
+import * as features from "@/features";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Params = {
   user_id: string;
 };
 
 const AuthorizationView = () => {
+  const queryClient = useQueryClient();
+  const { read } = shared.useBucket("profiles");
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
   const { data: sessionData } = shared.useSession();
+
+  const handleSignOut = () => {
+    features.auth.signOut().then(() => {
+      queryClient.refetchQueries({
+        queryKey: [shared.QUERY_CONSTS.SESSION],
+      });
+    });
+  };
 
   if (!userData || !sessionData) return null;
 
@@ -21,17 +33,19 @@ const AuthorizationView = () => {
           condition={!!userData.profile_url}
           trueRender={
             <img
-              src={userData.profile_url}
+              src={read(userData.profile_url)}
               alt={userData.username}
-              className="w-64 h-64 rounded-full"
+              className="object-cover w-64 h-64 rounded-full select-none"
             />
           }
           falseRender={
             <div className="w-64 mx-auto text-center">
               <div className="w-64">
-                <div className="flex flex-col items-center justify-center w-64 h-64 transition duration-500 bg-gray-200 rounded-full group">
-                  <CiUser size={180} />
-                </div>
+                <img
+                  src={defaultProfile}
+                  alt={userData.username}
+                  className="object-cover w-64 h-64 rounded-full select-none"
+                />
               </div>
             </div>
           }
@@ -60,6 +74,12 @@ const AuthorizationView = () => {
           {sessionData?.session?.user?.created_at}
         </span>
       </li>
+
+      <div className="flex justify-end">
+        <shared.Button className="mt-7" intent="error" onClick={handleSignOut}>
+          로그아웃
+        </shared.Button>
+      </div>
     </>
   );
 };
@@ -67,6 +87,7 @@ const AuthorizationView = () => {
 const UnAuthorizationView = () => {
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
+  const { read } = shared.useBucket("profiles");
 
   if (!userData) return null;
 
@@ -76,17 +97,19 @@ const UnAuthorizationView = () => {
         condition={!!userData.profile_url}
         trueRender={
           <img
-            src={userData.profile_url}
+            src={read(userData.profile_url)}
             alt={userData.username}
-            className="w-64 h-64 rounded-full"
+            className="object-cover w-64 h-64 rounded-full"
           />
         }
         falseRender={
           <div className="w-64 mx-auto text-center">
             <div className="w-64">
-              <div className="flex flex-col items-center justify-center w-64 h-64 transition duration-500 bg-gray-200 rounded-full group">
-                <CiUser size={180} />
-              </div>
+              <img
+                src={defaultProfile}
+                alt={userData.username}
+                className="object-cover w-64 h-64 rounded-full select-none"
+              />
             </div>
           </div>
         }

@@ -2,6 +2,7 @@ import { createContext, ReactNode, useRef, useState } from "react";
 import { useOutsideClick, If } from "@/shared";
 import { contextHelper } from "@/shared";
 import { ContextProvideWithState } from "@/shared/libs/contextHelper";
+import classNames from "classnames";
 
 const createContextProviderWithState = <T,>(defaultValue: T) => {
   const context = createContext<ContextProvideWithState<T> | null>(null);
@@ -25,13 +26,17 @@ const useDropdownContext = () =>
 const Dropdown = ({
   children,
   onClose,
+  className,
 }: {
   children: React.ReactNode;
   onClose?: () => void;
+  className?: string;
 }) => {
   return (
     <DropdownProvider>
-      <DropdownContainer onClose={onClose}>{children}</DropdownContainer>
+      <DropdownContainer className={className} onClose={onClose}>
+        {children}
+      </DropdownContainer>
     </DropdownProvider>
   );
 };
@@ -39,9 +44,11 @@ const Dropdown = ({
 const DropdownContainer = ({
   children,
   onClose,
+  className,
 }: {
   children: React.ReactNode;
   onClose?: () => void;
+  className?: string;
 }) => {
   const [, setIsOpen] = useDropdownContext();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -54,7 +61,13 @@ const DropdownContainer = ({
   });
 
   return (
-    <div ref={dropdownRef} className="relative">
+    <div
+      ref={dropdownRef}
+      className={classNames(
+        `relative flex items-center justify-center`,
+        className
+      )}
+    >
       {children}
     </div>
   );
@@ -69,16 +82,14 @@ const Menu = ({
   const [isOpen] = useDropdownContext();
 
   return (
-    <div className="mt-2">
-      <If
-        condition={isOpen}
-        trueRender={
-          <div className="absolute z-10 transform -translate-x-1/2 divide-y divide-gray-100 rounded-lg shadow bg-slate-50 w-60 left-1/2 top-full">
-            <ul className="p-3 space-y-1 text-sm text-gray-700">{children}</ul>
-          </div>
-        }
-      />
-    </div>
+    <If
+      condition={isOpen}
+      trueRender={
+        <div className="absolute z-10 mt-2 transform -translate-x-1/2 divide-y divide-gray-100 rounded-lg shadow bg-slate-50 w-60 left-1/2 top-full">
+          <ul className="p-3 space-y-1 text-sm text-gray-700">{children}</ul>
+        </div>
+      }
+    />
   );
 };
 

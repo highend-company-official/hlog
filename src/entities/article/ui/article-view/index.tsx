@@ -10,7 +10,8 @@ type ParamsType = {
 const ArticleView = () => {
   const { article_id } = useParams<ParamsType>();
   const { data } = useFetchArticle(article_id!);
-  const { read } = useBucket("thumbnails");
+  const { read: readThumbnails } = useBucket("thumbnails");
+  const { read: readProfiles } = useBucket("profiles");
 
   if (!data) {
     return null;
@@ -19,7 +20,7 @@ const ArticleView = () => {
   return (
     <article>
       <img
-        src={read(data!.thumbnail)}
+        src={readThumbnails(data!.thumbnail)}
         alt={data.summary}
         className="object-cover w-full rounded-xl mt-9 h-96"
       />
@@ -28,13 +29,12 @@ const ArticleView = () => {
 
       <section className="flex mt-5">
         <img
-          src={data?.profiles.profile_url ?? defaultProfile}
+          src={readProfiles(data?.profiles.profile_url) ?? defaultProfile}
           alt={data?.profiles.username}
-          className="w-12 h-12 mr-3 rounded-full"
+          className="object-cover w-12 h-12 mr-3 rounded-full"
         />
         <div className="flex items-center justify-center">
           <span className="font-bold">{data?.profiles.username}</span>
-          {/* <span className="ml-2 font-thin">{data?.createdAt}</span> */}
         </div>
       </section>
 

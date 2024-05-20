@@ -6,7 +6,7 @@ import { IoMdEye } from "react-icons/io";
 
 import { ViewMode } from "@/app/store/article";
 
-import { getElapsedTime } from "@/shared";
+import { getElapsedTime, isProviderURL } from "@/shared";
 import { type ArticleType } from "@/shared/schema";
 import useBucket from "@/shared/libs/useBucket";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
@@ -25,7 +25,9 @@ const Card = (props: ArticleType) => {
           <img
             src={
               props.profiles.profile_url
-                ? readProfiles(props.profiles.profile_url)
+                ? isProviderURL(props.profiles.profile_url)
+                  ? props.profiles.profile_url
+                  : readProfiles(props.profiles.profile_url)
                 : defaultProfile
             }
             alt={props.profiles.username}

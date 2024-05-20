@@ -3,6 +3,7 @@ import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useParams } from "react-router-dom";
 import { useFetchArticle } from "../../lib";
 import { isProviderURL } from "@/shared";
+import "@/shared/styles/index.css";
 
 type ParamsType = {
   article_id: string;
@@ -47,6 +48,7 @@ const ArticleView = () => {
 
       <div
         className="text-base leading-6 mt-9"
+        id="hlog"
         dangerouslySetInnerHTML={{
           __html: data?.body,
         }}

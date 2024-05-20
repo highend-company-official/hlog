@@ -28,6 +28,7 @@
     "draft-convert": "^2.1.13",
     "draft-js": "^0.11.7",
     "draft-js-prism": "^1.0.6",
+    "draftjs-to-html": "^0.9.1",
     "highlight.js": "^11.9.0",
     "lodash": "^4.17.21",
     "marked": "^12.0.2",
@@ -51,6 +52,7 @@
   "devDependencies": {
     "@types/draft-convert": "^2.1.8",
     "@types/draft-js": "^0.11.18",
+    "@types/draftjs-to-html": "^0.8.4",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20.12.7",
     "@types/prismjs": "^1.26.4",

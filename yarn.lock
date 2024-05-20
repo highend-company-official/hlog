@@ -801,6 +801,13 @@
     "@types/react" "*"
     immutable "~3.7.4"
 
+"@types/draftjs-to-html@^0.8.4":
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/@types/draftjs-to-html/-/draftjs-to-html-0.8.4.tgz#b25ce6145973c431369ec011e75bebf9c78d533e"
+  integrity sha512-5FZcjFoJL57N/IttLCTCNI0krX+181oCl5hf76u3TqPkqBAphHrJAO9ReYesx9138kcObaYmpnWC2Yrqxoqd2Q==
+  dependencies:
+    "@types/draft-js" "*"
+
 "@types/estree-jsx@^1.0.0":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/estree-jsx/-/estree-jsx-1.0.5.tgz#858a88ea20f34fe65111f005a689fa1ebf70dc18"
@@ -1417,6 +1424,11 @@ draft-js@^0.11.7:
     fbjs "^2.0.0"
     immutable "~3.7.4"
     object-assign "^4.1.1"
+
+draftjs-to-html@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/draftjs-to-html/-/draftjs-to-html-0.9.1.tgz#1c870fbb588d2390204cb4d0ee7e04ad0c709969"
+  integrity sha512-fFstE6+IayaVFBEvaFt/wN8vdj8FsTRzij7dy7LI9QIwf5LgfHFi9zSpvCg+feJ2tbYVqHxUkjcibwpsTpgFVQ==
 
 eastasianwidth@^0.2.0:
   version "0.2.0"

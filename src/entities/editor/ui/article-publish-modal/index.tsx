@@ -2,8 +2,8 @@ import { useEditorStore, useToastStore } from "@/app/store";
 import { useQueryClient } from "@tanstack/react-query";
 import { If, Modal, Skeleton, QUERY_CONSTS } from "@/shared";
 import { Suspense, useState } from "react";
-
-import { convertToHTML } from "draft-convert";
+import { convertToRaw, DraftEntityMutability, DraftEntityType } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import { Stepper } from "..";
 import { usePostArticle } from "../../lib";
 import PolicyPart from "./policy-part";
@@ -38,11 +38,35 @@ const ArticleWriteModal = ({ onClose }: Props) => {
   const goToPreviousStep = () =>
     setCurrentStep((prev) => (prev <= 0 ? prev : prev - 1));
 
+  type DraftEntity = {
+    type: DraftEntityType;
+    mutability: DraftEntityMutability;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data: any;
+  };
+
+  const customEntityTransform = (entity: DraftEntity, text: string) => {
+    if (entity.type === "IMAGE") {
+      return `<img src="${entity.data.src}" class="h-auto max-w-lg rounded-lg" alt="${text}" />`;
+    }
+
+    if (entity.type !== "LINK") {
+      return `<a href="${entity.data.url}" class="hlog_link" target="_blank">${text}</a>`;
+    }
+  };
+
   const handleUploadArticle = async () => {
     const { title, hasComment, hasHit, hasLike, summary, content, thumbnail } =
       editorMetaData;
 
-    const parsedHTML = convertToHTML({})(content.getCurrentContent());
+    const rawContentState = convertToRaw(content.getCurrentContent());
+
+    const markup = draftToHtml(
+      rawContentState,
+      undefined,
+      undefined,
+      customEntityTransform
+    );
 
     publishArticle({
       articleMetaData: {
@@ -51,7 +75,7 @@ const ArticleWriteModal = ({ onClose }: Props) => {
         has_hit: hasHit,
         has_like: hasLike,
         summary,
-        body: parsedHTML,
+        body: markup,
       },
       thumbnailFile: thumbnail!,
     }).then((response) => {

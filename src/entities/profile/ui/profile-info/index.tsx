@@ -1,28 +1,50 @@
+import classNames from "classnames";
 import { useParams } from "react-router-dom";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 
+import { IoIosLink } from "react-icons/io";
+import { FaPhoneAlt } from "react-icons/fa";
+import { MdOutlineMailOutline } from "react-icons/md";
+
 import * as shared from "@/shared";
-import * as features from "@/features";
-import { useQueryClient } from "@tanstack/react-query";
 
 type Params = {
   user_id: string;
 };
 
+type BioProps = {
+  label: string;
+  icon: React.ReactNode;
+  value: string;
+};
+
+const Bio = ({ label, icon, value }: BioProps) => {
+  const { write } = shared.useClipboard();
+
+  return (
+    <div className="flex flex-col items-center">
+      <button
+        disabled={!value}
+        className={classNames(
+          `flex items-center justify-center w-10 h-10 mx-3 border border-solid rounded-full border-black/30 disabled:cursor-not-allowed font-bold`,
+          {
+            "bg-primary text-white cursor-pointer": !!value,
+          }
+        )}
+        onClick={() => write(value)}
+      >
+        {icon}
+      </button>
+      <span>{label}</span>
+    </div>
+  );
+};
+
 const AuthorizationView = () => {
-  const queryClient = useQueryClient();
   const { read } = shared.useBucket("profiles");
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
   const { data: sessionData } = shared.useSession();
-
-  const handleSignOut = () => {
-    features.auth.signOut().then(() => {
-      queryClient.refetchQueries({
-        queryKey: [shared.QUERY_CONSTS.SESSION],
-      });
-    });
-  };
 
   if (!userData || !sessionData) return null;
 
@@ -51,7 +73,16 @@ const AuthorizationView = () => {
           }
         />
         <span className="text-2xl mt-7">{userData.username}</span>
-        <span>{sessionData.session?.user.email}</span>
+
+        <div className="flex">
+          <Bio
+            label="Email"
+            value={userData.email}
+            icon={<MdOutlineMailOutline />}
+          />
+          <Bio label="Phone" value={userData.phone} icon={<FaPhoneAlt />} />
+          <Bio label="Link" value={userData.link} icon={<IoIosLink />} />
+        </div>
       </div>
 
       <shared.Blockquote>
@@ -74,12 +105,6 @@ const AuthorizationView = () => {
           {sessionData?.session?.user?.created_at}
         </span>
       </li>
-
-      <div className="flex justify-end">
-        <shared.Button className="mt-7" intent="error" onClick={handleSignOut}>
-          로그아웃
-        </shared.Button>
-      </div>
     </>
   );
 };
@@ -115,7 +140,15 @@ const UnAuthorizationView = () => {
         }
       />
       <span className="text-2xl mt-7">{userData.username}</span>
-      <span>{userData.email}</span>
+      <div className="flex">
+        <Bio
+          label="Email"
+          value={userData.email}
+          icon={<MdOutlineMailOutline />}
+        />
+        <Bio label="Phone" value={userData.phone} icon={<FaPhoneAlt />} />
+        <Bio label="Link" value={userData.link} icon={<IoIosLink />} />
+      </div>
     </div>
   );
 };

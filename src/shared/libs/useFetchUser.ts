@@ -11,7 +11,9 @@ export const fetchUser = (userId: string) => {
         email,
         username,
         profile_url,
-        description
+        description,
+        phone,
+        link
       `
     )
     .match({ id: userId })

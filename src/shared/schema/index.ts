@@ -41,6 +41,8 @@ export const UserSchema = z.object({
   email: z.string().email(),
   username: z.string(),
   profile_url: z.string().url(),
+  link: z.string().url(),
+  phone: z.string(),
   description: z.string(),
   created_at: z.date(),
 });

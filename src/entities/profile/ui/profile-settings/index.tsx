@@ -1,5 +1,6 @@
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { isEqual } from "lodash";
 
 import { MdOutlineMailOutline } from "react-icons/md";
 
@@ -13,9 +14,14 @@ import * as shared from "@/shared";
 import { Blockquote, useFetchUser } from "@/shared";
 import { useParams } from "react-router-dom";
 
-import { usePatchProfileImage, usePatchProfileImageReset } from "../../lib";
+import {
+  usePatchProfileImage,
+  usePatchProfileImageReset,
+  usePatchProfileInfo,
+} from "../../lib";
 import { useToastStore } from "@/app/store";
 import { FaPhoneAlt } from "react-icons/fa";
+import { useForm } from "react-hook-form";
 
 const ProfileSettingSection = () => {
   const params = useParams<{ user_id: string }>();
@@ -29,7 +35,8 @@ const ProfileSettingSection = () => {
     params.user_id!
   );
   const { mutateAsync: resetProfileImage } = usePatchProfileImageReset(
-    params.user_id!
+    params.user_id!,
+    userData!.profile_url!
   );
 
   const [tempProfileData, setTempProfileData] = useState<File | null>(null);
@@ -222,47 +229,106 @@ type InfoInputProps = {
   label: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-const InfoInput = ({ icon, label, ...props }: InfoInputProps) => {
-  return (
-    <>
-      <label
-        className="block mb-2 text-sm font-medium text-gray-900"
-        htmlFor={`${label}-input`}
-      >
-        {label}
-      </label>
-      <div className="relative mb-6">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-          {icon}
+const InfoInput = React.forwardRef<HTMLInputElement, InfoInputProps>(
+  ({ icon, label, ...props }, ref) => {
+    return (
+      <>
+        <label
+          className="block mb-2 text-sm font-medium text-gray-900"
+          htmlFor={`${label}-input`}
+        >
+          {label}
+        </label>
+        <div className="relative mb-6">
+          <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+            {icon}
+          </div>
+          <input
+            type="text"
+            id={`${label}-input`}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+            ref={ref}
+            {...props}
+          />
         </div>
-        <input
-          type="text"
-          id={`${label}-input`}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
-          {...props}
-        />
-      </div>
-    </>
-  );
+      </>
+    );
+  }
+);
+
+type FormType = {
+  email: string;
+  phone: string;
+  link: string;
 };
 
 const UserInfoSettingSection = () => {
+  const params = useParams<{ user_id: string }>();
+  const { addToast } = useToastStore();
+  const { data: userData } = useFetchUser(params.user_id!);
+  const { mutateAsync: patchProfileInfo, isPending } = usePatchProfileInfo(
+    params.user_id!
+  );
+  const {
+    register,
+    formState: { isDirty },
+    getValues,
+  } = useForm<FormType>({
+    defaultValues: {
+      email: userData?.email ?? "",
+      link: userData?.link ?? "",
+      phone: userData?.phone ?? "",
+    },
+  });
+  const [isEditInfo, setIsEditInfo] = useState(false);
+
+  const handleEditProfileInfo = async () => {
+    await patchProfileInfo(getValues());
+
+    addToast({
+      type: "success",
+      content: "프로필 정보 설정을 완료했습니다.",
+      staleTime: 3000,
+    });
+    setIsEditInfo(false);
+  };
+
+  useEffect(() => {
+    setIsEditInfo(isDirty);
+  }, [isDirty]);
+
   return (
     <div className="w-[300px]">
       <InfoInput
         icon={<MdOutlineMailOutline />}
         label="Email"
         placeholder="example@example.com"
+        {...register("email")}
       />
       <InfoInput
         icon={<FaPhoneAlt />}
         label="Phone"
         placeholder="010-XXXX-XXXX"
+        {...register("phone")}
       />
       <InfoInput
         icon={<IoIosLink />}
         label="Link"
-        placeholder="https:/XXXX.XX"
+        placeholder="https://XXXXX.XXX"
+        {...register("link")}
+      />
+
+      <shared.If
+        condition={isEditInfo}
+        trueRender={
+          <shared.Button
+            className="w-full"
+            disabled={isPending}
+            onClick={handleEditProfileInfo}
+          >
+            수정하기
+          </shared.Button>
+        }
       />
     </div>
   );
@@ -294,7 +360,7 @@ const ProfileSettings = () => {
   return (
     <>
       <Suspense fallback={<shared.Skeleton height={300} />}>
-        <div className="flex">
+        <div className="flex pb-8">
           <ProfileSettingSection />
 
           <div className="mx-4 border-r border-gray-300 border-solid" />
@@ -302,8 +368,6 @@ const ProfileSettings = () => {
           <UserInfoSettingSection />
         </div>
       </Suspense>
-
-      <shared.Divider />
 
       <Suspense fallback={<shared.Skeleton height={500} />}>
         <div className="mt-4" />

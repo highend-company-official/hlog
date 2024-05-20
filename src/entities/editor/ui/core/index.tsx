@@ -24,6 +24,7 @@ import "draft-js/dist/Draft.css";
 
 import { generateRandomId, useBucket, useMount, useUnmount } from "@/shared";
 import { uploadArticleImage } from "../../lib";
+import UploadOverlay from "../upload-overlay";
 
 type KeyCommandType =
   | DraftEditorCommand
@@ -327,7 +328,7 @@ const EditorCore = memo(() => {
         handlePastedFiles={handlePasteFile}
       />
 
-      {isImageUploading && <>이미지 업로드중...</>}
+      {isImageUploading && <UploadOverlay />}
 
       {isSavedModalOpen && (
         <shared.Modal>

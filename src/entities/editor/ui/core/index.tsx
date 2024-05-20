@@ -7,7 +7,6 @@ import {
   getDefaultKeyBinding,
   type DraftEditorCommand,
   EditorState,
-  ContentBlock,
   DraftInlineStyleType,
   RichUtils,
   DraftBlockType,
@@ -101,7 +100,7 @@ const EditorCore = memo(() => {
     if (KeyBindingUtil.hasCommandModifier(e) && e.shiftKey && e.key === "x") {
       return "strikethrough";
     }
-    if (KeyBindingUtil.hasCommandModifier(e) && e.key === "c") {
+    if (KeyBindingUtil.hasCommandModifier(e) && e.shiftKey && e.key === "c") {
       return "code-block";
     }
     if (KeyBindingUtil.hasCommandModifier(e) && e.key === "u") {
@@ -199,35 +198,6 @@ const EditorCore = memo(() => {
     return "not-handled";
   };
 
-  const blockStyleFunction = (contentBlock: ContentBlock) => {
-    const type = contentBlock.getType();
-
-    switch (type) {
-      case "blockquote":
-        return "hlog_blockquote";
-      case "header-one":
-        return "hlog_header_one";
-      case "header-two":
-        return "hlog_header_two";
-      case "header-three":
-        return "hlog_header_three";
-      case "header-four":
-        return "hlog_header_four";
-      case "header-five":
-        return "hlog_header_five";
-      case "header-six":
-        return "hlog_header_six";
-      case "unordered-list-item":
-        return "hlog_unordered-list";
-      case "ordered-list-item":
-        return "hlog_ordered-list";
-      case "code-block":
-        return "hlog-code_block";
-      default:
-        return "";
-    }
-  };
-
   const loadContentToEditor = () => {
     const loadedContent = loadSavedContent();
 
@@ -316,17 +286,19 @@ const EditorCore = memo(() => {
 
   return (
     <>
-      <Editor
-        editorState={editorMetaData.content}
-        onChange={handleChangeEditor}
-        placeholder={shared.EDITOR_CONST.PLACEHOLDER}
-        handleKeyCommand={handleKeyCommand}
-        keyBindingFn={customKeyBindingFunction}
-        spellCheck={false}
-        blockStyleFn={blockStyleFunction}
-        plugins={plugins}
-        handlePastedFiles={handlePasteFile}
-      />
+      <div id="hlog">
+        <Editor
+          editorState={editorMetaData.content}
+          onChange={handleChangeEditor}
+          placeholder={shared.EDITOR_CONST.PLACEHOLDER}
+          handleKeyCommand={handleKeyCommand}
+          keyBindingFn={customKeyBindingFunction}
+          spellCheck={false}
+          plugins={plugins}
+          handlePastedFiles={handlePasteFile}
+          // blockStyleFn={blockStyleFunction}
+        />
+      </div>
 
       {isImageUploading && <UploadOverlay />}
 

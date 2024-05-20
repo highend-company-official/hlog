@@ -3,7 +3,7 @@
   font-size: 3rem;
   line-height: 1;
 }
-#hlogh2 {
+#hlog h2 {
   font-size: 2.25rem;
   line-height: 2.5rem;
 }
@@ -25,6 +25,13 @@
 }
 
 #hlog blockquote {
+  background-color: rgb(219 234 254);
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-left-width: 4px;
+  border-color: rgb(37 99 235);
+  border-style: solid;
 }
 
 #hlog ul {

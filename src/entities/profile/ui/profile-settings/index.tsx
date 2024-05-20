@@ -268,6 +268,7 @@ type FormType = {
 };
 
 const UserInfoSettingSection = () => {
+  const queryClient = useQueryClient();
   const params = useParams<{ user_id: string }>();
   const { addToast } = useToastStore();
   const { data: userData } = useFetchUser(params.user_id!);
@@ -294,6 +295,9 @@ const UserInfoSettingSection = () => {
       type: "success",
       content: "프로필 정보 설정을 완료했습니다.",
       staleTime: 3000,
+    });
+    queryClient.invalidateQueries({
+      queryKey: [shared.QUERY_CONSTS.USER, params.user_id],
     });
     setIsEditInfo(false);
   };

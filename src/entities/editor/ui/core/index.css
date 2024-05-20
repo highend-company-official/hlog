@@ -11,3 +11,7 @@ div.public-DraftEditorPlaceholder-root {
   position: absolute;
   pointer-events: none;
 }
+
+.RichEditor-editor .public-DraftStyleDefault-pre pre {
+  white-space: normal;
+}

@@ -1,6 +1,6 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import * as shared from "@/shared";
-import { fetchArticle, fetchArticles } from "../api";
+import { fetchArticle, fetchArticles, postArticleLike } from "../api";
 import { SortType } from "@/app/store/article";
 
 export const useFetchArticle = (articleId: string) => {
@@ -64,4 +64,7 @@ export const useFetchArticles = (sortType: SortType) => {
   return useSuspenseQuery({ queryKey, queryFn });
 };
 
-export const usePatchArticleHit = () => {};
+export const usePostArticleLike = (articleId: string) =>
+  useMutation({
+    mutationFn: () => postArticleLike(articleId),
+  });

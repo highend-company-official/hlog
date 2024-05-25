@@ -2,14 +2,19 @@ import { useMutation } from "@tanstack/react-query";
 import { type ArticleType, generateRandomId, supabase } from "@/shared";
 
 type Params = {
-  articleMetaData: Omit<
-    ArticleType,
-    "profiles" | "created_at" | "hits" | "verified" | "id" | "thumbnail"
-  >;
+  articleMetaData: {
+    title: string;
+    thumbnail?: File;
+    body: string;
+    summary: string;
+    has_comments: boolean;
+    has_like: boolean;
+    has_hit: boolean;
+  };
   thumbnailFile: File;
 };
 
-const uploadArticle = async ({
+const postArticle = async ({
   articleMetaData,
   thumbnailFile,
 }: Params): Promise<ArticleType> => {
@@ -41,7 +46,7 @@ const uploadArticle = async ({
 
 const usePostArticle = () =>
   useMutation<ArticleType, Error, Params>({
-    mutationFn: uploadArticle,
+    mutationFn: postArticle,
   });
 
 export default usePostArticle;

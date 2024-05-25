@@ -13,10 +13,12 @@ export const ArticleSchema = z.object({
   has_comments: z.boolean(),
   has_like: z.boolean(),
   has_hit: z.boolean(),
-  profiles: z.object({
+  profile: z.object({
+    user_id: z.string(),
     username: z.string(),
     profile_url: z.string(),
   }),
+  likes: z.number(),
 });
 
 export const LikeSchema = z.object({
@@ -29,7 +31,8 @@ export const CommentSchema = z.object({
   id: z.string(),
   body: z.string(),
   created_at: z.date(),
-  profiles: z.object({
+  profile: z.object({
+    user_id: z.string(),
     username: z.string(),
     profile_url: z.string(),
   }),

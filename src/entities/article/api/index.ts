@@ -6,13 +6,13 @@ export const fetchArticle = (articleId: string) => {
     .from("articles")
     .select(
       `
-        id,
+        id, 
         title,
         body,
         summary,
         thumbnail,
         created_at,
-        profiles (username, profile_url)
+        profiles (id, username, profile_url)
       `
     )
     .match({ id: articleId })
@@ -20,56 +20,38 @@ export const fetchArticle = (articleId: string) => {
     .single<ArticleType>();
 };
 
+type ResponseType = {
+  id: string;
+  has_comments: boolean;
+  has_hit: boolean;
+  has_like: boolean;
+  hits: number;
+  likes: number;
+  created_at: Date;
+  profile_url: string;
+  summary: string;
+  thumbnail: string;
+  title: string;
+  user_id: string;
+  username: string;
+};
+
 export const fetchArticles = (sortType: SortType) => {
+  const baseQuery = supabase.rpc("get_articles_with_likes");
+
   if (sortType === SortType.new) {
-    return supabase
-      .from("articles")
-      .select(
-        `
-          id,
-          title,
-          summary,
-          thumbnail,
-          created_at, 
-          profiles (username, profile_url)
-        `
-      )
+    return baseQuery
       .order("created_at", { ascending: false })
-      .returns<ArticleType[]>();
+      .returns<ResponseType[]>();
   }
 
   if (sortType === SortType.old) {
-    return supabase
-      .from("articles")
-      .select(
-        `
-          id,
-          title,
-          summary,
-          thumbnail,
-          created_at, 
-          profiles (username, profile_url)
-        `
-      )
+    return baseQuery
       .order("created_at", { ascending: true })
-      .returns<ArticleType[]>();
+      .returns<ResponseType[]>();
   }
 
-  return supabase
-    .from("articles")
-    .select(
-      `
-          id,
-          title,
-          summary,
-          thumbnail,
-          created_at, 
-          profiles (username, profile_url)
-        `
-    )
-    .order("created_at", { ascending: false })
-    .order("hits", { ascending: false })
-    .returns<ArticleType[]>();
+  return baseQuery.returns<ResponseType[]>();
 };
 
 // export const patchArticleHit = () => {

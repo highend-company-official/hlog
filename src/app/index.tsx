@@ -6,6 +6,7 @@ import * as hoc from "./hoc";
 import router from "./router";
 
 import "./index.css";
+import { Skeleton } from "@/shared";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
@@ -13,7 +14,7 @@ root.render(
   <React.StrictMode>
     <hoc.ErrorBoundary>
       <hoc.QueryClient>
-        <React.Suspense fallback={<>Page Load...</>}>
+        <React.Suspense fallback={<Skeleton height={300} />}>
           <hoc.AuthContainer>
             <hoc.ToastContainer>
               <RouterProvider router={router} />

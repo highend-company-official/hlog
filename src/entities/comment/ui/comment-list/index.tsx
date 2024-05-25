@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import { useParams } from "react-router-dom";
 
-import CommentCard from "../comment-card";
+import { Skeleton } from "@/shared";
 
+import CommentCard from "../comment-card";
 import { useFetchComments } from "../../lib";
-import CommentInput from "../comment-input";
 
 type ParamsType = {
   article_id: string;
@@ -19,19 +20,11 @@ const CommentList = () => {
   }
 
   return (
-    <>
-      <section>
-        <CommentInput />
-      </section>
-
-      <div className="py-6" />
-
+    <Suspense fallback={<Skeleton height={500} />}>
       {data.map((data) => (
         <CommentCard key={data.id} {...data} />
       ))}
-
-      <div className="py-10" />
-    </>
+    </Suspense>
   );
 };
 

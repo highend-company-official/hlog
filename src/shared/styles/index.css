@@ -1,27 +1,46 @@
 /* Inline Styles */
+
 #hlog h1 {
   font-size: 3rem;
   line-height: 1;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
 }
 #hlog h2 {
   font-size: 2.25rem;
   line-height: 2.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 #hlog h3 {
   font-size: 1.875rem;
   line-height: 2.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 #hlog h4 {
   font-size: 1.5rem;
   line-height: 2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 #hlog h5 {
   font-size: 1.25rem;
   line-height: 1.75rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 #hlog h6 {
   font-size: 1.125rem;
   line-height: 1.75rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 #hlog blockquote {
@@ -32,6 +51,12 @@
   border-left-width: 4px;
   border-color: rgb(37 99 235);
   border-style: solid;
+}
+
+#hlog p,
+#hlog span {
+  color: #191f28;
+  line-height: 27px;
 }
 
 #hlog ul {

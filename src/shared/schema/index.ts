@@ -31,8 +31,8 @@ export const CommentSchema = z.object({
   id: z.string(),
   body: z.string(),
   created_at: z.date(),
-  profile: z.object({
-    user_id: z.string(),
+  profiles: z.object({
+    id: z.string(),
     username: z.string(),
     profile_url: z.string(),
   }),

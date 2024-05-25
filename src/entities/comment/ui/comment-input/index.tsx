@@ -16,12 +16,15 @@ type Params = { article_id: string };
 const CommentInput = () => {
   const params = useParams<Params>();
   const queryClient = useQueryClient();
-  const { register, handleSubmit } = useForm<FieldValues>();
+  const { register, handleSubmit, reset } = useForm<FieldValues>();
   const { addToast } = useToastStore();
 
   const { mutateAsync } = usePostComment(params.article_id!);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    reset({
+      comment: "",
+    });
     mutateAsync(data.comment).then(() => {
       addToast({
         type: "success",

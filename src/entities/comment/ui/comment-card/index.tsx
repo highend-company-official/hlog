@@ -6,7 +6,7 @@ import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 const CommentCard = ({
   body,
-  profile: { user_id, username, profile_url },
+  profiles: { id, username, profile_url },
 }: CommentType) => {
   const navigate = useNavigate();
   const { read: readProfiles } = useBucket("profiles");
@@ -16,7 +16,7 @@ const CommentCard = ({
       <div className="flex items-center justify-between mb-2">
         <div
           className="flex items-center p-3 transition ease-in-out rounded-lg cursor-pointer hover:bg-black/10"
-          onClick={() => navigate(`/profile/${user_id}`)}
+          onClick={() => navigate(`/profile/${id}`)}
         >
           <img
             src={

@@ -16,13 +16,13 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
   const { isMySession } = useIsMySession(user_id!);
 
   return (
-    <div className="md:flex">
-      <ul className="w-full mb-4 space-y-4 text-sm font-medium text-gray-500 flex-column space-y md:me-4 md:mb-0 md:w-72">
+    <div className="flex">
+      <ul className="min-w-[200px] pt-7 mb-4 space-y-4 text-sm font-medium text-gray-500 flex-column space-y">
         <li>
           <NavLink
             to=""
             className={({ isActive }) =>
-              classNames("flex items-center w-full px-4 py-3 rounded-lg", {
+              classNames("flex items-center w-full px-4 py-3 rounded-l-lg", {
                 [activeClassname]: isActive,
               })
             }
@@ -38,7 +38,7 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
             to="articles"
             end
             className={({ isActive }) =>
-              classNames("flex items-center w-full px-4 py-3 rounded-lg", {
+              classNames("flex items-center w-full px-4 py-3 rounded-l-lg", {
                 [activeClassname]: isActive,
               })
             }
@@ -55,9 +55,12 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
                 to="settings"
                 end
                 className={({ isActive }) =>
-                  classNames("flex items-center w-full px-4 py-3 rounded-lg", {
-                    [activeClassname]: isActive,
-                  })
+                  classNames(
+                    "flex items-center w-full px-4 py-3 rounded-l-lg",
+                    {
+                      [activeClassname]: isActive,
+                    }
+                  )
                 }
               >
                 <IoMdSettings size={16} className="mr-1" />
@@ -67,7 +70,7 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
           }
         />
       </ul>
-      <div className="w-full p-6 text-gray-500 rounded-lg bg-gray-50 text-medium">
+      <div className="min-w-[1000px] p-6 text-gray-500 rounded-lg bg-gray-50 text-medium">
         {children}
       </div>
     </div>

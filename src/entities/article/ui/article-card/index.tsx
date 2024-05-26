@@ -80,19 +80,23 @@ const List = (props: ArticleCardProps) => {
   const { read } = useBucket("thumbnails");
   return (
     <Link to={`/article-read/${props.id}`}>
-      <li className="flex items-center h-20 mb-2 list-none transition ease-in border-solid group hover:bg-black/10 rounded-xl">
+      <li className="flex items-center w-full h-20 mb-2 list-none transition ease-in border-solid group hover:bg-black/10 rounded-xl">
         <img
           src={read(props.thumbnail)}
           alt={props.title}
           className="block object-cover w-20 h-20 min-h-10 rounded-xl max-sm:hidden"
         />
-        <div className="pl-5 border-b border-gray-300">
+        <div className="w-2/3 pl-5 border-b border-gray-300">
           <span className="font-bold group-hover:text-primary">
-            {props.title} [{props.hits ?? 0}]
+            {props.title} [{props.likes}]
           </span>
-          <p className="text-gray-400 max-sm:hidden">{props.summary}</p>
+          <p className="text-gray-400 truncate max-sm:hidden">
+            {props.summary}
+          </p>
         </div>
-        <div className="ml-auto mr-3">
+        <div className="ml-auto mr-3 text-slate-500">
+          <span>{props.profile.username}</span>
+          <span> | </span>
           <span>{getElapsedTime(props.created_at)}</span>
         </div>
       </li>

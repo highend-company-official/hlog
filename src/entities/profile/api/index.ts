@@ -11,7 +11,7 @@ export const fetchUserArticles = (userId: string) => {
         summary,
         thumbnail,
         created_at, 
-        profiles (username)
+        profile:profiles (username)
       `
     )
     .eq("user_id", userId)

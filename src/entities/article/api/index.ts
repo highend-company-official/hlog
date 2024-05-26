@@ -56,6 +56,13 @@ export const fetchArticles = (sortType: SortType) => {
       .returns<ArticlesResponseType[]>();
   }
 
+  if (sortType === SortType.trend) {
+    return baseQuery
+      .order("likes", { ascending: false })
+      .order("created_at", { ascending: false })
+      .returns<ArticlesResponseType[]>();
+  }
+
   return baseQuery.returns<ArticlesResponseType[]>();
 };
 
@@ -73,3 +80,6 @@ export const postArticleLike = async (articleId: string) => {
 
 export const patchArticleHit = (articleId: string) =>
   supabase.rpc("increase_article_like", { article_id_param: articleId });
+
+export const patchArticleHits = (articleId: string) =>
+  supabase.rpc("increment_article_hits", { article_id: articleId });

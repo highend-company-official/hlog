@@ -14,7 +14,7 @@ import {
 import * as shared from "@/shared";
 import * as pages from "@/pages";
 import * as widgets from "@/widgets";
-import * as hoc from "./hoc";
+import * as provider from "./providers";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,9 +46,9 @@ const router = createBrowserRouter(
             path="settings"
             element={
               <Suspense fallback={<shared.Skeleton height={600} />}>
-                <hoc.PrivateRoute>
+                <provider.PrivateRoute>
                   <ProfileSettings />
-                </hoc.PrivateRoute>
+                </provider.PrivateRoute>
               </Suspense>
             }
           />
@@ -58,18 +58,18 @@ const router = createBrowserRouter(
         path="article-write"
         element={
           <Suspense fallback={<shared.Skeleton height={600} />}>
-            <hoc.PrivateRoute>
+            <provider.PrivateRoute>
               <pages.ArticleWrite />
-            </hoc.PrivateRoute>
+            </provider.PrivateRoute>
           </Suspense>
         }
       />
       <Route
         path="auth"
         element={
-          <hoc.PublicRoute>
+          <provider.PublicRoute>
             <widgets.AuthLayout />
-          </hoc.PublicRoute>
+          </provider.PublicRoute>
         }
       >
         <Route path="sign-in" element={<pages.SignInPage />} />

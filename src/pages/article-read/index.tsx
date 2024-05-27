@@ -4,9 +4,9 @@ import * as shared from "@/shared";
 
 import { ArticleView } from "@/entities/article";
 import { CommentList } from "@/entities/comment";
-import CommentInput from "@/entities/comment/ui/comment-input";
 
 import { LikeArticle } from "@/features/article/like-article";
+import { CreateCommentForm } from "@/features/comment/create-comment-form";
 
 const Skeleton = () => {
   return (
@@ -29,7 +29,7 @@ function ArticleRead() {
 
       <shared.Divider />
 
-      <CommentInput />
+      <CreateCommentForm />
 
       <div className="py-6" />
 

@@ -3,9 +3,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 import { useToastStore } from "@/app/store";
+
 import * as shared from "@/shared";
 
-import { usePostComment } from "../../lib";
+import { usePostComment } from "../lib";
 
 type FieldValues = {
   comment: string;
@@ -13,7 +14,7 @@ type FieldValues = {
 
 type Params = { article_id: string };
 
-const CommentInput = () => {
+const CreateCommentForm = () => {
   const params = useParams<Params>();
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm<FieldValues>();
@@ -63,4 +64,4 @@ const CommentInput = () => {
   );
 };
 
-export default CommentInput;
+export default CreateCommentForm;

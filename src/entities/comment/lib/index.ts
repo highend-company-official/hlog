@@ -1,5 +1,5 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { fetchComments, postComment } from "../api";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { fetchComments } from "../api";
 import * as shared from "@/shared";
 
 export const useFetchComments = (articleId: string) => {
@@ -11,8 +11,3 @@ export const useFetchComments = (articleId: string) => {
 
   return useSuspenseQuery({ queryKey, queryFn });
 };
-
-export const usePostComment = (articleId: string) =>
-  useMutation({
-    mutationFn: (body: string) => postComment(articleId, body),
-  });

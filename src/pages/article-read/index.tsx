@@ -1,10 +1,12 @@
 import { Suspense } from "react";
 
-import { ArticleView, LikeView } from "@/entities/article";
-import { CommentList } from "@/entities/comment";
-
 import * as shared from "@/shared";
+
+import { ArticleView } from "@/entities/article";
+import { CommentList } from "@/entities/comment";
 import CommentInput from "@/entities/comment/ui/comment-input";
+
+import { LikeArticle } from "@/features/article/like-article";
 
 const Skeleton = () => {
   return (
@@ -23,7 +25,7 @@ function ArticleRead() {
     <Suspense fallback={<Skeleton />}>
       <ArticleView />
 
-      <LikeView />
+      <LikeArticle />
 
       <shared.Divider />
 

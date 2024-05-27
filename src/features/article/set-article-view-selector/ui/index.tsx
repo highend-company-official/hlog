@@ -5,7 +5,7 @@ import { BiSolidCard } from "react-icons/bi";
 import useArticle from "@/app/store/article";
 import classNames from "classnames";
 
-const ArticleViewSelector = () => {
+const SetArticleViewSelector = () => {
   const { articleViewMode, changeViewMode } = useArticle();
 
   return (
@@ -50,4 +50,4 @@ const ArticleViewSelector = () => {
   );
 };
 
-export default ArticleViewSelector;
+export default SetArticleViewSelector;

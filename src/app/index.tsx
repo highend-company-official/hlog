@@ -7,22 +7,22 @@ import router from "./router";
 
 import { Skeleton } from "@/shared";
 
-import "./index.css";
+import "./styles/index.css";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
   <React.StrictMode>
     <provider.ErrorBoundary>
-      <provider.QueryClient>
-        <React.Suspense fallback={<Skeleton height={300} />}>
+      <React.Suspense fallback={<Skeleton height={300} />}>
+        <provider.QueryClient>
           <provider.AuthContainer>
             <provider.ToastContainer>
               <RouterProvider router={router} />
             </provider.ToastContainer>
           </provider.AuthContainer>
-        </React.Suspense>
-      </provider.QueryClient>
+        </provider.QueryClient>
+      </React.Suspense>
     </provider.ErrorBoundary>
   </React.StrictMode>
 );

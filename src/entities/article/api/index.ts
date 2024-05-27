@@ -66,18 +66,6 @@ export const fetchArticles = (sortType: SortType) => {
   return baseQuery.returns<ArticlesResponseType[]>();
 };
 
-export const postArticleLike = async (articleId: string) => {
-  const response = await supabase
-    .from("likes")
-    .insert({
-      article_id: articleId,
-    })
-    .throwOnError()
-    .select();
-
-  return response.data;
-};
-
 export const patchArticleHit = (articleId: string) =>
   supabase.rpc("increase_article_like", { article_id_param: articleId });
 

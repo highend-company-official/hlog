@@ -38,7 +38,7 @@ const CustomDropdownTrigger = ({ label }: { label: React.ReactNode }) => {
   );
 };
 
-const ArticleSortSelector = () => {
+const SortArticleSelector = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { sortType, changeSortType } = useArticleStore();
 
@@ -72,4 +72,4 @@ const ArticleSortSelector = () => {
   );
 };
 
-export default ArticleSortSelector;
+export default SortArticleSelector;

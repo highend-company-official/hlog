@@ -3,13 +3,13 @@ import * as shared from "@/shared";
 import { useState } from "react";
 import { BiSolidLike } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
-import { usePostArticleLike } from "../../lib";
+import { usePostArticleLike } from "../lib";
 
 type Params = {
   article_id: string;
 };
 
-const LiveView = () => {
+const LikeArticle = () => {
   const params = useParams<Params>();
   const navigate = useNavigate();
   const { addToast } = useToastStore();
@@ -88,4 +88,4 @@ const LiveView = () => {
   );
 };
 
-export default LiveView;
+export default LikeArticle;

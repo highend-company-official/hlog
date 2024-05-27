@@ -5,7 +5,7 @@ import { PiSortDescendingLight, PiSortAscendingLight } from "react-icons/pi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
 import { Dropdown, useOutsideClick } from "@/shared";
-import useArticleStore, { SortType } from "@/app/store/article";
+import useArticleStore, { type SortType } from "@/app/store/article";
 
 const SortItem = ({
   sortType,

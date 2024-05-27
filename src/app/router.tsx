@@ -5,11 +5,7 @@ import {
 } from "react-router-dom";
 import { Suspense } from "react";
 
-import {
-  ProfileInfo,
-  ProfileArticles,
-  ProfileSettings,
-} from "@/entities/profile";
+import { ProfileInfo, ProfileArticles } from "@/entities/profile";
 
 import * as shared from "@/shared";
 import * as pages from "@/pages";
@@ -47,7 +43,7 @@ const router = createBrowserRouter(
             element={
               <Suspense fallback={<shared.Skeleton height={600} />}>
                 <provider.PrivateRoute>
-                  <ProfileSettings />
+                  <widgets.ProfileSettings />
                 </provider.PrivateRoute>
               </Suspense>
             }

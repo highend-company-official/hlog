@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./src/app/**/*.{ts,tsx}",
     "./src/entities/**/*.{ts,tsx}",
+    "./src/features/**/*.{ts,tsx}",
     "./src/pages/**/*.{ts,tsx}",
     "./src/shared/**/*.{ts,tsx}",
     "./src/widgets/**/*.{ts,tsx}",

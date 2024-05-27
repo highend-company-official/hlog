@@ -1,35 +1,32 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
-import { MdOutlineMailOutline } from "react-icons/md";
-
+import { MdOutlineMailOutline, MdModeEdit, MdDone } from "react-icons/md";
 import { IoMdClose, IoIosLink } from "react-icons/io";
-import { MdModeEdit, MdDone } from "react-icons/md";
 
 import defaultProfile from "@/shared/assets/default-profile.jpg";
-
 import * as shared from "@/shared";
-
-import { Blockquote, isProviderURL, useFetchUser } from "@/shared";
-import { useParams } from "react-router-dom";
 
 import {
   usePatchProfileImage,
   usePatchProfileImageReset,
   usePatchProfileInfo,
-} from "../../lib";
+} from "../../entities/profile/lib";
 import { useToastStore } from "@/app/store";
 import { FaPhoneAlt } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import SignOutButton from "@/features/auth/sign-out-button/ui";
+import QuitButton from "@/features/auth/quit-button/ui";
 
 const ProfileSettingSection = () => {
   const params = useParams<{ user_id: string }>();
   const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
   const { read } = shared.useBucket("profiles");
+  const { data: userData } = shared.useFetchUser(params.user_id!);
 
   const { addToast } = useToastStore();
-  const { data: userData } = useFetchUser(params.user_id!);
   const { mutateAsync: uploadProfileImage } = usePatchProfileImage(
     params.user_id!
   );
@@ -113,7 +110,7 @@ const ProfileSettingSection = () => {
             trueRender={
               <img
                 src={
-                  isProviderURL(userData?.profile_url ?? "")
+                  shared.isProviderURL(userData?.profile_url ?? "")
                     ? userData!.profile_url
                     : read(userData!.profile_url)
                 }
@@ -179,9 +176,9 @@ const ProfileSettingSection = () => {
           </button>
         }
         falseRender={
-          <Blockquote>
+          <shared.Blockquote>
             아직 프로필 사진이 등록되지 않았습니다. 프로필 사진을 등록해주세요.
-          </Blockquote>
+          </shared.Blockquote>
         }
       />
 
@@ -269,7 +266,7 @@ const UserInfoSettingSection = () => {
   const queryClient = useQueryClient();
   const params = useParams<{ user_id: string }>();
   const { addToast } = useToastStore();
-  const { data: userData } = useFetchUser(params.user_id!);
+  const { data: userData } = shared.useFetchUser(params.user_id!);
   const { mutateAsync: patchProfileInfo, isPending } = usePatchProfileInfo(
     params.user_id!
   );
@@ -375,6 +372,11 @@ const ProfileSettings = () => {
       <Suspense fallback={<shared.Skeleton height={500} />}>
         <div className="mt-4" />
         <OptionsSection />
+
+        <div className="flex justify-end">
+          <SignOutButton />
+          <QuitButton />
+        </div>
       </Suspense>
     </>
   );

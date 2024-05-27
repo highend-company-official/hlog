@@ -1,6 +1,6 @@
 import { CgSpinner } from "react-icons/cg";
 
-const UploadOverlay = () => {
+const FileUploadOverlay = () => {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full max-h-full overflow-x-hidden overflow-y-auto bg-black/30">
       <div className="flex flex-col items-center justify-center text-white">
@@ -12,4 +12,4 @@ const UploadOverlay = () => {
   );
 };
 
-export default UploadOverlay;
+export default FileUploadOverlay;

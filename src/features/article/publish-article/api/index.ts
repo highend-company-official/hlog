@@ -1,7 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { type ArticleType, generateRandomId, supabase } from "@/shared";
+import { ArticleType, generateRandomId, supabase } from "@/shared";
 
-type Params = {
+export type Params = {
   articleMetaData: {
     title: string;
     thumbnail?: File;
@@ -14,7 +13,7 @@ type Params = {
   thumbnailFile: File;
 };
 
-const postArticle = async ({
+export const postArticle = async ({
   articleMetaData,
   thumbnailFile,
 }: Params): Promise<ArticleType> => {
@@ -43,10 +42,3 @@ const postArticle = async ({
 
   return response.data;
 };
-
-const usePostArticle = () =>
-  useMutation<ArticleType, Error, Params>({
-    mutationFn: postArticle,
-  });
-
-export default usePostArticle;

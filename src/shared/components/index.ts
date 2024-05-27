@@ -10,4 +10,5 @@ export { default as SelectBox } from "./select-box";
 export { default as Switch } from "./switch";
 export { default as Checkbox } from "./checkbox";
 export { default as Dropdown } from "./dropdown";
+export { default as Stepper } from "./stepper";
 export * from "./skeleton";

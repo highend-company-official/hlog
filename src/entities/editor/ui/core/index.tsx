@@ -23,7 +23,7 @@ import "draft-js/dist/Draft.css";
 
 import { generateRandomId, useBucket, useMount, useUnmount } from "@/shared";
 import { uploadArticleImage } from "../../lib";
-import UploadOverlay from "../upload-overlay";
+import UploadOverlay from "../file-upload-overlay";
 
 type KeyCommandType =
   | DraftEditorCommand

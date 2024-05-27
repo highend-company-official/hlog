@@ -1,16 +1,18 @@
-import { useEditorStore, useToastStore } from "@/app/store";
-import { useQueryClient } from "@tanstack/react-query";
-import { If, Modal, Skeleton, QUERY_CONSTS } from "@/shared";
 import { Suspense, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { convertToRaw, DraftEntityMutability, DraftEntityType } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-import { Stepper } from "..";
-import { usePostArticle } from "../../lib";
-import PolicyPart from "./policy-part";
-import PreviewPart from "./preview-part";
-import SettingPart from "./setting-part";
-import { useNavigate } from "react-router-dom";
-import useEditorUtils from "../../hooks";
+
+import { If, Modal, Skeleton, QUERY_CONSTS, Stepper } from "@/shared";
+import { useEditorStore, useToastStore } from "@/app/store";
+import { usePostArticle } from "../../../../../entities/editor/lib";
+
+import PolicyPart from "../policy-part";
+import PreviewPart from "../preview-part";
+import SettingPart from "../setting-part";
+
+import useEditorUtils from "../../../../../entities/editor/hooks";
 
 type Props = {
   onClose: () => void;
@@ -23,7 +25,7 @@ enum Steps {
   policy,
 }
 
-const ArticleWriteModal = ({ onClose }: Props) => {
+const PublishSettingModal = ({ onClose }: Props) => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
   const navigate = useNavigate();
@@ -78,7 +80,7 @@ const ArticleWriteModal = ({ onClose }: Props) => {
         body: markup,
       },
       thumbnailFile: thumbnail!,
-    }).then((response) => {
+    }).then((response: { id: string }) => {
       addToast({
         type: "success",
         content: "발행에 성공했습니다!",
@@ -188,4 +190,4 @@ const ArticleWriteModal = ({ onClose }: Props) => {
   );
 };
 
-export default ArticleWriteModal;
+export default PublishSettingModal;

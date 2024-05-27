@@ -2,17 +2,15 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { MdOutlineMailOutline } from "react-icons/md";
-import { CiLogout } from "react-icons/ci";
-import { FaUserSlash } from "react-icons/fa";
+
 import { IoMdClose, IoIosLink } from "react-icons/io";
 import { MdModeEdit, MdDone } from "react-icons/md";
 
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 
-import * as features from "@/features";
 import * as shared from "@/shared";
 
-import { Blockquote, isProviderURL, Modal, useFetchUser } from "@/shared";
+import { Blockquote, isProviderURL, useFetchUser } from "@/shared";
 import { useParams } from "react-router-dom";
 
 import {
@@ -356,90 +354,6 @@ const OptionsSection = () => {
   );
 };
 
-const AuthSection = () => {
-  const params = useParams<{ user_id: string }>();
-  const queryClient = useQueryClient();
-  const { addToast } = useToastStore();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleSignOut = async () => {
-    await features.auth.signOut();
-
-    queryClient.refetchQueries({
-      queryKey: [shared.QUERY_CONSTS.USER, params.user_id],
-    });
-  };
-
-  const handleDeleteUser = async () => {
-    try {
-      await features.auth.signOut();
-      await features.auth.quit();
-
-      queryClient.refetchQueries({
-        queryKey: [
-          shared.QUERY_CONSTS.SESSION,
-          shared.QUERY_CONSTS.USER,
-          params.user_id,
-        ],
-      });
-      addToast({
-        type: "success",
-        content: "회원탈퇴가 정상적으로 진행되었습니다.",
-      });
-    } catch (error) {
-      addToast({
-        type: "error",
-        content: "회원 탈퇴 과정중 오류가 발생했습니다.",
-      });
-    } finally {
-      setIsModalOpen(false);
-    }
-  };
-
-  return (
-    <>
-      <div className="flex flex-col items-end justify-center">
-        <button
-          type="button"
-          className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 mb-2"
-          onClick={handleSignOut}
-        >
-          로그아웃
-          <CiLogout className="ml-3" size={20} />
-        </button>
-        <button
-          type="button"
-          className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 mb-2"
-          onClick={() => setIsModalOpen(true)}
-        >
-          회원탈퇴
-          <FaUserSlash className="ml-3" size={20} />
-        </button>
-      </div>
-
-      <shared.If
-        condition={isModalOpen}
-        trueRender={
-          <Modal>
-            <Modal.Header>정말로 회원탈퇴 하시겠습니까?</Modal.Header>
-            <Modal.Content>이 작업은 되돌릴 수 없습니다.</Modal.Content>
-            <Modal.Footer align="right">
-              <Modal.Button onClick={() => setIsModalOpen(false)}>
-                닫기
-              </Modal.Button>
-              <div className="ml-2" />
-              <Modal.Button onClick={handleDeleteUser} type="decline">
-                탈퇴
-              </Modal.Button>
-            </Modal.Footer>
-          </Modal>
-        }
-      />
-    </>
-  );
-};
-
 export type Options = {
   isDarkMode: boolean;
   editorConfig: null;
@@ -462,8 +376,6 @@ const ProfileSettings = () => {
         <div className="mt-4" />
         <OptionsSection />
       </Suspense>
-
-      <AuthSection />
     </>
   );
 };

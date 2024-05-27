@@ -6,13 +6,13 @@ import draftToHtml from "draftjs-to-html";
 
 import { If, Modal, Skeleton, QUERY_CONSTS, Stepper } from "@/shared";
 import { useEditorStore, useToastStore } from "@/app/store";
-import { usePostArticle } from "../../../../../entities/editor/lib";
 
 import PolicyPart from "../policy-part";
 import PreviewPart from "../preview-part";
 import SettingPart from "../setting-part";
 
 import useEditorUtils from "../../../../../entities/editor/hooks";
+import usePostArticle from "../../lib";
 
 type Props = {
   onClose: () => void;

@@ -1,40 +1,28 @@
-import { Suspense } from "react";
+import * as shared from "@/shared";
 
-import { ArticleView, LikeView } from "@/entities/article";
+import { ArticleView } from "@/entities/article";
 import { CommentList } from "@/entities/comment";
 
-import * as shared from "@/shared";
-import CommentInput from "@/entities/comment/ui/comment-input";
-
-const Skeleton = () => {
-  return (
-    <>
-      <shared.ImageSkeleton />
-
-      <div className="mt-14" />
-
-      <shared.TextSkeleton repeat={5} />
-    </>
-  );
-};
+import { LikeArticle } from "@/features/article/like-article";
+import { CreateCommentForm } from "@/features/comment/create-comment";
 
 function ArticleRead() {
   return (
-    <Suspense fallback={<Skeleton />}>
+    <>
       <ArticleView />
 
-      <LikeView />
+      <LikeArticle />
 
       <shared.Divider />
 
-      <CommentInput />
+      <CreateCommentForm />
 
       <div className="py-6" />
 
       <CommentList />
 
       <div className="py-10" />
-    </Suspense>
+    </>
   );
 }
 

@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { BiArrowBack, BiSend } from "react-icons/bi";
 import { IoHelp } from "react-icons/io5";
 
-import * as constants from "../../constants";
-import { useEditorStore } from "@/app/store";
-import { ArticlePublishModal } from "..";
+import useEditorStore from "@/entities/editor/model";
+
 import ShortcutDescriptionModal from "../shortcut-description-modal";
+import * as constants from "../../constants";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;
@@ -29,10 +29,13 @@ const ToolbarItem = (props: ToolbarItemProps) => {
   );
 };
 
-const Toolbar = () => {
+type Props = {
+  onPulish: () => void;
+};
+
+const Toolbar = ({ onPulish }: Props) => {
   const navigate = useNavigate();
   const { editorMetaData, setEditorMetaData } = useEditorStore();
-  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
   const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
 
   const isPublishDisabled =
@@ -54,10 +57,6 @@ const Toolbar = () => {
       ...editorMetaData,
       content: RichUtils.toggleBlockType(editorMetaData.content, type),
     });
-  };
-
-  const handlePostArticle = () => {
-    setIsWriteModalOpen(true);
   };
 
   const isActiveInlineStyle = (type: string): boolean => {
@@ -125,19 +124,12 @@ const Toolbar = () => {
         </div>
 
         <div>
-          <ToolbarItem
-            onClick={handlePostArticle}
-            selected
-            disabled={isPublishDisabled}
-          >
+          <ToolbarItem onClick={onPulish} selected disabled={isPublishDisabled}>
             <BiSend />
           </ToolbarItem>
         </div>
       </div>
 
-      {isWriteModalOpen && (
-        <ArticlePublishModal onClose={() => setIsWriteModalOpen(false)} />
-      )}
       {isDescriptionModalOpen && (
         <ShortcutDescriptionModal
           onClose={() => setIsDescriptionModalOpen(false)}

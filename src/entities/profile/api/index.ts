@@ -1,22 +1,4 @@
-import { ArticleType, supabase } from "@/shared";
-
-export const fetchUserArticles = (userId: string) => {
-  return supabase
-    .from("articles")
-    .select(
-      `
-        id,
-        title,
-        body,
-        summary,
-        thumbnail,
-        created_at, 
-        profile:profiles (username)
-      `
-    )
-    .eq("user_id", userId)
-    .returns<ArticleType[]>();
-};
+import { supabase } from "@/shared";
 
 export const patchProfileImageReset = async (
   userId: string,

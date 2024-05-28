@@ -1,4 +1,4 @@
-import { SortType } from "@/app/store/article";
+import { SortType } from "@/entities/article/model";
 import { supabase } from "@/shared";
 
 type ArticleResponseType = {
@@ -64,18 +64,6 @@ export const fetchArticles = (sortType: SortType) => {
   }
 
   return baseQuery.returns<ArticlesResponseType[]>();
-};
-
-export const postArticleLike = async (articleId: string) => {
-  const response = await supabase
-    .from("likes")
-    .insert({
-      article_id: articleId,
-    })
-    .throwOnError()
-    .select();
-
-  return response.data;
 };
 
 export const patchArticleHit = (articleId: string) =>

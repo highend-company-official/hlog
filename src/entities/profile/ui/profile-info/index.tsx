@@ -45,9 +45,9 @@ const AuthorizationView = () => {
   const { read } = shared.useBucket("profiles");
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
-  const { data: sessionData } = shared.useSession();
+  const { data: session } = shared.useSession();
 
-  if (!userData || !sessionData) return null;
+  if (!userData || !session) return null;
 
   return (
     <>
@@ -100,15 +100,13 @@ const AuthorizationView = () => {
         <span>최근 로그인한 시간 </span>
         <span className="font-bold">
           {shared.getElapsedTime(
-            new Date(sessionData?.session?.user?.last_sign_in_at ?? "")
+            new Date(session?.user?.last_sign_in_at ?? "")
           )}
         </span>
       </li>
       <li>
         <span>계정 생성일 </span>
-        <span className="font-bold">
-          {sessionData?.session?.user?.created_at}
-        </span>
+        <span className="font-bold">{session?.user?.created_at}</span>
       </li>
     </>
   );

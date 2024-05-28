@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import { BiSolidLike } from "react-icons/bi";
 import { IoMdEye } from "react-icons/io";
 
-import { ViewMode } from "@/app/store/article";
-
+import { type ViewMode } from "@/entities/article/model";
 import { getElapsedTime, isProviderURL } from "@/shared";
 import { type ArticleType } from "@/shared/schema";
 import useBucket from "@/shared/libs/useBucket";

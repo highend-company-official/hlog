@@ -5,25 +5,39 @@ import {
 } from "react-router-dom";
 import { Suspense } from "react";
 
-import {
-  ProfileInfo,
-  ProfileArticles,
-  ProfileSettings,
-} from "@/entities/profile";
+import { ProfileInfo } from "@/entities/profile";
 
 import * as shared from "@/shared";
 import * as pages from "@/pages";
-import * as widgets from "@/widgets";
-import * as hoc from "./hoc";
+
+import { AuthLayout, HeaderLayout } from "@/widgets/layout";
+import { ProfileArticles } from "@/widgets/profile/profile-articles";
+import { ProfileSettings } from "@/widgets/profile/profile-settings";
+
+import * as provider from "./providers";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<widgets.HeaderLayout />}>
+      <Route element={<HeaderLayout />}>
         <Route index element={<pages.HomePage />} />
         <Route
           path="article-read/:article_id"
-          element={<pages.ArticleRead />}
+          element={
+            <Suspense
+              fallback={
+                <>
+                  <shared.ImageSkeleton />
+
+                  <div className="mt-14" />
+
+                  <shared.TextSkeleton repeat={5} />
+                </>
+              }
+            >
+              <pages.ArticleRead />
+            </Suspense>
+          }
         />
         <Route path="profile/:user_id" element={<pages.ProfilePage />}>
           <Route
@@ -46,9 +60,9 @@ const router = createBrowserRouter(
             path="settings"
             element={
               <Suspense fallback={<shared.Skeleton height={600} />}>
-                <hoc.PrivateRoute>
+                <provider.PrivateRoute>
                   <ProfileSettings />
-                </hoc.PrivateRoute>
+                </provider.PrivateRoute>
               </Suspense>
             }
           />
@@ -58,18 +72,18 @@ const router = createBrowserRouter(
         path="article-write"
         element={
           <Suspense fallback={<shared.Skeleton height={600} />}>
-            <hoc.PrivateRoute>
+            <provider.PrivateRoute>
               <pages.ArticleWrite />
-            </hoc.PrivateRoute>
+            </provider.PrivateRoute>
           </Suspense>
         }
       />
       <Route
         path="auth"
         element={
-          <hoc.PublicRoute>
-            <widgets.AuthLayout />
-          </hoc.PublicRoute>
+          <provider.PublicRoute>
+            <AuthLayout />
+          </provider.PublicRoute>
         }
       >
         <Route path="sign-in" element={<pages.SignInPage />} />

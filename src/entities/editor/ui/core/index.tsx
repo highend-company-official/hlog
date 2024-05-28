@@ -1,7 +1,8 @@
 import { memo, useState } from "react";
-import { useEditorStore, useToastStore } from "@/app/store";
+import useEditorStore from "@/entities/editor/model";
 
 import Editor from "@draft-js-plugins/editor";
+import createImagePlugin from "@draft-js-plugins/image";
 import {
   KeyBindingUtil,
   getDefaultKeyBinding,
@@ -13,17 +14,16 @@ import {
   DraftHandleValue,
   AtomicBlockUtils,
 } from "draft-js";
-import createImagePlugin from "@draft-js-plugins/image";
+
+import * as shared from "@/shared";
+import { useToastStore } from "@/app/model";
 
 import useEditorUtils from "../../hooks";
-import * as shared from "@/shared";
+import UploadOverlay from "../file-upload-overlay";
+import { uploadArticleImage } from "../../lib";
 
 import "./index.css";
 import "draft-js/dist/Draft.css";
-
-import { generateRandomId, useBucket, useMount, useUnmount } from "@/shared";
-import { uploadArticleImage } from "../../lib";
-import UploadOverlay from "../upload-overlay";
 
 type KeyCommandType =
   | DraftEditorCommand
@@ -45,7 +45,7 @@ const plugins = [imagePlugin];
 
 const EditorCore = memo(() => {
   const { addToast } = useToastStore();
-  const { read: readArticles } = useBucket("articles");
+  const { read: readArticles } = shared.useBucket("articles");
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
   const {
     editorMetaData,
@@ -265,7 +265,7 @@ const EditorCore = memo(() => {
 
     setIsImageUploading(true);
     uploadArticleImage(
-      generateRandomId(),
+      shared.generateRandomId(),
       pastedFile as File,
       handleUploadedSuccess,
       handleUploadedError
@@ -275,14 +275,14 @@ const EditorCore = memo(() => {
   };
 
   // Effects
-  useMount(() => {
+  shared.useMount(() => {
     const loadedContent = loadSavedContent();
     if (loadedContent?.content.hasText()) {
       setIsSavedModalOpen(true);
     }
   });
 
-  useUnmount(() => resetEditorStore());
+  shared.useUnmount(() => resetEditorStore());
 
   return (
     <>

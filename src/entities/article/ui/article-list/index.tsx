@@ -1,10 +1,11 @@
 import { ImFileEmpty } from "react-icons/im";
 
-import { useFetchArticles } from "../../lib";
 import * as shared from "@/shared";
 import ArticleCard from "../article-card";
 import { useNavigate } from "react-router-dom";
-import useArticleStore, { ViewMode } from "@/app/store/article";
+
+import { useFetchArticles } from "../../lib";
+import useArticleStore, { type ViewMode } from "../../model";
 
 type Props = { children: JSX.Element[] };
 

@@ -1,12 +1,12 @@
 import { Suspense } from "react";
 
-import {
-  ArticleList,
-  ArticleViewSelector,
-  ArticleSortSelector,
-} from "@/entities/article";
+import { ArticleList } from "@/entities/article";
 import * as shared from "@/shared";
-import useArticle from "@/app/store/article";
+
+import { SetArticleViewSelector } from "@/features/article/set-article-view";
+import { SortArticleSelector } from "@/features/article/sort-article";
+
+import useArticleStore from "@/entities/article/model";
 
 const Skeleton = () => {
   return (
@@ -21,13 +21,13 @@ const Skeleton = () => {
 };
 
 function HomePage() {
-  const { articleViewMode } = useArticle();
+  const { articleViewMode } = useArticleStore();
 
   return (
     <div className="w-full">
       <div className="flex items-center justify-between w-full">
-        <ArticleViewSelector />
-        <ArticleSortSelector />
+        <SetArticleViewSelector />
+        <SortArticleSelector />
       </div>
       <Suspense fallback={<Skeleton />}>
         <ArticleList viewMode={articleViewMode} />

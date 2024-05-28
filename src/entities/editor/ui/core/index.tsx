@@ -16,6 +16,7 @@ import {
 } from "draft-js";
 
 import * as shared from "@/shared";
+import { useToastStore } from "@/app/model";
 
 import useEditorUtils from "../../hooks";
 import UploadOverlay from "../file-upload-overlay";

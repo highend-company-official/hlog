@@ -1,21 +1,26 @@
-import { ArticleType, supabase } from "@/shared";
+import { supabase } from "@/shared";
+
+type ArticlesResponseType = {
+  id: string;
+  has_comments: boolean;
+  has_hit: boolean;
+  has_like: boolean;
+  hits: number;
+  likes: number;
+  created_at: Date;
+  profile_url: string;
+  summary: string;
+  thumbnail: string;
+  title: string;
+  user_id: string;
+  username: string;
+};
 
 export const fetchUserArticles = (userId: string) => {
   return supabase
-    .from("articles")
-    .select(
-      `
-        id,
-        title,
-        body,
-        summary,
-        thumbnail,
-        created_at, 
-        profile:profiles (username)
-      `
-    )
+    .rpc("get_articles")
     .eq("user_id", userId)
-    .returns<ArticleType[]>();
+    .returns<ArticlesResponseType[]>();
 };
 
 export const patchProfileImageReset = async (

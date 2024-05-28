@@ -12,8 +12,9 @@ type Props = {
 
 const ProfileTab = ({ children }: { children: React.ReactNode }) => {
   const { user_id } = useParams<Props>();
-  const activeClassname = "text-white bg-primary";
   const { isMySession } = useIsMySession(user_id!);
+
+  const ACTIVE_CLASSNAME = "text-white bg-primary";
 
   return (
     <div className="flex">
@@ -23,7 +24,7 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
             to=""
             className={({ isActive }) =>
               classNames("flex items-center w-full px-4 py-3 rounded-l-lg", {
-                [activeClassname]: isActive,
+                [ACTIVE_CLASSNAME]: isActive,
               })
             }
             end
@@ -39,7 +40,7 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
             end
             className={({ isActive }) =>
               classNames("flex items-center w-full px-4 py-3 rounded-l-lg", {
-                [activeClassname]: isActive,
+                [ACTIVE_CLASSNAME]: isActive,
               })
             }
           >
@@ -58,7 +59,7 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
                   classNames(
                     "flex items-center w-full px-4 py-3 rounded-l-lg",
                     {
-                      [activeClassname]: isActive,
+                      [ACTIVE_CLASSNAME]: isActive,
                     }
                   )
                 }

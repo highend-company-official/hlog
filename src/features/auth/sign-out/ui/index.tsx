@@ -1,19 +1,20 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
 
-import { QUERY_CONSTS } from "@/shared";
+import { useSession } from "@/shared";
 import signOut from "../lib";
 
 const SignOutButton = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const params = useParams<{ user_id: string }>();
 
   const handleSignOut = async () => {
     await signOut();
 
+    navigate("/", { replace: true });
     queryClient.refetchQueries({
-      queryKey: [QUERY_CONSTS.USER, params.user_id],
+      queryKey: useSession.pk,
     });
   };
 

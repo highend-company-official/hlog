@@ -77,7 +77,9 @@ const AuthorizationView = () => {
             </div>
           }
         />
-        <span className="text-2xl mt-7">{userData.username}</span>
+        <span className="text-2xl mt-7 text-black mb-4">
+          {userData.username}
+        </span>
 
         <div className="flex">
           <Bio
@@ -125,7 +127,11 @@ const UnAuthorizationView = () => {
         condition={!!userData.profile_url}
         trueRender={
           <img
-            src={read(userData.profile_url)}
+            src={
+              isProviderURL(userData.profile_url)
+                ? userData.profile_url
+                : read(userData.profile_url)
+            }
             alt={userData.username}
             className="object-cover w-64 h-64 rounded-full"
           />
@@ -142,7 +148,7 @@ const UnAuthorizationView = () => {
           </div>
         }
       />
-      <span className="text-2xl mt-7">{userData.username}</span>
+      <span className="text-2xl mt-7 text-black mb-4">{userData.username}</span>
       <div className="flex">
         <Bio
           label="Email"

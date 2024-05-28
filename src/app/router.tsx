@@ -79,6 +79,14 @@ const router = createBrowserRouter(
         }
       />
       <Route
+        path="verify"
+        element={
+          <Suspense fallback={<shared.Skeleton height={600} />}>
+            <pages.VerifyPage />
+          </Suspense>
+        }
+      />
+      <Route
         path="auth"
         element={
           <provider.PublicRoute>

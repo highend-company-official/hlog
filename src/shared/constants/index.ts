@@ -3,6 +3,7 @@ export const QUERY_CONSTS = {
   ARTICLE: "ARTICLE" as const,
   SESSION: "SESSION" as const,
   COMMENT: "COMMENT" as const,
+  LIKE: "LIKE" as const,
 };
 
 export const STORAGE_CONSTS = {

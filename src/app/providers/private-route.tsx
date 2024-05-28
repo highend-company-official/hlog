@@ -10,12 +10,12 @@ type PrivateRouteProps = {
 };
 
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const { data, isFetching } = useSession();
+  const { data: session, isFetching } = useSession();
   const { addToast } = useToastStore();
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (!isFetching && !data.session) {
+    if (!isFetching && !session) {
       addToast({
         type: "warning",
         content: "로그인이 필요한 서비스입니다.",
@@ -24,9 +24,9 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
       });
       navigate("/auth/sign-in", { replace: true });
     }
-  }, [addToast, data.session, isFetching, navigate]);
+  }, [addToast, session, isFetching, navigate]);
 
-  if (data.session) {
+  if (session) {
     return <>{children}</>;
   }
 

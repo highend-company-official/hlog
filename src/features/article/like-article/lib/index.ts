@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { postArticleLike } from "../api";
 
-export const usePostArticleLike = (articleId: string) =>
+export const usePostArticleLike = (userId: string, articleId: string) =>
   useMutation({
-    mutationFn: () => postArticleLike(articleId),
+    mutationFn: () => postArticleLike(userId, articleId),
   });

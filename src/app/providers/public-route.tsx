@@ -7,14 +7,14 @@ type Props = {
 };
 
 const PublicRoute = ({ children }: Props) => {
-  const { data } = useSession();
+  const { data: session } = useSession();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data.session) {
+    if (session) {
       navigate("/");
     }
-  }, [data.session, navigate]);
+  }, [session, navigate]);
 
   return <>{children}</>;
 };

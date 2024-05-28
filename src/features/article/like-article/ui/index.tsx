@@ -6,16 +6,22 @@ import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
 import { usePostArticleLike } from "../lib";
+import { useSession } from "@/shared";
 
 type Params = {
   article_id: string;
 };
 
-const LikeArticle = () => {
+const AuthenticatedView = () => {
   const params = useParams<Params>();
   const navigate = useNavigate();
   const { addToast } = useToastStore();
-  const { mutateAsync } = usePostArticleLike(params.article_id!);
+  const { data: session } = useSession();
+
+  const { mutateAsync } = usePostArticleLike(
+    session!.user.id!,
+    params.article_id!
+  );
 
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
 
@@ -87,6 +93,19 @@ const LikeArticle = () => {
         }
       />
     </>
+  );
+};
+
+const UnauthenticatedView = () => {
+  return <>UnauthenticatedView</>;
+};
+
+const LikeArticle = () => {
+  return (
+    <shared.Authentication
+      authenticatedView={<AuthenticatedView />}
+      unauthenticatedView={<UnauthenticatedView />}
+    />
   );
 };
 

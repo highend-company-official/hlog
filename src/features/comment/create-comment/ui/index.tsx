@@ -13,11 +13,11 @@ type FieldValues = {
 
 type Params = { article_id: string };
 
-const CreateCommentForm = () => {
+const AuthenticatedView = () => {
   const params = useParams<Params>();
   const queryClient = useQueryClient();
-  const { register, handleSubmit, reset } = useForm<FieldValues>();
   const { addToast } = useToastStore();
+  const { register, handleSubmit, reset } = useForm<FieldValues>();
 
   const { mutateAsync } = usePostComment(params.article_id!);
 
@@ -36,7 +36,6 @@ const CreateCommentForm = () => {
       queryKey: [shared.QUERY_CONSTS.COMMENT, params.article_id],
     });
   };
-
   return (
     <>
       <div className="mt-2 mb-2">
@@ -59,6 +58,27 @@ const CreateCommentForm = () => {
       <p className="text-xs text-center text-gray-500 ms-auto">
         상대방을 향한 비난이나 욕설은 차단 등의 조치가 취해질 수 있습니다.
       </p>
+    </>
+  );
+};
+
+const UnauthenticatedView = () => {
+  return (
+    <>
+      <h3 className="">로그인하여 이 아티클에 의견을 남겨주세요!</h3>
+
+      <shared.Button>로그인</shared.Button>
+    </>
+  );
+};
+
+const CreateCommentForm = () => {
+  return (
+    <>
+      <shared.Authentication
+        authenticatedView={<AuthenticatedView />}
+        unauthenticatedView={<UnauthenticatedView />}
+      />
     </>
   );
 };

@@ -11,6 +11,7 @@ const useSession = () => {
   return useSuspenseQuery({
     queryKey: [shared.QUERY_CONSTS.SESSION],
     queryFn,
+    select: (data) => data.session,
   });
 };
 

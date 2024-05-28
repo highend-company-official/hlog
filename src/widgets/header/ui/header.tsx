@@ -15,8 +15,8 @@ import {
 } from "@/shared";
 
 const UserDivision = () => {
-  const { data } = useSession();
-  const { data: userData } = useFetchUser(data.session?.user.id ?? null);
+  const { data: session } = useSession();
+  const { data: userData } = useFetchUser(session?.user.id ?? null);
   const { read } = useBucket("profiles");
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ const UserDivision = () => {
   return (
     <li>
       <If
-        condition={!!data.session}
+        condition={!!session}
         trueRender={
           <img
             src={
@@ -39,7 +39,7 @@ const UserDivision = () => {
             className="object-cover w-8 h-8 rounded-full shadow-sm cursor-pointer"
             alt={userData?.username}
             onClick={() => {
-              navigate(`/profile/${data.session?.user.id}`);
+              navigate(`/profile/${session?.user.id}`);
             }}
           />
         }

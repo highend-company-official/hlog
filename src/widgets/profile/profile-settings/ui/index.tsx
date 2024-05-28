@@ -15,8 +15,9 @@ import {
   usePatchProfileImageReset,
   usePatchProfileInfo,
 } from "@/entities/profile/lib";
-import SignOutButton from "@/features/auth/sign-out-button/ui";
-import QuitButton from "@/features/auth/quit-button/ui";
+
+import SignOutButton from "@/features/auth/sign-out/ui";
+import QuitButton from "@/features/auth/quit/ui";
 
 const ProfileSettingSection = () => {
   const params = useParams<{ user_id: string }>();

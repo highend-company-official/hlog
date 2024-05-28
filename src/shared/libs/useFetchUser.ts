@@ -22,7 +22,7 @@ export const fetchUser = (userId: string) => {
 };
 
 const useFetchUser = (userId: string | null) => {
-  const queryKey = [shared.QUERY_CONSTS.USER, userId];
+  const queryKey = useFetchUser.pk(userId);
   const queryFn = async () => {
     if (!userId) {
       return null;
@@ -36,5 +36,7 @@ const useFetchUser = (userId: string | null) => {
     queryFn,
   });
 };
+
+useFetchUser.pk = (userId: string | null) => [shared.QUERY_CONSTS.USER, userId];
 
 export default useFetchUser;

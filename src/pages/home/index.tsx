@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import { ArticleList } from "@/entities/article";
 import * as shared from "@/shared";
 
-import { SetArticleViewSelector } from "@/features/article/set-article-view-selector";
-import { SortArticleSelector } from "@/features/article/sort-article-selector";
+import { SetArticleViewSelector } from "@/features/article/set-article-view";
+import { SortArticleSelector } from "@/features/article/sort-article";
 
 import useArticleStore from "@/entities/article/model";
 

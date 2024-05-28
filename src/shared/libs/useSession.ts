@@ -14,4 +14,6 @@ const useSession = () => {
   });
 };
 
+useSession.pk = [shared.QUERY_CONSTS.SESSION];
+
 export default useSession;

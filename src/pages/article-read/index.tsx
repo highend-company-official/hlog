@@ -6,7 +6,7 @@ import { ArticleView } from "@/entities/article";
 import { CommentList } from "@/entities/comment";
 
 import { LikeArticle } from "@/features/article/like-article";
-import { CreateCommentForm } from "@/features/comment/create-comment-form";
+import { CreateCommentForm } from "@/features/comment/create-comment";
 
 const Skeleton = () => {
   return (

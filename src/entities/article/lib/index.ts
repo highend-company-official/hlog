@@ -4,7 +4,7 @@ import { fetchArticle, fetchArticles } from "../api";
 import { SortType } from "@/entities/article/model";
 
 export const useFetchArticle = (articleId: string) => {
-  const queryKey = [shared.QUERY_CONSTS.ARTICLE, articleId];
+  const queryKey = useFetchArticle.pk(articleId);
   const queryFn = async () => {
     const response = await fetchArticle(articleId);
 
@@ -34,8 +34,13 @@ export const useFetchArticle = (articleId: string) => {
   return useSuspenseQuery({ queryKey, queryFn });
 };
 
+useFetchArticle.pk = (articleId: string) => [
+  shared.QUERY_CONSTS.ARTICLE,
+  articleId,
+];
+
 export const useFetchArticles = (sortType: SortType) => {
-  const queryKey = [shared.QUERY_CONSTS.ARTICLE, sortType];
+  const queryKey = useFetchArticles.pk(sortType);
   const queryFn = async () => {
     const response = await fetchArticles(sortType);
 
@@ -63,3 +68,8 @@ export const useFetchArticles = (sortType: SortType) => {
 
   return useSuspenseQuery({ queryKey, queryFn });
 };
+
+useFetchArticles.pk = (sortType: SortType) => [
+  shared.QUERY_CONSTS.ARTICLE,
+  sortType,
+];

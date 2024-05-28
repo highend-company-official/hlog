@@ -5,17 +5,21 @@ import {
 } from "react-router-dom";
 import { Suspense } from "react";
 
-import { ProfileInfo, ProfileArticles } from "@/entities/profile";
+import { ProfileInfo } from "@/entities/profile";
 
 import * as shared from "@/shared";
 import * as pages from "@/pages";
-import * as widgets from "@/widgets";
+
+import { AuthLayout, HeaderLayout } from "@/widgets/layout";
+import { ProfileArticles } from "@/widgets/profile/profile-articles";
+import { ProfileSettings } from "@/widgets/profile/profile-settings";
+
 import * as provider from "./providers";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<widgets.HeaderLayout />}>
+      <Route element={<HeaderLayout />}>
         <Route index element={<pages.HomePage />} />
         <Route
           path="article-read/:article_id"
@@ -43,7 +47,7 @@ const router = createBrowserRouter(
             element={
               <Suspense fallback={<shared.Skeleton height={600} />}>
                 <provider.PrivateRoute>
-                  <widgets.ProfileSettings />
+                  <ProfileSettings />
                 </provider.PrivateRoute>
               </Suspense>
             }
@@ -64,7 +68,7 @@ const router = createBrowserRouter(
         path="auth"
         element={
           <provider.PublicRoute>
-            <widgets.AuthLayout />
+            <AuthLayout />
           </provider.PublicRoute>
         }
       >

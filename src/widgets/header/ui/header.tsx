@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { LuSearch } from "react-icons/lu";
 import { FaPen } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,56 +5,52 @@ import { Link, useNavigate } from "react-router-dom";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useToastStore } from "@/app/model";
 import {
-  Skeleton,
-  If,
   useSession,
   useFetchUser,
   useBucket,
   isProviderURL,
+  Authentication,
+  Button,
+  Skeleton,
 } from "@/shared";
+import { Suspense } from "react";
 
-const UserDivision = () => {
+const AuthenticatedView = () => {
+  const navigate = useNavigate();
+  const { read } = useBucket("profiles");
   const { data: session } = useSession();
   const { data: userData } = useFetchUser(session?.user.id ?? null);
-  const { read } = useBucket("profiles");
-  const navigate = useNavigate();
-
-  const BUTTON_CLASSNAME =
-    "text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center";
 
   return (
-    <li>
-      <If
-        condition={!!session}
-        trueRender={
-          <img
-            src={
-              userData?.profile_url
-                ? isProviderURL(userData?.profile_url)
-                  ? userData?.profile_url
-                  : read(userData?.profile_url)
-                : defaultProfile
-            }
-            className="object-cover w-8 h-8 rounded-full shadow-sm cursor-pointer"
-            alt={userData?.username}
-            onClick={() => {
-              navigate(`/profile/${session?.user.id}`);
-            }}
-          />
-        }
-        falseRender={
-          <button
-            type="button"
-            className={BUTTON_CLASSNAME}
-            onClick={() => {
-              navigate("/auth/sign-in");
-            }}
-          >
-            로그인
-          </button>
-        }
-      />
-    </li>
+    <img
+      src={
+        userData?.profile_url
+          ? isProviderURL(userData?.profile_url)
+            ? userData?.profile_url
+            : read(userData?.profile_url)
+          : defaultProfile
+      }
+      className="object-cover w-8 h-8 rounded-full shadow-sm cursor-pointer"
+      alt={userData?.username}
+      onClick={() => {
+        navigate(`/profile/${session?.user.id}`);
+      }}
+    />
+  );
+};
+
+const UnAuthenticatedView = () => {
+  const navigate = useNavigate();
+
+  return (
+    <Button
+      type="button"
+      onClick={() => {
+        navigate("/auth/sign-in");
+      }}
+    >
+      로그인
+    </Button>
   );
 };
 
@@ -105,7 +100,10 @@ function Header() {
         </li>
 
         <Suspense fallback={<Skeleton width={150} height={40} />}>
-          <UserDivision />
+          <Authentication
+            authenticatedView={<AuthenticatedView />}
+            unauthenticatedView={<UnAuthenticatedView />}
+          />
         </Suspense>
       </ul>
     </header>

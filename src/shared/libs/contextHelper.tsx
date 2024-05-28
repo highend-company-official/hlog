@@ -14,22 +14,6 @@ const useProtectedContext = <T,>(
   return contextValue;
 };
 
-// const createContextProviderWithState = <T,>(defaultValue: T) => {
-//   const context = createContext<ContextProvideWithState<T> | null>(null);
-
-//   const Provider = ({ children }: { children: ReactNode }) => {
-//     const state = useState<T>(defaultValue);
-//     return <context.Provider value={state}>{children}</context.Provider>;
-//   };
-
-//   context.displayName = `ContextProvider`;
-
-//   return {
-//     Provider,
-//     context,
-//   };
-// };
-
 export default {
   useProtectedContext,
 };

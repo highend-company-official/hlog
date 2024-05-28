@@ -1,4 +1,4 @@
-import { SortType } from "@/app/store/article";
+import { SortType } from "@/entities/article/model";
 import { supabase } from "@/shared";
 
 type ArticleResponseType = {

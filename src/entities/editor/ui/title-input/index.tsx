@@ -1,4 +1,4 @@
-import { useEditorStore } from "@/app/store";
+import useEditorStore from "@/entities/editor/model";
 
 const ArticleTitleInput = () => {
   const { editorMetaData, setEditorMetaData } = useEditorStore();

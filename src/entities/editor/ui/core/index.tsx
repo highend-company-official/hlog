@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import { useEditorStore, useToastStore } from "@/app/store";
+import useEditorStore from "@/entities/editor/model";
 
 import Editor from "@draft-js-plugins/editor";
 import createImagePlugin from "@draft-js-plugins/image";

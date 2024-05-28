@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { BiArrowBack, BiSend } from "react-icons/bi";
 import { IoHelp } from "react-icons/io5";
 
-import * as constants from "../../constants";
-import { useEditorStore } from "@/app/store";
+import useEditorStore from "@/entities/editor/model";
+
 import ShortcutDescriptionModal from "../shortcut-description-modal";
+import * as constants from "../../constants";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;

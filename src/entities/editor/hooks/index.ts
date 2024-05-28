@@ -7,7 +7,7 @@ import {
 
 import * as shared from "@/shared";
 import { useCallback } from "react";
-import { useEditorStore } from "@/app/store";
+import useEditorStore from "@/entities/editor/model";
 
 type LocalStorageType = {
   title: string;

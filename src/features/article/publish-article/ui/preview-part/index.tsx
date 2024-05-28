@@ -1,4 +1,4 @@
-import { useEditorStore } from "@/app/store";
+import useEditorStore from "@/entities/editor/model";
 
 const Row = ({ target, value }: { target: string; value: string | number }) => (
   <tr className="bg-white border-b">

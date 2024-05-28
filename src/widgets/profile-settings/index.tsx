@@ -1,21 +1,20 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-
+import { FaPhoneAlt } from "react-icons/fa";
+import { useForm } from "react-hook-form";
 import { MdOutlineMailOutline, MdModeEdit, MdDone } from "react-icons/md";
 import { IoMdClose, IoIosLink } from "react-icons/io";
 
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 import * as shared from "@/shared";
+import { useToastStore } from "@/app/model";
 
 import {
   usePatchProfileImage,
   usePatchProfileImageReset,
   usePatchProfileInfo,
-} from "../../entities/profile/lib";
-import { useToastStore } from "@/app/store";
-import { FaPhoneAlt } from "react-icons/fa";
-import { useForm } from "react-hook-form";
+} from "@/entities/profile/lib";
 import SignOutButton from "@/features/auth/sign-out-button/ui";
 import QuitButton from "@/features/auth/quit-button/ui";
 

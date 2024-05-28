@@ -1,9 +1,9 @@
+import classNames from "classnames";
 import { FaList } from "react-icons/fa6";
 import { AiFillAppstore } from "react-icons/ai";
 import { BiSolidCard } from "react-icons/bi";
 
-import useArticle from "@/app/store/article";
-import classNames from "classnames";
+import useArticle from "@/entities/article/model";
 
 const SetArticleViewSelector = () => {
   const { articleViewMode, changeViewMode } = useArticle();

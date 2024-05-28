@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-
-import { useToastStore } from "@/app/store";
-import * as shared from "@/shared";
 import { FaUserSlash } from "react-icons/fa";
+
+import { useToastStore } from "@/app/model";
+import * as shared from "@/shared";
+
 import quitUser from "../lib";
 
 const QuitButton = () => {

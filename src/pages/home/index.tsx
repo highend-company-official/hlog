@@ -2,10 +2,11 @@ import { Suspense } from "react";
 
 import { ArticleList } from "@/entities/article";
 import * as shared from "@/shared";
-import useArticle from "@/app/store/article";
 
 import { SetArticleViewSelector } from "@/features/article/set-article-view-selector";
 import { SortArticleSelector } from "@/features/article/sort-article-selector";
+
+import useArticleStore from "@/entities/article/model";
 
 const Skeleton = () => {
   return (
@@ -20,7 +21,7 @@ const Skeleton = () => {
 };
 
 function HomePage() {
-  const { articleViewMode } = useArticle();
+  const { articleViewMode } = useArticleStore();
 
   return (
     <div className="w-full">

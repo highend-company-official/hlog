@@ -1,3 +1,10 @@
+import { Suspense } from "react";
+import { LuSearch } from "react-icons/lu";
+import { FaPen } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+
+import defaultProfile from "@/shared/assets/default-profile.jpg";
+import { useToastStore } from "@/app/model";
 import {
   Skeleton,
   If,
@@ -6,12 +13,6 @@ import {
   useBucket,
   isProviderURL,
 } from "@/shared";
-import { Suspense } from "react";
-import { LuSearch } from "react-icons/lu";
-import { FaPen } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import defaultProfile from "@/shared/assets/default-profile.jpg";
-import { useToastStore } from "@/app/store";
 
 const UserDivision = () => {
   const { data } = useSession();

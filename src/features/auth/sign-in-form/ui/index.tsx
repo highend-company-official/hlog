@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 
 import signIn from "../lib";
-import { useToastStore } from "@/app/store";
+import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
 type FormValues = {

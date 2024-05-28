@@ -5,13 +5,15 @@ import { convertToRaw, DraftEntityMutability, DraftEntityType } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 
 import { If, Modal, Skeleton, QUERY_CONSTS, Stepper } from "@/shared";
-import { useEditorStore, useToastStore } from "@/app/store";
+import { useToastStore } from "@/app/model";
+
+import useEditorStore from "@/entities/editor/model";
+import useEditorUtils from "@/entities/editor/hooks";
 
 import PolicyPart from "../policy-part";
 import PreviewPart from "../preview-part";
 import SettingPart from "../setting-part";
 
-import useEditorUtils from "../../../../../entities/editor/hooks";
 import usePostArticle from "../../lib";
 
 type Props = {

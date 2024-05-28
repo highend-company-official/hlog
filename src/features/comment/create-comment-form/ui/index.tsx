@@ -2,8 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
-import { useToastStore } from "@/app/store";
-
+import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
 import { usePostComment } from "../lib";

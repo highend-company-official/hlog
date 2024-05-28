@@ -1,7 +1,7 @@
-import { useEditorStore } from "@/app/store";
 import React, { useRef } from "react";
+
 import * as shared from "@/shared";
-import { Blockquote } from "@/shared";
+import useEditorStore from "@/entities/editor/model";
 
 const SettingPart = () => {
   const {
@@ -125,12 +125,12 @@ const SettingPart = () => {
         />
         <div className="mb-4" />
       </div>
-      <Blockquote>
+      <shared.Blockquote>
         <span>
           설정에 실수가 있어도 걱정하지 마세요. <br />
           <strong className="font-bold">추후에 수정할 수 있습니다.</strong>
         </span>
-      </Blockquote>
+      </shared.Blockquote>
     </form>
   );
 };

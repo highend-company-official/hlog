@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import * as shared from "@/shared";
 import { fetchArticle, fetchArticles } from "../api";
-import { SortType } from "@/app/store/article";
+import { SortType } from "@/entities/article/model";
 
 export const useFetchArticle = (articleId: string) => {
   const queryKey = [shared.QUERY_CONSTS.ARTICLE, articleId];

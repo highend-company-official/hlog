@@ -1,4 +1,4 @@
-import { useToastStore } from "@/app/store";
+import { useToastStore } from "@/app/model";
 
 const useClipboard = () => {
   const { addToast } = useToastStore();

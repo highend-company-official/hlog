@@ -1,8 +1,10 @@
-import { useToastStore } from "@/app/store";
-import * as shared from "@/shared";
 import { useState } from "react";
 import { BiSolidLike } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
+
+import { useToastStore } from "@/app/model";
+import * as shared from "@/shared";
+
 import { usePostArticleLike } from "../lib";
 
 type Params = {

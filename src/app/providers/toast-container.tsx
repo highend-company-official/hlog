@@ -1,5 +1,6 @@
 import * as shared from "@/shared";
-import { useToastStore } from "../store";
+
+import { useToastStore } from "../model";
 
 type Props = {
   children: React.ReactNode;

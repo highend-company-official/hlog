@@ -1,9 +1,10 @@
-import * as shared from "@/shared";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
+import { useToastStore } from "@/app/model";
+import * as shared from "@/shared";
+
 import signUp from "../lib";
-import { useToastStore } from "@/app/store";
 
 type FormValues = {
   email: string;

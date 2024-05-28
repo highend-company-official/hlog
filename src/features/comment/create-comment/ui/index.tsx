@@ -6,6 +6,7 @@ import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
 import { usePostComment } from "../lib";
+import { FaLock } from "react-icons/fa6";
 
 type FieldValues = {
   comment: string;
@@ -64,22 +65,44 @@ const AuthenticatedView = () => {
 
 const UnauthenticatedView = () => {
   return (
-    <>
-      <h3 className="">로그인하여 이 아티클에 의견을 남겨주세요!</h3>
+    <div className="relative mb-5">
+      <div className="absolute z-20 flex items-center justify-center flex-col w-full">
+        <FaLock size={80} className="text-black/90" />
+        <h3 className="font-bold text-2xl mt-5">
+          댓글 작성 기능은 로그인 후 이용 가능합니다.
+        </h3>
+      </div>
 
-      <shared.Button>로그인</shared.Button>
-    </>
+      <div className="blur-md select-none">
+        <div className="mt-2 mb-2">
+          <textarea
+            id="comment"
+            rows={4}
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-4 outline-none"
+            placeholder="댓글을 입력해주세요..."
+          />
+        </div>
+        <shared.Button
+          type="submit"
+          className="py-1.5 rounded-md text-white text-sm w-full mt-10"
+        >
+          Comment
+        </shared.Button>
+
+        <p className="text-xs text-center text-gray-500 ms-auto">
+          상대방을 향한 비난이나 욕설은 차단 등의 조치가 취해질 수 있습니다.
+        </p>
+      </div>
+    </div>
   );
 };
 
 const CreateCommentForm = () => {
   return (
-    <>
-      <shared.Authentication
-        authenticatedView={<AuthenticatedView />}
-        unauthenticatedView={<UnauthenticatedView />}
-      />
-    </>
+    <shared.Authentication
+      authenticatedView={<AuthenticatedView />}
+      unauthenticatedView={<UnauthenticatedView />}
+    />
   );
 };
 

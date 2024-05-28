@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { BiSolidLike } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
+import { BiSolidLike } from "react-icons/bi";
+import { FaLock } from "react-icons/fa6";
 
 import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
@@ -97,7 +98,30 @@ const AuthenticatedView = () => {
 };
 
 const UnauthenticatedView = () => {
-  return <>UnauthenticatedView</>;
+  return (
+    <div className="relative mb-5">
+      <div className="absolute z-20 flex items-center justify-center flex-col w-full">
+        <FaLock size={80} className="text-black/90" />
+        <h3 className="font-bold text-2xl mt-5">
+          좋아요 기능은 로그인 후 이용 가능합니다.
+        </h3>
+      </div>
+      <div className="blur-md select-none">
+        <div className="flex flex-col items-center justify-center py-6 mt-20">
+          <h5 className="mb-2 text-4xl font-bold tracking-tight text-gray-900">
+            게시글이 마음에 드셨나요?
+          </h5>
+          <p className="mb-3 font-normal text-gray-700">
+            글에 좋아요를 눌러주세요!
+          </p>
+          <shared.Button className="flex justify-center w-32">
+            <BiSolidLike className="mr-1" />
+            좋아요
+          </shared.Button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const LikeArticle = () => {

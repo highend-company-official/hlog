@@ -62,7 +62,7 @@ const CommentCard = (props: CommentType) => {
           }
         />
       </div>
-      <p className="text-gray-500 dark:text-gray-400">{props.body}</p>
+      <p className="text-black">{props.body}</p>
     </article>
   );
 };

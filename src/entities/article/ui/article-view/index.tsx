@@ -51,7 +51,7 @@ const ArticleView = () => {
       </section>
       <div className="rounded-xl p-4 mt-4 bg-gray-100 text-lg">
         <h4 className="font-bold text-black">&lt;Article Summary&gt;</h4>
-        <span className="font-bold text-subTitle">{data?.summary}</span>
+        <span className="text-subTitle">{data?.summary}</span>
       </div>
       <div
         className="text-base leading-6 mt-9"

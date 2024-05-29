@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { ErrorMessage, Modal, TextArea } from "@/shared";
-import { useUpdateComment } from "../lib";
 import { useToastStore } from "@/app/model";
-import { useQueryClient } from "@tanstack/react-query";
 import { useFetchComments } from "@/entities/comment/lib";
-import { useParams } from "react-router-dom";
+
+import { useUpdateComment } from "../lib";
 
 type FormValue = {
   comment: string;

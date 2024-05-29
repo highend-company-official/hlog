@@ -13,6 +13,7 @@ import {
   DraftBlockType,
   DraftHandleValue,
   AtomicBlockUtils,
+  SelectionState,
 } from "draft-js";
 
 import * as shared from "@/shared";
@@ -274,13 +275,22 @@ const EditorCore = memo(() => {
     return "handled";
   };
 
-  // Effects
-  shared.useMount(() => {
-    const loadedContent = loadSavedContent();
-    if (loadedContent?.content.hasText()) {
-      setIsSavedModalOpen(true);
-    }
-  });
+  const handleDroppedFile = (
+    _: SelectionState,
+    files: Blob[]
+  ): DraftHandleValue => {
+    const droppedFile = files[0];
+
+    setIsImageUploading(true);
+    uploadArticleImage(
+      shared.generateRandomId(),
+      droppedFile as File,
+      handleUploadedSuccess,
+      handleUploadedError
+    );
+
+    return "handled";
+  };
 
   shared.useUnmount(() => resetEditorStore());
 
@@ -296,6 +306,7 @@ const EditorCore = memo(() => {
           spellCheck={false}
           plugins={plugins}
           handlePastedFiles={handlePasteFile}
+          handleDroppedFiles={handleDroppedFile}
           // blockStyleFn={blockStyleFunction}
         />
       </div>

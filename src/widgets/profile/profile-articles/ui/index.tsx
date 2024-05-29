@@ -75,7 +75,7 @@ const ProfileArticles = () => {
                 <div className="flex absolute right-2 top-0">
                   <button
                     type="button"
-                    className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    className="text-black hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     onClick={handleEditModeChange}
                   >
                     {isArticleEditMode ? "취소" : "수정 및 제거"}

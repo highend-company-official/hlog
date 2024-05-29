@@ -1,5 +1,9 @@
 /* Inline Styles */
 
+#hlog {
+  color: #334155;
+}
+
 #hlog h1 {
   font-size: 3rem;
   line-height: 1;
@@ -55,8 +59,12 @@
 
 #hlog p,
 #hlog span {
-  color: #191f28;
   line-height: 27px;
+  font-size: 17px;
+  letter-spacing: 0em;
+  line-height: 1.6;
+  font-weight: normal;
+  margin: 24px 0px 8px;
 }
 
 #hlog ul {

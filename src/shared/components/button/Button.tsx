@@ -21,7 +21,8 @@ function Button({ intent = "primary", children, ...props }: ButtonProps) {
       className={classnames(
         baseClasses,
         INTENT_CLASSNAMES[intent],
-        props.className
+        props.className,
+        "disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
       )}
     >
       {children}

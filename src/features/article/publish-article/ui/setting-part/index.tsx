@@ -75,7 +75,7 @@ const SettingPart = () => {
         <textarea
           id="summary"
           value={editorMetaData.summary}
-          className="w-full p-4 text-base text-gray-900 border border-gray-300 rounded-lg resize-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full p-4 text-base text-black border border-gray-300 rounded-lg resize-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
           onChange={(event) =>
             setEditorMetaData({
               ...editorMetaData,

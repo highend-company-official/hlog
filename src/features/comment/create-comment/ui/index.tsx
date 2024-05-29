@@ -8,6 +8,7 @@ import * as shared from "@/shared";
 import { usePostComment } from "../lib";
 import { FaLock } from "react-icons/fa6";
 import { useFetchComments } from "@/entities/comment/lib";
+import { ErrorMessage } from "@/shared";
 
 type FieldValues = {
   comment: string;
@@ -19,7 +20,12 @@ const AuthenticatedView = () => {
   const params = useParams<Params>();
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
-  const { register, handleSubmit, reset } = useForm<FieldValues>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<FieldValues>();
 
   const { mutateAsync, isPending } = usePostComment(params.article_id!);
 
@@ -50,25 +56,29 @@ const AuthenticatedView = () => {
   return (
     <>
       <div className="mt-2 mb-2">
-        <textarea
-          {...register("comment")}
+        <shared.TextArea
+          {...register("comment", {
+            required: "댓글은 공백이 되면 안됩니다.",
+          })}
           id="comment"
           rows={4}
-          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-4 outline-none"
           placeholder="댓글을 입력해주세요..."
           disabled={isPending}
         />
       </div>
+
       <shared.Button
         type="submit"
-        className="py-1.5 rounded-md text-white text-sm w-full"
+        className="py-1.5 rounded-md text-white text-sm w-full transition ease-in-out"
         onClick={handleSubmit(onSubmit)}
-        disabled={isPending}
+        disabled={isPending || !isValid}
       >
         Comment
       </shared.Button>
 
-      <p className="text-xs text-center text-gray-500 ms-auto">
+      <ErrorMessage errors={errors} name="comment" />
+
+      <p className="text-xs text-center text-gray-500 ms-auto mt-2">
         상대방을 향한 비난이나 욕설은 차단 등의 조치가 취해질 수 있습니다.
       </p>
     </>
@@ -90,7 +100,7 @@ const UnauthenticatedView = () => {
           <textarea
             id="comment"
             rows={4}
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-4 outline-none"
+            className="block p-2.5 w-full text-sm text-black bg-gray-50 rounded-lg border border-gray-300 focus:ring-4 outline-none"
             placeholder="댓글을 입력해주세요..."
           />
         </div>

@@ -16,7 +16,7 @@ const Table = ({ thead, tbody }: Props) => {
           {/* <tr className="bg-white border-b">
             <th
               scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white"
             >
               Apple MacBook Pro 17"
             </th>
@@ -27,7 +27,7 @@ const Table = ({ thead, tbody }: Props) => {
           <tr className="bg-white border-b">
             <th
               scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+              className="px-6 py-4 font-medium text-black whitespace-nowrap"
             >
               Microsoft Surface Pro
             </th>
@@ -38,7 +38,7 @@ const Table = ({ thead, tbody }: Props) => {
           <tr className="bg-white">
             <th
               scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+              className="px-6 py-4 font-medium text-black whitespace-nowrap"
             >
               Magic Mouse 2
             </th>

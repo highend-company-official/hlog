@@ -27,7 +27,7 @@ const CustomDropdownTrigger = ({ label }: { label: React.ReactNode }) => {
   return (
     <div
       onClick={() => setIsOpen((prev) => !prev)}
-      className="select-none items-center bg-gray-50 border-2 border-solid border-primary text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-pointer flex w-[200px] p-2.5 hover:bg-black/10 transition ease-in-out"
+      className="select-none items-center bg-gray-50 border-2 border-solid border-primary text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-pointer flex w-[200px] p-2.5 hover:bg-black/10 transition ease-in-out"
     >
       {label}
 

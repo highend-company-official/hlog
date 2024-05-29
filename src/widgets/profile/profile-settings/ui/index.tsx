@@ -169,7 +169,7 @@ const ProfileSettingSection = () => {
         trueRender={
           <button
             type="button"
-            className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            className="text-black hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
             onClick={() => setIsResetProfileModalOpen(true)}
           >
             기본 프로필 사진으로 설정
@@ -234,7 +234,7 @@ const InfoInput = React.forwardRef<HTMLInputElement, InfoInputProps>(
     return (
       <>
         <label
-          className="block mb-2 text-sm font-medium text-gray-900"
+          className="block mb-2 text-sm font-medium text-black"
           htmlFor={`${label}-input`}
         >
           {label}
@@ -246,7 +246,7 @@ const InfoInput = React.forwardRef<HTMLInputElement, InfoInputProps>(
           <input
             type="text"
             id={`${label}-input`}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
             ref={ref}
             {...props}
           />

@@ -5,7 +5,7 @@ type Props = {
 const Blockquote = ({ children }: Props) => {
   return (
     <blockquote className="p-4 my-4 bg-blue-100 border-l-4 border-solid border-primary">
-      <p className="leading-relaxed text-gray-900">{children}</p>
+      <p className="leading-relaxed text-black">{children}</p>
     </blockquote>
   );
 };

@@ -97,7 +97,7 @@ const List = (props: ArticleCardProps) => {
         </div>
         <div className="flex ml-auto mr-3 text-slate-500 items-center justify-center">
           <span>{props.profile.username}</span>
-          <span> | </span>
+          <span className="mx-2">|</span>
           <span>{getElapsedTime(props.created_at)}</span>
         </div>
       </li>

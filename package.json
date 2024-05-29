@@ -14,6 +14,7 @@
     "@draft-js-plugins/editor": "^4.1.4",
     "@draft-js-plugins/focus": "^4.1.5",
     "@draft-js-plugins/image": "^4.1.4",
+    "@hookform/error-message": "^2.0.1",
     "@supabase/supabase-js": "^2.42.5",
     "@tanstack/react-query": "^5.29.2",
     "classnames": "^2.5.1",

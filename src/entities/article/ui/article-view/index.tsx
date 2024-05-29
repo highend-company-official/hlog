@@ -3,7 +3,7 @@ import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFetchArticle } from "../../lib";
 import { isProviderURL } from "@/shared";
-// import "@/shared/styles/index.css";
+import "@/shared/styles/index.css";
 
 type ParamsType = {
   article_id: string;
@@ -49,11 +49,10 @@ const ArticleView = () => {
           <span className="font-bold">{data?.profile.username}</span>
         </div>
       </section>
-      <div className="p-4 mt-4 bg-gray-200">
-        이 글의 요약 :
+      <div className="rounded-xl p-4 mt-4 bg-gray-100 text-lg">
+        <h4 className="font-bold text-black">&lt;Article Summary&gt;</h4>
         <span className="font-bold text-subTitle">{data?.summary}</span>
       </div>
-
       <div
         className="text-base leading-6 mt-9"
         id="hlog"

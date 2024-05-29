@@ -42,7 +42,9 @@ const DeleteCommentButton = ({ commentId }: Props) => {
 
   return (
     <>
-      <button onClick={() => setIsModalOpen(true)}>삭제</button>
+      <button className="text-error/80" onClick={() => setIsModalOpen(true)}>
+        삭제
+      </button>
 
       {isModalOpen && (
         <Modal>
@@ -62,7 +64,7 @@ const DeleteCommentButton = ({ commentId }: Props) => {
               onClick={handleDeleteComment}
               disabled={isPending}
             >
-              삭제
+              삭제하기
             </Modal.Button>
           </Modal.Footer>
         </Modal>

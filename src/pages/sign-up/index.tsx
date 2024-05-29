@@ -16,7 +16,7 @@ function SignUpPage() {
           </h1>
           <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-black md:text-2xl">
                 양질의 글을 매일 확인해보세요!
               </h1>
 

@@ -66,7 +66,7 @@ const AuthenticatedView = () => {
       <div className="flex flex-col items-center justify-center py-6 mt-20">
         {!isLikedArticle ? (
           <>
-            <h5 className="mb-2 text-4xl font-bold tracking-tight text-gray-900">
+            <h5 className="mb-2 text-4xl font-bold tracking-tight text-black">
               게시글이 마음에 드셨나요?
             </h5>
             <p className="mb-3 font-normal text-gray-700">
@@ -84,7 +84,7 @@ const AuthenticatedView = () => {
         ) : (
           <>
             <FaRegCircleCheck size={60} className="text-primary mb-8" />
-            <h5 className="mb-2 text-4xl font-bold tracking-tight text-gray-900">
+            <h5 className="mb-2 text-4xl font-bold tracking-tight text-black">
               게시글에 의견을 남겨주셔서 감사합니다.
             </h5>
           </>
@@ -132,7 +132,7 @@ const UnauthenticatedView = () => {
       </div>
       <div className="blur-md select-none">
         <div className="flex flex-col items-center justify-center py-6 mt-20">
-          <h5 className="mb-2 text-4xl font-bold tracking-tight text-gray-900">
+          <h5 className="mb-2 text-4xl font-bold tracking-tight text-black">
             게시글이 마음에 드셨나요?
           </h5>
           <p className="mb-3 font-normal text-gray-700">

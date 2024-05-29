@@ -21,7 +21,7 @@ const Checkbox = React.forwardRef<
       {props.children && (
         <label
           htmlFor={props.id}
-          className="text-sm font-medium text-gray-900 select-none ms-2"
+          className="text-sm font-medium text-black select-none ms-2"
         >
           {props.children}
         </label>

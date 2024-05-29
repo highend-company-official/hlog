@@ -312,7 +312,7 @@ const EditorCore = memo(() => {
           </shared.Modal.Content>
           <shared.Modal.Footer align="right">
             <shared.Modal.Button
-              type="decline"
+              type="normal"
               onClick={() => setIsSavedModalOpen(false)}
             >
               아니요

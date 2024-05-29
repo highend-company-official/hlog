@@ -19,6 +19,7 @@ module.exports = {
         white: "#ffffff",
         error: "#ef4444",
         success: "#22c55e",
+        black: "#334155",
       },
       keyframes: {
         "progress-bar": {

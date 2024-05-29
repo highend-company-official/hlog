@@ -22,8 +22,8 @@ const ModalContainer = ({ children }: Props) => {
 
 const ModalHeader = ({ children }: Props) => {
   return (
-    <div className="flex items-center justify-between p-4 border-b border-gray-200 border-solid rounded-t md:p-5">
-      <h3 className="text-xl font-semibold text-gray-900">{children}</h3>
+    <div className="flex items-center justify-between p-4 border-b border-gray-200 border-solid rounded-t">
+      <h3 className="text-2xl font-semibold text-black">{children}</h3>
     </div>
   );
 };
@@ -52,7 +52,7 @@ const ModalButton = ({
       disabled={disabled}
       type="button"
       className={classNames(
-        "focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition ease-in-out",
+        "focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center transition ease-in-out",
         TYPE_CLASSNAME[type],
         "disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
       )}
@@ -63,7 +63,7 @@ const ModalButton = ({
 };
 
 const ModalContent = ({ children }: { children: React.ReactNode }) => {
-  return <div className="p-4">{children}</div>;
+  return <div className="p-4 text-black">{children}</div>;
 };
 
 const ModalFooter = ({
@@ -81,7 +81,7 @@ const ModalFooter = ({
   return (
     <div
       className={classNames(
-        "flex items-center p-4 border-t border-gray-200 border-solid rounded-b items md:p-5",
+        "flex items-center p-4 border-t border-gray-200 border-solid rounded-b items md:p-5 text-black",
         ALIGN_CLASSNAME[align]
       )}
     >

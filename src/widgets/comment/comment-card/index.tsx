@@ -7,6 +7,7 @@ import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 import { useFetchArticle } from "@/entities/article/lib";
 import { DeleteCommentButton } from "@/features/comment/delete-comment";
+import { EditCommentButton } from "@/features/comment/edit-comment";
 
 type Params = {
   article_id: string;
@@ -54,6 +55,7 @@ const CommentCard = (props: CommentType) => {
               </span>
 
               <div className="ml-auto">
+                <EditCommentButton commentId={props.id} body={props.body} />
                 <DeleteCommentButton commentId={props.id} />
               </div>
             </>

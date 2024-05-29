@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage, Modal, TextArea } from "@/shared";
 import { useUpdateComment } from "../lib";
 import { useToastStore } from "@/app/model";
+import { useQueryClient } from "@tanstack/react-query";
+import { useFetchComments } from "@/entities/comment/lib";
+import { useParams } from "react-router-dom";
 
 type FormValue = {
   comment: string;
@@ -25,6 +28,8 @@ const EditCommentButton = ({ body, commentId }: Props) => {
       comment: body,
     },
   });
+  const params = useParams<{ article_id: string }>();
+  const queryClient = useQueryClient();
   const { addToast } = useToastStore();
   const { mutateAsync: updateComment, isPending } = useUpdateComment(commentId);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,6 +48,9 @@ const EditCommentButton = ({ body, commentId }: Props) => {
           type: "success",
           content: "댓글 수정이 완료되었습니다.",
           staleTime: 3000,
+        });
+        queryClient.invalidateQueries({
+          queryKey: useFetchComments.pk(params.article_id!),
         });
       })
       .catch((error) => {

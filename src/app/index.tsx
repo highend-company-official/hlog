@@ -7,7 +7,7 @@ import router from "./router";
 
 import { Skeleton } from "@/shared";
 
-import "./styles/index.css";
+import "./styles/normalize.css";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 

@@ -1,5 +1,6 @@
 import useArticleStore from "@/entities/article/model";
 import { ArticleType, Checkbox, getElapsedTime, useBucket } from "@/shared";
+import { Link } from "react-router-dom";
 
 type DeleteArticleCardProps = Omit<ArticleType, "body" | "verified"> & {
   isEditMode: boolean;
@@ -34,13 +35,16 @@ const UserAriticleCard = (props: DeleteArticleCardProps) => {
         </div>
       )}
 
-      <div className="flex items-center hover:bg-black/10 w-full h-20 rounded-xl">
+      <Link
+        to={`/article-read/${props.id}`}
+        className="flex items-center hover:bg-black/10 w-full h-20 rounded-xl"
+      >
         <img
           src={read(props.thumbnail)}
           alt={props.title}
           className="block object-cover w-20 h-20 min-h-10 rounded-xl max-sm:hidden"
         />
-        <div className="w-2/3 pl-5 border-b border-gray-300">
+        <div className="w-2/3 pl-5">
           <span className="font-bold group-hover:text-primary">
             {props.title} [{props.likes}]
           </span>
@@ -53,7 +57,7 @@ const UserAriticleCard = (props: DeleteArticleCardProps) => {
           <span> | </span>
           <span>{getElapsedTime(props.created_at)}</span>
         </div>
-      </div>
+      </Link>
     </li>
   );
 };

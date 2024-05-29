@@ -59,18 +59,18 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="fixed left-0 z-40 flex items-center justify-between w-full px-10 py-5 bg-white drop-shadow-sm">
-      <div className="flex items-end">
+    <header className="fixed left-0 z-40 flex items-center justify-between w-full px-10 py-5 bg-white drop-shadow-sm h-[60px]">
+      <div className="flex items-center">
         <h1 className="text-2xl font-semibold">
           <Link to="/">
-            <span className="relative inline-block before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-primary">
+            <span className="relative inline-block bg-primary px-2 py-1">
               <span className="relative text-white">HLOG</span>
             </span>
           </Link>
         </h1>
-        <h2 className="ml-5 text-base font-semibold text-center text-slate-700">
+        <span className="ml-5 text-base font-semibold text-center text-gray-700">
           "New tech blog, start here."
-        </h2>
+        </span>
       </div>
 
       <ul className="flex items-center">

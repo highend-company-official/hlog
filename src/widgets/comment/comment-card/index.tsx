@@ -1,9 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useBucket from "@/shared/libs/useBucket";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { CommentType } from "@/shared/schema";
 import * as shared from "@/shared";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
-import { useQueryClient } from "@tanstack/react-query";
+
+import { useFetchArticle } from "@/entities/article/lib";
+import { DeleteCommentButton } from "@/features/comment/delete-comment";
 
 type Params = {
   article_id: string;
@@ -12,13 +15,12 @@ type Params = {
 const CommentCard = (props: CommentType) => {
   const navigate = useNavigate();
   const params = useParams<Params>();
-  const { read: readProfiles } = useBucket("profiles");
+  const { read: readProfiles } = shared.useBucket("profiles");
   const queryClient = useQueryClient();
 
-  const articleData = queryClient.getQueryData<shared.ArticleType>([
-    shared.QUERY_CONSTS.ARTICLE,
-    params.article_id!,
-  ]);
+  const articleData = queryClient.getQueryData<shared.ArticleType>(
+    useFetchArticle.pk(params.article_id!)
+  );
 
   if (!articleData) return null;
 
@@ -42,12 +44,19 @@ const CommentCard = (props: CommentType) => {
           />
           <span className="font-bold">{props.profiles.username}</span>
         </div>
+
         <shared.If
           condition={props.profiles.id === articleData.profile.user_id}
           trueRender={
-            <span className="px-3 py-1 ml-3 text-sm text-white rounded-full bg-primary">
-              작성자
-            </span>
+            <>
+              <span className="px-3 py-1 ml-3 text-sm text-white rounded-full bg-primary">
+                작성자
+              </span>
+
+              <div className="ml-auto">
+                <DeleteCommentButton commentId={props.id} />
+              </div>
+            </>
           }
         />
       </div>

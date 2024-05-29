@@ -3,7 +3,7 @@ import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFetchArticle } from "../../lib";
 import { isProviderURL } from "@/shared";
-import "@/shared/styles/index.css";
+// import "@/shared/styles/index.css";
 
 type ParamsType = {
   article_id: string;

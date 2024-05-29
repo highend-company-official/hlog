@@ -1,7 +1,8 @@
 import * as shared from "@/shared";
 
+import CommentList from "@/widgets/comment/comment-list";
+
 import { ArticleView } from "@/entities/article";
-import { CommentList } from "@/entities/comment";
 
 import { LikeArticle } from "@/features/article/like-article";
 import { CreateCommentForm } from "@/features/comment/create-comment";

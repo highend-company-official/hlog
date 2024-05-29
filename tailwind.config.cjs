@@ -16,7 +16,7 @@ module.exports = {
         subMain: "#4e5968",
         title: "#09090b",
         subTitle: "#18181b",
-        white: "#eff6ff",
+        white: "#ffffff",
         error: "#ef4444",
         success: "#22c55e",
       },

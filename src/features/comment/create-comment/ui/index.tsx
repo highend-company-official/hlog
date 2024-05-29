@@ -7,6 +7,7 @@ import * as shared from "@/shared";
 
 import { usePostComment } from "../lib";
 import { FaLock } from "react-icons/fa6";
+import { useFetchComments } from "@/entities/comment/lib";
 
 type FieldValues = {
   comment: string;
@@ -20,21 +21,30 @@ const AuthenticatedView = () => {
   const { addToast } = useToastStore();
   const { register, handleSubmit, reset } = useForm<FieldValues>();
 
-  const { mutateAsync } = usePostComment(params.article_id!);
+  const { mutateAsync, isPending } = usePostComment(params.article_id!);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    reset({
-      comment: "",
-    });
+    if (data.comment.trim() === "") {
+      addToast({
+        type: "warning",
+        content: "댓글에 내용이 없습니다.",
+        staleTime: 3000,
+      });
+      return;
+    }
+
     mutateAsync(data.comment).then(() => {
       addToast({
         type: "success",
         content: "댓글 등록에 성공했습니다.",
         staleTime: 3000,
       });
-    });
-    queryClient.invalidateQueries({
-      queryKey: [shared.QUERY_CONSTS.COMMENT, params.article_id],
+      reset({
+        comment: "",
+      });
+      queryClient.invalidateQueries({
+        queryKey: useFetchComments.pk(params.article_id!),
+      });
     });
   };
   return (
@@ -46,12 +56,14 @@ const AuthenticatedView = () => {
           rows={4}
           className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-4 outline-none"
           placeholder="댓글을 입력해주세요..."
+          disabled={isPending}
         />
       </div>
       <shared.Button
         type="submit"
         className="py-1.5 rounded-md text-white text-sm w-full"
         onClick={handleSubmit(onSubmit)}
+        disabled={isPending}
       >
         Comment
       </shared.Button>

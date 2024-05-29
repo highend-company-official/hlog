@@ -4,8 +4,8 @@ import { useBeforeunload } from "react-beforeunload";
 import * as shared from "@/shared";
 
 import { Toolbar, TitleInput, EditorCore } from "@/entities/editor/ui";
-import "@/shared/styles/index.css";
 import PublishSettingModal from "@/features/article/publish-article/ui/publish-setting-modal";
+// import "@/shared/styles/index.css";
 
 const ArticleWrite = () => {
   const [isOpenPublishModal, setIsOpenPublishModal] = useState(false);

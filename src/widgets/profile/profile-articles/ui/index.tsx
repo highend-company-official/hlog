@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { ImFileEmpty } from "react-icons/im";
 
@@ -7,10 +8,9 @@ import * as shared from "@/shared";
 import useArticleStore from "@/entities/article/model";
 import { ProfileArticleCard } from "@/entities/profile";
 
-import { useFetchUserArticles } from "../lib";
 import DeleteArticleModal from "@/features/article/delete-article/ui";
-import { useQueryClient } from "@tanstack/react-query";
-import { useIsMySession } from "@/shared";
+
+import { useFetchUserArticles } from "../lib";
 
 type Params = {
   user_id: string;
@@ -22,7 +22,7 @@ const ProfileArticles = () => {
 
   const { data: userData } = shared.useFetchUser(user_id!);
   const { data: userArticlesData } = useFetchUserArticles(user_id!);
-  const { isMySession } = useIsMySession(user_id!);
+  const { isMySession } = shared.useIsMySession(user_id!);
   const { deleteArticleList, resetDeleteArticleList } = useArticleStore();
 
   const [isArticleEditMode, setIsArticleEditMode] = useState(false);
@@ -78,7 +78,7 @@ const ProfileArticles = () => {
                     className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     onClick={handleEditModeChange}
                   >
-                    {isArticleEditMode ? "취소" : "수정하기"}
+                    {isArticleEditMode ? "취소" : "수정 및 제거"}
                   </button>
 
                   {deleteArticleList.length > 0 && (
@@ -93,6 +93,7 @@ const ProfileArticles = () => {
                 </div>
               )}
             </div>
+            <div className="mt-10" />
             {articleMap}
           </>
         }

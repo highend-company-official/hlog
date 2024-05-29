@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 
 import { Skeleton } from "@/shared";
 
+import { useFetchComments } from "@/entities/comment/lib";
+
 import CommentCard from "../comment-card";
-import { useFetchComments } from "../../lib";
 
 type ParamsType = {
   article_id: string;

@@ -19,7 +19,7 @@ const Card = (props: ArticleCardProps) => {
   const { read: readProfiles } = useBucket("profiles");
 
   return (
-    <section className="px-10 py-6 my-4 transition ease-in rounded-lg shadow-md bg-slate-50">
+    <section className="px-10 py-6 my-4 transition ease-in rounded-lg shadow-md bg-slate-50 group">
       <Link to={`/article-read/${props.id}`}>
         <div className="flex items-center">
           <div className="flex items-center">
@@ -53,7 +53,7 @@ const Card = (props: ArticleCardProps) => {
             className="w-[240px] max-lg:w-[180px] max-md:w-0 h-64 rounded-3xl object-cover float-right ml-8"
           />
 
-          <span className="text-5xl font-bold text-gray-700 break-words hover:text-gray-600 break-keep">
+          <span className="text-4xl font-semibold text-[#333d4b] break-wordsbreak-keep mb-2 group-hover:text-primary transition ease-in-out">
             {props.title}
           </span>
           <p className="mt-2 text-gray-600">{props.summary}</p>
@@ -79,21 +79,23 @@ const List = (props: ArticleCardProps) => {
   const { read } = useBucket("thumbnails");
   return (
     <Link to={`/article-read/${props.id}`}>
-      <li className="flex items-center w-full h-20 mb-2 list-none transition ease-in border-solid group hover:bg-black/10 rounded-xl">
-        <img
-          src={read(props.thumbnail)}
-          alt={props.title}
-          className="block object-cover w-20 h-20 min-h-10 rounded-xl max-sm:hidden"
-        />
-        <div className="w-2/3 pl-5 border-b border-gray-300">
+      <li className="flex flex-[1_3] w-full h-[85px] mb-2 list-none transition ease-in border-solid group hover:bg-black/10 rounded-xl">
+        <div className="w-[130px] h-[85px]">
+          <img
+            src={read(props.thumbnail)}
+            alt={props.title}
+            className="w-full h-full rounded-md object-cover"
+          />
+        </div>
+        <div className="pl-5 w-[50%] flex flex-col justify-center">
           <span className="font-bold group-hover:text-primary">
             {props.title} [{props.likes}]
           </span>
-          <p className="text-gray-400 truncate max-sm:hidden">
+          <p className=" text-gray-400 truncate max-sm:hidden">
             {props.summary}
           </p>
         </div>
-        <div className="ml-auto mr-3 text-slate-500">
+        <div className="flex ml-auto mr-3 text-slate-500 items-center justify-center">
           <span>{props.profile.username}</span>
           <span> | </span>
           <span>{getElapsedTime(props.created_at)}</span>
@@ -106,7 +108,7 @@ const List = (props: ArticleCardProps) => {
 const Gallery = (props: ArticleCardProps) => {
   const { read } = useBucket("thumbnails");
   return (
-    <div className="relative transition ease-in h-80 place-items-center group">
+    <div className="relative transition ease-in h-80 place-items-center group rounded-xl overflow-hidden">
       <Link to={`/article-read/${props.id}`}>
         <img
           src={read(props.thumbnail)}
@@ -114,11 +116,15 @@ const Gallery = (props: ArticleCardProps) => {
           className="object-cover w-full h-full"
         />
 
-        <div className="absolute top-0 left-0 hidden w-full h-full p-4 text-white transition ease-in group-hover:bg-black/70 group-hover:inline-block ">
-          <span className="overflow-y-hidden font-bold">{props.title}</span>
-          <p className="mt-3 truncate">{props.summary}</p>
+        <div className="absolute top-0 left-0 w-full h-full p-4 text-white transition ease-in bg-inherit group-hover:bg-black/70 group-hover:inline-block">
+          <span className="hidden overflow-y-hidden font-bold group-hover:inline-block">
+            {props.title}
+          </span>
+          <p className="hidden mt-3 truncate group-hover:flex">
+            {props.summary}
+          </p>
 
-          <span className="absolute bottom-[1rem] right-[1rem]">
+          <span className="hidden absolute bottom-[1rem] right-[1rem] group-hover:inline-block">
             {props.profile.username}
           </span>
         </div>

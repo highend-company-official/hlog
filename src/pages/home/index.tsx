@@ -11,10 +11,15 @@ import useArticleStore from "@/entities/article/model";
 const Skeleton = () => {
   return (
     <>
+      <div className="mt-4" />
       <shared.Skeleton height={340} />
+      <div className="mb-4" />
       <shared.Skeleton height={340} />
+      <div className="mb-4" />
       <shared.Skeleton height={340} />
+      <div className="mb-4" />
       <shared.Skeleton height={340} />
+      <div className="mb-4" />
       <shared.Skeleton height={340} />
     </>
   );

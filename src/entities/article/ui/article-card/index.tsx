@@ -56,7 +56,9 @@ const Card = (props: ArticleCardProps) => {
           <span className="text-4xl font-semibold text-[#333d4b] break-wordsbreak-keep mb-2 group-hover:text-primary transition ease-in-out">
             {props.title}
           </span>
-          <p className="mt-2 text-gray-600">{props.summary}</p>
+          <p className="text-wrap break-words mt-2 text-gray-600">
+            {props.summary}
+          </p>
         </div>
 
         <div className="flex">

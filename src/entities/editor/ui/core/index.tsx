@@ -1,12 +1,13 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import useEditorStore from "@/entities/editor/model";
 
-import Editor from "@draft-js-plugins/editor";
+import Editor, { composeDecorators } from "@draft-js-plugins/editor";
 import createImagePlugin from "@draft-js-plugins/image";
+import createResizeablePlugin from "@draft-js-plugins/resizeable";
+import createFocusPlugin from "@draft-js-plugins/focus";
 import {
   KeyBindingUtil,
   getDefaultKeyBinding,
-  type DraftEditorCommand,
   EditorState,
   DraftInlineStyleType,
   RichUtils,
@@ -14,6 +15,7 @@ import {
   DraftHandleValue,
   AtomicBlockUtils,
   SelectionState,
+  ContentBlock,
 } from "draft-js";
 
 import * as shared from "@/shared";
@@ -22,38 +24,33 @@ import { useToastStore } from "@/app/model";
 import useEditorUtils from "../../hooks";
 import UploadOverlay from "../file-upload-overlay";
 import { uploadArticleImage } from "../../lib";
+import { KeyCommandType, styleMapper } from "../../constants";
 
-import "./index.css";
 import "draft-js/dist/Draft.css";
+import "@/shared/styles/index.css";
+import "./index.css";
 
-type KeyCommandType =
-  | DraftEditorCommand
-  | "header-one"
-  | "header-two"
-  | "header-three"
-  | "header-four"
-  | "unordered-list-item"
-  | "ordered-list-item"
-  | "blockquote"
-  | "code-block"
-  | "header-five"
-  | "header-six"
-  | "hlog-editor-save"
-  | "hlog-editor-refresh";
+const resizeablePlugin = createResizeablePlugin();
+const focusPlugin = createFocusPlugin();
+const decorator = composeDecorators(
+  resizeablePlugin.decorator,
+  focusPlugin.decorator
+);
+const imagePlugin = createImagePlugin({ decorator });
 
-const imagePlugin = createImagePlugin();
-const plugins = [imagePlugin];
+const plugins = [imagePlugin, resizeablePlugin, focusPlugin];
 
-const EditorCore = memo(() => {
+const EditorCore = () => {
   const { addToast } = useToastStore();
   const { read: readArticles } = shared.useBucket("articles");
-  const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
   const {
     editorMetaData,
     setEditorMetaData,
     reset: resetEditorStore,
   } = useEditorStore();
   const { saveCurrentContent, loadSavedContent } = useEditorUtils();
+
+  const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
 
   const toggleInline = (type: DraftInlineStyleType) => {
@@ -199,6 +196,12 @@ const EditorCore = memo(() => {
     return "not-handled";
   };
 
+  const blockStyleFn = (contentBlock: ContentBlock) => {
+    const type = contentBlock.getType();
+
+    return styleMapper[type];
+  };
+
   const loadContentToEditor = () => {
     const loadedContent = loadSavedContent();
 
@@ -307,7 +310,7 @@ const EditorCore = memo(() => {
           plugins={plugins}
           handlePastedFiles={handlePasteFile}
           handleDroppedFiles={handleDroppedFile}
-          // blockStyleFn={blockStyleFunction}
+          blockStyleFn={blockStyleFn}
         />
       </div>
 
@@ -337,6 +340,6 @@ const EditorCore = memo(() => {
       )}
     </>
   );
-});
+};
 
 export default EditorCore;

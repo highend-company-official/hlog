@@ -1,10 +1,11 @@
+import { RawDraftContentState } from "draft-js";
 import { ArticleType, generateRandomId, supabase } from "@/shared";
 
 export type Params = {
   articleMetaData: {
     title: string;
     thumbnail?: File;
-    body: string;
+    body: RawDraftContentState;
     summary: string;
     has_comments: boolean;
     has_like: boolean;

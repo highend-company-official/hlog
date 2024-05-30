@@ -28,49 +28,43 @@ enum Steps {
 }
 
 const PublishSettingModal = ({ onClose }: Props) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
-  const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(0);
   const { editorMetaData } = useEditorStore();
   const { resetSavedContent } = useEditorUtils();
-  const [isPolicyChecked, setIsPolicyChecked] = useState(false);
   const { mutateAsync: publishArticle, isPending } = usePostArticle();
+
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isPolicyChecked, setIsPolicyChecked] = useState(false);
 
   const goToNextStep = () =>
     setCurrentStep((prev) => (prev === NUMBER_OF_STEPS - 1 ? prev : prev + 1));
   const goToPreviousStep = () =>
     setCurrentStep((prev) => (prev <= 0 ? prev : prev - 1));
 
-  type DraftEntity = {
-    type: DraftEntityType;
-    mutability: DraftEntityMutability;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data: any;
-  };
+  // type DraftEntity = {
+  //   type: DraftEntityType;
+  //   mutability: DraftEntityMutability;
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   data: any;
+  // };
 
-  const customEntityTransform = (entity: DraftEntity, text: string) => {
-    if (entity.type === "IMAGE") {
-      return `<img src="${entity.data.src}" class="h-auto max-w-lg rounded-lg" alt="${text}" />`;
-    }
+  // const customEntityTransform = (entity: DraftEntity, text: string) => {
+  //   if (entity.type === "IMAGE") {
+  //     return `<img src="${entity.data.src}" class="h-auto max-w-lg rounded-lg" alt="${text}" />`;
+  //   }
 
-    if (entity.type !== "LINK") {
-      return `<a href="${entity.data.url}" class="hlog_link" target="_blank">${text}</a>`;
-    }
-  };
+  //   if (entity.type !== "LINK") {
+  //     return `<a href="${entity.data.url}" class="hlog_link" target="_blank">${text}</a>`;
+  //   }
+  // };
 
   const handleUploadArticle = async () => {
     const { title, hasComment, hasHit, hasLike, summary, content, thumbnail } =
       editorMetaData;
 
     const rawContentState = convertToRaw(content.getCurrentContent());
-
-    const markup = draftToHtml(
-      rawContentState,
-      undefined,
-      undefined,
-      customEntityTransform
-    );
 
     publishArticle({
       articleMetaData: {
@@ -79,7 +73,7 @@ const PublishSettingModal = ({ onClose }: Props) => {
         has_hit: hasHit,
         has_like: hasLike,
         summary,
-        body: markup,
+        body: rawContentState,
       },
       thumbnailFile: thumbnail!,
     }).then((response: { id: string }) => {

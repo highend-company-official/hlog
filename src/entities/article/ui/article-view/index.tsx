@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFetchArticle } from "../../lib";
 import { isProviderURL } from "@/shared";
 import "@/shared/styles/index.css";
+import { convertFromRaw, Editor, EditorState } from "draft-js";
 
 type ParamsType = {
   article_id: string;
@@ -49,17 +50,24 @@ const ArticleView = () => {
           <span className="font-bold">{data?.profile.username}</span>
         </div>
       </section>
-      <div className="rounded-xl p-4 mt-4 bg-gray-100 text-lg">
+      <div className="rounded-xl p-4 mt-4 bg-gray-100 text-lg w-full text-wrap break-words">
         <h4 className="font-bold text-black">&lt;Article Summary&gt;</h4>
         <span className="text-subTitle">{data?.summary}</span>
       </div>
-      <div
+      <Editor
+        readOnly
+        editorState={EditorState.createWithContent(
+          convertFromRaw(JSON.parse(data.body))
+        )}
+        onChange={() => null}
+      />
+      {/* <div
         className="text-base leading-6 mt-9"
         id="hlog"
         dangerouslySetInnerHTML={{
           __html: data?.body,
         }}
-      />
+      /> */}
     </article>
   );
 };

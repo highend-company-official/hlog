@@ -7,7 +7,7 @@ const Default = ({ width, height }: Props) => {
   return (
     <div role="status" className="animate-pulse">
       <div
-        className="h-2.5 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"
+        className="h-2.5 w-full bg-gray-200 rounded-lg dark:bg-gray-700"
         style={{
           width,
           height,

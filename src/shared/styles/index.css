@@ -4,47 +4,55 @@
   color: #334155;
 }
 
-#hlog h1 {
+.hlog_header_one > * {
   font-size: 3rem;
   line-height: 1;
   margin-top: 1rem;
   margin-bottom: 1rem;
   font-weight: bold;
 }
-#hlog h2 {
+.hlog_header_two {
   font-size: 2.25rem;
   line-height: 2.5rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
-#hlog h3 {
+.hlog_header_three {
   font-size: 1.875rem;
   line-height: 2.25rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
-#hlog h4 {
+.hlog_header_four {
   font-size: 1.5rem;
   line-height: 2rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
-#hlog h5 {
+.hlog_header_five {
   font-size: 1.25rem;
   line-height: 1.75rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
-#hlog h6 {
+.hlog_header_six {
   font-size: 1.125rem;
   line-height: 1.75rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
+}
+
+.hlog_paragraph {
+  line-height: 27px;
+  font-size: 17px;
+  letter-spacing: 0em;
+  line-height: 1.6;
+  font-weight: normal;
 }
 
 #hlog blockquote {
@@ -55,16 +63,6 @@
   border-left-width: 4px;
   border-color: rgb(37 99 235);
   border-style: solid;
-}
-
-#hlog p,
-#hlog span {
-  line-height: 27px;
-  font-size: 17px;
-  letter-spacing: 0em;
-  line-height: 1.6;
-  font-weight: normal;
-  margin: 24px 0px 8px;
 }
 
 #hlog ul {

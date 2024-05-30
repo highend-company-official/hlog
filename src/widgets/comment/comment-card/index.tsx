@@ -8,6 +8,7 @@ import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useFetchArticle } from "@/entities/article/lib";
 import { DeleteCommentButton } from "@/features/comment/delete-comment";
 import { EditCommentButton } from "@/features/comment/edit-comment";
+import { useSession } from "@/shared";
 
 type Params = {
   article_id: string;
@@ -17,6 +18,7 @@ const CommentCard = (props: CommentType) => {
   const navigate = useNavigate();
   const params = useParams<Params>();
   const { read: readProfiles } = shared.useBucket("profiles");
+  const { data: session } = useSession();
   const queryClient = useQueryClient();
 
   const articleData = queryClient.getQueryData<shared.ArticleType>(
@@ -47,7 +49,7 @@ const CommentCard = (props: CommentType) => {
         </div>
 
         <shared.If
-          condition={props.profiles.id === articleData.profile.user_id}
+          condition={props.profiles.id === session?.user.id}
           trueRender={
             <>
               <span className="px-3 py-1 ml-3 text-sm text-white rounded-full bg-primary">

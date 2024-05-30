@@ -99,7 +99,15 @@ function Header() {
           </div>
         </li>
 
-        <Suspense fallback={<Skeleton width={150} height={40} />}>
+        <Suspense
+          fallback={
+            <>
+              <div className="py-5">
+                <Skeleton width={150} height={40} />
+              </div>
+            </>
+          }
+        >
           <Authentication
             authenticatedView={<AuthenticatedView />}
             unauthenticatedView={<UnAuthenticatedView />}

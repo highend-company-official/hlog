@@ -2,33 +2,38 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import * as shared from "@/shared";
 import { fetchArticle, fetchArticles } from "../api";
 import { SortType } from "@/entities/article/model";
+import { PostgrestError } from "@supabase/supabase-js";
 
 export const useFetchArticle = (articleId: string) => {
   const queryKey = useFetchArticle.pk(articleId);
   const queryFn = async () => {
-    const response = await fetchArticle(articleId);
+    try {
+      const response = await fetchArticle(articleId);
 
-    if (!response.data) return null;
+      if (!response.data) return null;
 
-    return {
-      id: response.data.id,
-      has_comments: response.data.has_comments,
-      has_hit: response.data.has_hit,
-      has_like: response.data.has_like,
-      likes: response.data.likes,
-      summary: response.data.summary,
-      thumbnail: response.data.thumbnail,
-      title: response.data.title,
-      created_at: response.data.created_at,
-      body: response.data.body,
-      hits: response.data.hits,
-      user_id: response.data.user_id,
-      profile: {
+      return {
+        id: response.data.id,
+        has_comments: response.data.has_comments,
+        has_hit: response.data.has_hit,
+        has_like: response.data.has_like,
+        likes: response.data.likes,
+        summary: response.data.summary,
+        thumbnail: response.data.thumbnail,
+        title: response.data.title,
+        created_at: response.data.created_at,
+        body: response.data.body,
+        hits: response.data.hits,
         user_id: response.data.user_id,
-        username: response.data.username,
-        profile_url: response.data.profile_url,
-      },
-    };
+        profile: {
+          user_id: response.data.user_id,
+          username: response.data.username,
+          profile_url: response.data.profile_url,
+        },
+      };
+    } catch (error: unknown) {
+      if ((error as PostgrestError).code === "PGRST116") return null;
+    }
   };
 
   return useSuspenseQuery({ queryKey, queryFn });

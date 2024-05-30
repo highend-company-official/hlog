@@ -1,8 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { ImFileEmpty } from "react-icons/im";
 
 import * as shared from "@/shared";
+
 import ArticleCard from "../article-card";
-import { useNavigate } from "react-router-dom";
 
 import { useFetchArticles } from "../../lib";
 import useArticleStore, { type ViewMode } from "../../model";

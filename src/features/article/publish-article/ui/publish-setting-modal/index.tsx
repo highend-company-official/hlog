@@ -1,8 +1,7 @@
 import { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { convertToRaw, DraftEntityMutability, DraftEntityType } from "draft-js";
-import draftToHtml from "draftjs-to-html";
+import { convertToRaw } from "draft-js";
 
 import { If, Modal, Skeleton, QUERY_CONSTS, Stepper } from "@/shared";
 import { useToastStore } from "@/app/model";
@@ -43,28 +42,13 @@ const PublishSettingModal = ({ onClose }: Props) => {
   const goToPreviousStep = () =>
     setCurrentStep((prev) => (prev <= 0 ? prev : prev - 1));
 
-  // type DraftEntity = {
-  //   type: DraftEntityType;
-  //   mutability: DraftEntityMutability;
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   data: any;
-  // };
-
-  // const customEntityTransform = (entity: DraftEntity, text: string) => {
-  //   if (entity.type === "IMAGE") {
-  //     return `<img src="${entity.data.src}" class="h-auto max-w-lg rounded-lg" alt="${text}" />`;
-  //   }
-
-  //   if (entity.type !== "LINK") {
-  //     return `<a href="${entity.data.url}" class="hlog_link" target="_blank">${text}</a>`;
-  //   }
-  // };
-
   const handleUploadArticle = async () => {
     const { title, hasComment, hasHit, hasLike, summary, content, thumbnail } =
       editorMetaData;
 
-    const rawContentState = convertToRaw(content.getCurrentContent());
+    const rawContentState = JSON.stringify(
+      convertToRaw(content.getCurrentContent())
+    );
 
     publishArticle({
       articleMetaData: {

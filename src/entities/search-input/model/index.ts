@@ -9,6 +9,7 @@ type State = {
 type Action = {
   setSearchInput: (input: string) => void;
   setIsSearchOpen: (open: boolean) => void;
+  reset: () => void;
 };
 
 const initialState: State = {
@@ -21,6 +22,7 @@ const useSearchStore = create<State & Action>()(
     ...initialState,
     setIsSearchOpen: (open) => set({ isSearchOpen: open }),
     setSearchInput: (input) => set({ searchInput: input }),
+    reset: () => set({ searchInput: "" }),
   }))
 );
 

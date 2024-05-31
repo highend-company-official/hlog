@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
+import { useBucket } from "@/shared";
 
 type Props = {
   id: string;
@@ -7,15 +9,17 @@ type Props = {
 };
 
 const ProfileSearchItem = ({ id, username, profile_url }: Props) => {
+  const { read } = useBucket("profiles");
+
   return (
     <li className="mx-6 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group">
-      <Link to={`/article-read/${id}`}>
+      <Link to={`/profile/${id}`}>
         <div className="flex items-center w-full px-4 py-3">
-          {profile_url}
+          <img
+            src={profile_url ? read(profile_url) : defaultProfile}
+            className="object-cover w-8 h-8 rounded-full shadow-sm cursor-pointer mr-4"
+          />
           <h3 className="font-bold group-hover:text-white">{username}</h3>
-          <div className="flex ml-auto group-hover:text-white">
-            <span>{username}</span>
-          </div>
         </div>
       </Link>
     </li>

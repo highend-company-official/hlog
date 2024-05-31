@@ -3,7 +3,6 @@ import { FaPen } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
 import defaultProfile from "@/shared/assets/default-profile.jpg";
-import { useToastStore } from "@/app/model";
 import {
   useSession,
   useFetchUser,
@@ -14,6 +13,7 @@ import {
   Skeleton,
 } from "@/shared";
 import { Suspense } from "react";
+import useSearchStore from "@/entities/search-input/model";
 
 const AuthenticatedView = () => {
   const navigate = useNavigate();
@@ -55,8 +55,8 @@ const UnAuthenticatedView = () => {
 };
 
 function Header() {
-  const { addToast } = useToastStore();
   const navigate = useNavigate();
+  const { setIsSearchOpen } = useSearchStore();
 
   return (
     <header className="fixed left-0 z-40 flex items-center justify-between w-full px-10 py-5 bg-white drop-shadow-sm h-[60px]">
@@ -77,14 +77,7 @@ function Header() {
         <li id="search">
           <div
             className="mr-8 cursor-pointer"
-            onClick={() => {
-              addToast({
-                type: "warning",
-                content: "검색 기능은 구현중입니다.",
-                staleTime: 3000,
-                hasCloseButton: false,
-              });
-            }}
+            onClick={() => setIsSearchOpen(true)}
           >
             <LuSearch size={24} />
           </div>

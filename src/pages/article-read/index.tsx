@@ -7,7 +7,7 @@ import CommentList from "@/widgets/comment/comment-list";
 import { ArticleView } from "@/entities/article-read";
 import { useFetchArticle } from "@/entities/article-read/lib";
 
-import { LikeArticle } from "@/features/article/like-article";
+import { LikeArticle } from "@/features/article-read/like-article";
 import { CreateCommentForm } from "@/features/comment/create-comment";
 
 function ArticleRead() {

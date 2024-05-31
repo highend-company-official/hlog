@@ -7,7 +7,7 @@ import Toolbar from "@/entities/article-write/ui/toolbar";
 import ArticleTitleInput from "@/entities/article-write/ui/title-input";
 import EditorCore from "@/entities/article-write/ui/editor-core";
 
-import PublishSettingModal from "@/features/article/publish-article/ui/publish-setting-modal";
+import PublishSettingModal from "@/features/article-read/publish-article/ui/publish-setting-modal";
 
 import "@/shared/styles/index.css";
 

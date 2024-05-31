@@ -14,7 +14,7 @@ import { AuthLayout, HeaderLayout } from "@/widgets/layout";
 import { ProfileArticles } from "@/widgets/profile/profile-articles";
 import { ProfileSettings } from "@/widgets/profile/profile-settings";
 
-import * as provider from "./providers";
+import * as hocs from "./hocs";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -60,9 +60,9 @@ const router = createBrowserRouter(
             path="settings"
             element={
               <Suspense fallback={<shared.Skeleton height={600} />}>
-                <provider.PrivateRoute>
+                <hocs.PrivateRoute>
                   <ProfileSettings />
-                </provider.PrivateRoute>
+                </hocs.PrivateRoute>
               </Suspense>
             }
           />
@@ -72,18 +72,18 @@ const router = createBrowserRouter(
         path="article-write"
         element={
           <Suspense fallback={<shared.Skeleton height={600} />}>
-            <provider.PrivateRoute>
+            <hocs.PrivateRoute>
               <pages.ArticleWrite />
-            </provider.PrivateRoute>
+            </hocs.PrivateRoute>
           </Suspense>
         }
       />
       <Route
         path="auth"
         element={
-          <provider.PublicRoute>
+          <hocs.PublicRoute>
             <AuthLayout />
-          </provider.PublicRoute>
+          </hocs.PublicRoute>
         }
       >
         <Route path="sign-in" element={<pages.SignInPage />} />

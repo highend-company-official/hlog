@@ -2,7 +2,7 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 
-import * as provider from "./providers";
+import * as hocs from "./hocs";
 import router from "./router";
 
 import { Skeleton } from "@/shared";
@@ -13,16 +13,16 @@ const root = createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
   <React.StrictMode>
-    <provider.ErrorBoundary>
+    <hocs.ErrorBoundary>
       <React.Suspense fallback={<Skeleton height={300} />}>
-        <provider.QueryClient>
-          <provider.AuthContainer>
-            <provider.ToastContainer>
+        <hocs.QueryClient>
+          <hocs.AuthContainer>
+            <hocs.ToastContainer>
               <RouterProvider router={router} />
-            </provider.ToastContainer>
-          </provider.AuthContainer>
-        </provider.QueryClient>
+            </hocs.ToastContainer>
+          </hocs.AuthContainer>
+        </hocs.QueryClient>
       </React.Suspense>
-    </provider.ErrorBoundary>
+    </hocs.ErrorBoundary>
   </React.StrictMode>
 );

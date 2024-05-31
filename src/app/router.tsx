@@ -31,19 +31,21 @@ const router = createBrowserRouter(
         <Route
           path="article-read/:article_id"
           element={
-            <Suspense
-              fallback={
-                <hocs.SearchArea>
-                  <shared.ImageSkeleton />
+            <hocs.SearchArea>
+              <Suspense
+                fallback={
+                  <>
+                    <shared.ImageSkeleton />
 
-                  <div className="mt-14" />
+                    <div className="mt-14" />
 
-                  <shared.TextSkeleton repeat={5} />
-                </hocs.SearchArea>
-              }
-            >
-              <pages.ArticleRead />
-            </Suspense>
+                    <shared.TextSkeleton repeat={5} />
+                  </>
+                }
+              >
+                <pages.ArticleRead />
+              </Suspense>
+            </hocs.SearchArea>
           }
         />
         <Route path="profile/:user_id" element={<pages.ProfilePage />}>

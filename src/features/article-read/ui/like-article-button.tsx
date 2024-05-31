@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiSolidLike } from "react-icons/bi";
 import { FaLock, FaRegCircleCheck } from "react-icons/fa6";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
-import { useGetUserArticleLiked, usePostArticleLike } from "../lib";
-import { useSession } from "@/shared";
-import { useQueryClient } from "@tanstack/react-query";
+import useGetUserArticleLiked from "../lib/use-get-user-article-liked";
+import usePostArticleLike from "../lib/use-post-article-like";
 
 type Params = {
   article_id: string;
@@ -19,7 +19,7 @@ const AuthenticatedView = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
-  const { data: session } = useSession();
+  const { data: session } = shared.useSession();
   const { data: isLikedArticle } = useGetUserArticleLiked(
     session?.user.id ?? "",
     params.article_id ?? ""

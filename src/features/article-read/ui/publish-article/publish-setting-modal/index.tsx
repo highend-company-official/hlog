@@ -13,7 +13,7 @@ import PolicyPart from "../policy-part";
 import PreviewPart from "../preview-part";
 import SettingPart from "../setting-part";
 
-import usePostArticle from "../../lib";
+import usePostArticle from "../../../lib/use-create-article";
 
 type Props = {
   onClose: () => void;
@@ -46,10 +46,6 @@ const PublishSettingModal = ({ onClose }: Props) => {
     const { title, hasComment, hasHit, hasLike, summary, content, thumbnail } =
       editorMetaData;
 
-    const rawContentState = JSON.stringify(
-      convertToRaw(content.getCurrentContent())
-    );
-
     publishArticle({
       articleMetaData: {
         title,
@@ -57,7 +53,7 @@ const PublishSettingModal = ({ onClose }: Props) => {
         has_hit: hasHit,
         has_like: hasLike,
         summary,
-        body: rawContentState,
+        body: convertToRaw(content.getCurrentContent()),
       },
       thumbnailFile: thumbnail!,
     }).then((response: { id: string }) => {

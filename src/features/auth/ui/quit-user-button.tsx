@@ -6,7 +6,7 @@ import { FaUserSlash } from "react-icons/fa";
 import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
-import quitUser from "../lib";
+import quitUser from "../lib/quit-user";
 
 const QuitButton = () => {
   const navigate = useNavigate();

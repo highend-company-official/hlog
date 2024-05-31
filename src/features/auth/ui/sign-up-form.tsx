@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
-import signUp from "../lib";
+import signUp from "../lib/sign-up";
 
 type FormValues = {
   email: string;

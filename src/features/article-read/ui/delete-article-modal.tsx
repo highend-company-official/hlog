@@ -4,7 +4,7 @@ import { useToastStore } from "@/app/model";
 
 import useArticleStore from "@/entities/article-read/model";
 
-import useDeleteArticle from "../lib";
+import useDeleteArticle from "../lib/use-delete-article";
 
 type Props = {
   isOpen: boolean;

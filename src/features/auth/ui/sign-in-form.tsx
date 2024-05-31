@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 
-import signIn from "../lib";
-import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
+import { useToastStore } from "@/app/model";
+
+import signIn from "../lib/sign-in";
 
 type FormValues = {
   email: string;

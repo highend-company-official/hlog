@@ -1,13 +1,8 @@
 import { QUERY_CONSTS } from "@/shared";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { getUserArticleLike, postArticleLike } from "../api";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getUserArticleLike } from "../api/post-article-like";
 
-export const usePostArticleLike = (userId: string, articleId: string) =>
-  useMutation({
-    mutationFn: () => postArticleLike(userId, articleId),
-  });
-
-export const useGetUserArticleLiked = (userId: string, articleId: string) => {
+const useGetUserArticleLiked = (userId: string, articleId: string) => {
   const queryKey = useGetUserArticleLiked.pk(userId, articleId);
   const queryFn = async () => {
     const response = await getUserArticleLike(userId, articleId);
@@ -29,3 +24,5 @@ useGetUserArticleLiked.pk = (userId: string, articleId: string) => [
   userId,
   articleId,
 ];
+
+export default useGetUserArticleLiked;

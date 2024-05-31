@@ -14,7 +14,7 @@ export type Params = {
   thumbnailFile: File;
 };
 
-export const postArticle = async ({
+export const createArticle = async ({
   articleMetaData,
   thumbnailFile,
 }: Params): Promise<ArticleType> => {

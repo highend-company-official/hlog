@@ -8,7 +8,7 @@ import * as shared from "@/shared";
 import useArticleStore from "@/entities/article-read/model";
 import { ProfileArticleCard } from "@/entities/profile";
 
-import DeleteArticleModal from "@/features/article-read/delete-article/ui";
+import DeleteArticleModal from "@/features/article-read/ui/delete-article-modal";
 
 import { useFetchUserArticles } from "../lib";
 

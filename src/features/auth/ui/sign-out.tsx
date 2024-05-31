@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
 
 import { useSession } from "@/shared";
-import signOut from "../lib";
+
+import signOut from "../lib/sign-out";
 
 const SignOutButton = () => {
   const navigate = useNavigate();

@@ -5,14 +5,14 @@ import {
 } from "react-router-dom";
 import { Suspense } from "react";
 
-import { ProfileInfo } from "@/entities/profile";
-
 import * as shared from "@/shared";
 import * as pages from "@/pages";
 
 import { AuthLayout, HeaderLayout } from "@/widgets/layout";
 import { ProfileArticles } from "@/widgets/profile/profile-articles";
 import { ProfileSettings } from "@/widgets/profile/profile-settings";
+
+import { ProfileInfo } from "@/entities/profile/ui";
 
 import * as hocs from "./hocs";
 

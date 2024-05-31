@@ -162,7 +162,7 @@ const UnAuthorizationView = () => {
   );
 };
 
-const UserInfo = () => {
+const ProfileInfo = () => {
   const { user_id } = useParams<Params>();
   const { isMySession } = shared.useIsMySession(user_id!);
 
@@ -175,4 +175,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default ProfileInfo;

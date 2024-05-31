@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
 import * as shared from "@/shared";
-import { ProfileTab } from "@/entities/profile";
+import { ProfileTab } from "@/entities/profile/ui";
 
 const ProfilePage = () => {
   return (

@@ -4,16 +4,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as shared from "@/shared";
 import CommentList from "@/widgets/comment/comment-list";
 
+import { useGetArticleById } from "@/entities/article-read/lib";
 import { ArticleView } from "@/entities/article-read";
-import { useFetchArticle } from "@/entities/article-read/lib";
 
-import { LikeArticle } from "@/features/article-read/like-article";
-import { CreateCommentForm } from "@/features/comment/create-comment";
+import { LikeArticle } from "@/features/article-read/ui";
+import { CreateCommentForm } from "@/features/comment/ui";
 
 function ArticleRead() {
   const params = useParams<{ article_id: string }>();
   const navigate = useNavigate();
-  const { data } = useFetchArticle(params.article_id!);
+  const { data } = useGetArticleById(params.article_id!);
 
   if (!data) {
     return (

@@ -3,10 +3,11 @@ import { Suspense } from "react";
 import { ArticleList } from "@/entities/article-read";
 import * as shared from "@/shared";
 
-import { SetArticleViewSelector } from "@/features/article-read/set-article-view";
-import { SortArticleSelector } from "@/features/article-read/sort-article";
-
 import useArticleStore from "@/entities/article-read/model";
+import {
+  SetArticleViewSelector,
+  SortArticleSelector,
+} from "@/features/article-read/ui";
 
 const Skeleton = () => {
   return (

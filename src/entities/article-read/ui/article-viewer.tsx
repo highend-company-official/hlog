@@ -12,7 +12,6 @@ const Editor = React.lazy(() => import("@draft-js-plugins/editor"));
 
 import "draft-js/dist/Draft.css";
 import "@/shared/styles/index.css";
-import "./index.css";
 
 type ParamsType = {
   article_id: string;

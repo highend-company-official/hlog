@@ -22,4 +22,5 @@ async function withGithub() {
   return signInResponse;
 }
 
-export default { withEmail, withGithub };
+const signIn = { withEmail, withGithub };
+export default signIn;

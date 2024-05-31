@@ -21,6 +21,8 @@ async function withEmail({ email, password, username }: EmailSignUpParams) {
   return signUpResponse;
 }
 
-export default {
+const signUp = {
   withEmail,
 };
+
+export default signUp;

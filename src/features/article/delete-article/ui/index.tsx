@@ -2,7 +2,7 @@ import { Modal } from "@/shared";
 
 import { useToastStore } from "@/app/model";
 
-import useArticleStore from "@/entities/article/model";
+import useArticleStore from "@/entities/article-read/model";
 
 import useDeleteArticle from "../lib";
 

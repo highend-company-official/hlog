@@ -5,10 +5,10 @@ import { CommentType } from "@/shared/schema";
 import * as shared from "@/shared";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 
-import { useFetchArticle } from "@/entities/article/lib";
 import { DeleteCommentButton } from "@/features/comment/delete-comment";
 import { EditCommentButton } from "@/features/comment/edit-comment";
-import { useSession } from "@/shared";
+
+import { useFetchArticle } from "@/entities/article-read/lib";
 
 type Params = {
   article_id: string;
@@ -18,7 +18,7 @@ const CommentCard = (props: CommentType) => {
   const navigate = useNavigate();
   const params = useParams<Params>();
   const { read: readProfiles } = shared.useBucket("profiles");
-  const { data: session } = useSession();
+  const { data: session } = shared.useSession();
   const queryClient = useQueryClient();
 
   const articleData = queryClient.getQueryData<shared.ArticleType>(

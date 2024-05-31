@@ -1,4 +1,4 @@
-import { SortType } from "@/entities/article/model";
+import { SortType } from "@/entities/article-read/model";
 import { supabase } from "@/shared";
 
 type ArticleResponseType = {

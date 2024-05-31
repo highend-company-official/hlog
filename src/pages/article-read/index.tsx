@@ -4,8 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as shared from "@/shared";
 import CommentList from "@/widgets/comment/comment-list";
 
-import { ArticleView } from "@/entities/article";
-import { useFetchArticle } from "@/entities/article/lib";
+import { ArticleView } from "@/entities/article-read";
+import { useFetchArticle } from "@/entities/article-read/lib";
 
 import { LikeArticle } from "@/features/article/like-article";
 import { CreateCommentForm } from "@/features/comment/create-comment";

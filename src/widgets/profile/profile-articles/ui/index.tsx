@@ -5,7 +5,7 @@ import { ImFileEmpty } from "react-icons/im";
 
 import * as shared from "@/shared";
 
-import useArticleStore from "@/entities/article/model";
+import useArticleStore from "@/entities/article-read/model";
 import { ProfileArticleCard } from "@/entities/profile";
 
 import DeleteArticleModal from "@/features/article/delete-article/ui";

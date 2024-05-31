@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 import * as shared from "@/shared";
-import useEditorStore from "@/entities/editor/model";
+import useEditorStore from "@/entities/article-write/model";
 
 const SettingPart = () => {
   const {

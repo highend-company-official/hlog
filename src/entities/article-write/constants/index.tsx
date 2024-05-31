@@ -102,17 +102,3 @@ export type KeyCommandType =
   | "header-six"
   | "hlog-editor-save"
   | "hlog-editor-refresh";
-
-export const styleMapper: { [type in string]: string } = {
-  blockquote: "hlog-blockquote",
-  "header-one": "hlog-header-one",
-  "header-two": "hlog-header-two",
-  "header-three": "hlog-header-three",
-  "header-four": "hlog-header-four",
-  "header-five": "hlog-header-five",
-  "header-six": "hlog-header-six",
-  "unordered-list-item": "hlog-unordered-list-item",
-  "ordered-list-item": "hlog-ordered-list-item",
-  "code-block": "hlog-code-block",
-  unstyled: "hlog_paragraph",
-};

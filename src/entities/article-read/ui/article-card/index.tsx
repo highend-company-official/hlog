@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { BiSolidLike } from "react-icons/bi";
 import { IoMdEye } from "react-icons/io";
 
-import { type ViewMode } from "@/entities/article/model";
-import { getElapsedTime, isProviderURL } from "@/shared";
+import { type ViewMode } from "@/entities/article-read/model";
+
+import { getElapsedTime, isProviderURL, useBucket } from "@/shared";
 import { type ArticleType } from "@/shared/schema";
-import useBucket from "@/shared/libs/useBucket";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 type ArticleCardProps = Omit<ArticleType, "body" | "verified"> & {

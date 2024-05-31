@@ -6,8 +6,8 @@ import { convertToRaw } from "draft-js";
 import { If, Modal, Skeleton, QUERY_CONSTS, Stepper } from "@/shared";
 import { useToastStore } from "@/app/model";
 
-import useEditorStore from "@/entities/editor/model";
-import useEditorUtils from "@/entities/editor/hooks";
+import useEditorStore from "@/entities/article-write/model";
+import useEditorUtils from "@/entities/article-write/hooks";
 
 import PolicyPart from "../policy-part";
 import PreviewPart from "../preview-part";

@@ -1,6 +1,8 @@
-import useArticleStore from "@/entities/article/model";
-import { ArticleType, Checkbox, getElapsedTime, useBucket } from "@/shared";
 import { Link } from "react-router-dom";
+
+import { ArticleType, Checkbox, getElapsedTime, useBucket } from "@/shared";
+
+import useArticleStore from "@/entities/article-read/model";
 
 type DeleteArticleCardProps = Omit<ArticleType, "body" | "verified"> & {
   isEditMode: boolean;

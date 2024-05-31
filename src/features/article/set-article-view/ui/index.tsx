@@ -3,7 +3,7 @@ import { FaList } from "react-icons/fa6";
 import { AiFillAppstore } from "react-icons/ai";
 import { BiSolidCard } from "react-icons/bi";
 
-import useArticle from "@/entities/article/model";
+import useArticle from "@/entities/article-read/model";
 
 const SetArticleViewSelector = () => {
   const { articleViewMode, changeViewMode } = useArticle();

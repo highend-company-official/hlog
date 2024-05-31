@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import {
   convertFromRaw,
   convertToRaw,
@@ -6,8 +7,7 @@ import {
 } from "draft-js";
 
 import * as shared from "@/shared";
-import { useCallback } from "react";
-import useEditorStore from "@/entities/editor/model";
+import useEditorStore from "@/entities/article-write/model";
 
 type LocalStorageType = {
   title: string;

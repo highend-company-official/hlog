@@ -3,8 +3,12 @@ import { useBeforeunload } from "react-beforeunload";
 
 import * as shared from "@/shared";
 
-import { Toolbar, TitleInput, EditorCore } from "@/entities/editor/ui";
+import Toolbar from "@/entities/article-write/ui/toolbar";
+import ArticleTitleInput from "@/entities/article-write/ui/title-input";
+import EditorCore from "@/entities/article-write/ui/editor-core";
+
 import PublishSettingModal from "@/features/article/publish-article/ui/publish-setting-modal";
+
 import "@/shared/styles/index.css";
 
 const ArticleWrite = () => {
@@ -19,7 +23,7 @@ const ArticleWrite = () => {
           <Toolbar onPulish={() => setIsOpenPublishModal(true)} />
 
           <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
-            <TitleInput />
+            <ArticleTitleInput />
             <shared.Divider />
             <div className="mt-7" />
             <EditorCore />

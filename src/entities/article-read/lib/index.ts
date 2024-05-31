@@ -1,8 +1,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import * as shared from "@/shared";
-import { fetchArticle, fetchArticles } from "../api";
-import { SortType } from "@/entities/article/model";
 import { PostgrestError } from "@supabase/supabase-js";
+
+import * as shared from "@/shared";
+import { SortType } from "@/entities/article-read/model";
+
+import { fetchArticle, fetchArticles } from "../api";
 
 export const useFetchArticle = (articleId: string) => {
   const queryKey = useFetchArticle.pk(articleId);

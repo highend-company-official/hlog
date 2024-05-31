@@ -1,6 +1,6 @@
 import { supabase } from "@/shared";
 
-export const deleteArticle = async (articleIds: string[]) => {
+const deleteArticle = async (articleIds: string[]) => {
   const response = await supabase
     .from("articles")
     .delete()
@@ -9,3 +9,5 @@ export const deleteArticle = async (articleIds: string[]) => {
 
   return response.data;
 };
+
+export default deleteArticle;

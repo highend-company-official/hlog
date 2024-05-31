@@ -1,6 +1,8 @@
-import { QUERY_CONSTS } from "@/shared";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getUserArticleLike } from "../api/post-article-like";
+
+import { QUERY_CONSTS } from "@/shared";
+
+import { getUserArticleLike } from "../api";
 
 const useGetUserArticleLiked = (userId: string, articleId: string) => {
   const queryKey = useGetUserArticleLiked.pk(userId, articleId);

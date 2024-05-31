@@ -1,7 +1,7 @@
 import { RawDraftContentState } from "draft-js";
 import { ArticleType, generateRandomId, supabase } from "@/shared";
 
-export type Params = {
+type Params = {
   articleMetaData: {
     title: string;
     thumbnail?: File;
@@ -14,7 +14,7 @@ export type Params = {
   thumbnailFile: File;
 };
 
-export const createArticle = async ({
+const createArticle = async ({
   articleMetaData,
   thumbnailFile,
 }: Params): Promise<ArticleType> => {
@@ -43,3 +43,5 @@ export const createArticle = async ({
 
   return response.data;
 };
+
+export default createArticle;

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useBucket } from "@/shared";
+import useSearchStore from "@/entities/search-input/model";
 
 type Props = {
   id: string;
@@ -10,9 +11,13 @@ type Props = {
 
 const ProfileSearchItem = ({ id, username, profile_url }: Props) => {
   const { read } = useBucket("profiles");
+  const { setIsSearchOpen } = useSearchStore();
 
   return (
-    <li className="mx-6 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group">
+    <li
+      className="mx-6 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group"
+      onClick={() => setIsSearchOpen(false)}
+    >
       <Link to={`/profile/${id}`}>
         <div className="flex items-center w-full px-4 py-3">
           <img

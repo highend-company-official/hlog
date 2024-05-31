@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { FaBook } from "react-icons/fa";
+import useSearchStore from "@/entities/search-input/model";
 
 type Props = {
   id: string;
@@ -10,8 +11,12 @@ type Props = {
 };
 
 const SearchItem = ({ id, title, username, created_at }: Props) => {
+  const { setIsSearchOpen } = useSearchStore();
   return (
-    <li className="mx-6 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group">
+    <li
+      className="mx-6 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group"
+      onClick={() => setIsSearchOpen(false)}
+    >
       <Link to={`/article-read/${id}`}>
         <div className="flex items-center w-full px-4 py-3">
           <FaBook

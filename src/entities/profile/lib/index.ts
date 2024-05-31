@@ -1,22 +1,3 @@
-import { useMutation } from "@tanstack/react-query";
-import {
-  patchProfileImage,
-  patchProfileImageReset,
-  patchProfileInfo,
-  type InfoType,
-} from "../api";
-
-export const usePatchProfileImageReset = (userId: string, profileUrl: string) =>
-  useMutation({
-    mutationFn: () => patchProfileImageReset(userId, profileUrl),
-  });
-
-export const usePatchProfileImage = (userId: string) =>
-  useMutation({
-    mutationFn: (profile: File) => patchProfileImage(userId, profile),
-  });
-
-export const usePatchProfileInfo = (userId: string) =>
-  useMutation({
-    mutationFn: (info: InfoType) => patchProfileInfo(userId, info),
-  });
+export { default as usePatchProfileImageReset } from "./use-patch-profile-image-reset";
+export { default as usePatchProfileImage } from "./use-patch-profile-image";
+export { default as usePatchProfileInfo } from "./use-patch-profile-info";

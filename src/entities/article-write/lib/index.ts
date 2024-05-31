@@ -1,2 +1,2 @@
-export { default as uploadArticleImage } from "./uploadArticleImage";
-export { default as bindingKeyFunction } from "./bindingKeyFunction";
+export { default as bindingKeyFunction } from "./binding-key-function";
+export { default as uploadArticleImage } from "./upload-article-image";

@@ -22,9 +22,9 @@ import { useToastStore } from "@/app/model";
 import UploadOverlay from "@/entities/article-write/ui/file-upload-overlay";
 import SaveLoadModal from "@/entities/article-write/ui/saved-content-load-modal";
 
-import useEditorUtils from "../../hooks";
-import { KeyCommandType } from "../../constants";
-import { uploadArticleImage, bindingKeyFunction } from "../../lib";
+import { KeyCommandType } from "../constants";
+import { uploadArticleImage, bindingKeyFunction } from "../lib";
+import { useEditorUtils } from "../hooks";
 
 import "draft-js/dist/Draft.css";
 import "@/shared/styles/index.css";

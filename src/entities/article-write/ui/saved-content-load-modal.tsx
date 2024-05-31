@@ -1,8 +1,9 @@
 import { EditorState } from "draft-js";
-import useEditorStore from "@/entities/article-write/model";
 
 import { Modal } from "@/shared";
-import useEditorUtils from "../../hooks";
+
+import { useEditorUtils } from "../hooks";
+import useEditorStore from "../model";
 
 type Props = {
   onCancel: () => void;

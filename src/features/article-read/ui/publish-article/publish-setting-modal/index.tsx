@@ -7,7 +7,7 @@ import { If, Modal, Skeleton, QUERY_CONSTS, Stepper } from "@/shared";
 import { useToastStore } from "@/app/model";
 
 import useEditorStore from "@/entities/article-write/model";
-import useEditorUtils from "@/entities/article-write/hooks";
+import useEditorUtils from "@/entities/article-write/hooks/use-editor-uitls";
 
 import PolicyPart from "../policy-part";
 import PreviewPart from "../preview-part";

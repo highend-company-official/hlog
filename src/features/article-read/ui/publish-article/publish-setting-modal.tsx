@@ -9,11 +9,11 @@ import { useToastStore } from "@/app/model";
 import useEditorStore from "@/entities/article-write/model";
 import useEditorUtils from "@/entities/article-write/hooks/use-editor-uitls";
 
-import PolicyPart from "../policy-part";
-import PreviewPart from "../preview-part";
-import SettingPart from "../setting-part";
+import PolicyPart from "./policy-part";
+import PreviewPart from "./preview-part";
+import SettingPart from "./setting-part";
 
-import usePostArticle from "../../../lib/use-create-article";
+import usePostArticle from "../../lib/use-create-article";
 
 type Props = {
   onClose: () => void;

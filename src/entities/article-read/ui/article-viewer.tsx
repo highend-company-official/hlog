@@ -11,7 +11,9 @@ import { Divider, If, isProviderURL, STYLE_MAPPER } from "@/shared";
 const Editor = React.lazy(() => import("@draft-js-plugins/editor"));
 
 import "draft-js/dist/Draft.css";
+
 import "@/shared/styles/index.css";
+import "@/shared/styles/editor-style.css";
 
 type ParamsType = {
   article_id: string;

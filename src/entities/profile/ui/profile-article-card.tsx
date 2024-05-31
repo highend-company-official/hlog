@@ -8,7 +8,7 @@ type DeleteArticleCardProps = Omit<ArticleType, "body" | "verified"> & {
   isEditMode: boolean;
 };
 
-const UserAriticleCard = (props: DeleteArticleCardProps) => {
+const ProfileAriticleCard = (props: DeleteArticleCardProps) => {
   const { read } = useBucket("thumbnails");
   const {
     deleteArticleList,
@@ -64,4 +64,4 @@ const UserAriticleCard = (props: DeleteArticleCardProps) => {
   );
 };
 
-export default UserAriticleCard;
+export default ProfileAriticleCard;

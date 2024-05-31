@@ -28,7 +28,7 @@ import { useEditorUtils } from "../hooks";
 
 import "draft-js/dist/Draft.css";
 import "@/shared/styles/index.css";
-import "./index.css";
+import "@/shared/styles/editor-style.css";
 
 const Editor = React.lazy(() => import("@draft-js-plugins/editor"));
 

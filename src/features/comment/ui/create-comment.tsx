@@ -7,7 +7,7 @@ import * as shared from "@/shared";
 
 import { usePostComment } from "../lib";
 import { FaLock } from "react-icons/fa6";
-import { useFetchComments } from "@/entities/comment/lib";
+import { useGetComments } from "@/entities/comment/lib";
 import { ErrorMessage } from "@/shared";
 
 type FieldValues = {
@@ -49,7 +49,7 @@ const AuthenticatedView = () => {
         comment: "",
       });
       queryClient.invalidateQueries({
-        queryKey: useFetchComments.pk(params.article_id!),
+        queryKey: useGetComments.pk(params.article_id!),
       });
     });
   };

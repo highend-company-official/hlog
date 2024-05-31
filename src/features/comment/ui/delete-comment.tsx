@@ -1,5 +1,5 @@
 import { useToastStore } from "@/app/model";
-import { useFetchComments } from "@/entities/comment/lib";
+import { useGetComments } from "@/entities/comment/lib";
 import { Modal } from "@/shared";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -23,7 +23,7 @@ const DeleteCommentButton = ({ commentId }: Props) => {
       .then(() => {
         setIsModalOpen(false);
         queryClient.invalidateQueries({
-          queryKey: useFetchComments.pk(params.article_id!),
+          queryKey: useGetComments.pk(params.article_id!),
         });
         addToast({
           type: "success",

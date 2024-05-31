@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { ErrorMessage, Modal, TextArea } from "@/shared";
 import { useToastStore } from "@/app/model";
-import { useFetchComments } from "@/entities/comment/lib";
+import { useGetComments } from "@/entities/comment/lib";
 
 import { useUpdateComment } from "../lib";
 
@@ -51,7 +51,7 @@ const EditCommentButton = ({ body, commentId }: Props) => {
           staleTime: 3000,
         });
         queryClient.invalidateQueries({
-          queryKey: useFetchComments.pk(params.article_id!),
+          queryKey: useGetComments.pk(params.article_id!),
         });
       })
       .catch((error) => {

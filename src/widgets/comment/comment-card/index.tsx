@@ -5,10 +5,8 @@ import { CommentType } from "@/shared/schema";
 import * as shared from "@/shared";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 
-import { DeleteCommentButton } from "@/features/comment/delete-comment";
-import { EditCommentButton } from "@/features/comment/edit-comment";
-
-import { useFetchArticle } from "@/entities/article-read/lib";
+import { useGetArticleById } from "@/entities/article-read/lib";
+import { DeleteCommentButton, EditCommentButton } from "@/features/comment/ui";
 
 type Params = {
   article_id: string;
@@ -22,7 +20,7 @@ const CommentCard = (props: CommentType) => {
   const queryClient = useQueryClient();
 
   const articleData = queryClient.getQueryData<shared.ArticleType>(
-    useFetchArticle.pk(params.article_id!)
+    useGetArticleById.pk(params.article_id!)
   );
 
   if (!articleData) return null;

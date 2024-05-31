@@ -5,7 +5,7 @@ import { ContentBlock, convertFromRaw, EditorState } from "draft-js";
 
 import useBucket from "@/shared/libs/useBucket";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
-import { useFetchArticle } from "../../lib";
+import { useGetArticleById } from "../lib";
 import { Divider, If, isProviderURL, STYLE_MAPPER } from "@/shared";
 
 const Editor = React.lazy(() => import("@draft-js-plugins/editor"));
@@ -23,7 +23,7 @@ const imagePlugin = createImagePlugin();
 const ArticleView = () => {
   const navigate = useNavigate();
   const { article_id } = useParams<ParamsType>();
-  const { data } = useFetchArticle(article_id!);
+  const { data } = useGetArticleById(article_id!);
   const { read: readThumbnails } = useBucket("thumbnails");
   const { read: readProfiles } = useBucket("profiles");
 

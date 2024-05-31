@@ -3,10 +3,10 @@ import { ImFileEmpty } from "react-icons/im";
 
 import * as shared from "@/shared";
 
-import ArticleCard from "../article-card";
+import ArticleCard from "./article-card";
 
-import { useFetchArticles } from "../../lib";
-import useArticleStore, { type ViewMode } from "../../model";
+import { useGetArticles } from "../lib";
+import useArticleStore, { type ViewMode } from "../model";
 
 type Props = { children: JSX.Element[] };
 
@@ -26,7 +26,7 @@ const GalleryContainer = ({ children }: Props) => {
 
 const ArticleList = ({ viewMode }: { viewMode: ViewMode }) => {
   const { sortType } = useArticleStore();
-  const { data } = useFetchArticles(sortType);
+  const { data } = useGetArticles(sortType);
   const navigate = useNavigate();
 
   if (data?.length === 0) {

@@ -1,5 +1,6 @@
-import { createSelectors } from "@/shared";
 import { create } from "zustand";
+
+import { createSelectors } from "@/shared";
 
 export type ViewMode = "card" | "list" | "gallery";
 

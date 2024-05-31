@@ -4,7 +4,7 @@ import * as shared from "@/shared";
 
 import { getComments } from "../api";
 
-export const useGetComments = (articleId: string) => {
+const useGetComments = (articleId: string) => {
   const queryKey = useGetComments.pk(articleId);
   const queryFn = async () => {
     const resposne = await getComments(articleId);
@@ -18,3 +18,5 @@ useGetComments.pk = (articleId: string) => [
   shared.QUERY_CONSTS.COMMENT,
   articleId,
 ];
+
+export default useGetComments;

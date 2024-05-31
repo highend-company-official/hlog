@@ -1,10 +1,10 @@
 import { useToastStore } from "@/app/model";
-import { useGetComments } from "@/entities/comment/lib";
+
 import { Modal } from "@/shared";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDeleteComment } from "../lib";
+import { useDeleteComment, useGetComments } from "../lib";
 
 type Props = {
   commentId: string;

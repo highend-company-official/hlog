@@ -1,6 +1,6 @@
 import { CommentType, supabase } from "@/shared";
 
-export const getComments = (articleId: string) => {
+const getComments = (articleId: string) => {
   return supabase
     .from("comments")
     .select(
@@ -15,3 +15,5 @@ export const getComments = (articleId: string) => {
     .throwOnError()
     .returns<CommentType[]>();
 };
+
+export default getComments;

@@ -5,9 +5,8 @@ import { useParams } from "react-router-dom";
 import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
-import { usePostComment } from "../lib";
+import { useGetComments, usePostComment } from "../lib";
 import { FaLock } from "react-icons/fa6";
-import { useGetComments } from "@/entities/comment/lib";
 import { ErrorMessage } from "@/shared";
 
 type FieldValues = {

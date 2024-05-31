@@ -20,19 +20,26 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route element={<HeaderLayout />}>
-        <Route index element={<pages.HomePage />} />
+        <Route
+          index
+          element={
+            <hocs.SearchArea>
+              <pages.HomePage />
+            </hocs.SearchArea>
+          }
+        />
         <Route
           path="article-read/:article_id"
           element={
             <Suspense
               fallback={
-                <>
+                <hocs.SearchArea>
                   <shared.ImageSkeleton />
 
                   <div className="mt-14" />
 
                   <shared.TextSkeleton repeat={5} />
-                </>
+                </hocs.SearchArea>
               }
             >
               <pages.ArticleRead />
@@ -44,7 +51,9 @@ const router = createBrowserRouter(
             index
             element={
               <Suspense fallback={<shared.Skeleton height={600} />}>
-                <ProfileInfo />
+                <hocs.SearchArea>
+                  <ProfileInfo />
+                </hocs.SearchArea>
               </Suspense>
             }
           />
@@ -52,7 +61,9 @@ const router = createBrowserRouter(
             path="articles"
             element={
               <Suspense fallback={<shared.Skeleton height={600} />}>
-                <ProfileArticles />
+                <hocs.SearchArea>
+                  <ProfileArticles />
+                </hocs.SearchArea>
               </Suspense>
             }
           />
@@ -61,7 +72,9 @@ const router = createBrowserRouter(
             element={
               <Suspense fallback={<shared.Skeleton height={600} />}>
                 <hocs.PrivateRoute>
-                  <ProfileSettings />
+                  <hocs.SearchArea>
+                    <ProfileSettings />
+                  </hocs.SearchArea>
                 </hocs.PrivateRoute>
               </Suspense>
             }

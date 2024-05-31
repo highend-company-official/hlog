@@ -5,9 +5,8 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { ErrorMessage, Modal, TextArea } from "@/shared";
 import { useToastStore } from "@/app/model";
-import { useGetComments } from "@/entities/comment/lib";
 
-import { useUpdateComment } from "../lib";
+import { useGetComments, useUpdateComment } from "../lib";
 
 type FormValue = {
   comment: string;

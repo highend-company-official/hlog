@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Skeleton } from "@/shared";
 
-import { useGetComments } from "@/entities/comment/lib";
+import { useGetComments } from "@/features/comment/lib";
 
 import CommentCard from "../comment-card";
 

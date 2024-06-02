@@ -76,7 +76,7 @@ const Toolbar = ({ onPulish }: Props) => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 z-10 flex items-center justify-between w-full px-10 py-2 bg-white">
+      <div className="fixed top-0 left-0 flex items-center justify-between z-10 w-full px-10 py-2 bg-white">
         <div>
           <ToolbarItem onClick={() => navigate("/")}>
             <BiArrowBack />

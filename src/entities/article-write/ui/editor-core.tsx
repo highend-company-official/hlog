@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import { lazy } from "react";
 import useEditorStore from "@/entities/article-write/model";
 
-import { composeDecorators } from "@draft-js-plugins/editor";
-import createImagePlugin from "@draft-js-plugins/image";
-import createResizeablePlugin from "@draft-js-plugins/resizeable";
-import createFocusPlugin from "@draft-js-plugins/focus";
 import {
   EditorState,
   DraftInlineStyleType,
   RichUtils,
   DraftBlockType,
   DraftHandleValue,
-  AtomicBlockUtils,
   SelectionState,
   ContentBlock,
 } from "draft-js";
@@ -21,26 +16,25 @@ import { useToastStore } from "@/app/model";
 
 import UploadOverlay from "@/entities/article-write/ui/file-upload-overlay";
 import SaveLoadModal from "@/entities/article-write/ui/saved-content-load-modal";
-import { uploadArticleImage, bindingKeyFunction } from "../lib";
+
+import {
+  bindingKeyFunction,
+  matchKeyCommand,
+  addImage,
+  uploadImage,
+  blockRenderFn,
+} from "../lib";
 import { useEditorUtils } from "../hooks";
+import { KeyCommandType } from "../constants";
 
 import "draft-js/dist/Draft.css";
 import "@/shared/styles/index.css";
 import "@/shared/styles/editor-style.css";
-import { matchKeyCommand } from "../utils";
-import { KeyCommandType } from "../constants";
+import ImageDetailOverlay from "./image-detail-overlay";
 
-const Editor = React.lazy(() => import("@draft-js-plugins/editor"));
-
-const resizeablePlugin = createResizeablePlugin();
-const focusPlugin = createFocusPlugin();
-const decorator = composeDecorators(
-  resizeablePlugin.decorator,
-  focusPlugin.decorator
+const Editor = lazy(() =>
+  import("draft-js").then((module) => ({ default: module.Editor }))
 );
-const imagePlugin = createImagePlugin({ decorator });
-
-const plugins = [imagePlugin, resizeablePlugin, focusPlugin];
 
 const EditorCore = () => {
   const { addToast } = useToastStore();
@@ -49,11 +43,14 @@ const EditorCore = () => {
     editorMetaData,
     setEditorMetaData,
     reset: resetEditorStore,
+    open: {
+      isSavedModalOpen,
+      isImageUploadOverlayOpen,
+      isImageDetailOverlayOpen,
+    },
+    setOpen,
   } = useEditorStore();
   const { loadSavedContent, saveCurrentContent } = useEditorUtils();
-
-  const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
-  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const toggleInline = (type: DraftInlineStyleType) => {
     setEditorMetaData({
@@ -73,28 +70,6 @@ const EditorCore = () => {
     const type = contentBlock.getType();
 
     return shared.STYLE_MAPPER[type];
-  };
-
-  const insertPastedImage = (url: string) => {
-    const currentContent = editorMetaData.content.getCurrentContent();
-    const contentStateWithEntity = currentContent.createEntity(
-      "IMAGE",
-      "IMMUTABLE",
-      {
-        src: url,
-      }
-    );
-
-    const imageEntityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newEditorState = EditorState.set(editorMetaData.content, {
-      currentContent: contentStateWithEntity,
-    });
-
-    return AtomicBlockUtils.insertAtomicBlock(
-      newEditorState,
-      imageEntityKey,
-      " "
-    );
   };
 
   // Event Handlers
@@ -123,8 +98,8 @@ const EditorCore = () => {
       command,
       onBlockCommand: toggleBlock,
       onInlineCommand: toggleInline,
-      onRefreshCommand: handleSaveEditor,
-      onSaveCommand: () => null,
+      onRefreshCommand: () => null,
+      onSaveCommand: handleSaveEditor,
     });
 
     return isHandled;
@@ -136,7 +111,7 @@ const EditorCore = () => {
 
   const handleUploadedSuccess = (url: string) => {
     // Image Upload
-    setIsImageUploading(false);
+    setOpen("isImageUploadOverlayOpen", false);
     addToast({
       type: "success",
       content: "이미지 업로드 완료",
@@ -144,12 +119,15 @@ const EditorCore = () => {
     });
     setEditorMetaData({
       ...editorMetaData,
-      content: insertPastedImage(readArticles(url)),
+      content: addImage({
+        url: readArticles(url),
+        editorState: editorMetaData.content,
+      }),
     });
   };
 
   const handleUploadedError = (error: string) => {
-    setIsImageUploading(false);
+    setOpen("isImageUploadOverlayOpen", false);
     addToast({
       type: "error",
       content: error,
@@ -160,13 +138,13 @@ const EditorCore = () => {
   const handlePasteFile = (files: Blob[]): DraftHandleValue => {
     const pastedFile = files[0];
 
-    setIsImageUploading(true);
-    uploadArticleImage(
-      shared.generateRandomId(),
-      pastedFile as File,
-      handleUploadedSuccess,
-      handleUploadedError
-    );
+    setOpen("isImageUploadOverlayOpen", true);
+    uploadImage({
+      file: pastedFile as File,
+      path: shared.generateRandomId(),
+      successCb: handleUploadedSuccess,
+      errorCb: handleUploadedError,
+    });
 
     return "handled";
   };
@@ -177,13 +155,13 @@ const EditorCore = () => {
   ): DraftHandleValue => {
     const droppedFile = files[0];
 
-    setIsImageUploading(true);
-    uploadArticleImage(
-      shared.generateRandomId(),
-      droppedFile as File,
-      handleUploadedSuccess,
-      handleUploadedError
-    );
+    setOpen("isImageUploadOverlayOpen", true);
+    uploadImage({
+      file: droppedFile as File,
+      path: shared.generateRandomId(),
+      successCb: handleUploadedSuccess,
+      errorCb: handleUploadedError,
+    });
 
     return "handled";
   };
@@ -192,7 +170,7 @@ const EditorCore = () => {
     const savedContent = loadSavedContent();
 
     if (savedContent) {
-      setIsSavedModalOpen(true);
+      setOpen("isSavedModalOpen", true);
     }
   });
 
@@ -208,21 +186,18 @@ const EditorCore = () => {
           handleKeyCommand={handleKeyCommand}
           keyBindingFn={bindingKeyFunction}
           spellCheck={false}
-          plugins={plugins}
           handlePastedFiles={handlePasteFile}
           handleDroppedFiles={handleDroppedFile}
           blockStyleFn={blockStyleFn}
+          blockRendererFn={(block) =>
+            blockRenderFn(block, editorMetaData.content.getCurrentContent())
+          }
         />
       </div>
 
-      {isImageUploading && <UploadOverlay />}
-
-      {isSavedModalOpen && (
-        <SaveLoadModal
-          onCancel={() => setIsSavedModalOpen(false)}
-          onLoad={() => setIsSavedModalOpen(false)}
-        />
-      )}
+      {isImageUploadOverlayOpen && <UploadOverlay />}
+      {isImageDetailOverlayOpen && <ImageDetailOverlay />}
+      {isSavedModalOpen && <SaveLoadModal />}
     </>
   );
 };

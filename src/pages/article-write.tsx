@@ -18,7 +18,7 @@ const ArticleWrite = () => {
 
   return (
     <>
-      <div className="relative min-h-screen pt-20 bg-slate-200">
+      <div className="min-h-screen pt-20 bg-slate-200">
         <Suspense fallback={<shared.Skeleton />}>
           <Toolbar onPulish={() => setIsOpenPublishModal(true)} />
 

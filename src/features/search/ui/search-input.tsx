@@ -19,7 +19,10 @@ const SearchBar = () => {
 
   return (
     <header className="flex w-full px-4">
-      <form className="flex items-center justify-center w-full text-black">
+      <form
+        className="flex items-center justify-center w-full text-black"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <label htmlFor="search-bar">
           <FaSearch size={24} />
         </label>

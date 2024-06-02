@@ -26,7 +26,7 @@ const CommentCard = (props: CommentType) => {
   if (!articleData) return null;
 
   return (
-    <article className="px-6 py-6 mb-5 text-base rounded-lg bg-gray-50">
+    <article className="px-6 pt-3 pb-6 mb-5 text-base rounded-lg bg-gray-50">
       <div className="flex items-center justify-start mb-2">
         <div
           className="flex items-center p-2 transition ease-in-out rounded-lg cursor-pointer hover:bg-black/10"

@@ -1,6 +1,3 @@
-import { Suspense } from "react";
-import { ImSpinner8 } from "react-icons/im";
-
 import { Divider } from "@/shared";
 
 import useSearchStore from "@/entities/search-input/model";
@@ -22,31 +19,14 @@ const SearchSelector = () => {
   return (
     <>
       <span className="my-2 ml-3 text-lg font-semibold">검색된 아티클</span>
-
-      <Suspense
-        fallback={
-          <div className="w-full h-[300px] flex items-center justify-center">
-            <ImSpinner8 size={24} className="animate-spin" />
-          </div>
-        }
-      >
-        <ArticleSearchSection />
-      </Suspense>
+      <ArticleSearchSection />
 
       <div className="mx-10">
         <Divider />
       </div>
 
       <span className="my-2 ml-3 text-lg font-semibold">검색된 프로필</span>
-      <Suspense
-        fallback={
-          <div className="w-full h-[300px] flex items-center justify-center">
-            <ImSpinner8 size={24} className="animate-spin" />
-          </div>
-        }
-      >
-        <ProfileSearchSection />
-      </Suspense>
+      <ProfileSearchSection />
     </>
   );
 };

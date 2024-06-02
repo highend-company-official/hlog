@@ -96,9 +96,11 @@ const router = createBrowserRouter(
       <Route
         path="auth"
         element={
-          <hocs.PublicRoute>
-            <AuthLayout />
-          </hocs.PublicRoute>
+          <Suspense>
+            <hocs.PublicRoute>
+              <AuthLayout />
+            </hocs.PublicRoute>
+          </Suspense>
         }
       >
         <Route path="sign-in" element={<pages.SignInPage />} />

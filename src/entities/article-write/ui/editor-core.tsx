@@ -21,14 +21,14 @@ import { useToastStore } from "@/app/model";
 
 import UploadOverlay from "@/entities/article-write/ui/file-upload-overlay";
 import SaveLoadModal from "@/entities/article-write/ui/saved-content-load-modal";
-
-import { KeyCommandType } from "../constants";
 import { uploadArticleImage, bindingKeyFunction } from "../lib";
 import { useEditorUtils } from "../hooks";
 
 import "draft-js/dist/Draft.css";
 import "@/shared/styles/index.css";
 import "@/shared/styles/editor-style.css";
+import { matchKeyCommand } from "../utils";
+import { KeyCommandType } from "../constants";
 
 const Editor = React.lazy(() => import("@draft-js-plugins/editor"));
 
@@ -50,7 +50,7 @@ const EditorCore = () => {
     setEditorMetaData,
     reset: resetEditorStore,
   } = useEditorStore();
-  const { saveCurrentContent, loadSavedContent } = useEditorUtils();
+  const { loadSavedContent, saveCurrentContent } = useEditorUtils();
 
   const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -67,89 +67,6 @@ const EditorCore = () => {
       ...editorMetaData,
       content: RichUtils.toggleBlockType(editorMetaData.content, type),
     });
-  };
-
-  const handleKeyCommand = (command: KeyCommandType) => {
-    if (command === "hlog-editor-save") {
-      if (editorMetaData.content.getCurrentContent().getPlainText() === "") {
-        addToast({
-          type: "warning",
-          content: "저장을 위해서 내용을 입력해주세요",
-          hasCloseButton: false,
-          staleTime: 3000,
-        });
-        return "handled";
-      }
-
-      saveCurrentContent();
-      addToast({
-        type: "success",
-        content: "내용이 저장되었습니다.",
-        hasCloseButton: false,
-        staleTime: 3000,
-      });
-      return "handled";
-    }
-    if (command === "header-one") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "header-two") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "header-three") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "header-four") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "header-five") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "header-six") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "strikethrough") {
-      toggleInline("STRIKETHROUGH");
-      return "handled";
-    }
-    if (command === "bold") {
-      toggleInline("BOLD");
-      return "handled";
-    }
-    if (command === "italic") {
-      toggleInline("ITALIC");
-      return "handled";
-    }
-    if (command === "underline") {
-      toggleInline("UNDERLINE");
-      return "handled";
-    }
-    if (command === "ordered-list-item") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "unordered-list-item") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "code-block") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "blockquote") {
-      toggleBlock(command);
-      return "handled";
-    }
-    if (command === "hlog-editor-refresh") {
-      return "handled";
-    }
-    return "not-handled";
   };
 
   const blockStyleFn = (contentBlock: ContentBlock) => {
@@ -181,6 +98,38 @@ const EditorCore = () => {
   };
 
   // Event Handlers
+  const handleSaveEditor = () => {
+    if (editorMetaData.content.getCurrentContent().getPlainText() === "") {
+      addToast({
+        type: "warning",
+        content: "저장을 위해서 내용을 입력해주세요",
+        hasCloseButton: false,
+        staleTime: 3000,
+      });
+      return "handled";
+    }
+
+    saveCurrentContent();
+    addToast({
+      type: "success",
+      content: "내용이 저장되었습니다.",
+      hasCloseButton: false,
+      staleTime: 3000,
+    });
+  };
+
+  const handleKeyCommand = (command: KeyCommandType) => {
+    const isHandled = matchKeyCommand({
+      command,
+      onBlockCommand: toggleBlock,
+      onInlineCommand: toggleInline,
+      onRefreshCommand: handleSaveEditor,
+      onSaveCommand: () => null,
+    });
+
+    return isHandled;
+  };
+
   const handleChangeEditor = (editorContent: EditorState) => {
     setEditorMetaData({ ...editorMetaData, content: editorContent });
   };

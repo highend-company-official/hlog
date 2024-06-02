@@ -94,11 +94,11 @@ export type KeyCommandType =
   | "header-two"
   | "header-three"
   | "header-four"
+  | "header-five"
+  | "header-six"
   | "unordered-list-item"
   | "ordered-list-item"
   | "blockquote"
   | "code-block"
-  | "header-five"
-  | "header-six"
   | "hlog-editor-save"
   | "hlog-editor-refresh";

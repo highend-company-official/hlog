@@ -35,7 +35,9 @@ const ArticleView = () => {
   const { data } = useGetArticleById(article_id!);
   const { read: readThumbnails } = useBucket("thumbnails");
   const { read: readProfiles } = useBucket("profiles");
-  const { open, targetURL, closeDetailView, openDetailView } = useImageDetail();
+
+  const articleImageDetaul = useImageDetail();
+  const thumbanilImageDetaul = useImageDetail();
 
   const blockStyleFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
@@ -57,6 +59,9 @@ const ArticleView = () => {
         src={readThumbnails(data!.thumbnail)}
         alt={data.summary}
         className="object-cover w-full rounded-xl mt-9 h-96"
+        onClick={() =>
+          thumbanilImageDetaul.openDetailView(readThumbnails(data!.thumbnail))
+        }
       />
       <section className="flex mt-5 items-center justify-between min-h-[50px] w-full break-keep text-wrap break-words">
         <h3 className="text-5xl font-bold text-gray-700">{data?.title}</h3>
@@ -100,7 +105,7 @@ const ArticleView = () => {
           editorState={editorState}
           blockRendererFn={(block) =>
             blockRenderFn(block, editorState.getCurrentContent(), {
-              onClick: openDetailView,
+              onClick: articleImageDetaul.openDetailView,
             })
           }
           blockStyleFn={blockStyleFn}
@@ -108,7 +113,18 @@ const ArticleView = () => {
         />
       </div>
 
-      {open && <ImageDetailOverlay onClose={closeDetailView} url={targetURL} />}
+      {articleImageDetaul.open && (
+        <ImageDetailOverlay
+          onClose={articleImageDetaul.closeDetailView}
+          url={articleImageDetaul.targetURL}
+        />
+      )}
+      {thumbanilImageDetaul.open && (
+        <ImageDetailOverlay
+          onClose={thumbanilImageDetaul.closeDetailView}
+          url={thumbanilImageDetaul.targetURL}
+        />
+      )}
     </article>
   );
 };

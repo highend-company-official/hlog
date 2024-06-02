@@ -58,7 +58,7 @@ const ArticleView = () => {
       <img
         src={readThumbnails(data!.thumbnail)}
         alt={data.summary}
-        className="object-cover w-full rounded-xl mt-9 h-96"
+        className="object-cover w-full rounded-xl mt-9 h-96 cursor-pointer"
         onClick={() =>
           thumbanilImageDetaul.openDetailView(readThumbnails(data!.thumbnail))
         }

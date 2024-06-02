@@ -8,6 +8,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 
 import * as shared from "@/shared";
 import { isProviderURL } from "@/shared";
+import { useImageDetail } from "@/shared/hooks";
 
 type Params = {
   user_id: string;
@@ -46,6 +47,7 @@ const AuthorizationView = () => {
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
   const { data: session } = shared.useSession();
+  const profileImageDetail = useImageDetail();
 
   if (!userData || !session) return null;
 
@@ -61,8 +63,15 @@ const AuthorizationView = () => {
                   ? userData.profile_url
                   : read(userData.profile_url)
               }
+              onClick={() =>
+                profileImageDetail.openDetailView(
+                  isProviderURL(userData.profile_url)
+                    ? userData.profile_url
+                    : read(userData.profile_url)
+                )
+              }
               alt={userData.username}
-              className="object-cover w-64 h-64 rounded-full select-none"
+              className="object-cover w-64 h-64 rounded-full select-none cursor-pointer"
             />
           }
           falseRender={
@@ -110,6 +119,13 @@ const AuthorizationView = () => {
         <span>계정 생성일 </span>
         <span className="font-bold">{session?.user?.created_at}</span>
       </li>
+
+      {profileImageDetail.open && (
+        <shared.ImageDetailOverlay
+          onClose={profileImageDetail.closeDetailView}
+          url={profileImageDetail.targetURL}
+        />
+      )}
     </>
   );
 };
@@ -118,47 +134,65 @@ const UnAuthorizationView = () => {
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
   const { read } = shared.useBucket("profiles");
+  const profileImageDetail = useImageDetail();
 
   if (!userData) return null;
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <shared.If
-        condition={!!userData.profile_url}
-        trueRender={
-          <img
-            src={
-              isProviderURL(userData.profile_url)
-                ? userData.profile_url
-                : read(userData.profile_url)
-            }
-            alt={userData.username}
-            className="object-cover w-64 h-64 rounded-full"
-          />
-        }
-        falseRender={
-          <div className="w-64 mx-auto text-center">
-            <div className="w-64">
-              <img
-                src={defaultProfile}
-                alt={userData.username}
-                className="object-cover w-64 h-64 rounded-full select-none"
-              />
+    <>
+      <div className="flex flex-col items-center justify-center">
+        <shared.If
+          condition={!!userData.profile_url}
+          trueRender={
+            <img
+              src={
+                isProviderURL(userData.profile_url)
+                  ? userData.profile_url
+                  : read(userData.profile_url)
+              }
+              onClick={() =>
+                profileImageDetail.openDetailView(
+                  isProviderURL(userData.profile_url)
+                    ? userData.profile_url
+                    : read(userData.profile_url)
+                )
+              }
+              alt={userData.username}
+              className="object-cover w-64 h-64 rounded-full cursor-pointer"
+            />
+          }
+          falseRender={
+            <div className="w-64 mx-auto text-center">
+              <div className="w-64">
+                <img
+                  src={defaultProfile}
+                  alt={userData.username}
+                  className="object-cover w-64 h-64 rounded-full select-none"
+                />
+              </div>
             </div>
-          </div>
-        }
-      />
-      <span className="text-2xl mt-7 text-black mb-4">{userData.username}</span>
-      <div className="flex">
-        <Bio
-          label="Email"
-          value={userData.email}
-          icon={<MdOutlineMailOutline />}
+          }
         />
-        <Bio label="Phone" value={userData.phone} icon={<FaPhoneAlt />} />
-        <Bio label="Link" value={userData.link} icon={<IoIosLink />} />
+        <span className="text-2xl mt-7 text-black mb-4">
+          {userData.username}
+        </span>
+        <div className="flex">
+          <Bio
+            label="Email"
+            value={userData.email}
+            icon={<MdOutlineMailOutline />}
+          />
+          <Bio label="Phone" value={userData.phone} icon={<FaPhoneAlt />} />
+          <Bio label="Link" value={userData.link} icon={<IoIosLink />} />
+        </div>
       </div>
-    </div>
+      {profileImageDetail.open && (
+        <shared.ImageDetailOverlay
+          onClose={profileImageDetail.closeDetailView}
+          url={profileImageDetail.targetURL}
+        />
+      )}
+    </>
   );
 };
 

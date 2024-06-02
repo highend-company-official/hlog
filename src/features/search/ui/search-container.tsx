@@ -9,10 +9,12 @@ const SearchContainer = () => {
   const { isSearchOpen, setIsSearchOpen, reset } = useSearchStore();
   const overlayRef = useRef(null);
 
-  useOutsideClick(overlayRef, () => {
+  const handleClose = () => {
     reset();
     setIsSearchOpen(false);
-  });
+  };
+
+  useOutsideClick(overlayRef, handleClose);
 
   return (
     <Portal portalId="search-portal">

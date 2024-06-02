@@ -11,11 +11,17 @@ type Props = {
 };
 
 const SearchItem = ({ id, title, username, created_at }: Props) => {
-  const { setIsSearchOpen } = useSearchStore();
+  const { setIsSearchOpen, reset } = useSearchStore();
+
+  const handleClose = () => {
+    reset();
+    setIsSearchOpen(false);
+  };
+
   return (
     <li
       className="mx-6 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group"
-      onClick={() => setIsSearchOpen(false)}
+      onClick={handleClose}
     >
       <Link to={`/article-read/${id}`}>
         <div className="flex items-center w-full px-4 py-3">

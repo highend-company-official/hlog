@@ -14,3 +14,4 @@ export { default as useOutsideClick } from "./useOutsideClick";
 export { default as useBucket } from "./useBucket";
 export { default as contextHelper } from "./contextHelper";
 export { default as isProviderURL } from "./isProviderURL";
+export { default as useDebounce } from "./useDebounce";

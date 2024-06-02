@@ -5,12 +5,12 @@ import useSearchStore from "@/entities/search-input/model";
 
 const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { searchInput, setSearchInput } = useSearchStore();
+  const { query, setQuery } = useSearchStore();
 
   const handleChangeSearchInput = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setSearchInput(event.target.value);
+    setQuery(event.target.value);
   };
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const SearchBar = () => {
           autoComplete="off"
           className="w-full h-[3.5rem] focus:outline-none pl-3 pr-4 text-lg min-w-0"
           type="text"
-          value={searchInput}
+          value={query}
           onChange={handleChangeSearchInput}
         />
       </form>

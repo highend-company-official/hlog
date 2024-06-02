@@ -2,18 +2,18 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
 type State = {
-  searchInput: string;
+  query: string;
   isSearchOpen: boolean;
 };
 
 type Action = {
-  setSearchInput: (input: string) => void;
+  setQuery: (input: string) => void;
   setIsSearchOpen: (open: boolean) => void;
   reset: () => void;
 };
 
 const initialState: State = {
-  searchInput: "",
+  query: "",
   isSearchOpen: false,
 };
 
@@ -21,8 +21,8 @@ const useSearchStore = create<State & Action>()(
   devtools((set) => ({
     ...initialState,
     setIsSearchOpen: (open) => set({ isSearchOpen: open }),
-    setSearchInput: (input) => set({ searchInput: input }),
-    reset: () => set({ searchInput: "" }),
+    setQuery: (input) => set({ query: input }),
+    reset: () => set({ query: "" }),
   }))
 );
 

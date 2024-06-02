@@ -10,7 +10,7 @@ type Props = {
   created_at: string;
 };
 
-const SearchItem = ({ id, title, username, created_at }: Props) => {
+const ArticleSearchItem = ({ id, title, username, created_at }: Props) => {
   const { setIsSearchOpen, reset } = useSearchStore();
 
   const handleClose = () => {
@@ -40,4 +40,4 @@ const SearchItem = ({ id, title, username, created_at }: Props) => {
   );
 };
 
-export default SearchItem;
+export default ArticleSearchItem;

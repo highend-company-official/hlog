@@ -76,7 +76,9 @@ export const uploadImage = async ({
 
 export const blockRenderFn = (
   block: ContentBlock,
-  contentState: ContentState
+  contentState: ContentState,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  props?: any
 ) => {
   if (block.getType() === "atomic") {
     const entity = block.getEntityAt(0);
@@ -86,6 +88,7 @@ export const blockRenderFn = (
       return {
         component: Image,
         editable: false,
+        props,
       };
     }
     return null;

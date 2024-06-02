@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 
-import useEditorStore from "../model";
+type Props = {
+  url: string;
+  onClose: () => void;
+};
 
-const ImageDetailOverlay = () => {
-  const { detailTarget, setOpen } = useEditorStore();
-
+const ImageDetailOverlay = ({ url, onClose }: Props) => {
   return (
     <motion.div
       layout
@@ -21,13 +22,10 @@ const ImageDetailOverlay = () => {
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full max-h-full overflow-x-hidden overflow-y-auto bg-black/30"
     >
       <div className="flex flex-col items-center justify-center w-8/12">
-        <img src={detailTarget} alt="" className="w-full" />
+        <img src={url} alt="" className="w-full" />
       </div>
 
-      <button
-        className="fixed right-8 top-8"
-        onClick={() => setOpen("isImageDetailOverlayOpen", false)}
-      >
+      <button className="fixed right-8 top-8" onClick={onClose}>
         <IoMdClose size={50} className="text-white" />
       </button>
     </motion.div>

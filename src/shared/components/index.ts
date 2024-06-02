@@ -14,4 +14,5 @@ export { default as Stepper } from "./stepper";
 export { default as Authentication } from "./authentication";
 export { default as TextArea } from "./textarea";
 export { default as ErrorMessage } from "./error-message";
+export { default as ImageDetailOverlay } from "./image-detail-overlay";
 export * from "./skeleton";

@@ -5,15 +5,21 @@ import { ContentBlock, convertFromRaw, EditorState } from "draft-js";
 import useBucket from "@/shared/libs/useBucket";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useGetArticleById } from "../lib";
-import { Divider, If, isProviderURL, STYLE_MAPPER } from "@/shared";
+import {
+  Divider,
+  If,
+  ImageDetailOverlay,
+  isProviderURL,
+  STYLE_MAPPER,
+} from "@/shared";
 
 import "draft-js/dist/Draft.css";
 
 import "@/shared/styles/index.css";
 import "@/shared/styles/editor-style.css";
+
 import { blockRenderFn } from "../utils/image-utils";
-import useArticleStore from "../model";
-import ImageDetailOverlay from "./image-detail-overlay";
+import { useImageDetail } from "@/shared/hooks";
 
 const Editor = lazy(() =>
   import("draft-js").then((module) => ({ default: module.Editor }))
@@ -29,7 +35,7 @@ const ArticleView = () => {
   const { data } = useGetArticleById(article_id!);
   const { read: readThumbnails } = useBucket("thumbnails");
   const { read: readProfiles } = useBucket("profiles");
-  const { open } = useArticleStore();
+  const { open, targetURL, closeDetailView, openDetailView } = useImageDetail();
 
   const blockStyleFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
@@ -93,14 +99,16 @@ const ArticleView = () => {
           readOnly
           editorState={editorState}
           blockRendererFn={(block) =>
-            blockRenderFn(block, editorState.getCurrentContent())
+            blockRenderFn(block, editorState.getCurrentContent(), {
+              onClick: openDetailView,
+            })
           }
           blockStyleFn={blockStyleFn}
           onChange={() => null}
         />
       </div>
 
-      {open.isImageDetailOverlayOpen && <ImageDetailOverlay />}
+      {open && <ImageDetailOverlay onClose={closeDetailView} url={targetURL} />}
     </article>
   );
 };

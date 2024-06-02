@@ -30,7 +30,6 @@ import { KeyCommandType } from "../constants";
 import "draft-js/dist/Draft.css";
 import "@/shared/styles/index.css";
 import "@/shared/styles/editor-style.css";
-import ImageDetailOverlay from "./image-detail-overlay";
 
 const Editor = lazy(() =>
   import("draft-js").then((module) => ({ default: module.Editor }))
@@ -43,6 +42,7 @@ const EditorCore = () => {
     editorMetaData,
     setEditorMetaData,
     reset: resetEditorStore,
+    detailTarget,
     open: {
       isSavedModalOpen,
       isImageUploadOverlayOpen,
@@ -196,7 +196,12 @@ const EditorCore = () => {
       </div>
 
       {isImageUploadOverlayOpen && <UploadOverlay />}
-      {isImageDetailOverlayOpen && <ImageDetailOverlay />}
+      {isImageDetailOverlayOpen && (
+        <shared.ImageDetailOverlay
+          url={detailTarget}
+          onClose={() => setOpen("isImageDetailOverlayOpen", false)}
+        />
+      )}
       {isSavedModalOpen && <SaveLoadModal />}
     </>
   );

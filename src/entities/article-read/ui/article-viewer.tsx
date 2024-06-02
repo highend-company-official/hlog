@@ -1,6 +1,5 @@
-import React from "react";
+import { lazy } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import createImagePlugin from "@draft-js-plugins/image";
 import { ContentBlock, convertFromRaw, EditorState } from "draft-js";
 
 import useBucket from "@/shared/libs/useBucket";
@@ -8,18 +7,21 @@ import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useGetArticleById } from "../lib";
 import { Divider, If, isProviderURL, STYLE_MAPPER } from "@/shared";
 
-const Editor = React.lazy(() => import("@draft-js-plugins/editor"));
-
 import "draft-js/dist/Draft.css";
 
 import "@/shared/styles/index.css";
 import "@/shared/styles/editor-style.css";
+import { blockRenderFn } from "../utils/image-utils";
+import useArticleStore from "../model";
+import ImageDetailOverlay from "./image-detail-overlay";
+
+const Editor = lazy(() =>
+  import("draft-js").then((module) => ({ default: module.Editor }))
+);
 
 type ParamsType = {
   article_id: string;
 };
-
-const imagePlugin = createImagePlugin();
 
 const ArticleView = () => {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const ArticleView = () => {
   const { data } = useGetArticleById(article_id!);
   const { read: readThumbnails } = useBucket("thumbnails");
   const { read: readProfiles } = useBucket("profiles");
+  const { open } = useArticleStore();
 
   const blockStyleFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
@@ -37,6 +40,10 @@ const ArticleView = () => {
   if (!data) {
     return null;
   }
+
+  const editorState = EditorState.createWithContent(
+    convertFromRaw(JSON.parse(data.body))
+  );
 
   return (
     <article>
@@ -84,14 +91,16 @@ const ArticleView = () => {
       <div id="hlog" className="read-only">
         <Editor
           readOnly
-          editorState={EditorState.createWithContent(
-            convertFromRaw(JSON.parse(data.body))
-          )}
+          editorState={editorState}
+          blockRendererFn={(block) =>
+            blockRenderFn(block, editorState.getCurrentContent())
+          }
           blockStyleFn={blockStyleFn}
           onChange={() => null}
-          plugins={[imagePlugin]}
         />
       </div>
+
+      {open.isImageDetailOverlayOpen && <ImageDetailOverlay />}
     </article>
   );
 };

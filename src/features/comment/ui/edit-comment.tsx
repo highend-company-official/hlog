@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,6 +6,7 @@ import { ErrorMessage, Modal, TextArea } from "@/shared";
 import { useToastStore } from "@/app/model";
 
 import { useGetComments, useUpdateComment } from "../lib";
+import useOverlay from "@/shared/hooks/use-overlay";
 
 type FormValue = {
   comment: string;
@@ -32,11 +32,54 @@ const EditCommentButton = ({ body, commentId }: Props) => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
   const { mutateAsync: updateComment, isPending } = useUpdateComment(commentId);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { open, exit } = useOverlay();
 
   const handleCancel = () => {
     resetField("comment");
-    setIsModalOpen(false);
+    exit();
+  };
+
+  const handleOpenEditModal = () => {
+    open(({ isOpen }) => (
+      <Modal open={isOpen}>
+        <Modal.Header>수정할 내용을 입력해주세요.</Modal.Header>
+        <Modal.Content>
+          <p className="text-xs text-center text-gray-500 ms-auto">
+            상대방을 향한 비난이나 욕설은 차단 등의 조치가 취해질 수 있습니다.
+          </p>
+
+          <div className="mt-2 mb-2">
+            <TextArea
+              {...register("comment", {
+                required: "댓글은 공백이 되면 안됩니다.",
+              })}
+              id="comment"
+              rows={4}
+              placeholder="댓글을 입력해주세요..."
+              disabled={isPending}
+            />
+          </div>
+          <ErrorMessage errors={errors} name="comment" />
+        </Modal.Content>
+        <Modal.Footer align="right">
+          <Modal.Button
+            type="normal"
+            onClick={handleCancel}
+            disabled={isPending}
+          >
+            취소
+          </Modal.Button>
+          <div className="ml-2" />
+          <Modal.Button
+            type="accept"
+            onClick={handleSubmit(handleEditComment)}
+            disabled={!isValid}
+          >
+            수정하기
+          </Modal.Button>
+        </Modal.Footer>
+      </Modal>
+    ));
   };
 
   const handleEditComment = (formValue: FormValue) => {
@@ -61,56 +104,14 @@ const EditCommentButton = ({ body, commentId }: Props) => {
         });
       })
       .finally(() => {
-        setIsModalOpen(false);
+        exit();
       });
   };
 
   return (
-    <>
-      <button className="mr-2" onClick={() => setIsModalOpen(true)}>
-        수정
-      </button>
-      {isModalOpen && (
-        <Modal>
-          <Modal.Header>수정할 내용을 입력해주세요.</Modal.Header>
-          <Modal.Content>
-            <p className="text-xs text-center text-gray-500 ms-auto">
-              상대방을 향한 비난이나 욕설은 차단 등의 조치가 취해질 수 있습니다.
-            </p>
-
-            <div className="mt-2 mb-2">
-              <TextArea
-                {...register("comment", {
-                  required: "댓글은 공백이 되면 안됩니다.",
-                })}
-                id="comment"
-                rows={4}
-                placeholder="댓글을 입력해주세요..."
-                disabled={isPending}
-              />
-            </div>
-            <ErrorMessage errors={errors} name="comment" />
-          </Modal.Content>
-          <Modal.Footer align="right">
-            <Modal.Button
-              type="normal"
-              onClick={handleCancel}
-              disabled={isPending}
-            >
-              취소
-            </Modal.Button>
-            <div className="ml-2" />
-            <Modal.Button
-              type="accept"
-              onClick={handleSubmit(handleEditComment)}
-              disabled={!isValid}
-            >
-              수정하기
-            </Modal.Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-    </>
+    <button className="mr-2" onClick={handleOpenEditModal}>
+      수정
+    </button>
   );
 };
 

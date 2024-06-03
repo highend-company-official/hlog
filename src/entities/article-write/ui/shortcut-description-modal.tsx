@@ -1,11 +1,13 @@
+import { PropsWithChildren } from "react";
+
 import { Modal } from "@/shared";
-import React from "react";
 
 type Props = {
+  open: boolean;
   onClose: () => void;
 };
 
-const Kbd = ({ children }: { children: React.ReactNode }) => {
+const Kbd = ({ children }: PropsWithChildren) => {
   return (
     <kbd className="min-h-[30px] inline-flex justify-center items-center py-1 px-1.5 bg-gray-200 font-mono text-sm text-gray-800 rounded-md">
       {children}
@@ -13,9 +15,9 @@ const Kbd = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const ShortcutDescriptionModal = ({ onClose }: Props) => {
+const ShortcutDescriptionModal = ({ open, onClose }: Props) => {
   return (
-    <Modal>
+    <Modal open={open}>
       <Modal.Content>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">

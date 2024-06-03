@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ContentBlock, convertFromRaw, EditorState } from "draft-js";
 
@@ -19,11 +18,9 @@ import "@/shared/styles/index.css";
 import "@/shared/styles/editor-style.css";
 
 import { blockRenderFn } from "../utils/image-utils";
-import { useImageDetail } from "@/shared/hooks";
 
-const Editor = lazy(() =>
-  import("draft-js").then((module) => ({ default: module.Editor }))
-);
+import EditorCore from "@/entities/hlog-editor/ui/editor-core";
+import useOverlay from "@/shared/hooks/use-overlay";
 
 type ParamsType = {
   article_id: string;
@@ -35,9 +32,8 @@ const ArticleView = () => {
   const { data } = useGetArticleById(article_id!);
   const { read: readThumbnails } = useBucket("thumbnails");
   const { read: readProfiles } = useBucket("profiles");
-
-  const articleImageDetaul = useImageDetail();
-  const thumbanilImageDetaul = useImageDetail();
+  const { open: openThumbnailOverlay } = useOverlay();
+  const { open: openArticleOverlay } = useOverlay();
 
   const blockStyleFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
@@ -53,15 +49,27 @@ const ArticleView = () => {
     convertFromRaw(JSON.parse(data.body))
   );
 
+  const handleOpenThumbnailDetail = () =>
+    openThumbnailOverlay(({ isOpen, exit }) => (
+      <ImageDetailOverlay
+        open={isOpen}
+        onClose={exit}
+        url={readThumbnails(data!.thumbnail)}
+      />
+    ));
+
+  const handleOpenArticleDetail = (url: string) =>
+    openArticleOverlay(({ isOpen, exit }) => (
+      <ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
+    ));
+
   return (
     <article>
       <img
         src={readThumbnails(data!.thumbnail)}
         alt={data.summary}
         className="object-cover w-full rounded-xl mt-9 h-96 cursor-pointer"
-        onClick={() =>
-          thumbanilImageDetaul.openDetailView(readThumbnails(data!.thumbnail))
-        }
+        onClick={handleOpenThumbnailDetail}
       />
       <section className="flex mt-5 items-center justify-between min-h-[50px] w-full break-keep text-wrap break-words">
         <h3 className="text-5xl font-bold text-gray-700">{data?.title}</h3>
@@ -99,32 +107,17 @@ const ArticleView = () => {
         }
       />
 
-      <div id="hlog" className="read-only">
-        <Editor
-          readOnly
-          editorState={editorState}
-          blockRendererFn={(block) =>
-            blockRenderFn(block, editorState.getCurrentContent(), {
-              onClick: articleImageDetaul.openDetailView,
-            })
-          }
-          blockStyleFn={blockStyleFn}
-          onChange={() => null}
-        />
-      </div>
-
-      {articleImageDetaul.open && (
-        <ImageDetailOverlay
-          onClose={articleImageDetaul.closeDetailView}
-          url={articleImageDetaul.targetURL}
-        />
-      )}
-      {thumbanilImageDetaul.open && (
-        <ImageDetailOverlay
-          onClose={thumbanilImageDetaul.closeDetailView}
-          url={thumbanilImageDetaul.targetURL}
-        />
-      )}
+      <EditorCore
+        readOnly
+        editorState={editorState}
+        blockRendererFn={(block) =>
+          blockRenderFn(block, editorState.getCurrentContent(), {
+            onClick: handleOpenArticleDetail,
+          })
+        }
+        blockStyleFn={blockStyleFn}
+        onChange={() => null}
+      />
     </article>
   );
 };

@@ -8,7 +8,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 
 import * as shared from "@/shared";
 import { isProviderURL } from "@/shared";
-import { useImageDetail } from "@/shared/hooks";
+import useOverlay from "@/shared/hooks/use-overlay";
 
 type Params = {
   user_id: string;
@@ -47,7 +47,13 @@ const AuthorizationView = () => {
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
   const { data: session } = shared.useSession();
-  const profileImageDetail = useImageDetail();
+  const { open: openProfileDetail } = useOverlay();
+
+  const handleOpenProfileDetail = (url: string) => {
+    openProfileDetail(({ isOpen, exit }) => (
+      <shared.ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
+    ));
+  };
 
   if (!userData || !session) return null;
 
@@ -64,7 +70,7 @@ const AuthorizationView = () => {
                   : read(userData.profile_url)
               }
               onClick={() =>
-                profileImageDetail.openDetailView(
+                handleOpenProfileDetail(
                   isProviderURL(userData.profile_url)
                     ? userData.profile_url
                     : read(userData.profile_url)
@@ -119,13 +125,6 @@ const AuthorizationView = () => {
         <span>계정 생성일 </span>
         <span className="font-bold">{session?.user?.created_at}</span>
       </li>
-
-      {profileImageDetail.open && (
-        <shared.ImageDetailOverlay
-          onClose={profileImageDetail.closeDetailView}
-          url={profileImageDetail.targetURL}
-        />
-      )}
     </>
   );
 };
@@ -134,7 +133,13 @@ const UnAuthorizationView = () => {
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
   const { read } = shared.useBucket("profiles");
-  const profileImageDetail = useImageDetail();
+  const { open: openProfileDetail } = useOverlay();
+
+  const handleOpenProfileDetail = (url: string) => {
+    openProfileDetail(({ isOpen, exit }) => (
+      <shared.ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
+    ));
+  };
 
   if (!userData) return null;
 
@@ -151,7 +156,7 @@ const UnAuthorizationView = () => {
                   : read(userData.profile_url)
               }
               onClick={() =>
-                profileImageDetail.openDetailView(
+                handleOpenProfileDetail(
                   isProviderURL(userData.profile_url)
                     ? userData.profile_url
                     : read(userData.profile_url)
@@ -186,12 +191,6 @@ const UnAuthorizationView = () => {
           <Bio label="Link" value={userData.link} icon={<IoIosLink />} />
         </div>
       </div>
-      {profileImageDetail.open && (
-        <shared.ImageDetailOverlay
-          onClose={profileImageDetail.closeDetailView}
-          url={profileImageDetail.targetURL}
-        />
-      )}
     </>
   );
 };

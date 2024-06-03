@@ -1,5 +1,0 @@
-const EditorViewer = () => {
-    return (
-        
-    )
-}

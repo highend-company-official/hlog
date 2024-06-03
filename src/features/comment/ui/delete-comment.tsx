@@ -1,9 +1,11 @@
+import { useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { useToastStore } from "@/app/model";
 
 import { Modal } from "@/shared";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import useOverlay from "@/shared/hooks/use-overlay";
+
 import { useDeleteComment, useGetComments } from "../lib";
 
 type Props = {
@@ -15,13 +17,34 @@ const DeleteCommentButton = ({ commentId }: Props) => {
   const { addToast } = useToastStore();
   const params = useParams<{ article_id: string }>();
   const { mutateAsync: deleteComment, isPending } = useDeleteComment();
+  const { open, exit } = useOverlay();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenDeleteModal = () => {
+    open(({ isOpen, exit }) => (
+      <Modal open={isOpen}>
+        <Modal.Header>댓글을 지우시겠습니까?</Modal.Header>
+        <Modal.Content>삭제한 댓글은 다시 복구할 수 없습니다.</Modal.Content>
+        <Modal.Footer align="right">
+          <Modal.Button type="normal" onClick={exit} disabled={isPending}>
+            취소
+          </Modal.Button>
+          <div className="ml-2" />
+          <Modal.Button
+            type="decline"
+            onClick={handleDeleteComment}
+            disabled={isPending}
+          >
+            삭제하기
+          </Modal.Button>
+        </Modal.Footer>
+      </Modal>
+    ));
+  };
 
   const handleDeleteComment = () => {
     deleteComment(commentId)
       .then(() => {
-        setIsModalOpen(false);
+        exit();
         queryClient.invalidateQueries({
           queryKey: useGetComments.pk(params.article_id!),
         });
@@ -41,35 +64,9 @@ const DeleteCommentButton = ({ commentId }: Props) => {
   };
 
   return (
-    <>
-      <button className="text-error/80" onClick={() => setIsModalOpen(true)}>
-        삭제
-      </button>
-
-      {isModalOpen && (
-        <Modal>
-          <Modal.Header>댓글을 지우시겠습니까?</Modal.Header>
-          <Modal.Content>삭제한 댓글은 다시 복구할 수 없습니다.</Modal.Content>
-          <Modal.Footer align="right">
-            <Modal.Button
-              type="normal"
-              onClick={() => setIsModalOpen(false)}
-              disabled={isPending}
-            >
-              취소
-            </Modal.Button>
-            <div className="ml-2" />
-            <Modal.Button
-              type="decline"
-              onClick={handleDeleteComment}
-              disabled={isPending}
-            >
-              삭제하기
-            </Modal.Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-    </>
+    <button className="text-error/80" onClick={handleOpenDeleteModal}>
+      삭제
+    </button>
   );
 };
 

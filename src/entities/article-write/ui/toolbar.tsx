@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import classNames from "classnames";
 import { RichUtils, DraftInlineStyleType, DraftBlockType } from "draft-js";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack, BiSend } from "react-icons/bi";
 import { IoHelp } from "react-icons/io5";
 
-import ShortcutDescriptionModal from "./shortcut-description-modal";
+import useOverlay from "@/shared/hooks/use-overlay";
 
 import * as constants from "../constants";
 import useEditorStore from "../model";
+
+import ShortcutDescriptionModal from "./shortcut-description-modal";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;
@@ -36,7 +38,13 @@ type Props = {
 const Toolbar = ({ onPulish }: Props) => {
   const navigate = useNavigate();
   const { editorMetaData, setEditorMetaData } = useEditorStore();
-  const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
+  const { open: openDescriptionModal } = useOverlay();
+
+  const handleClickDescription = () => {
+    openDescriptionModal(({ isOpen, exit }) => (
+      <ShortcutDescriptionModal open={isOpen} onClose={exit} />
+    ));
+  };
 
   const isPublishDisabled =
     editorMetaData.title.trim() === "" ||
@@ -118,7 +126,7 @@ const Toolbar = ({ onPulish }: Props) => {
 
           <div className="h-[30px] mx-2 border-r border-gray-300 border-solid" />
 
-          <ToolbarItem onClick={() => setIsDescriptionModalOpen(true)}>
+          <ToolbarItem onClick={handleClickDescription}>
             <IoHelp />
           </ToolbarItem>
         </div>
@@ -129,12 +137,6 @@ const Toolbar = ({ onPulish }: Props) => {
           </ToolbarItem>
         </div>
       </div>
-
-      {isDescriptionModalOpen && (
-        <ShortcutDescriptionModal
-          onClose={() => setIsDescriptionModalOpen(false)}
-        />
-      )}
     </>
   );
 };

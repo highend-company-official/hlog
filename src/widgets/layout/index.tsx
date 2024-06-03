@@ -1,9 +1,10 @@
+import { OverlayProvider } from "@/shared/contexts";
 import { Outlet } from "react-router-dom";
 import Header from "../header";
 
 export const HeaderLayout = () => {
   return (
-    <>
+    <OverlayProvider>
       <Header />
 
       <div className="w-full min-h-screen bg-white">
@@ -11,7 +12,7 @@ export const HeaderLayout = () => {
           <Outlet />
         </div>
       </div>
-    </>
+    </OverlayProvider>
   );
 };
 

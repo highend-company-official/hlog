@@ -37,10 +37,8 @@ const DeleteArticleModal = ({ isOpen, onClose, onDelete }: Props) => {
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <Modal>
+    <Modal open={isOpen}>
       <Modal.Header>정말로 삭제하시겠습니까?</Modal.Header>
       <Modal.Content>한번 삭제한 아티클을 되돌릴 수 없습니다.</Modal.Content>
       <Modal.Footer align="right">

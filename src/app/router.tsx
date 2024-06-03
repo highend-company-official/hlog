@@ -15,6 +15,7 @@ import { ProfileSettings } from "@/widgets/profile/profile-settings";
 import { ProfileInfo } from "@/entities/profile/ui";
 
 import * as hocs from "./hocs";
+import { OverlayProvider } from "@/shared/contexts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -88,7 +89,9 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={<shared.Skeleton height={600} />}>
             <hocs.PrivateRoute>
-              <pages.ArticleWrite />
+              <OverlayProvider>
+                <pages.ArticleWrite />
+              </OverlayProvider>
             </hocs.PrivateRoute>
           </Suspense>
         }
@@ -98,7 +101,9 @@ const router = createBrowserRouter(
         element={
           <Suspense>
             <hocs.PublicRoute>
-              <AuthLayout />
+              <OverlayProvider>
+                <AuthLayout />
+              </OverlayProvider>
             </hocs.PublicRoute>
           </Suspense>
         }

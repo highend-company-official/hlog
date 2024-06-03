@@ -1,55 +1,37 @@
-import { lazy } from "react";
-import useEditorStore from "@/entities/article-write/model";
-
 import {
-  EditorState,
-  DraftInlineStyleType,
-  RichUtils,
   DraftBlockType,
   DraftHandleValue,
+  EditorState,
+  RichUtils,
   SelectionState,
-  ContentBlock,
+  type DraftInlineStyleType,
 } from "draft-js";
 
-import * as shared from "@/shared";
 import { useToastStore } from "@/app/model";
+import EditorCore from "@/entities/hlog-editor/ui/editor-core";
+import * as shared from "@/shared";
 
-import UploadOverlay from "@/entities/article-write/ui/file-upload-overlay";
-import SaveLoadModal from "@/entities/article-write/ui/saved-content-load-modal";
-
+import { useEditorUtils } from "../hooks";
+import useEditorStore from "../model";
 import {
+  addImage,
   bindingKeyFunction,
   matchKeyCommand,
-  addImage,
   uploadImage,
-  blockRenderFn,
 } from "../lib";
-import { useEditorUtils } from "../hooks";
 import { KeyCommandType } from "../constants";
+import useOverlay from "@/shared/hooks/use-overlay";
+import SavedContentLoadModal from "./saved-content-load-modal";
 
-import "draft-js/dist/Draft.css";
-import "@/shared/styles/index.css";
-import "@/shared/styles/editor-style.css";
-
-const Editor = lazy(() =>
-  import("draft-js").then((module) => ({ default: module.Editor }))
-);
-
-const EditorCore = () => {
-  const { addToast } = useToastStore();
-  const { read: readArticles } = shared.useBucket("articles");
+const WriteEditor = () => {
   const {
     editorMetaData,
     setEditorMetaData,
     reset: resetEditorStore,
-    detailTarget,
-    open: {
-      isSavedModalOpen,
-      isImageUploadOverlayOpen,
-      isImageDetailOverlayOpen,
-    },
-    setOpen,
   } = useEditorStore();
+  const { addToast } = useToastStore();
+  const { read: readArticles } = shared.useBucket("articles");
+  const { open } = useOverlay();
   const { loadSavedContent, saveCurrentContent } = useEditorUtils();
 
   const toggleInline = (type: DraftInlineStyleType) => {
@@ -64,12 +46,6 @@ const EditorCore = () => {
       ...editorMetaData,
       content: RichUtils.toggleBlockType(editorMetaData.content, type),
     });
-  };
-
-  const blockStyleFn = (contentBlock: ContentBlock) => {
-    const type = contentBlock.getType();
-
-    return shared.STYLE_MAPPER[type];
   };
 
   // Event Handlers
@@ -111,7 +87,6 @@ const EditorCore = () => {
 
   const handleUploadedSuccess = (url: string) => {
     // Image Upload
-    setOpen("isImageUploadOverlayOpen", false);
     addToast({
       type: "success",
       content: "이미지 업로드 완료",
@@ -127,7 +102,6 @@ const EditorCore = () => {
   };
 
   const handleUploadedError = (error: string) => {
-    setOpen("isImageUploadOverlayOpen", false);
     addToast({
       type: "error",
       content: error,
@@ -138,7 +112,6 @@ const EditorCore = () => {
   const handlePasteFile = (files: Blob[]): DraftHandleValue => {
     const pastedFile = files[0];
 
-    setOpen("isImageUploadOverlayOpen", true);
     uploadImage({
       file: pastedFile as File,
       path: shared.generateRandomId(),
@@ -155,7 +128,6 @@ const EditorCore = () => {
   ): DraftHandleValue => {
     const droppedFile = files[0];
 
-    setOpen("isImageUploadOverlayOpen", true);
     uploadImage({
       file: droppedFile as File,
       path: shared.generateRandomId(),
@@ -167,44 +139,28 @@ const EditorCore = () => {
   };
 
   shared.useMount(() => {
-    const savedContent = loadSavedContent();
-
-    if (savedContent) {
-      setOpen("isSavedModalOpen", true);
+    if (loadSavedContent()) {
+      open(({ exit, isOpen }) => (
+        <SavedContentLoadModal open={isOpen} onClose={exit} />
+      ));
     }
   });
 
   shared.useUnmount(() => resetEditorStore());
 
   return (
-    <>
-      <div id="hlog">
-        <Editor
-          editorState={editorMetaData.content}
-          onChange={handleChangeEditor}
-          placeholder={shared.EDITOR_CONST.PLACEHOLDER}
-          handleKeyCommand={handleKeyCommand}
-          keyBindingFn={bindingKeyFunction}
-          spellCheck={false}
-          handlePastedFiles={handlePasteFile}
-          handleDroppedFiles={handleDroppedFile}
-          blockStyleFn={blockStyleFn}
-          blockRendererFn={(block) =>
-            blockRenderFn(block, editorMetaData.content.getCurrentContent())
-          }
-        />
-      </div>
-
-      {isImageUploadOverlayOpen && <UploadOverlay />}
-      {isImageDetailOverlayOpen && (
-        <shared.ImageDetailOverlay
-          url={detailTarget}
-          onClose={() => setOpen("isImageDetailOverlayOpen", false)}
-        />
-      )}
-      {isSavedModalOpen && <SaveLoadModal />}
-    </>
+    <div id="hlog">
+      <EditorCore
+        editorState={editorMetaData.content}
+        placeholder={shared.EDITOR_CONST.PLACEHOLDER}
+        onChange={handleChangeEditor}
+        handleKeyCommand={handleKeyCommand}
+        keyBindingFn={bindingKeyFunction}
+        handlePastedFiles={handlePasteFile}
+        handleDroppedFiles={handleDroppedFile}
+      />
+    </div>
   );
 };
 
-export default EditorCore;
+export default WriteEditor;

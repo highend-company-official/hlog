@@ -2,11 +2,14 @@ import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 
 type Props = {
+  open: boolean;
   url: string;
   onClose: () => void;
 };
 
-const ImageDetailOverlay = ({ url, onClose }: Props) => {
+const ImageDetailOverlay = ({ open, url, onClose }: Props) => {
+  if (!open) return null;
+
   return (
     <motion.div
       layout

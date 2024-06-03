@@ -1,18 +1,26 @@
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import { useBeforeunload } from "react-beforeunload";
 
 import * as shared from "@/shared";
 
 import Toolbar from "@/entities/article-write/ui/toolbar";
 import ArticleTitleInput from "@/entities/article-write/ui/title-input";
-import EditorCore from "@/entities/article-write/ui/editor-core";
 
 import { PublishSettingModal } from "@/features/article-read/ui/publish-article";
+
+import WriteEditor from "@/entities/article-write/ui/write-editor";
+import useOverlay from "@/shared/hooks/use-overlay";
 
 import "@/shared/styles/index.css";
 
 const ArticleWrite = () => {
-  const [isOpenPublishModal, setIsOpenPublishModal] = useState(false);
+  const { open: openPublishModal } = useOverlay();
+
+  const handleClickPublish = () => {
+    openPublishModal(({ isOpen, exit }) => (
+      <PublishSettingModal open={isOpen} onClose={exit} />
+    ));
+  };
 
   useBeforeunload((event) => event.preventDefault());
 
@@ -20,20 +28,16 @@ const ArticleWrite = () => {
     <>
       <div className="min-h-screen pt-20 bg-slate-200">
         <Suspense fallback={<shared.Skeleton />}>
-          <Toolbar onPulish={() => setIsOpenPublishModal(true)} />
+          <Toolbar onPulish={handleClickPublish} />
 
           <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
             <ArticleTitleInput />
             <shared.Divider />
             <div className="mt-7" />
-            <EditorCore />
+            <WriteEditor />
           </div>
         </Suspense>
       </div>
-
-      {isOpenPublishModal && (
-        <PublishSettingModal onClose={() => setIsOpenPublishModal(false)} />
-      )}
     </>
   );
 };

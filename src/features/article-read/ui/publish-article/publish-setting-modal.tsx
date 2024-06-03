@@ -16,6 +16,7 @@ import SettingPart from "./setting-part";
 import usePostArticle from "../../lib/use-create-article";
 
 type Props = {
+  open: boolean;
   onClose: () => void;
 };
 
@@ -26,7 +27,7 @@ enum Steps {
   policy,
 }
 
-const PublishSettingModal = ({ onClose }: Props) => {
+const PublishSettingModal = ({ open, onClose }: Props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
@@ -69,7 +70,7 @@ const PublishSettingModal = ({ onClose }: Props) => {
   };
 
   return (
-    <Modal>
+    <Modal open={open}>
       <Modal.Header>
         아티클을 발행하기 전에 몇가지 설정을 해주세요.
       </Modal.Header>

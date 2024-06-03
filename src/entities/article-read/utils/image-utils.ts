@@ -84,6 +84,7 @@ export const blockRenderFn = (
     const entity = block.getEntityAt(0);
     if (!entity) return null;
     const type = contentState.getEntity(entity).getType();
+
     if (type === "image") {
       return {
         component: Image,

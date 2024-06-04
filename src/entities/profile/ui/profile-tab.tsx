@@ -1,9 +1,9 @@
+import classNames from "classnames";
+import { FaRegUserCircle } from "react-icons/fa";
+import { IoMdSettings } from "react-icons/io";
+import { MdOutlineArticle } from "react-icons/md";
 import { NavLink, useParams } from "react-router-dom";
 
-import { FaRegUserCircle } from "react-icons/fa";
-import { MdOutlineArticle } from "react-icons/md";
-import { IoMdSettings } from "react-icons/io";
-import classNames from "classnames";
 import { If, useIsMySession } from "@/shared";
 
 type Props = {

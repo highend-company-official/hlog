@@ -2,12 +2,13 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 
+import { Skeleton } from "@/shared";
 import * as hocs from "./hocs";
 import router from "./router";
 
-import { Skeleton } from "@/shared";
-
 import "./styles/normalize.css";
+import "./styles/inline-style.css";
+import "./styles/editor-style.css";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 

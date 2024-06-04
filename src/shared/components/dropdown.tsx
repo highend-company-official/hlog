@@ -1,8 +1,6 @@
-import { createContext, ReactNode, useRef, useState } from "react";
-import { useOutsideClick, If } from "@/shared";
-import { contextHelper } from "@/shared";
-import { ContextProvideWithState } from "@/shared/libs/contextHelper";
 import classNames from "classnames";
+import { createContext, ReactNode, useContext, useRef, useState } from "react";
+import { useOutsideClick, If, ContextProvideWithState } from "@/shared";
 
 const createContextProviderWithState = <T,>(defaultValue: T) => {
   const context = createContext<ContextProvideWithState<T> | null>(null);
@@ -20,8 +18,6 @@ const createContextProviderWithState = <T,>(defaultValue: T) => {
 
 const { Provider: DropdownProvider, context: dropdownContext } =
   createContextProviderWithState<boolean>(false);
-const useDropdownContext = () =>
-  contextHelper.useProtectedContext(dropdownContext);
 
 const Dropdown = ({
   children,
@@ -50,7 +46,12 @@ const DropdownContainer = ({
   onClose?: () => void;
   className?: string;
 }) => {
-  const [, setIsOpen] = useDropdownContext();
+  const context = useContext(dropdownContext);
+
+  if (!context) return null;
+
+  const [, setIsOpen] = context;
+
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const setClose = () => setIsOpen(false);
@@ -79,7 +80,11 @@ const Menu = ({
   children: React.ReactNode;
   onClose?: () => void;
 }) => {
-  const [isOpen] = useDropdownContext();
+  const context = useContext(dropdownContext);
+
+  if (!context) return null;
+
+  const [isOpen] = context;
 
   return (
     <If
@@ -98,7 +103,12 @@ type TriggerProps = {
 };
 
 const Trigger = ({ children }: TriggerProps) => {
-  const [, setIsOpen] = useDropdownContext();
+  const context = useContext(dropdownContext);
+
+  if (!context) return null;
+
+  const [, setIsOpen] = context;
+
   return (
     <button
       className="text-white bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
@@ -133,5 +143,5 @@ export default Object.assign(Dropdown, {
   Item,
   Menu,
   Trigger,
-  useDropdownContext,
+  context: dropdownContext,
 });

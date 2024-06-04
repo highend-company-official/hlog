@@ -1,14 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { ImFileEmpty } from "react-icons/im";
+import { useParams } from "react-router-dom";
 
+import { useArticleStore } from "@/entities/article";
+import { ProfileArticleCard } from "@/entities/profile";
+import { DeleteArticleModal } from "@/features/delete-article";
 import * as shared from "@/shared";
-
-import useArticleStore from "@/entities/article-read/model";
-import { ProfileAriticleCard } from "@/entities/profile/ui";
-
-import DeleteArticleModal from "@/features/article-read/ui/delete-article-modal";
 
 import { useFetchUserArticles } from "../lib";
 
@@ -51,7 +49,7 @@ const ProfileArticles = () => {
   const articleMap = useMemo(() => {
     return (
       userArticlesData.map((article) => (
-        <ProfileAriticleCard
+        <ProfileArticleCard
           key={article.id}
           {...article}
           isEditMode={isArticleEditMode}

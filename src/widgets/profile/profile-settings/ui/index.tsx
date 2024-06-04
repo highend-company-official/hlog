@@ -1,23 +1,23 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import { FaPhoneAlt } from "react-icons/fa";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { MdOutlineMailOutline, MdModeEdit, MdDone } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
 import { IoMdClose, IoIosLink } from "react-icons/io";
+import { MdOutlineMailOutline, MdModeEdit, MdDone } from "react-icons/md";
+import { useParams } from "react-router-dom";
 
-import defaultProfile from "@/shared/assets/default-profile.jpg";
-import * as shared from "@/shared";
 import { useToastStore } from "@/app/model";
 
+import { UserQuitButton } from "@/features/quit-user";
+import { SignOutButton } from "@/features/sign-out";
 import {
   usePatchProfileImage,
   usePatchProfileImageReset,
   usePatchProfileInfo,
 } from "@/entities/profile/lib";
 
-import SignOutButton from "@/features/auth/ui/sign-out";
-import QuitButton from "@/features/auth/ui/quit-user-button";
+import * as shared from "@/shared";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 const ProfileSettingSection = () => {
   const params = useParams<{ user_id: string }>();
@@ -190,36 +190,29 @@ const ProfileSettingSection = () => {
         onChange={handleChangeInput}
       />
 
-      <shared.If
-        condition={isResetProfileModalOpen}
-        trueRender={
-          <shared.Modal>
-            <shared.Modal.Header>
-              이 작업은 되돌릴 수 없습니다.
-            </shared.Modal.Header>
-            <shared.Modal.Content>
-              기본 프로필로 설정 시, 기존의 프로필 사진은
-              <strong className="font-bold">
-                데이터상 제거되며 복구할 수 없게됩니다.
-              </strong>
-              <br />
-              계속 진행하시겠습니까?
-            </shared.Modal.Content>
-            <shared.Modal.Footer align="right">
-              <shared.Modal.Button
-                type="normal"
-                onClick={() => setIsResetProfileModalOpen(false)}
-              >
-                취소
-              </shared.Modal.Button>
-              <div className="ml-1"></div>
-              <shared.Modal.Button type="decline" onClick={handleResetProfile}>
-                기본 프로필로 설정
-              </shared.Modal.Button>
-            </shared.Modal.Footer>
-          </shared.Modal>
-        }
-      />
+      <shared.Modal open={isResetProfileModalOpen}>
+        <shared.Modal.Header>이 작업은 되돌릴 수 없습니다.</shared.Modal.Header>
+        <shared.Modal.Content>
+          기본 프로필로 설정 시, 기존의 프로필 사진은
+          <strong className="font-bold">
+            데이터상 제거되며 복구할 수 없게됩니다.
+          </strong>
+          <br />
+          계속 진행하시겠습니까?
+        </shared.Modal.Content>
+        <shared.Modal.Footer align="right">
+          <shared.Modal.Button
+            type="normal"
+            onClick={() => setIsResetProfileModalOpen(false)}
+          >
+            취소
+          </shared.Modal.Button>
+          <div className="ml-1"></div>
+          <shared.Modal.Button type="decline" onClick={handleResetProfile}>
+            기본 프로필로 설정
+          </shared.Modal.Button>
+        </shared.Modal.Footer>
+      </shared.Modal>
     </div>
   );
 };
@@ -375,7 +368,7 @@ const ProfileSettings = () => {
 
         <div className="flex justify-end">
           <SignOutButton />
-          <QuitButton />
+          <UserQuitButton />
         </div>
       </Suspense>
     </>

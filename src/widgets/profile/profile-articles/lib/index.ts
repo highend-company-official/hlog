@@ -1,11 +1,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import * as shared from "@/shared";
-
 import { fetchUserArticles } from "../api";
+import { ArticleQueryKeys } from "@/entities/article";
 
 export const useFetchUserArticles = (userId: string) => {
-  const queryKey = useFetchUserArticles.pk(userId);
+  const queryKey = ArticleQueryKeys.userArticles(userId);
   const queryFn = async () => {
     const response = await fetchUserArticles(userId);
 
@@ -33,9 +32,3 @@ export const useFetchUserArticles = (userId: string) => {
 
   return useSuspenseQuery({ queryKey, queryFn });
 };
-
-useFetchUserArticles.pk = (userId: string) => [
-  shared.QUERY_CONSTS.USER,
-  shared.QUERY_CONSTS.ARTICLE,
-  userId,
-];

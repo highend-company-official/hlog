@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import { LuSearch } from "react-icons/lu";
 import { FaPen } from "react-icons/fa";
+import { LuSearch } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 
-import defaultProfile from "@/shared/assets/default-profile.jpg";
+import { useSearchStore } from "@/entities/search";
 import {
   useSession,
   useFetchUser,
@@ -13,8 +13,7 @@ import {
   Button,
   Skeleton,
 } from "@/shared";
-
-import useSearchStore from "@/entities/search-input/model";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 const AuthenticatedView = () => {
   const navigate = useNavigate();

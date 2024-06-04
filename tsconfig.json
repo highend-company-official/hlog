@@ -26,6 +26,11 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "src/features/.temp/auth",
+    "src/features/.temp/comment",
+    "src/features/.temp/article-read"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

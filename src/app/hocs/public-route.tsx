@@ -1,6 +1,6 @@
-import { useSession } from "@/shared";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSession } from "@/shared";
 
 type Props = {
   children: React.ReactNode;

@@ -1,11 +1,30 @@
-import * as React from "react";
+import React from "react";
 
-type Props = {
+type DefaultProps = {
+  width?: number;
+  height?: number;
+};
+
+const Default = ({ width, height }: DefaultProps) => {
+  return (
+    <div role="status" className="animate-pulse">
+      <div
+        className="h-2.5 w-full bg-gray-200 rounded-lg dark:bg-gray-700"
+        style={{
+          width,
+          height,
+        }}
+      />
+    </div>
+  );
+};
+
+type TextProps = {
   width?: number;
   repeat?: number;
 };
 
-const Text = ({ width, repeat }: Props) => {
+const Text = ({ width, repeat }: TextProps) => {
   const sentences = [
     <div className="h-2.5 w-32 bg-gray-200 rounded-full" />,
     <div className="h-2.5 w-24 mx-2 bg-gray-300 rounded-full" />,
@@ -49,4 +68,18 @@ const Text = ({ width, repeat }: Props) => {
   );
 };
 
-export default Text;
+const Image = () => {
+  return (
+    <div
+      role="status"
+      className={`flex items-center justify-center w-full h-96 bg-gray-300 rounded-lg animate-pulse`}
+    />
+  );
+};
+
+const Skeleton = Object.assign(Default, {
+  Text,
+  Image,
+});
+
+export default Skeleton;

@@ -3,9 +3,8 @@ import { useBeforeunload } from "react-beforeunload";
 
 import * as shared from "@/shared";
 
-import { ArticleTitleInput, Toolbar } from "@/entities/article";
 import { PublishArticleModal } from "@/features/publish-article";
-import { WriteEditor } from "@/features/write-article";
+import { ArticleTitleInput, EditorCore, Toolbar } from "@/widgets/editor";
 
 const ArticleWrite = () => {
   const { open: openPublishModal } = shared.useOverlay();
@@ -28,7 +27,7 @@ const ArticleWrite = () => {
             <ArticleTitleInput />
             <shared.Divider />
             <div className="mt-7" />
-            <WriteEditor />
+            <EditorCore />
           </div>
         </Suspense>
       </div>

@@ -9,7 +9,6 @@ export const ArticleSchema = z.object({
   hits: z.number(),
   created_at: z.date(),
   updated_at: z.date().optional(),
-  verified: z.boolean(),
   has_comments: z.boolean(),
   has_like: z.boolean(),
   has_hit: z.boolean(),

@@ -4,26 +4,36 @@ import {
   EditorState,
   RichUtils,
   SelectionState,
+  ContentBlock,
   type DraftInlineStyleType,
 } from "draft-js";
 
-import { useToastStore } from "@/app/model";
+import { lazy } from "react";
+
 import * as shared from "@/shared";
 
-import {
-  type KeyCommandType,
-  EditorCore,
-  addImage,
-  bindingKeyFunction,
-  matchKeyCommand,
-  uploadImage,
-  SavedContentLoadModal,
-  useEditorStore,
-  useEditorUtils,
-} from "@/entities/article";
-import useOverlay from "@/shared/hooks/use-overlay";
+import { bindingKeyFunction, blockRenderFn, matchKeyCommand } from "../lib";
 
-const WriteEditor = () => {
+import { useEditorStore } from "@/entities/article";
+import { useToastStore } from "@/app/model";
+import { useEditorUtils } from "../hooks";
+import SavedContentLoadModal from "./saved-content-load-modal";
+import { addImage, uploadImage } from "../lib/image-util";
+
+import "draft-js/dist/Draft.css";
+import { KeyCommandType } from "../constants";
+
+const Editor = lazy(() =>
+  import("draft-js").then((module) => ({ default: module.Editor }))
+);
+
+type Props = {
+  readOnly?: boolean;
+  editorState?: EditorState; // Read Only 일 경우에 이 값을 넘겨주어여함.
+};
+
+const EditorCore = ({ readOnly = false, editorState }: Props) => {
+  const { open: openArticleOverlay } = shared.useOverlay();
   const {
     editorMetaData,
     setEditorMetaData,
@@ -31,8 +41,23 @@ const WriteEditor = () => {
   } = useEditorStore();
   const { addToast } = useToastStore();
   const { read: readArticles } = shared.useBucket("articles");
-  const { open } = useOverlay();
+  const { open } = shared.useOverlay();
   const { loadSavedContent, saveCurrentContent } = useEditorUtils();
+
+  shared.useMount(() => {
+    if (loadSavedContent()) {
+      open(({ exit, isOpen }) => (
+        <SavedContentLoadModal open={isOpen} onClose={exit} />
+      ));
+    }
+  });
+
+  shared.useUnmount(() => resetEditorStore());
+  const blockStyleFn = (contentBlock: ContentBlock) => {
+    const type = contentBlock.getType();
+
+    return shared.STYLE_MAPPER[type];
+  };
 
   const toggleInline = (type: DraftInlineStyleType) => {
     setEditorMetaData({
@@ -138,29 +163,34 @@ const WriteEditor = () => {
     return "handled";
   };
 
-  shared.useMount(() => {
-    if (loadSavedContent()) {
-      open(({ exit, isOpen }) => (
-        <SavedContentLoadModal open={isOpen} onClose={exit} />
-      ));
-    }
-  });
-
-  shared.useUnmount(() => resetEditorStore());
+  const handleOpenArticleDetail = (url: string) =>
+    openArticleOverlay(({ isOpen, exit }) => (
+      <shared.ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
+    ));
 
   return (
     <div id="hlog">
-      <EditorCore
-        editorState={editorMetaData.content}
+      <Editor
+        spellCheck={false}
+        readOnly={readOnly}
+        blockStyleFn={blockStyleFn}
         placeholder={shared.EDITOR_CONST.PLACEHOLDER}
+        editorState={
+          readOnly && editorState ? editorState : editorMetaData.content
+        }
         onChange={handleChangeEditor}
         handleKeyCommand={handleKeyCommand}
         keyBindingFn={bindingKeyFunction}
         handlePastedFiles={handlePasteFile}
         handleDroppedFiles={handleDroppedFile}
+        blockRendererFn={(block) =>
+          blockRenderFn(block, editorMetaData.content.getCurrentContent(), {
+            onClick: handleOpenArticleDetail,
+          })
+        }
       />
     </div>
   );
 };
 
-export default WriteEditor;
+export default EditorCore;

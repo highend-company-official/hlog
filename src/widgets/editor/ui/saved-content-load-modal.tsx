@@ -1,8 +1,9 @@
 import { EditorState } from "draft-js";
 
 import { Modal } from "@/shared";
+import { useEditorStore } from "@/entities/article";
+
 import { useEditorUtils } from "../hooks";
-import useEditorStore from "../model/use-editor-store";
 
 type Props = {
   onClose: () => void;

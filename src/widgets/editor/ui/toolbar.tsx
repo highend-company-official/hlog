@@ -6,14 +6,10 @@ import { BiArrowBack, BiSend } from "react-icons/bi";
 import { RichUtils, DraftInlineStyleType, DraftBlockType } from "draft-js";
 
 import useOverlay from "@/shared/hooks/use-overlay";
+import { useEditorStore } from "@/entities/article";
 
-import {
-  useEditorStore,
-  ShortcutDescriptionModal,
-  HEADERS_MAP,
-  INLINE_MAP,
-  BLOCK_MAP,
-} from "@/entities/article";
+import { BLOCK_MAP, HEADERS_MAP, INLINE_MAP } from "../constants";
+import ShortcutDescriptionModal from "./shortcut-description-modal";
 
 type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   selected?: boolean;

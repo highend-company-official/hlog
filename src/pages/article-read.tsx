@@ -5,7 +5,9 @@ import * as shared from "@/shared";
 import { CommentList } from "@/widgets/comment-list";
 import { CreateCommentForm } from "@/features/create-comment";
 import { LikeArticleButton } from "@/features/like-article";
-import { ArticleView, useGetArticleById } from "@/entities/article";
+import { ArticleDetailTemplate, useGetArticleById } from "@/entities/article";
+import { EditorCore } from "@/widgets/editor";
+import { EditorState, convertFromRaw } from "draft-js";
 
 function ArticleRead() {
   const params = useParams<{ article_id: string }>();
@@ -27,9 +29,15 @@ function ArticleRead() {
     );
   }
 
+  const editorState = EditorState.createWithContent(
+    convertFromRaw(JSON.parse(data.body))
+  );
+
   return (
     <Suspense>
-      <ArticleView />
+      <ArticleDetailTemplate {...data}>
+        <EditorCore readOnly editorState={editorState} />
+      </ArticleDetailTemplate>
 
       <LikeArticleButton />
 

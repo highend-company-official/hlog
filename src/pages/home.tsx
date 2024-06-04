@@ -12,7 +12,7 @@ import {
 const Skeleton = () => {
   return (
     <>
-      <div className="mt-4" />
+      <div className="mt-8" />
       <shared.Skeleton height={340} />
       <div className="mb-4" />
       <shared.Skeleton height={340} />

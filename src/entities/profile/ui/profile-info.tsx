@@ -1,13 +1,13 @@
 import classNames from "classnames";
-import { useParams } from "react-router-dom";
-import defaultProfile from "@/shared/assets/default-profile.jpg";
 
-import { IoIosLink } from "react-icons/io";
 import { FaPhoneAlt } from "react-icons/fa";
+import { IoIosLink } from "react-icons/io";
 import { MdOutlineMailOutline } from "react-icons/md";
+import { useParams } from "react-router-dom";
 
 import * as shared from "@/shared";
 import { isProviderURL } from "@/shared";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
 import useOverlay from "@/shared/hooks/use-overlay";
 
 type Params = {

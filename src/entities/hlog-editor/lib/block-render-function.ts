@@ -1,7 +1,11 @@
 import { ContentBlock, ContentState } from "draft-js";
 import { CodeBlock, Image } from "../ui/custom-block";
 
-const blockRenderFn = (block: ContentBlock, contentState: ContentState) => {
+const blockRenderFn = (
+  block: ContentBlock,
+  contentState: ContentState,
+  props?: unknown
+) => {
   if (block.getType() === "atomic") {
     const entity = block.getEntityAt(0);
     if (!entity) return null;
@@ -11,6 +15,7 @@ const blockRenderFn = (block: ContentBlock, contentState: ContentState) => {
       return {
         component: Image,
         editable: false,
+        props,
       };
     }
 

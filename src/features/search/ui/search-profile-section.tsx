@@ -4,8 +4,8 @@ import { ImSpinner8 } from "react-icons/im";
 import useSearchStore from "@/entities/search-input/model";
 import { useDebounce } from "@/shared";
 
-import { ProfileSearchItem } from ".";
 import { useGetSearchedProfiles } from "../lib";
+import { ProfileSearchItem } from ".";
 
 const ProfileSearchSection = () => {
   const { query } = useSearchStore();

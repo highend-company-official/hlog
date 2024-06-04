@@ -1,9 +1,8 @@
-import * as shared from "@/shared";
-
-import { RiErrorWarningFill } from "react-icons/ri";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { MdError } from "react-icons/md";
+import { RiErrorWarningFill } from "react-icons/ri";
+import * as shared from "@/shared";
 
 type Props = {
   children: React.ReactNode;

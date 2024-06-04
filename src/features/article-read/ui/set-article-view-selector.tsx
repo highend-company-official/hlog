@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import { FaList } from "react-icons/fa6";
 import { AiFillAppstore } from "react-icons/ai";
 import { BiSolidCard } from "react-icons/bi";
+import { FaList } from "react-icons/fa6";
 
 import useArticle from "@/entities/article-read/model";
 

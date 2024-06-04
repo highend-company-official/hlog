@@ -5,8 +5,8 @@ import {
 } from "draft-js";
 import { BiBold, BiItalic, BiStrikethrough, BiUnderline } from "react-icons/bi";
 import { FaListOl, FaListUl } from "react-icons/fa";
-import { TbBlockquote } from "react-icons/tb";
 import { PiCodeBlockLight } from "react-icons/pi";
+import { TbBlockquote } from "react-icons/tb";
 
 export const INLINE_MAP: {
   type: DraftInlineStyleType;

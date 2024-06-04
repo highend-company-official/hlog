@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { FaBook } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import useSearchStore from "@/entities/search-input/model";
 
 type Props = {

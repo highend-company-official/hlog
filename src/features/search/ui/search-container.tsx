@@ -1,11 +1,11 @@
-import { useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useRef } from "react";
 
-import { Portal, useOutsideClick } from "@/shared";
 import useSearchStore from "@/entities/search-input/model";
+import { Portal, useOutsideClick } from "@/shared";
 
-import SearchSelector from "./search-selector";
 import SearchInput from "./search-input";
+import SearchSelector from "./search-selector";
 
 const SearchContainer = () => {
   const { isSearchOpen, setIsSearchOpen, reset } = useSearchStore();

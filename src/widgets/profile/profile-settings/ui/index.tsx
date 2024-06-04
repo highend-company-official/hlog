@@ -1,23 +1,23 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import { FaPhoneAlt } from "react-icons/fa";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { MdOutlineMailOutline, MdModeEdit, MdDone } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
 import { IoMdClose, IoIosLink } from "react-icons/io";
+import { MdOutlineMailOutline, MdModeEdit, MdDone } from "react-icons/md";
+import { useParams } from "react-router-dom";
 
-import defaultProfile from "@/shared/assets/default-profile.jpg";
-import * as shared from "@/shared";
 import { useToastStore } from "@/app/model";
 
+import QuitButton from "@/features/auth/ui/quit-user-button";
+import SignOutButton from "@/features/auth/ui/sign-out";
 import {
   usePatchProfileImage,
   usePatchProfileImageReset,
   usePatchProfileInfo,
 } from "@/entities/profile/lib";
 
-import SignOutButton from "@/features/auth/ui/sign-out";
-import QuitButton from "@/features/auth/ui/quit-user-button";
+import * as shared from "@/shared";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 const ProfileSettingSection = () => {
   const params = useParams<{ user_id: string }>();

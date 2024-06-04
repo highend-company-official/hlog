@@ -1,9 +1,8 @@
 import { Suspense } from "react";
 import { useParams } from "react-router-dom";
 
-import { Skeleton } from "@/shared";
-
 import { useGetComments } from "@/features/comment/lib";
+import { Skeleton } from "@/shared";
 
 import CommentCard from "../comment-card";
 

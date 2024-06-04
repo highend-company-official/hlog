@@ -1,7 +1,8 @@
-import { lazy } from "react";
 import { ContentBlock } from "draft-js";
+import { lazy } from "react";
 
 import * as shared from "@/shared";
+import useOverlay from "@/shared/hooks/use-overlay";
 
 import { blockRenderFn } from "../lib";
 
@@ -18,11 +19,17 @@ type Props = {
 } & Draft.EditorProps;
 
 const EditorCore = ({ readOnly = false, ...editorProps }: Props) => {
+  const { open: openArticleOverlay } = useOverlay();
   const blockStyleFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
 
     return shared.STYLE_MAPPER[type];
   };
+
+  const handleOpenArticleDetail = (url: string) =>
+    openArticleOverlay(({ isOpen, exit }) => (
+      <shared.ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
+    ));
 
   return (
     <>
@@ -32,7 +39,9 @@ const EditorCore = ({ readOnly = false, ...editorProps }: Props) => {
           readOnly={readOnly}
           blockStyleFn={blockStyleFn}
           blockRendererFn={(block) =>
-            blockRenderFn(block, editorProps.editorState.getCurrentContent())
+            blockRenderFn(block, editorProps.editorState.getCurrentContent(), {
+              onClick: handleOpenArticleDetail,
+            })
           }
           {...editorProps}
         />

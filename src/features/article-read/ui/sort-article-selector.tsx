@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 
 import { IoMdTrendingUp } from "react-icons/io";
-import { PiSortDescendingLight, PiSortAscendingLight } from "react-icons/pi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { PiSortDescendingLight, PiSortAscendingLight } from "react-icons/pi";
 
-import { Dropdown, useOutsideClick } from "@/shared";
 import useArticleStore, { type SortType } from "@/entities/article-read/model";
+import { Dropdown, useOutsideClick } from "@/shared";
 
 const SortItem = ({
   sortType,

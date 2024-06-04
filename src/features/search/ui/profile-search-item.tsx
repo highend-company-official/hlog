@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import defaultProfile from "@/shared/assets/default-profile.jpg";
-import { useBucket } from "@/shared";
 import useSearchStore from "@/entities/search-input/model";
+import { useBucket } from "@/shared";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 type Props = {
   id: string;

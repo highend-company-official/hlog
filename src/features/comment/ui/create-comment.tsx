@@ -1,13 +1,13 @@
-import { SubmitHandler, useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { FaLock } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 
 import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
-import { useGetComments, usePostComment } from "../lib";
-import { FaLock } from "react-icons/fa6";
 import { ErrorMessage } from "@/shared";
+import { useGetComments, usePostComment } from "../lib";
 
 type FieldValues = {
   comment: string;

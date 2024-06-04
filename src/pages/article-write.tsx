@@ -1,14 +1,12 @@
 import { Suspense } from "react";
 import { useBeforeunload } from "react-beforeunload";
 
+import { PublishSettingModal } from "@/features/article-read/ui/publish-article";
+import ArticleTitleInput from "@/entities/article-write/ui/title-input";
+import Toolbar from "@/entities/article-write/ui/toolbar";
+import WriteEditor from "@/entities/article-write/ui/write-editor";
 import * as shared from "@/shared";
 
-import Toolbar from "@/entities/article-write/ui/toolbar";
-import ArticleTitleInput from "@/entities/article-write/ui/title-input";
-
-import { PublishSettingModal } from "@/features/article-read/ui/publish-article";
-
-import WriteEditor from "@/entities/article-write/ui/write-editor";
 import useOverlay from "@/shared/hooks/use-overlay";
 
 import "@/shared/styles/index.css";

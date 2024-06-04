@@ -1,5 +1,6 @@
+import React from "react";
+
 import { supabase } from "@/shared";
-import * as React from "react";
 
 type Props = {
   children: React.ReactNode;

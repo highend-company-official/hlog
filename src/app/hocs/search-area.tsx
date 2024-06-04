@@ -1,5 +1,5 @@
-import { SearchContainer } from "@/features/search/ui";
 import React from "react";
+import { SearchContainer } from "@/features/search/ui";
 
 type Props = {
   children: React.ReactNode;

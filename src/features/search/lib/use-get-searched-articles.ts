@@ -1,5 +1,5 @@
-import { QUERY_CONSTS } from "@/shared";
 import { useQuery } from "@tanstack/react-query";
+import { QUERY_CONSTS } from "@/shared";
 import { getSearchedArtiles } from "../api";
 
 const useGetSearchedArticles = (search: string) => {

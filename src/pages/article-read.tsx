@@ -1,14 +1,13 @@
 import { Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import * as shared from "@/shared";
 import CommentList from "@/widgets/comment/comment-list";
-
-import { useGetArticleById } from "@/entities/article-read/lib";
-import { ArticleView } from "@/entities/article-read";
 
 import { LikeArticle } from "@/features/article-read/ui";
 import { CreateCommentForm } from "@/features/comment/ui";
+import { ArticleView } from "@/entities/article-read";
+import { useGetArticleById } from "@/entities/article-read/lib";
+import * as shared from "@/shared";
 
 function ArticleRead() {
   const params = useParams<{ article_id: string }>();

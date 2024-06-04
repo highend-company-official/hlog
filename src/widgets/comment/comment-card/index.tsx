@@ -1,12 +1,11 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { CommentType } from "@/shared/schema";
+import { DeleteCommentButton, EditCommentButton } from "@/features/comment/ui";
+import { useGetArticleById } from "@/entities/article-read/lib";
 import * as shared from "@/shared";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
-
-import { useGetArticleById } from "@/entities/article-read/lib";
-import { DeleteCommentButton, EditCommentButton } from "@/features/comment/ui";
+import { CommentType } from "@/shared/schema";
 
 type Params = {
   article_id: string;

@@ -1,9 +1,7 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { ContentBlock, convertFromRaw, EditorState } from "draft-js";
+import { useNavigate, useParams } from "react-router-dom";
 
-import useBucket from "@/shared/libs/useBucket";
-import defaultProfile from "@/shared/assets/default-profile.jpg";
-import { useGetArticleById } from "../lib";
+import EditorCore from "@/entities/hlog-editor/ui/editor-core";
 import {
   Divider,
   If,
@@ -11,16 +9,15 @@ import {
   isProviderURL,
   STYLE_MAPPER,
 } from "@/shared";
+import defaultProfile from "@/shared/assets/default-profile.jpg";
+import useOverlay from "@/shared/hooks/use-overlay";
+import useBucket from "@/shared/libs/useBucket";
+import { useGetArticleById } from "../lib";
 
 import "draft-js/dist/Draft.css";
 
 import "@/shared/styles/index.css";
 import "@/shared/styles/editor-style.css";
-
-import { blockRenderFn } from "../utils/image-utils";
-
-import EditorCore from "@/entities/hlog-editor/ui/editor-core";
-import useOverlay from "@/shared/hooks/use-overlay";
 
 type ParamsType = {
   article_id: string;
@@ -33,7 +30,6 @@ const ArticleView = () => {
   const { read: readThumbnails } = useBucket("thumbnails");
   const { read: readProfiles } = useBucket("profiles");
   const { open: openThumbnailOverlay } = useOverlay();
-  const { open: openArticleOverlay } = useOverlay();
 
   const blockStyleFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
@@ -56,11 +52,6 @@ const ArticleView = () => {
         onClose={exit}
         url={readThumbnails(data!.thumbnail)}
       />
-    ));
-
-  const handleOpenArticleDetail = (url: string) =>
-    openArticleOverlay(({ isOpen, exit }) => (
-      <ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
     ));
 
   return (
@@ -110,11 +101,6 @@ const ArticleView = () => {
       <EditorCore
         readOnly
         editorState={editorState}
-        blockRendererFn={(block) =>
-          blockRenderFn(block, editorState.getCurrentContent(), {
-            onClick: handleOpenArticleDetail,
-          })
-        }
         blockStyleFn={blockStyleFn}
         onChange={() => null}
       />

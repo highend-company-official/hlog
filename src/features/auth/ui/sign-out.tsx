@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 import { useSession } from "@/shared";
 

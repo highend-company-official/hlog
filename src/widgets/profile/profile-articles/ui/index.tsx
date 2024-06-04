@@ -1,14 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { ImFileEmpty } from "react-icons/im";
-
-import * as shared from "@/shared";
-
-import useArticleStore from "@/entities/article-read/model";
-import { ProfileAriticleCard } from "@/entities/profile/ui";
+import { useParams } from "react-router-dom";
 
 import DeleteArticleModal from "@/features/article-read/ui/delete-article-modal";
+import useArticleStore from "@/entities/article-read/model";
+import { ProfileAriticleCard } from "@/entities/profile/ui";
+import * as shared from "@/shared";
 
 import { useFetchUserArticles } from "../lib";
 

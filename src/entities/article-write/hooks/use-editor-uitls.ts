@@ -1,13 +1,13 @@
-import { useCallback } from "react";
 import {
   convertFromRaw,
   convertToRaw,
   EditorState,
   RawDraftContentState,
 } from "draft-js";
+import { useCallback } from "react";
 
-import * as shared from "@/shared";
 import useEditorStore from "@/entities/article-write/model";
+import * as shared from "@/shared";
 
 type LocalStorageType = {
   title: string;

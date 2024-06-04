@@ -11,16 +11,16 @@ import { useToastStore } from "@/app/model";
 import EditorCore from "@/entities/hlog-editor/ui/editor-core";
 import * as shared from "@/shared";
 
+import useOverlay from "@/shared/hooks/use-overlay";
+import { KeyCommandType } from "../constants";
 import { useEditorUtils } from "../hooks";
-import useEditorStore from "../model";
 import {
   addImage,
   bindingKeyFunction,
   matchKeyCommand,
   uploadImage,
 } from "../lib";
-import { KeyCommandType } from "../constants";
-import useOverlay from "@/shared/hooks/use-overlay";
+import useEditorStore from "../model";
 import SavedContentLoadModal from "./saved-content-load-modal";
 
 const WriteEditor = () => {

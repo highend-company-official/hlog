@@ -1,8 +1,8 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { BiSolidLike } from "react-icons/bi";
 import { FaLock, FaRegCircleCheck } from "react-icons/fa6";
-import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";

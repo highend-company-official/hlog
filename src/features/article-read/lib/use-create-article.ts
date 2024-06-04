@@ -1,5 +1,5 @@
-import { RawDraftContentState } from "draft-js";
 import { useMutation } from "@tanstack/react-query";
+import { RawDraftContentState } from "draft-js";
 
 import { type ArticleType } from "@/shared";
 

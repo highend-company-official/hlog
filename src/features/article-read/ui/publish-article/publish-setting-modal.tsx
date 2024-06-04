@@ -1,19 +1,17 @@
-import { Suspense, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { convertToRaw } from "draft-js";
+import { Suspense, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { If, Modal, Skeleton, QUERY_CONSTS, Stepper } from "@/shared";
 import { useToastStore } from "@/app/model";
-
-import useEditorStore from "@/entities/article-write/model";
 import useEditorUtils from "@/entities/article-write/hooks/use-editor-uitls";
+import useEditorStore from "@/entities/article-write/model";
+import { If, Modal, Skeleton, QUERY_CONSTS, Stepper } from "@/shared";
 
+import usePostArticle from "../../lib/use-create-article";
 import PolicyPart from "./policy-part";
 import PreviewPart from "./preview-part";
 import SettingPart from "./setting-part";
-
-import usePostArticle from "../../lib/use-create-article";
 
 type Props = {
   open: boolean;

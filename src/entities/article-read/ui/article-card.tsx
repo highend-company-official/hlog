@@ -1,14 +1,14 @@
-import React from "react";
 import dayjs from "dayjs";
-import { Link } from "react-router-dom";
+import React from "react";
 import { BiSolidLike } from "react-icons/bi";
 import { IoMdEye } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 import { type ViewMode } from "@/entities/article-read/model";
 
 import { getElapsedTime, isProviderURL, useBucket } from "@/shared";
-import { type ArticleType } from "@/shared/schema";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
+import { type ArticleType } from "@/shared/schema";
 
 type ArticleCardProps = Omit<ArticleType, "body" | "verified"> & {
   viewMode: ViewMode;

@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { supabase } from ".";
 import * as shared from "@/shared";
+import { supabase } from ".";
 
 const useSession = () => {
   const queryFn = async () => {

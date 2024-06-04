@@ -1,5 +1,3 @@
-import useEditorStore from "../../../article-write/model";
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Image = (props: any) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,13 +30,6 @@ const Image = (props: any) => {
 
   const { src } = contentState.getEntity(block.getEntityAt(0)).getData();
 
-  const { setDetailTarget, setOpen } = useEditorStore();
-
-  const handleClickImage = () => {
-    setOpen("isImageDetailOverlayOpen", true);
-    setDetailTarget(src);
-  };
-
   return (
     <>
       <img
@@ -49,7 +40,7 @@ const Image = (props: any) => {
           className +
           "h-auto max-w-sm rounded-lg shadow-none transition-shadow duration-300 ease-in-out hover:shadow-lg hover:shadow-black/30 mx-auto mb-4 cursor-pointer"
         }
-        onClick={handleClickImage}
+        onClick={() => blockProps.onClick(src)}
       />
     </>
   );

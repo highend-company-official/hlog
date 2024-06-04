@@ -1,6 +1,5 @@
-import { Divider } from "@/shared";
-
 import useSearchStore from "@/entities/search-input/model";
+import { Divider } from "@/shared";
 
 import ArticleSearchSection from "./search-article-section";
 import ProfileSearchSection from "./search-profile-section";

@@ -1,10 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 
-import * as shared from "@/shared";
 import { useToastStore } from "@/app/model";
+import * as shared from "@/shared";
 
 import signIn from "../lib/sign-in";
 

@@ -36,11 +36,11 @@ const router = createBrowserRouter(
               <Suspense
                 fallback={
                   <>
-                    <shared.ImageSkeleton />
+                    <shared.Skeleton.Image />
 
                     <div className="mt-14" />
 
-                    <shared.TextSkeleton repeat={5} />
+                    <shared.Skeleton.Text repeat={5} />
                   </>
                 }
               >

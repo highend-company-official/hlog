@@ -1,6 +1,8 @@
-import { OverlayProvider } from "@/shared/contexts";
 import { Outlet } from "react-router-dom";
-import Header from "../header";
+
+import { OverlayProvider } from "@/shared/contexts";
+
+import Header from "./header";
 
 export const HeaderLayout = () => {
   return (

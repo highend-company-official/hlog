@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { LuSearch } from "react-icons/lu";
 import { FaPen } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,7 +13,7 @@ import {
   Button,
   Skeleton,
 } from "@/shared";
-import { Suspense } from "react";
+
 import useSearchStore from "@/entities/search-input/model";
 
 const AuthenticatedView = () => {

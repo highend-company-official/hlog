@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 
-import useArticleStore from "@/entities/article-read/model";
 import { ArticleType, Checkbox, getElapsedTime, useBucket } from "@/shared";
+import { useArticleStore } from "@/entities/article";
 
 type DeleteArticleCardProps = Omit<ArticleType, "body" | "verified"> & {
   isEditMode: boolean;
 };
 
-const ProfileAriticleCard = (props: DeleteArticleCardProps) => {
+const ProfileArticleCard = (props: DeleteArticleCardProps) => {
   const { read } = useBucket("thumbnails");
   const {
     deleteArticleList,
@@ -63,4 +63,4 @@ const ProfileAriticleCard = (props: DeleteArticleCardProps) => {
   );
 };
 
-export default ProfileAriticleCard;
+export default ProfileArticleCard;

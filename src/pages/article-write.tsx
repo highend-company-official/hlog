@@ -1,22 +1,18 @@
 import { Suspense } from "react";
 import { useBeforeunload } from "react-beforeunload";
 
-import { PublishSettingModal } from "@/features/article-read/ui/publish-article";
-import ArticleTitleInput from "@/entities/article-write/ui/title-input";
-import Toolbar from "@/entities/article-write/ui/toolbar";
-import WriteEditor from "@/entities/article-write/ui/write-editor";
 import * as shared from "@/shared";
 
-import useOverlay from "@/shared/hooks/use-overlay";
-
-import "@/shared/styles/index.css";
+import { ArticleTitleInput, Toolbar } from "@/entities/article";
+import { PublishArticleModal } from "@/features/publish-article";
+import { WriteEditor } from "@/features/write-article";
 
 const ArticleWrite = () => {
-  const { open: openPublishModal } = useOverlay();
+  const { open: openPublishModal } = shared.useOverlay();
 
   const handleClickPublish = () => {
     openPublishModal(({ isOpen, exit }) => (
-      <PublishSettingModal open={isOpen} onClose={exit} />
+      <PublishArticleModal open={isOpen} onClose={exit} />
     ));
   };
 

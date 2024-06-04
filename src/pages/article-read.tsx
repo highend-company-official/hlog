@@ -1,13 +1,11 @@
 import { Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import CommentList from "@/widgets/comment/comment-list";
-
-import { LikeArticle } from "@/features/article-read/ui";
-import { CreateCommentForm } from "@/features/comment/ui";
-import { ArticleView } from "@/entities/article-read";
-import { useGetArticleById } from "@/entities/article-read/lib";
 import * as shared from "@/shared";
+import { CommentList } from "@/widgets/comment-list";
+import { CreateCommentForm } from "@/features/create-comment";
+import { LikeArticleButton } from "@/features/like-article";
+import { ArticleView, useGetArticleById } from "@/entities/article";
 
 function ArticleRead() {
   const params = useParams<{ article_id: string }>();
@@ -33,7 +31,7 @@ function ArticleRead() {
     <Suspense>
       <ArticleView />
 
-      <LikeArticle />
+      <LikeArticleButton />
 
       <shared.Divider />
 

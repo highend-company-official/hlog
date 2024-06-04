@@ -3,7 +3,7 @@ import { FaPen } from "react-icons/fa";
 import { LuSearch } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 
-import useSearchStore from "@/entities/search-input/model";
+import { useSearchStore } from "@/entities/search";
 import {
   useSession,
   useFetchUser,

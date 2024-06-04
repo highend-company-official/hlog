@@ -7,6 +7,8 @@ import * as hocs from "./hocs";
 import router from "./router";
 
 import "./styles/normalize.css";
+import "./styles/inline-style.css";
+import "./styles/editor-style.css";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 

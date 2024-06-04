@@ -1,2 +1,2 @@
-export * as modalContext from "./modalContext";
-export * from "./overlay-provider";
+export * from './modal-context';
+export * from './overlay-provider';

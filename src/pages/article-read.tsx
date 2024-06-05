@@ -35,7 +35,7 @@ function ArticleRead() {
   );
 
   return (
-    <Suspense>
+    <>
       <ArticleDetailTemplate {...data}>
         <EditorCore readOnly editorState={editorState} />
       </ArticleDetailTemplate>
@@ -51,7 +51,7 @@ function ArticleRead() {
       <CommentList renderCard={CommentCard} />
 
       <div className="mb-10" />
-    </Suspense>
+    </>
   );
 }
 

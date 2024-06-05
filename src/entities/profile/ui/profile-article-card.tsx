@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { MdDelete, MdEdit } from "react-icons/md";
 
-import { ArticleType, Checkbox, getElapsedTime, useBucket } from "@/shared";
+import { ArticleType, getElapsedTime, useBucket } from "@/shared";
 import { useArticleStore } from "@/entities/article";
 
 type DeleteArticleCardProps = Omit<ArticleType, "body" | "verified"> & {
@@ -26,16 +27,7 @@ const ProfileArticleCard = (props: DeleteArticleCardProps) => {
   };
 
   return (
-    <li className="flex items-center w-full h-20 mb-2 list-none transition ease-in border-solid group">
-      {props.isEditMode && (
-        <div className="mr-4">
-          <Checkbox
-            onChange={handleChangeCheckbox}
-            checked={hasArticleInDeleteList}
-          />
-        </div>
-      )}
-
+    <li className="relative flex items-center w-full h-20 mb-2 list-none transition ease-in border-solid group">
       <Link
         to={`/article-read/${props.id}`}
         className="flex items-center hover:bg-black/10 w-full h-20 rounded-xl"
@@ -45,7 +37,7 @@ const ProfileArticleCard = (props: DeleteArticleCardProps) => {
           alt={props.title}
           className="block object-cover w-20 h-20 min-h-10 rounded-xl max-sm:hidden"
         />
-        <div className="w-2/3 pl-5">
+        <div className="w-3/5 pl-5">
           <span className="font-bold group-hover:text-primary">
             {props.title} [{props.likes}]
           </span>
@@ -59,6 +51,16 @@ const ProfileArticleCard = (props: DeleteArticleCardProps) => {
           <span>{getElapsedTime(props.created_at)}</span>
         </div>
       </Link>
+      {props.isEditMode && (
+        <div className="mr-4 flex">
+          <button>
+            <MdEdit />
+          </button>
+          <button>
+            <MdDelete />
+          </button>
+        </div>
+      )}
     </li>
   );
 };

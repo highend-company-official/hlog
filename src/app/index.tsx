@@ -1,4 +1,5 @@
 import * as React from "react";
+import { CgSpinner } from "react-icons/cg";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 
@@ -10,7 +11,6 @@ import router from "./router";
 import "./styles/normalize.css";
 import "./styles/inline-style.css";
 import "./styles/editor-style.css";
-import { CgSpinner } from "react-icons/cg";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 

@@ -1,15 +1,15 @@
 import { Suspense } from "react";
 import {
+  Route,
   createBrowserRouter,
   createRoutesFromElements,
-  Route,
 } from "react-router-dom";
 
 import * as pages from "@/pages";
 
-import { AuthLayout, HeaderLayout } from "@/widgets/layout";
-import { ProfileArticles } from "@/widgets/profile/profile-articles";
-import { ProfileSettings } from "@/widgets/profile/profile-settings";
+import { AuthLayout, Layout, LayoutSkeleton } from "@/widgets/layout";
+import { ProfileArticles } from "@/widgets/profile-articles";
+import { ProfileSettings } from "@/widgets/profile-settings";
 
 import { ProfileInfo } from "@/entities/profile/ui";
 import * as shared from "@/shared";
@@ -19,64 +19,60 @@ import * as hocs from "./hocs";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<HeaderLayout />}>
+      <Route element={<Layout />}>
         <Route
           index
           element={
-            <hocs.SearchArea>
+            <hocs.SearchContainer>
               <pages.HomePage />
-            </hocs.SearchArea>
+            </hocs.SearchContainer>
           }
         />
         <Route
           path="article-read/:article_id"
           element={
-            <hocs.SearchArea>
-              <Suspense
-                fallback={
-                  <>
-                    <shared.Skeleton.Image />
-
-                    <div className="mt-14" />
-
-                    <shared.Skeleton.Text repeat={5} />
-                  </>
-                }
-              >
+            <Suspense
+              fallback={
+                <>
+                  <shared.Skeleton.Image />
+                  <div className="mt-14" />
+                  <shared.Skeleton.Text repeat={5} />
+                </>
+              }
+            >
+              <hocs.SearchContainer>
                 <pages.ArticleRead />
-              </Suspense>
-            </hocs.SearchArea>
+              </hocs.SearchContainer>
+            </Suspense>
           }
         />
         <Route path="profile/:user_id" element={<pages.ProfilePage />}>
           <Route
             index
             element={
-              <Suspense fallback={<shared.Skeleton height={600} />}>
-                <hocs.SearchArea>
-                  <ProfileInfo />
-                </hocs.SearchArea>
-              </Suspense>
+              <hocs.SearchContainer>
+                <ProfileInfo />
+              </hocs.SearchContainer>
             }
           />
           <Route
             path="articles"
             element={
-              <Suspense fallback={<shared.Skeleton height={600} />}>
-                <hocs.SearchArea>
+              <Suspense fallback={<LayoutSkeleton />}>
+                <hocs.SearchContainer>
                   <ProfileArticles />
-                </hocs.SearchArea>
+                </hocs.SearchContainer>
               </Suspense>
             }
           />
           <Route
             path="settings"
             element={
-              <Suspense fallback={<shared.Skeleton height={600} />}>
+              <Suspense fallback={<LayoutSkeleton />}>
                 <hocs.PrivateRoute>
-                  <hocs.SearchArea>
+                  <hocs.SearchContainer>
                     <ProfileSettings />
-                  </hocs.SearchArea>
+                  </hocs.SearchContainer>
                 </hocs.PrivateRoute>
               </Suspense>
             }
@@ -97,9 +93,7 @@ const router = createBrowserRouter(
         path="auth"
         element={
           <Suspense>
-            <hocs.PublicRoute>
-              <AuthLayout />
-            </hocs.PublicRoute>
+            <AuthLayout />
           </Suspense>
         }
       >

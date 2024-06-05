@@ -1,14 +1,12 @@
+import { Suspense } from "react";
 import classNames from "classnames";
-
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosLink } from "react-icons/io";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { useParams } from "react-router-dom";
 
 import * as shared from "@/shared";
-import { isProviderURL } from "@/shared";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
-import useOverlay from "@/shared/hooks/use-overlay";
 
 type Params = {
   user_id: string;
@@ -47,7 +45,7 @@ const AuthorizationView = () => {
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
   const { data: session } = shared.useSession();
-  const { open: openProfileDetail } = useOverlay();
+  const { open: openProfileDetail } = shared.useOverlay();
 
   const handleOpenProfileDetail = (url: string) => {
     openProfileDetail(({ isOpen, exit }) => (
@@ -57,6 +55,11 @@ const AuthorizationView = () => {
 
   if (!userData || !session) return null;
 
+  const getProfileURL = () =>
+    shared.isProviderURL(userData.profile_url)
+      ? userData.profile_url
+      : read(userData.profile_url);
+
   return (
     <>
       <div className="flex flex-col items-center justify-center">
@@ -64,18 +67,8 @@ const AuthorizationView = () => {
           condition={!!userData.profile_url}
           trueRender={
             <img
-              src={
-                isProviderURL(userData.profile_url)
-                  ? userData.profile_url
-                  : read(userData.profile_url)
-              }
-              onClick={() =>
-                handleOpenProfileDetail(
-                  isProviderURL(userData.profile_url)
-                    ? userData.profile_url
-                    : read(userData.profile_url)
-                )
-              }
+              src={getProfileURL()}
+              onClick={() => handleOpenProfileDetail(getProfileURL())}
               alt={userData.username}
               className="object-cover w-64 h-64 rounded-full select-none cursor-pointer"
             />
@@ -133,7 +126,7 @@ const UnAuthorizationView = () => {
   const { user_id } = useParams<Params>();
   const { data: userData } = shared.useFetchUser(user_id!);
   const { read } = shared.useBucket("profiles");
-  const { open: openProfileDetail } = useOverlay();
+  const { open: openProfileDetail } = shared.useOverlay();
 
   const handleOpenProfileDetail = (url: string) => {
     openProfileDetail(({ isOpen, exit }) => (
@@ -143,6 +136,11 @@ const UnAuthorizationView = () => {
 
   if (!userData) return null;
 
+  const getProfileURL = () =>
+    shared.isProviderURL(userData.profile_url)
+      ? userData.profile_url
+      : read(userData.profile_url);
+
   return (
     <>
       <div className="flex flex-col items-center justify-center">
@@ -150,18 +148,8 @@ const UnAuthorizationView = () => {
           condition={!!userData.profile_url}
           trueRender={
             <img
-              src={
-                isProviderURL(userData.profile_url)
-                  ? userData.profile_url
-                  : read(userData.profile_url)
-              }
-              onClick={() =>
-                handleOpenProfileDetail(
-                  isProviderURL(userData.profile_url)
-                    ? userData.profile_url
-                    : read(userData.profile_url)
-                )
-              }
+              src={getProfileURL()}
+              onClick={() => handleOpenProfileDetail(getProfileURL())}
               alt={userData.username}
               className="object-cover w-64 h-64 rounded-full cursor-pointer"
             />
@@ -200,11 +188,13 @@ const ProfileInfo = () => {
   const { isMySession } = shared.useIsMySession(user_id!);
 
   return (
-    <shared.If
-      condition={isMySession}
-      trueRender={<AuthorizationView />}
-      falseRender={<UnAuthorizationView />}
-    />
+    <Suspense fallback={<shared.Skeleton height={600} />}>
+      <shared.If
+        condition={isMySession}
+        trueRender={<AuthorizationView />}
+        falseRender={<UnAuthorizationView />}
+      />
+    </Suspense>
   );
 };
 

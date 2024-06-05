@@ -6,7 +6,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const SearchArea = ({ children }: Props) => {
+const SearchContainer = ({ children }: Props) => {
   return (
     <>
       {children}
@@ -15,4 +15,4 @@ const SearchArea = ({ children }: Props) => {
   );
 };
 
-export default SearchArea;
+export default SearchContainer;

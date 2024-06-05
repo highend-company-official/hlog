@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ImFileEmpty } from "react-icons/im";
 import { useParams } from "react-router-dom";
 
-import { useArticleStore } from "@/entities/article";
+import { ArticleQueryKeys, useArticleStore } from "@/entities/article";
 import { ProfileArticleCard } from "@/entities/profile";
 import { DeleteArticleModal } from "@/features/delete-article";
 import * as shared from "@/shared";
@@ -21,27 +21,33 @@ const ProfileArticles = () => {
   const { data: userData } = shared.useFetchUser(user_id!);
   const { data: userArticlesData } = useFetchUserArticles(user_id!);
   const { isMySession } = shared.useIsMySession(user_id!);
+  const { open: openDeleteModal } = shared.useOverlay();
   const { deleteArticleList, resetDeleteArticleList } = useArticleStore();
 
   const [isArticleEditMode, setIsArticleEditMode] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleEditModeChange = () => {
-    if (isArticleEditMode) {
-      setIsArticleEditMode(false);
-      return;
-    }
-    setIsArticleEditMode(true);
+    setIsArticleEditMode((prev) => !prev);
+  };
+
+  const handleOpenDeleteModal = () => {
+    openDeleteModal(({ exit, isOpen }) => (
+      <DeleteArticleModal
+        isOpen={isOpen}
+        onClose={exit}
+        onDelete={handleDeleteArticle}
+      />
+    ));
   };
 
   const handleDeleteArticle = () => {
     queryClient.invalidateQueries({
-      queryKey: useFetchUserArticles.pk(user_id!),
+      queryKey: ArticleQueryKeys.userArticles(user_id!),
     });
   };
 
   useEffect(() => {
-    if (isArticleEditMode === false) {
+    if (!isArticleEditMode) {
       resetDeleteArticleList();
     }
   }, [isArticleEditMode, resetDeleteArticleList]);
@@ -51,8 +57,8 @@ const ProfileArticles = () => {
       userArticlesData.map((article) => (
         <ProfileArticleCard
           key={article.id}
-          {...article}
           isEditMode={isArticleEditMode}
+          {...article}
         />
       )) ?? []
     );
@@ -81,7 +87,7 @@ const ProfileArticles = () => {
 
                   {deleteArticleList.length > 0 && (
                     <button
-                      onClick={() => setIsDeleteModalOpen(true)}
+                      onClick={handleOpenDeleteModal}
                       type="button"
                       className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
                     >
@@ -103,12 +109,6 @@ const ProfileArticles = () => {
             </p>
           </div>
         }
-      />
-
-      <DeleteArticleModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onDelete={handleDeleteArticle}
       />
     </>
   );

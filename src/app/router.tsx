@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import {
+  Outlet,
   Route,
   createBrowserRouter,
   createRoutesFromElements,
@@ -7,7 +8,8 @@ import {
 
 import * as pages from "@/pages";
 
-import { AuthLayout, Layout, LayoutSkeleton } from "@/widgets/layout";
+import { Header } from "@/widgets/header";
+import { AuthLayout } from "@/widgets/auth-layout";
 import { ProfileArticles } from "@/widgets/profile-articles";
 import { ProfileSettings } from "@/widgets/profile-settings";
 
@@ -19,7 +21,19 @@ import * as hocs from "./hocs";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<Layout />}>
+      <Route
+        element={
+          <>
+            <Header />
+
+            <div className="w-full min-h-screen bg-white">
+              <div className="md:w-[600px] lg:w-[800px] xl:w-[1200px] mx-auto pt-[100px]">
+                <Outlet />
+              </div>
+            </div>
+          </>
+        }
+      >
         <Route
           index
           element={
@@ -58,7 +72,7 @@ const router = createBrowserRouter(
           <Route
             path="articles"
             element={
-              <Suspense fallback={<LayoutSkeleton />}>
+              <Suspense>
                 <hocs.SearchContainer>
                   <ProfileArticles />
                 </hocs.SearchContainer>
@@ -68,7 +82,7 @@ const router = createBrowserRouter(
           <Route
             path="settings"
             element={
-              <Suspense fallback={<LayoutSkeleton />}>
+              <Suspense>
                 <hocs.PrivateRoute>
                   <hocs.SearchContainer>
                     <ProfileSettings />

@@ -1,3 +1,4 @@
+import { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -5,22 +6,20 @@ import {
   Divider,
   If,
   ImageDetailOverlay,
-  isProviderURL,
   useBucket,
   useOverlay,
+  useProfile,
 } from "@/shared";
-import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 import "draft-js/dist/Draft.css";
-import { PropsWithChildren } from "react";
 
 type Props = ArticleType & PropsWithChildren;
 
 const ArticleDetailTemplate = (props: Props) => {
   const navigate = useNavigate();
+  const profileData = useProfile(props.profile.user_id);
 
   const { read: readThumbnails } = useBucket("thumbnails");
-  const { read: readProfiles } = useBucket("profiles");
   const { open: openThumbnailOverlay } = useOverlay();
 
   if (!props) {
@@ -51,13 +50,7 @@ const ArticleDetailTemplate = (props: Props) => {
           onClick={() => navigate(`/profile/${props.profile.user_id}`)}
         >
           <img
-            src={
-              props?.profile.profile_url
-                ? isProviderURL(props?.profile.profile_url)
-                  ? props?.profile.profile_url
-                  : readProfiles(props?.profile.profile_url)
-                : defaultProfile
-            }
+            src={profileData?.profile_url}
             alt={props?.profile.username}
             className="object-cover w-12 h-12 mr-3 rounded-full"
           />

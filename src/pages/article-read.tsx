@@ -1,12 +1,13 @@
-import { Suspense } from "react";
 import { EditorState, convertFromRaw } from "draft-js";
 import { useNavigate, useParams } from "react-router-dom";
 
 import * as shared from "@/shared";
+
 import { EditorCore } from "@/widgets/editor";
 import { CommentCard, CommentList } from "@/widgets/comment-list";
 import { ArticleDetailTemplate } from "@/widgets/article-detail-view";
 import { useGetArticleById } from "@/entities/article";
+
 import { CreateCommentForm } from "@/features/create-comment";
 import { LikeArticleButton } from "@/features/like-article";
 

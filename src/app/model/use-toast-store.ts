@@ -1,36 +1,43 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { generateRandomId } from "@/shared";
 
-type ToastType = {
-  id: string;
+export type ToastType = {
   type: "success" | "warning" | "error";
   content: string;
   hasCloseButton?: boolean;
   staleTime?: number;
-  //TODO: Domain 구현하기
 };
 
 type State = {
-  toasts: ToastType[];
+  toastMap: Map<string, ToastType>;
 };
 
 type Action = {
-  addToast: (newToast: Omit<ToastType, "id">) => void;
-  removeToast: (id: string) => void;
+  mount: (id: string, newToast: ToastType) => void;
+  unmount: (id: string) => void;
 };
 
 const useToastStore = create<State & Action>()(
   devtools((set) => ({
-    toasts: [],
-    addToast: (toast: Omit<ToastType, "id">) =>
-      set((state) => ({
-        toasts: [...state.toasts, { id: generateRandomId(), ...toast }],
-      })),
-    removeToast: (id: string) =>
-      set((state) => ({
-        toasts: state.toasts.filter((toast) => toast.id !== id),
-      })),
+    toastMap: new Map(),
+    mount: (id, newToast) =>
+      set((state) => {
+        const clone = new Map(state.toastMap);
+        clone.set(id, newToast);
+
+        return {
+          toastMap: clone,
+        };
+      }),
+    unmount: (id) =>
+      set((state) => {
+        const clone = new Map(state.toastMap);
+        clone.delete(id);
+
+        return {
+          toastMap: clone,
+        };
+      }),
   }))
 );
 

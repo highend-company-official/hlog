@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { convertToRaw } from "draft-js";
 
-import { If, Modal, Skeleton, QUERY_CONSTS, Stepper } from "@/shared";
-import { useToastStore } from "@/app/model";
+import { If, Modal, Skeleton, QUERY_CONSTS, Stepper, useToast } from "@/shared";
 
 import { useEditorUtils } from "@/widgets/editor/hooks";
 import { useEditorStore } from "@/entities/article";
@@ -30,7 +29,7 @@ enum Steps {
 const PublishArticleModal = ({ open, onClose }: Props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { addToast } = useToastStore();
+  const { open: openToast } = useToast();
   const { editorMetaData } = useEditorStore();
   const { resetSavedContent } = useEditorUtils();
   const { mutateAsync: publishArticle, isPending } = useCreateArticle();
@@ -58,7 +57,7 @@ const PublishArticleModal = ({ open, onClose }: Props) => {
       },
       thumbnailFile: thumbnail!,
     }).then((response: { id: string }) => {
-      addToast({
+      openToast({
         type: "success",
         content: "발행에 성공했습니다!",
         staleTime: 5000,

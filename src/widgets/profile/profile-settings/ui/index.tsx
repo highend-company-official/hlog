@@ -6,8 +6,6 @@ import { IoMdClose, IoIosLink } from "react-icons/io";
 import { MdOutlineMailOutline, MdModeEdit, MdDone } from "react-icons/md";
 import { useParams } from "react-router-dom";
 
-import { useToastStore } from "@/app/model";
-
 import { UserQuitButton } from "@/features/quit-user";
 import { SignOutButton } from "@/features/sign-out";
 import {
@@ -26,7 +24,7 @@ const ProfileSettingSection = () => {
   const { read } = shared.useBucket("profiles");
   const { data: userData } = shared.useFetchUser(params.user_id!);
 
-  const { addToast } = useToastStore();
+  const { open } = shared.useToast();
   const { mutateAsync: uploadProfileImage } = usePatchProfileImage(
     params.user_id!
   );
@@ -58,7 +56,7 @@ const ProfileSettingSection = () => {
 
     try {
       await uploadProfileImage(tempProfileData);
-      addToast({
+      open({
         type: "success",
         content: "프로필 설정에 성공했습니다.",
         staleTime: 3000,
@@ -68,7 +66,7 @@ const ProfileSettingSection = () => {
         queryKey: [shared.QUERY_CONSTS.USER, params.user_id!],
       });
     } catch (error) {
-      addToast({
+      open({
         type: "error",
         content: "프로필 설정에 실패했습니다." + error,
         staleTime: 3000,
@@ -83,7 +81,7 @@ const ProfileSettingSection = () => {
   const handleResetProfile = async () => {
     try {
       await resetProfileImage();
-      addToast({
+      open({
         type: "success",
         content: "기본 프로필 설정에 성공했습니다.",
         staleTime: 3000,
@@ -93,7 +91,7 @@ const ProfileSettingSection = () => {
         queryKey: [shared.QUERY_CONSTS.USER, params.user_id!],
       });
     } catch (error: unknown) {
-      addToast({
+      open({
         type: "error",
         content: "기본 프로필 설정에 실패했습니다." + error,
         staleTime: 3000,
@@ -258,7 +256,7 @@ type FormType = {
 const UserInfoSettingSection = () => {
   const queryClient = useQueryClient();
   const params = useParams<{ user_id: string }>();
-  const { addToast } = useToastStore();
+  const { open } = shared.useToast();
   const { data: userData } = shared.useFetchUser(params.user_id!);
   const { mutateAsync: patchProfileInfo, isPending } = usePatchProfileInfo(
     params.user_id!
@@ -279,7 +277,7 @@ const UserInfoSettingSection = () => {
   const handleEditProfileInfo = async () => {
     await patchProfileInfo(getValues());
 
-    addToast({
+    open({
       type: "success",
       content: "프로필 정보 설정을 완료했습니다.",
       staleTime: 3000,

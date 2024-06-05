@@ -1,2 +1,4 @@
-export { default as useToastStore } from "./use-toast-store";
-export { default as useOverlayStore } from "./use-overlay-store";
+import useOverlayStore from "./use-overlay-store";
+import useToastStore, { type ToastType } from "./use-toast-store";
+
+export { useOverlayStore, useToastStore, ToastType };

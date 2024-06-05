@@ -1,9 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
-import { useToastStore } from "@/app/model";
-
-import { Modal, useOverlay } from "@/shared";
+import { Modal, useOverlay, useToast } from "@/shared";
 
 import { CommentQueryKeys } from "@/entities/comment";
 
@@ -16,7 +14,7 @@ type Props = {
 const DeleteCommentButton = ({ commentId }: Props) => {
   const { open, exit } = useOverlay();
   const queryClient = useQueryClient();
-  const { addToast } = useToastStore();
+  const { open: openToast } = useToast();
   const params = useParams<{ article_id: string }>();
   const { mutateAsync: deleteComment, isPending } = useDeleteComment();
 
@@ -49,14 +47,14 @@ const DeleteCommentButton = ({ commentId }: Props) => {
         queryClient.invalidateQueries({
           queryKey: CommentQueryKeys.list(params.article_id!),
         });
-        addToast({
+        openToast({
           type: "success",
           content: "댓글이 성공적으로 삭제되었습니다.",
           staleTime: 3000,
         });
       })
       .catch(() => {
-        addToast({
+        openToast({
           type: "error",
           content: "댓글 삭제 중 문제가 발생했습니다.",
           staleTime: 3000,

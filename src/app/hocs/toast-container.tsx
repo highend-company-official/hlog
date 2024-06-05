@@ -7,35 +7,30 @@ type Props = {
 };
 
 const ToastContainer = ({ children }: Props) => {
-  const { toasts, removeToast } = useToastStore();
-
-  const toastRender = () => {
-    return toasts.map((toast) => {
-      // auto close
-      if (toast.staleTime) {
-        setTimeout(() => {
-          removeToast(toast.id);
-        }, toast.staleTime);
-      }
-
-      return (
-        <shared.ToastBase
-          onClose={() => removeToast(toast.id)}
-          staleTime={toast.staleTime}
-          key={toast.id}
-          hasCloseButton={toast.hasCloseButton ?? true}
-          type={toast.type}
-        >
-          {toast.content}
-        </shared.ToastBase>
-      );
-    });
-  };
+  const { toastMap, unmount } = useToastStore();
 
   return (
     <>
       <shared.Portal portalId={shared.PORTAL_CONSTS.TOAST}>
-        {toastRender()}
+        {[...toastMap.entries()].map(([id, toast]) => {
+          if (toast.staleTime) {
+            setTimeout(() => {
+              unmount(id);
+            }, toast.staleTime);
+          }
+
+          return (
+            <shared.ToastBase
+              key={id}
+              onClose={() => unmount(id)}
+              staleTime={toast.staleTime}
+              hasCloseButton={toast.hasCloseButton ?? true}
+              type={toast.type}
+            >
+              {toast.content}
+            </shared.ToastBase>
+          );
+        })}
       </shared.Portal>
       {children}
     </>

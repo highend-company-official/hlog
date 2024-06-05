@@ -3,7 +3,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { FaLock } from "react-icons/fa6";
 
-import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
 import { CommentQueryKeys } from "@/entities/comment";
@@ -19,7 +18,7 @@ type Params = { article_id: string };
 const AuthenticatedView = () => {
   const params = useParams<Params>();
   const queryClient = useQueryClient();
-  const { addToast } = useToastStore();
+  const { open } = shared.useToast();
   const {
     register,
     handleSubmit,
@@ -31,7 +30,7 @@ const AuthenticatedView = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (data.comment.trim() === "") {
-      addToast({
+      open({
         type: "warning",
         content: "댓글에 내용이 없습니다.",
         staleTime: 3000,
@@ -40,7 +39,7 @@ const AuthenticatedView = () => {
     }
 
     mutateAsync(data.comment).then(() => {
-      addToast({
+      open({
         type: "success",
         content: "댓글 등록에 성공했습니다.",
         staleTime: 3000,

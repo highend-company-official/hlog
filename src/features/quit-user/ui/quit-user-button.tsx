@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { FaUserSlash } from "react-icons/fa";
 
-import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 import { quitUser } from "@/entities/auth";
 
@@ -11,7 +10,7 @@ const QuitButton = () => {
   const navigate = useNavigate();
   const params = useParams<{ user_id: string }>();
   const queryClient = useQueryClient();
-  const { addToast } = useToastStore();
+  const { open } = shared.useToast();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -26,13 +25,13 @@ const QuitButton = () => {
           params.user_id,
         ],
       });
-      addToast({
+      open({
         type: "success",
         content: "회원탈퇴가 정상적으로 진행되었습니다.",
       });
       navigate("/");
     } catch (error) {
-      addToast({
+      open({
         type: "error",
         content: "회원 탈퇴 과정중 오류가 발생했습니다.",
       });

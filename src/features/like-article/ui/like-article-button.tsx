@@ -4,7 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaLock, FaRegCircleCheck } from "react-icons/fa6";
 
-import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 
 import { useGetUserArticleLiked, usePostArticleLike } from "../lib";
@@ -18,7 +17,7 @@ const AuthenticatedView = () => {
   const params = useParams<Params>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { addToast } = useToastStore();
+  const { open } = shared.useToast();
   const { data: session } = shared.useSession();
   const { data: isLikedArticle } = useGetUserArticleLiked(
     session?.user.id ?? "",
@@ -35,7 +34,7 @@ const AuthenticatedView = () => {
   const handleLikeArticle = () => {
     mutateAsync()
       .then(() => {
-        addToast({
+        open({
           type: "success",
           content: "좋아요를 눌렀습니다.",
           staleTime: 3000,
@@ -53,7 +52,7 @@ const AuthenticatedView = () => {
           setIsSignInModalOpen(true);
           return;
         }
-        addToast({
+        open({
           type: "error",
           content: "좋아요에 실패했습니다. 다시 시도해보세요.",
           staleTime: 3000,

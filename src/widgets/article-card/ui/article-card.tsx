@@ -6,9 +6,13 @@ import { Link } from "react-router-dom";
 
 import { useArticleStore, type ViewMode } from "@/entities/article";
 
-import { getElapsedTime, isProviderURL, useBucket } from "@/shared";
+import {
+  getElapsedTime,
+  isProviderURL,
+  useBucket,
+  ArticleType,
+} from "@/shared";
 import defaultProfile from "@/shared/assets/default-profile.jpg";
-import { type ArticleType } from "@/shared/schema";
 
 type ArticleCardProps = Omit<ArticleType, "body" | "verified">;
 
@@ -60,13 +64,13 @@ const Card = (props: ArticleCardProps) => {
         </div>
 
         <div className="flex">
-          <div className="flex mr-2">
+          <div className="flex mr-2 items-center">
             <BiSolidLike className="mr-1" />
             <span>{props.likes}</span>
           </div>
 
-          <div className="flex">
-            <IoMdEye className="mr-1" />
+          <div className="flex items-center">
+            <IoMdEye className="mr-1 " />
             <span>{props.hits}</span>
           </div>
         </div>

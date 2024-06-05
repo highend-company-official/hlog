@@ -15,7 +15,6 @@ import * as shared from "@/shared";
 import { bindingKeyFunction, blockRenderFn, matchKeyCommand } from "../lib";
 
 import { useEditorStore } from "@/entities/article";
-import { useToastStore } from "@/app/model";
 import { useEditorUtils } from "../hooks";
 import SavedContentLoadModal from "./saved-content-load-modal";
 import { addImage, uploadImage } from "../lib/image-util";
@@ -39,7 +38,7 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
     setEditorMetaData,
     reset: resetEditorStore,
   } = useEditorStore();
-  const { addToast } = useToastStore();
+  const { open: toastOpen } = shared.useToast();
   const { read: readArticles } = shared.useBucket("articles");
   const { open } = shared.useOverlay();
   const { loadSavedContent, saveCurrentContent } = useEditorUtils();
@@ -76,7 +75,7 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
   // Event Handlers
   const handleSaveEditor = () => {
     if (editorMetaData.content.getCurrentContent().getPlainText() === "") {
-      addToast({
+      toastOpen({
         type: "warning",
         content: "저장을 위해서 내용을 입력해주세요",
         hasCloseButton: false,
@@ -86,7 +85,7 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
     }
 
     saveCurrentContent();
-    addToast({
+    toastOpen({
       type: "success",
       content: "내용이 저장되었습니다.",
       hasCloseButton: false,
@@ -112,7 +111,7 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
 
   const handleUploadedSuccess = (url: string) => {
     // Image Upload
-    addToast({
+    toastOpen({
       type: "success",
       content: "이미지 업로드 완료",
       staleTime: 3000,
@@ -127,7 +126,7 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
   };
 
   const handleUploadedError = (error: string) => {
-    addToast({
+    toastOpen({
       type: "error",
       content: error,
       staleTime: 3000,

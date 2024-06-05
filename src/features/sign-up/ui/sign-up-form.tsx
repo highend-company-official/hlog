@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useToastStore } from "@/app/model";
 import * as shared from "@/shared";
 import { signUp } from "@/entities/auth";
 
@@ -15,13 +14,13 @@ type FormValues = {
 const SignUpForm = () => {
   const { register, handleSubmit } = useForm<FormValues>();
   const navigate = useNavigate();
-  const { addToast } = useToastStore();
+  const { open } = shared.useToast();
 
   const handleEmailSignUp = handleSubmit((data) => {
     const { email, password, confirmPassword, username } = data;
 
     if (password !== confirmPassword) {
-      addToast({
+      open({
         type: "error",
         content: "비밀번호가 일치하지 않습니다.",
         hasCloseButton: true,
@@ -37,7 +36,7 @@ const SignUpForm = () => {
       })
       .then(({ error }) => {
         if (error?.name === "AuthApiError" && error.status === 429) {
-          addToast({
+          open({
             type: "error",
             content: "이메일 요금 제한을 초과했습니다",
             hasCloseButton: true,
@@ -45,13 +44,13 @@ const SignUpForm = () => {
         }
 
         if (!error) {
-          addToast({
+          open({
             type: "success",
             content: "회원가입에 성공했습니다",
             hasCloseButton: true,
             staleTime: 3000,
           });
-          addToast({
+          open({
             type: "warning",
             content: "로그인하기 위해서 이메일 인증을 해주세요!",
             hasCloseButton: true,
@@ -61,7 +60,7 @@ const SignUpForm = () => {
       })
       .catch((error) => {
         console.error(error);
-        addToast({
+        open({
           type: "error",
           content: "에러가 발생했습니다.",
           hasCloseButton: true,

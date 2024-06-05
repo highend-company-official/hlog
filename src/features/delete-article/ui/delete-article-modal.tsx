@@ -1,6 +1,4 @@
-import { Modal } from "@/shared";
-
-import { useToastStore } from "@/app/model";
+import { Modal, useToast } from "@/shared";
 
 import { useArticleStore } from "@/entities/article";
 import { useDeleteArticle } from "../lib";
@@ -14,20 +12,20 @@ type Props = {
 const DeleteArticleModal = ({ isOpen, onClose, onDelete }: Props) => {
   const { deleteArticleList, resetDeleteArticleList } = useArticleStore();
   const { mutateAsync: deleteArticle, isPending } = useDeleteArticle();
-  const { addToast } = useToastStore();
+  const { open } = useToast();
 
   const handleDeleteArticle = async () => {
     try {
       deleteArticle(deleteArticleList);
       resetDeleteArticleList();
-      addToast({
+      open({
         type: "success",
         content: "성공적으로 삭제를 완료했습니다.",
         staleTime: 3000,
       });
       onDelete();
     } catch (error) {
-      addToast({
+      open({
         type: "error",
         content: "삭제중 에러가 발생하였습니다.",
       });

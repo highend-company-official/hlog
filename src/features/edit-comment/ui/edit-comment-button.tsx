@@ -2,8 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
-import { useToastStore } from "@/app/model";
-import { ErrorMessage, Modal, TextArea, useOverlay } from "@/shared";
+import { ErrorMessage, Modal, TextArea, useOverlay, useToast } from "@/shared";
 
 import { CommentQueryKeys } from "@/entities/comment";
 import { useUpdateComment } from "../lib";
@@ -30,7 +29,7 @@ const EditCommentButton = ({ body, commentId }: Props) => {
   });
   const params = useParams<{ article_id: string }>();
   const queryClient = useQueryClient();
-  const { addToast } = useToastStore();
+  const { open: openToast } = useToast();
   const { mutateAsync: updateComment, isPending } = useUpdateComment(commentId);
   const { open, exit } = useOverlay();
 
@@ -87,7 +86,7 @@ const EditCommentButton = ({ body, commentId }: Props) => {
 
     updateComment(comment)
       .then(() => {
-        addToast({
+        openToast({
           type: "success",
           content: "댓글 수정이 완료되었습니다.",
           staleTime: 3000,
@@ -97,7 +96,7 @@ const EditCommentButton = ({ body, commentId }: Props) => {
         });
       })
       .catch((error: string) => {
-        addToast({
+        openToast({
           type: "error",
           content: "댓글 수정이 실패했습니다." + error,
           staleTime: 3000,

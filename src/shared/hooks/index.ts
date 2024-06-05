@@ -11,3 +11,4 @@ export { default as useOverlay } from "./use-overlay";
 export { default as useScrollToTop } from "./use-scroll-to-top";
 export { default as useSession } from "./use-session";
 export { default as useUnmount } from "./use-unmount";
+export { default as useToast } from "./use-toast";

@@ -1,7 +1,7 @@
-import { useToastStore } from "@/app/model";
+import useToast from "./use-toast";
 
 const useClipboard = () => {
-  const { addToast } = useToastStore();
+  const { open } = useToast();
 
   /**
    *
@@ -16,7 +16,7 @@ const useClipboard = () => {
       });
 
       if (state === "denied") {
-        addToast({
+        open({
           type: "warning",
           content: "클립보드 접근 권한에 동의해주세요.",
           hasCloseButton: true,
@@ -29,7 +29,7 @@ const useClipboard = () => {
       return value;
     } catch (error) {
       if (error instanceof DOMException) {
-        addToast({
+        open({
           type: "error",
           content: "클립보드 오류가 발생했습니다.",
           hasCloseButton: true,
@@ -52,7 +52,7 @@ const useClipboard = () => {
     document.execCommand("copy");
     document.body.removeChild(textarea);
 
-    addToast({
+    open({
       type: "success",
       content: "클립보드에 복사하였습니다.",
       hasCloseButton: true,
@@ -74,7 +74,7 @@ const useClipboard = () => {
     window.navigator.clipboard
       .writeText(text)
       .then(() => {
-        addToast({
+        open({
           type: "success",
           content: "클립보드에 복사하였습니다.",
           hasCloseButton: true,
@@ -114,7 +114,7 @@ const useClipboard = () => {
     } catch (error: unknown) {
       failureFallback?.(error);
       if (error instanceof DOMException) {
-        addToast({
+        open({
           type: "error",
           content: "클립보드 오류가 발생했습니다.",
           hasCloseButton: true,

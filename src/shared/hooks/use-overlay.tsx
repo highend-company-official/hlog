@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { useOverlayStore } from "@/app/model";
+
 import { generateRandomId } from "../libs";
 
 type CreateOverlayElement = (props: {
@@ -31,22 +32,22 @@ const OverlayController = ({
 const useOverlay = () => {
   const { mount, unmount } = useOverlayStore();
 
-  const newId = generateRandomId();
+  const generatedId = generateRandomId();
 
   return useMemo(
     () => ({
       open: (overlayElement: CreateOverlayElement) =>
         mount(
-          newId,
+          generatedId,
           <OverlayController
-            key={newId}
+            key={generatedId}
             overlayElement={overlayElement}
-            onExit={() => unmount(newId)}
+            onExit={() => unmount(generatedId)}
           />
         ),
-      exit: () => unmount(newId),
+      exit: () => unmount(generatedId),
     }),
-    [newId, mount, unmount]
+    [generatedId, mount, unmount]
   );
 };
 

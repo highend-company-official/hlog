@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 
 import * as shared from "@/shared";
-import { useToastStore } from "@/app/model";
 import { signIn } from "@/entities/auth";
 
 type FormValues = {
@@ -15,7 +14,7 @@ type FormValues = {
 const SignInForm = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { addToast } = useToastStore();
+  const { open } = shared.useToast();
   const { register, handleSubmit } = useForm<FormValues>();
 
   const handleEmailSignIn = handleSubmit((data) => {
@@ -25,7 +24,7 @@ const SignInForm = () => {
       .withEmail({ email, password })
       .then(({ error }) => {
         if (error?.name === "AuthApiError" && error.status === 400) {
-          addToast({
+          open({
             type: "error",
             content: "로그인 정보가 맞지 않습니다. 다시 시도해주세요.",
             hasCloseButton: true,
@@ -37,7 +36,7 @@ const SignInForm = () => {
             queryKey: [shared.QUERY_CONSTS.SESSION],
           });
 
-          addToast({
+          open({
             type: "success",
             content: "로그인에 성공했습니다!",
             hasCloseButton: true,
@@ -50,7 +49,7 @@ const SignInForm = () => {
         }
       })
       .catch(() => {
-        addToast({
+        open({
           type: "error",
           content: "문제가 발생했습니다.",
           hasCloseButton: true,

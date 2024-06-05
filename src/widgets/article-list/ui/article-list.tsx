@@ -3,21 +3,26 @@ import { useNavigate } from "react-router-dom";
 
 import * as shared from "@/shared";
 
-import { useArticleStore, ViewMode, useGetArticles } from "@/entities/article";
+import {
+  useArticleStore,
+  useGetArticles,
+  type ViewMode,
+} from "@/entities/article";
 
 const CardContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="grid gap-4 auto-rows-[minmax(0,600px)] grid-rows grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+    <div className="grid gap-4 auto-rows-[minmax(0,600px)] grid-cols-2 max-md:grid-cols-1">
       {children}
     </div>
   );
 };
+
 const ListContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <div className="flex flex-col">{children}</div>;
 };
 const GalleryContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="grid gap-4 auto-rows-[minmax(0,300px)] grid-rows grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+    <div className="grid gap-4 auto-rows-[minmax(0,300px)] grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
       {children}
     </div>
   );

@@ -5,7 +5,7 @@ import { FaList } from "react-icons/fa6";
 
 import { useArticleStore } from "@/entities/article";
 
-const SetArticleViewModeSelector = () => {
+const ArticleViewModeSelector = () => {
   const { articleViewMode, changeViewMode } = useArticleStore();
 
   return (
@@ -50,4 +50,4 @@ const SetArticleViewModeSelector = () => {
   );
 };
 
-export default SetArticleViewModeSelector;
+export default ArticleViewModeSelector;

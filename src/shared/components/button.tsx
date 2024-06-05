@@ -22,7 +22,7 @@ function Button({ intent = "primary", children, ...props }: ButtonProps) {
         baseClasses,
         INTENT_CLASSNAMES[intent],
         props.className,
-        "disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
+        "transition ease-in-out disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
       )}
     >
       {children}

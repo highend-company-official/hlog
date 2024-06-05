@@ -1,3 +1,3 @@
-import SetArticleViewModeSelector from "./set-article-view-mode-selector";
+import ArticleViewModeSelector from "./article-view-mode-selector";
 
-export { SetArticleViewModeSelector };
+export { ArticleViewModeSelector };

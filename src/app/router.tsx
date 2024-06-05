@@ -7,11 +7,10 @@ import {
 
 import * as pages from "@/pages";
 
-import { AuthLayout, Layout, LayoutSkeleton } from "@/widgets/layout";
+import { ProfileInfo } from "@/entities/profile/ui";
+import { AuthLayout } from "@/widgets/auth-layout";
 import { ProfileArticles } from "@/widgets/profile-articles";
 import { ProfileSettings } from "@/widgets/profile-settings";
-
-import { ProfileInfo } from "@/entities/profile/ui";
 import * as shared from "@/shared";
 
 import * as hocs from "./hocs";
@@ -19,65 +18,63 @@ import * as hocs from "./hocs";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<Layout />}>
+      <Route
+        index
+        element={
+          <hocs.SearchContainer>
+            <pages.HomePage />
+          </hocs.SearchContainer>
+        }
+      />
+      <Route
+        path="article-read/:article_id"
+        element={
+          <Suspense
+            fallback={
+              <>
+                <shared.Skeleton.Image />
+                <div className="mt-14" />
+                <shared.Skeleton.Text repeat={5} />
+              </>
+            }
+          >
+            <hocs.SearchContainer>
+              <pages.ArticleRead />
+            </hocs.SearchContainer>
+          </Suspense>
+        }
+      />
+      <Route path="profile/:user_id" element={<pages.ProfilePage />}>
         <Route
           index
           element={
             <hocs.SearchContainer>
-              <pages.HomePage />
+              <ProfileInfo />
             </hocs.SearchContainer>
           }
         />
         <Route
-          path="article-read/:article_id"
+          path="articles"
           element={
-            <Suspense
-              fallback={
-                <>
-                  <shared.Skeleton.Image />
-                  <div className="mt-14" />
-                  <shared.Skeleton.Text repeat={5} />
-                </>
-              }
-            >
+            <Suspense>
               <hocs.SearchContainer>
-                <pages.ArticleRead />
+                <ProfileArticles />
               </hocs.SearchContainer>
             </Suspense>
           }
         />
-        <Route path="profile/:user_id" element={<pages.ProfilePage />}>
-          <Route
-            index
-            element={
-              <hocs.SearchContainer>
-                <ProfileInfo />
-              </hocs.SearchContainer>
-            }
-          />
-          <Route
-            path="articles"
-            element={
-              <Suspense fallback={<LayoutSkeleton />}>
+        <Route
+          path="settings"
+          element={
+            <Suspense>
+              <hocs.PrivateRoute>
                 <hocs.SearchContainer>
-                  <ProfileArticles />
+                  <ProfileSettings />
                 </hocs.SearchContainer>
-              </Suspense>
-            }
-          />
-          <Route
-            path="settings"
-            element={
-              <Suspense fallback={<LayoutSkeleton />}>
-                <hocs.PrivateRoute>
-                  <hocs.SearchContainer>
-                    <ProfileSettings />
-                  </hocs.SearchContainer>
-                </hocs.PrivateRoute>
-              </Suspense>
-            }
-          />
-        </Route>
+              </hocs.PrivateRoute>
+            </Suspense>
+          }
+        />
       </Route>
       <Route
         path="article-write"

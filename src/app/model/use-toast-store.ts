@@ -20,7 +20,7 @@ type Action = {
   removeToast: (id: string) => void;
 };
 
-const toastStore = create<State & Action>()(
+const useToastStore = create<State & Action>()(
   devtools((set) => ({
     toasts: [],
     addToast: (toast: Omit<ToastType, "id">) =>
@@ -34,4 +34,4 @@ const toastStore = create<State & Action>()(
   }))
 );
 
-export default toastStore;
+export default useToastStore;

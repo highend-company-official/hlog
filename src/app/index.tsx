@@ -17,11 +17,11 @@ root.render(
     <hocs.ErrorBoundary>
       <React.Suspense fallback={<Skeleton height={300} />}>
         <hocs.QueryClient>
-          <hocs.AuthContainer>
+          <hocs.OverlayContainer>
             <hocs.ToastContainer>
               <RouterProvider router={router} />
             </hocs.ToastContainer>
-          </hocs.AuthContainer>
+          </hocs.OverlayContainer>
         </hocs.QueryClient>
       </React.Suspense>
     </hocs.ErrorBoundary>

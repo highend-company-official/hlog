@@ -1,8 +1,7 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { OverlayContext } from "../contexts";
-
-let elementId = 1;
+import { useOverlayStore } from "@/app/model";
+import { generateRandomId } from "../libs";
 
 type CreateOverlayElement = (props: {
   isOpen: boolean;
@@ -21,7 +20,6 @@ const OverlayController = ({
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
 
   useEffect(() => {
-    // NOTE: requestAnimationFrame이 없으면 가끔 Open 애니메이션이 실행되지 않는다.
     requestAnimationFrame(() => {
       setIsOpenOverlay(true);
     });
@@ -31,29 +29,24 @@ const OverlayController = ({
 };
 
 const useOverlay = () => {
-  const context = useContext(OverlayContext);
-  const [id] = useState(() => String(elementId++));
+  const { mount, unmount } = useOverlayStore();
 
-  if (context == null) {
-    throw new Error("useOverlay is only available within OverlayProvider.");
-  }
-
-  const { mount, unmount } = context;
+  const newId = generateRandomId();
 
   return useMemo(
     () => ({
       open: (overlayElement: CreateOverlayElement) =>
         mount(
-          id,
+          newId,
           <OverlayController
-            key={id}
+            key={newId}
             overlayElement={overlayElement}
-            onExit={() => unmount(id)}
+            onExit={() => unmount(newId)}
           />
         ),
-      exit: () => unmount(id),
+      exit: () => unmount(newId),
     }),
-    [id, mount, unmount]
+    [newId, mount, unmount]
   );
 };
 

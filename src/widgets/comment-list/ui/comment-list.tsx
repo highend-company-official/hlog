@@ -1,9 +1,7 @@
 import { Suspense } from "react";
 import { useParams } from "react-router-dom";
 
-import { Skeleton } from "@/shared";
-
-import CommentCard from "./comment-card";
+import { CommentType, Skeleton } from "@/shared";
 
 import { useGetComments } from "../lib";
 
@@ -11,7 +9,11 @@ type ParamsType = {
   article_id: string;
 };
 
-const CommentList = () => {
+type CommentListProps = {
+  renderCard: React.FC<CommentType>;
+};
+
+const CommentList = ({ renderCard: CommentCard }: CommentListProps) => {
   const { article_id } = useParams<ParamsType>();
   const { data } = useGetComments(article_id!);
 

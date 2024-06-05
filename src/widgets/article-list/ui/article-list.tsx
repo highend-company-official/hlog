@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import * as shared from "@/shared";
 
 import { useArticleStore, ViewMode, useGetArticles } from "@/entities/article";
-import ArticleCard from "./article-card";
 
 const CardContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <div className="flex flex-col">{children}</div>;
@@ -33,7 +32,11 @@ const ContainerRouter: React.FC<
   }
 };
 
-const ArticleList = () => {
+type ArticleListProps = {
+  cardComponent: React.FC<Omit<shared.ArticleType, "body" | "verified">>;
+};
+
+const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
   const navigate = useNavigate();
   const { articleViewMode, sortType } = useArticleStore();
   const { data } = useGetArticles(sortType);

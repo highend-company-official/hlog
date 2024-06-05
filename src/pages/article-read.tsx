@@ -1,13 +1,14 @@
 import { Suspense } from "react";
+import { EditorState, convertFromRaw } from "draft-js";
 import { useNavigate, useParams } from "react-router-dom";
 
 import * as shared from "@/shared";
-import { CommentList } from "@/widgets/comment-list";
+import { EditorCore } from "@/widgets/editor";
+import { CommentCard, CommentList } from "@/widgets/comment-list";
+import { ArticleDetailTemplate } from "@/widgets/article-detail-view";
+import { useGetArticleById } from "@/entities/article";
 import { CreateCommentForm } from "@/features/create-comment";
 import { LikeArticleButton } from "@/features/like-article";
-import { ArticleDetailTemplate, useGetArticleById } from "@/entities/article";
-import { EditorCore } from "@/widgets/editor";
-import { EditorState, convertFromRaw } from "draft-js";
 
 function ArticleRead() {
   const params = useParams<{ article_id: string }>();
@@ -47,9 +48,9 @@ function ArticleRead() {
 
       <div className="py-6" />
 
-      <CommentList />
+      <CommentList renderCard={CommentCard} />
 
-      <div className="py-10" />
+      <div className="mb-10" />
     </Suspense>
   );
 }

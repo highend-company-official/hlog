@@ -25,8 +25,8 @@ const SearchSelector = () => {
         <Divider />
       </div>
 
-      <span className="my-2 ml-3 text-lg font-semibold">검색된 프로필</span>
-      <ProfileSearchSection />
+      {/* <span className="my-2 ml-3 text-lg font-semibold">검색된 프로필</span>
+      <ProfileSearchSection /> */}
     </>
   );
 };

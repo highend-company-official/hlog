@@ -15,14 +15,14 @@ function HomePage() {
       <Header />
       <HomeBanner />
 
-      <div className="grid grid-cols-4 w-full">
-        <aside className="relative col-span-1 p-4">
+      <div className="grid grid-cols-4 w-full ">
+        <aside className="relative col-span-1 p-4 max-md:hidden">
           <Suspense fallback={<Skeleton height={800} />}>
             <ArticleCategorySelector />
           </Suspense>
         </aside>
 
-        <main className="col-span-2 col-start-2 mt-4 w-full mx-auto">
+        <main className="col-span-2 col-start-2 mt-4 w-full mx-auto max-md:col-span-4 max-md:px-4">
           <ArticleViewOptionToolbar />
 
           <Suspense fallback={<ArticleListSkeleton />}>
@@ -30,7 +30,7 @@ function HomePage() {
           </Suspense>
         </main>
 
-        <aside className="relative col-span-1 pt-4 px-8">
+        <aside className="relative col-span-1 pt-4 px-8 max-md:hidden">
           <VerifyEmailForm />
         </aside>
       </div>

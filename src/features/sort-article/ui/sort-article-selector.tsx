@@ -4,7 +4,7 @@ import { IoMdTrendingUp } from "react-icons/io";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { PiSortDescendingLight, PiSortAscendingLight } from "react-icons/pi";
 
-import { useArticleStore, type SortType } from "@/entities/article";
+import { SortType, useArticleStore } from "@/entities/article";
 import { Dropdown, useOutsideClick } from "@/shared";
 
 const SortItem = ({
@@ -42,8 +42,7 @@ const CustomDropdownTrigger = ({ label }: { label: React.ReactNode }) => {
 };
 
 const SortArticleSelector = () => {
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const { sortType, changeSortType } = useArticleStore();
+  const { filter, setFilter } = useArticleStore();
 
   const SORT_MAP = {
     trend: <SortItem icon={<IoMdTrendingUp />} sortType="트렌드" />,
@@ -51,19 +50,23 @@ const SortArticleSelector = () => {
     old: <SortItem icon={<PiSortAscendingLight />} sortType="오래된 순" />,
   };
 
-  const handleDetectOutsideClick = () => {};
-
-  useOutsideClick(dropdownRef, handleDetectOutsideClick);
+  const handleChangeSortType = (sortType: SortType) => {
+    setFilter({
+      sortType,
+    });
+  };
 
   return (
     <Dropdown>
-      <CustomDropdownTrigger label={SORT_MAP[sortType]} />
+      <CustomDropdownTrigger
+        label={SORT_MAP[filter.sortType ?? SortType.trend]}
+      />
       <Dropdown.Menu>
         {Object.entries(SORT_MAP).map(([key, value]) => {
           return (
             <Dropdown.Item
               value={key as SortType}
-              onClick={changeSortType}
+              onClick={handleChangeSortType}
               key={key}
             >
               {value}

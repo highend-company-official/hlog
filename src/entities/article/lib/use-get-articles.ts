@@ -1,13 +1,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { getArticles } from "../api";
-import { SortType } from "../model";
-import { ArticleQueryKeys } from "../constants";
+import { ArticleFilterType, articleKeyFactor } from "../queries";
 
-const useGetArticles = (sortType: SortType) => {
-  const queryKey = ArticleQueryKeys.articles(sortType);
+const useGetArticles = (filterType: ArticleFilterType) => {
+  const queryKey = articleKeyFactor.list(filterType).queryKey;
   const queryFn = async () => {
-    const response = await getArticles(sortType);
+    const response = await getArticles(filterType);
 
     if (response.data === null) return [];
 

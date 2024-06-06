@@ -22,7 +22,7 @@ const ListContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
 };
 const GalleryContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="grid gap-4 auto-rows-[minmax(0,300px)] grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+    <div className="grid gap-4 auto-rows-[minmax(0,300px)] grid-cols-2 max-md:grid-cols-1">
       {children}
     </div>
   );
@@ -47,8 +47,8 @@ type ArticleListProps = {
 
 const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
   const navigate = useNavigate();
-  const { articleViewMode, sortType } = useArticleStore();
-  const { data } = useGetArticles(sortType);
+  const { articleViewMode, filter } = useArticleStore();
+  const { data } = useGetArticles(filter);
 
   if (data?.length === 0) {
     return (

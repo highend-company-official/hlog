@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 import { createSelectors } from "@/shared";
+import { ArticleFilterType } from "../queries";
 
 export type ViewMode = "card" | "list" | "gallery";
 
@@ -11,14 +12,14 @@ export enum SortType {
 }
 
 type State = {
+  filter: ArticleFilterType;
   articleViewMode: ViewMode;
-  sortType: SortType;
   deleteArticleList: string[];
 };
 
 type Action = {
+  setFilter: (newFilter: ArticleFilterType) => void;
   changeViewMode: (mode: ViewMode) => void;
-  changeSortType: (newSortType: SortType) => void;
   addToDeleteArticleList: (id: string) => void;
   removeFromDeleteArticleList: (id: string) => void;
   resetDeleteArticleList: () => void;
@@ -26,13 +27,15 @@ type Action = {
 
 const useArticleStoreBase = create<State & Action>((set) => ({
   articleViewMode: "card",
-  sortType: SortType.trend,
-  deleteArticleList: [],
-  open: {
-    isImageDetailOverlayOpen: false,
+  filter: {
+    sortType: SortType.trend,
   },
+  setFilter: (newFilter) =>
+    set((state) => ({
+      filter: { ...state.filter, ...newFilter },
+    })),
+  deleteArticleList: [],
   changeViewMode: (mode) => set(() => ({ articleViewMode: mode })),
-  changeSortType: (newSortType) => set(() => ({ sortType: newSortType })),
   addToDeleteArticleList: (id) =>
     set((state) => ({
       deleteArticleList: [...state.deleteArticleList, id],

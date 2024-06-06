@@ -1,10 +1,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { fetchUserArticles } from "../api";
-import { ArticleQueryKeys } from "@/entities/article";
+import { articleKeyFactor } from "@/entities/article";
 
 export const useFetchUserArticles = (userId: string) => {
-  const queryKey = ArticleQueryKeys.userArticles(userId);
+  const queryKey = articleKeyFactor.list({ userId }).queryKey;
   const queryFn = async () => {
     const response = await fetchUserArticles(userId);
 

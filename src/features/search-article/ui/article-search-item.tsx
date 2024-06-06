@@ -8,7 +8,7 @@ type Props = {
   id: string;
   title: string;
   username: string;
-  created_at: string;
+  created_at: Date;
 };
 
 const ArticleSearchItem = ({ id, title, username, created_at }: Props) => {

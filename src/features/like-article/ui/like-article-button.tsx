@@ -7,7 +7,7 @@ import { FaLock, FaRegCircleCheck } from "react-icons/fa6";
 import * as shared from "@/shared";
 
 import { useGetUserArticleLiked, usePostArticleLike } from "../lib";
-import { ArticleQueryKeys } from "@/entities/article";
+import { articleKeyFactor } from "@/entities/article";
 
 type Params = {
   article_id: string;
@@ -40,10 +40,10 @@ const AuthenticatedView = () => {
           staleTime: 3000,
         });
         queryClient.invalidateQueries({
-          queryKey: ArticleQueryKeys.articleLiked(
+          queryKey: articleKeyFactor.articleLiked(
             session!.user.id,
             params.article_id!
-          ),
+          ).queryKey,
         });
       })
       .catch((response) => {

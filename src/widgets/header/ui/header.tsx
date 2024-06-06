@@ -68,9 +68,6 @@ function Header() {
             </span>
           </Link>
         </h1>
-        <span className="ml-5 text-base font-semibold text-center text-gray-700">
-          "New tech blog, start here."
-        </span>
       </div>
 
       <ul className="flex items-center">

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ImFileEmpty } from "react-icons/im";
 import { useParams } from "react-router-dom";
 
-import { ArticleQueryKeys, useArticleStore } from "@/entities/article";
+import { articleKeyFactor, useArticleStore } from "@/entities/article";
 import { ProfileArticleCard } from "@/entities/profile";
 import { DeleteArticleModal } from "@/features/delete-article";
 import * as shared from "@/shared";
@@ -42,7 +42,9 @@ const ProfileArticles = () => {
 
   const handleDeleteArticle = () => {
     queryClient.invalidateQueries({
-      queryKey: ArticleQueryKeys.userArticles(user_id!),
+      queryKey: articleKeyFactor.list({
+        userId: user_id,
+      }).queryKey,
     });
   };
 

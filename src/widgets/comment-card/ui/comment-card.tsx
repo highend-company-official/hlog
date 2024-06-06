@@ -2,10 +2,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
 import * as shared from "@/shared";
-import { ArticleQueryKeys } from "@/entities/article";
 
 import { DeleteCommentButton } from "@/features/delete-comment";
 import { EditCommentButton } from "@/features/edit-comment";
+import { articleKeyFactor } from "@/entities/article";
 
 type Params = {
   article_id: string;
@@ -20,7 +20,7 @@ const CommentCard = (props: shared.CommentType) => {
   const { data: session } = shared.useSession();
 
   const articleData = queryClient.getQueryData<shared.ArticleType>(
-    ArticleQueryKeys.detail(params.article_id!)
+    articleKeyFactor.detail(params.article_id!).queryKey
   );
 
   if (!articleData || !profileData) return null;

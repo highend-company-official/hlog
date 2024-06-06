@@ -1,9 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { ArticleQueryKeys, getUserArticleLike } from "@/entities/article";
+import { articleKeyFactor, getUserArticleLike } from "@/entities/article";
 
 const useGetUserArticleLiked = (userId: string, articleId: string) => {
-  const queryKey = ArticleQueryKeys.articleLiked(userId, articleId);
+  const queryKey = articleKeyFactor.articleLiked(userId, articleId).queryKey;
   const queryFn = async () => {
     const response = await getUserArticleLike(userId, articleId);
 

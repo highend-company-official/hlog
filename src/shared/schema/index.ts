@@ -66,9 +66,15 @@ export const SessionSchema = z.object({
   user: UserSchema,
 });
 
+export const CategorySchema = z.object({
+  id: z.string(),
+  category: z.string(),
+});
+
 export type ArticleType = z.infer<typeof ArticleSchema>;
 export type ReplyType = z.infer<typeof ReplySchema>;
 export type CommentType = z.infer<typeof CommentSchema>;
 export type UserType = z.infer<typeof UserSchema>;
 export type LikeType = z.infer<typeof LikeSchema>;
 export type SessionType = z.infer<typeof SessionSchema>;
+export type CategoryType = z.infer<typeof CategorySchema>;

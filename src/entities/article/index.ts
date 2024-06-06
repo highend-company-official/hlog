@@ -1,4 +1,4 @@
 export * from "./api";
-export * from "./constants";
+export * from "./queries";
 export * from "./lib";
 export * from "./model";

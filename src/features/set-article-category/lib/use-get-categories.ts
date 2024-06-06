@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getCategories } from "../api";
+import { getCategories } from "@/entities/article";
 
 const useGetCategories = () => {
   const queryKey = ["category"] as const;

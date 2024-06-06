@@ -29,19 +29,9 @@ const router = createBrowserRouter(
       <Route
         path="article-read/:article_id"
         element={
-          <Suspense
-            fallback={
-              <>
-                <shared.Skeleton.Image />
-                <div className="mt-14" />
-                <shared.Skeleton.Text repeat={5} />
-              </>
-            }
-          >
-            <hocs.SearchContainer>
-              <pages.ArticleRead />
-            </hocs.SearchContainer>
-          </Suspense>
+          <hocs.SearchContainer>
+            <pages.ArticleRead />
+          </hocs.SearchContainer>
         }
       />
       <Route path="profile/:user_id" element={<pages.ProfilePage />}>

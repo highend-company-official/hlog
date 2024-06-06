@@ -4,13 +4,16 @@ import { PiSealCheckFill } from "react-icons/pi";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/shared";
+import { Button, useProfile, useSession } from "@/shared";
 
 const emailSchema = z.object({
   email: z.string().email("유효한 이메일 주소를 입력하세요"),
 });
 type FormValue = z.infer<typeof emailSchema>;
 const VerifyEmailForm = () => {
+  const { data: session } = useSession();
+  const profileData = useProfile(session?.user.id!);
+
   const {
     register,
     handleSubmit,
@@ -23,12 +26,15 @@ const VerifyEmailForm = () => {
     console.log("Email Submitted: ", data);
   };
 
+  if (!session) return null;
+
   return (
     <div className="sticky top-20 rounded-md shadow-md p-4 flex items-center flex-col text-black mx-auto">
       <PiSealCheckFill size={80} className="text-primary" />
-      <h3 className="text-base">
+      <h3>환영합니다 {profileData?.username}님,</h3>
+      <p className="text-base">
         유저 인증을 요청하여 아래 기능들을 사용해보세요.
-      </h3>
+      </p>
       <ul className="list-disc mt-3 text-sm">
         <li>아티클 이미지 업로드 가능</li>
         <li>유저 프로필에 Vertified 마크 제공</li>

@@ -1,3 +1,3 @@
-import ArticleDetailTemplate from "./article-detail-template";
+import ArticleDetailViewContainer from "./article-detail-view-container";
 
-export { ArticleDetailTemplate };
+export { ArticleDetailViewContainer };

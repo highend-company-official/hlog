@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 import {
   ArticleType,
-  Divider,
   If,
   ImageDetailOverlay,
   useBucket,
@@ -12,10 +11,11 @@ import {
 } from "@/shared";
 
 import "draft-js/dist/Draft.css";
+import dayjs from "dayjs";
 
 type Props = ArticleType & PropsWithChildren;
 
-const ArticleDetailTemplate = (props: Props) => {
+const MetaDataView = (props: Props) => {
   const navigate = useNavigate();
   const profileData = useProfile(props.profile.user_id);
 
@@ -36,46 +36,43 @@ const ArticleDetailTemplate = (props: Props) => {
     ));
 
   return (
-    <article>
+    <>
       <img
         src={readThumbnails(props!.thumbnail)}
         alt={props.summary}
-        className="object-cover w-full rounded-xl mt-9 h-96 cursor-pointer"
+        className="object-cover col-start-3 w-full rounded-xl h-[400px] cursor-pointer shadow-md col-span-6 hover:shadow-2xl transition ease-in-out"
         onClick={handleOpenThumbnailDetail}
       />
-      <section className="flex mt-5 items-center justify-between min-h-[50px] w-full break-keep text-wrap break-words">
-        <h3 className="text-5xl font-bold text-gray-700">{props?.title}</h3>
-        <div
-          className="flex items-center p-3 transition ease-in-out rounded-lg cursor-pointer hover:bg-black/10"
-          onClick={() => navigate(`/profile/${props.profile.user_id}`)}
-        >
+
+      <section className="col-span-6 col-start-3 flex flex-col mt-5 justify-between min-h-[50px] w-full break-keep text-wrap break-words">
+        <h3 className="text-5xl font-semibold text-gray-700">{props?.title}</h3>
+        <div className="flex items-center mt-6 transition ease-in-out">
           <img
             src={profileData?.profile_url}
             alt={props?.profile.username}
-            className="object-cover w-12 h-12 mr-3 rounded-full"
+            className="object-cover w-10 h-10 mr-4 rounded-full cursor-pointer"
+            onClick={() => navigate(`/profile/${props.profile.user_id}`)}
           />
-          <span className="max-w-[180px] font-bold">
-            {props?.profile.username}
+          <span className="text-sm text-pretty">
+            {props?.profile.username} |{" "}
+            {dayjs(props.created_at).format("YYYY-MM-DD")}
           </span>
         </div>
       </section>
 
-      <div className="my-5" />
-      <Divider />
-
       <If
         condition={!!props?.summary}
         trueRender={
-          <div className="rounded-xl p-4 mt-4 bg-gray-100 text-lg w-full text-wrap break-words">
-            <h4 className="font-bold text-black">&lt;Article Summary&gt;</h4>
+          <div className="w-full col-span-6 col-start-3 p-4 mt-4 text-lg break-words bg-gray-100 rounded-xl text-wrap">
+            <h4 className="font-bold text-black">아티클 요약</h4>
             <span className="text-subTitle">{props?.summary}</span>
           </div>
         }
       />
 
-      {props.children}
-    </article>
+      <div className="col-span-6 col-start-3">{props.children}</div>
+    </>
   );
 };
 
-export default ArticleDetailTemplate;
+export default MetaDataView;

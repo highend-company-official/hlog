@@ -17,7 +17,6 @@ const useGetArticleById = (articleId: string) => {
         has_comments: response.data.has_comments,
         has_hit: response.data.has_hit,
         has_like: response.data.has_like,
-        likes: response.data.likes,
         summary: response.data.summary,
         thumbnail: response.data.thumbnail,
         title: response.data.title,
@@ -25,11 +24,13 @@ const useGetArticleById = (articleId: string) => {
         body: response.data.body,
         hits: response.data.hits,
         user_id: response.data.user_id,
+        verified: response.data.verified,
         profile: {
-          user_id: response.data.user_id,
-          username: response.data.username,
-          profile_url: response.data.profile_url,
+          user_id: response.data.profiles.id,
+          username: response.data.profiles.username,
+          profile_url: response.data.profiles.profile_url,
         },
+        likes: response.data.likes[0].count,
       };
     } catch (error: unknown) {
       if ((error as PostgrestError).code === "PGRST116") return null;

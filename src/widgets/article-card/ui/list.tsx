@@ -12,7 +12,7 @@ type ArticleCardProps = Omit<ArticleType, "body" | "verified">;
 
 const List = (props: ArticleCardProps) => {
   const { read } = useBucket("thumbnails");
-  const profileData = useProfile(props.profile.user_id);
+  const profileData = useProfile(props.profile.id);
 
   return (
     <Link to={`/article-read/${props.id}`}>

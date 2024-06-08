@@ -11,7 +11,7 @@ const Card = (props: ArticleCardProps) => {
   const navigate = useNavigate();
 
   const { read: readThubmnails } = useBucket("thumbnails");
-  const profileData = useProfile(props.profile.user_id);
+  const profileData = useProfile(props.profile.id);
 
   return (
     <section className="relative flex flex-col w-full h-full transition ease-in">

@@ -19,7 +19,7 @@ type ErrorFallbackProps = {
 
 const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({ reset }) => {
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full text-center">
+    <div className="flex flex-col items-center justify-center w-full py-20 text-center">
       <TbFaceIdError size={50} />
       <span className="font-bold">
         Oops! 요청을 처리하는 중에 오류가 발생했습니다.

@@ -42,15 +42,15 @@ const ContainerRouter: React.FC<
 };
 
 type ArticleListProps = {
-  cardComponent: React.FC<Omit<shared.ArticleType, "body" | "verified">>;
+  cardComponent: React.FC<Omit<shared.ArticleType, "body">>;
 };
 
 const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
   const navigate = useNavigate();
   const { articleViewMode, filter } = useArticleStore();
-  const { data } = useGetArticles(filter);
+  const { data: articles } = useGetArticles(filter);
 
-  if (data?.length === 0) {
+  if (articles?.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center w-full mt-32">
         <ImFileEmpty size={180} />
@@ -69,8 +69,8 @@ const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
       <div className="mt-3" />
 
       <ContainerRouter viewMode={articleViewMode}>
-        {data.map((articleData) => (
-          <ArticleCard key={articleData.id} {...articleData} />
+        {articles.map((article) => (
+          <ArticleCard key={article.id} {...article} />
         ))}
       </ContainerRouter>
     </>

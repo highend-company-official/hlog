@@ -12,8 +12,9 @@ export const ArticleSchema = z.object({
   has_comments: z.boolean(),
   has_like: z.boolean(),
   has_hit: z.boolean(),
+  verified: z.enum(["verified", "pending", "none"]),
   profile: z.object({
-    user_id: z.string(),
+    id: z.string(),
     username: z.string(),
     profile_url: z.string(),
   }),

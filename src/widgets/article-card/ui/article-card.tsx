@@ -7,7 +7,7 @@ import Card from "./card";
 import List from "./list";
 import Gallery from "./gallery";
 
-type ArticleCardProps = Omit<ArticleType, "body" | "verified">;
+type ArticleCardProps = Omit<ArticleType, "body">;
 
 const ArticleCardRender: React.FC<
   { viewMode: ViewMode } & ArticleCardProps

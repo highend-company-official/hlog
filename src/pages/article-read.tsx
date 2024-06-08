@@ -1,16 +1,18 @@
 import { Header } from "@/widgets/header";
-import { ArticleDetailViewContainer } from "@/widgets/article-detail-view";
-import { Suspense } from "react";
-import MetaDataViewSkeleton from "@/widgets/article-detail-view/ui/article-detail-view-skeleton";
+import {
+  ArticleDetailViewContainer,
+  ArticleDetailViewSkeleton,
+} from "@/widgets/article-detail-view";
+import { QueryBoundary } from "@/shared";
 
 function ArticleRead() {
   return (
     <>
       <Header />
 
-      <Suspense fallback={<MetaDataViewSkeleton />}>
+      <QueryBoundary loadingFallback={<ArticleDetailViewSkeleton />}>
         <ArticleDetailViewContainer />
-      </Suspense>
+      </QueryBoundary>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { Skeleton } from "@/shared";
 
-const MetaDataViewSkeleton = () => {
+const ArticleDetailViewSkeleton = () => {
   return (
     <div className="grid content-center grid-cols-10 pt-24 mx-8">
       <div className="col-span-6 col-start-3">
@@ -16,4 +16,4 @@ const MetaDataViewSkeleton = () => {
   );
 };
 
-export default MetaDataViewSkeleton;
+export default ArticleDetailViewSkeleton;

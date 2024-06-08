@@ -12,12 +12,17 @@ import { lazy } from "react";
 
 import * as shared from "@/shared";
 
-import { bindingKeyFunction, blockRenderFn, matchKeyCommand } from "../lib";
-
 import { useEditorStore } from "@/entities/article";
+
 import { useEditorUtils } from "../hooks";
+import {
+  bindingKeyFunction,
+  blockRenderFn,
+  matchKeyCommand,
+  addImage,
+  uploadImage,
+} from "../lib";
 import SavedContentLoadModal from "./saved-content-load-modal";
-import { addImage, uploadImage } from "../lib/image-util";
 
 import "draft-js/dist/Draft.css";
 import { KeyCommandType } from "../constants";
@@ -28,10 +33,11 @@ const Editor = lazy(() =>
 
 type Props = {
   readOnly?: boolean;
+  isVerified?: boolean;
   editorState?: EditorState; // Read Only 일 경우에 이 값을 넘겨주어여함.
 };
 
-const EditorCore = ({ readOnly = false, editorState }: Props) => {
+const EditorCore = ({ readOnly = false, editorState, isVerified }: Props) => {
   const { open: openArticleOverlay } = shared.useOverlay();
   const {
     editorMetaData,
@@ -134,6 +140,15 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
   };
 
   const handlePasteFile = (files: Blob[]): DraftHandleValue => {
+    if (!isVerified) {
+      toastOpen({
+        type: "warning",
+        content: "해당 기능은 인증된 유저만 사용할 수 있습니다.",
+        staleTime: 3000,
+      });
+      return "not-handled";
+    }
+
     const pastedFile = files[0];
 
     uploadImage({
@@ -150,6 +165,15 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
     _: SelectionState,
     files: Blob[]
   ): DraftHandleValue => {
+    if (!isVerified) {
+      toastOpen({
+        type: "warning",
+        content: "해당 기능은 인증된 유저만 사용할 수 있습니다.",
+        staleTime: 3000,
+      });
+      return "not-handled";
+    }
+
     const droppedFile = files[0];
 
     uploadImage({

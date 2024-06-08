@@ -8,6 +8,8 @@ import { ArticleTitleInput, EditorCore, Toolbar } from "@/widgets/editor";
 
 const ArticleWrite = () => {
   const { open: openPublishModal } = shared.useOverlay();
+  const { data: session } = shared.useSession();
+  const profile = shared.useProfile(session?.user.id);
 
   const handleClickPublish = () => {
     openPublishModal(({ isOpen, exit }) => (
@@ -27,7 +29,7 @@ const ArticleWrite = () => {
             <ArticleTitleInput />
             <shared.Divider />
             <div className="mt-7" />
-            <EditorCore />
+            <EditorCore isVerified={profile?.verified === "verified"} />
           </div>
         </Suspense>
       </div>

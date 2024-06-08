@@ -70,7 +70,7 @@ const AuthorizationView = () => {
               src={getProfileURL()}
               onClick={() => handleOpenProfileDetail(getProfileURL())}
               alt={userData.username}
-              className="object-cover w-64 h-64 rounded-full cursor-pointer select-none"
+              className="object-cover w-64 h-64 transition ease-in-out rounded-full cursor-pointer select-none hover:shadow-xl"
             />
           }
           falseRender={
@@ -151,7 +151,7 @@ const UnAuthorizationView = () => {
               src={getProfileURL()}
               onClick={() => handleOpenProfileDetail(getProfileURL())}
               alt={userData.username}
-              className="object-cover w-64 h-64 rounded-full cursor-pointer"
+              className="object-cover w-64 h-64 transition ease-in-out rounded-full cursor-pointer hover:shadow-xl"
             />
           }
           falseRender={

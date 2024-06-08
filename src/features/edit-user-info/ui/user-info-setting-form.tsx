@@ -6,8 +6,8 @@ import { IoIosLink } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import { MdOutlineMailOutline } from "react-icons/md";
 
-import { usePatchProfileInfo } from "@/entities/profile/lib";
-import { Button, If, QUERY_CONSTS, useFetchUser, useToast } from "@/shared";
+import { profileKeyFactor, usePatchProfileInfo } from "@/entities/profile";
+import { Button, If, useFetchUser, useToast } from "@/shared";
 
 type InfoInputProps = {
   icon: React.ReactNode;
@@ -77,7 +77,7 @@ const UserInfoSettingForm = () => {
       staleTime: 3000,
     });
     queryClient.invalidateQueries({
-      queryKey: [QUERY_CONSTS.USER, params.user_id],
+      queryKey: profileKeyFactor.detail(params.user_id!).queryKey,
     });
     setIsEditInfo(false);
   };

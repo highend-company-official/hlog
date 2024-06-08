@@ -5,7 +5,7 @@ import { FaLock } from "react-icons/fa6";
 
 import * as shared from "@/shared";
 
-import { CommentQueryKeys } from "@/entities/comment";
+import { commentKeyFactor } from "@/entities/comment";
 
 import { useCreateComment } from "../lib";
 
@@ -48,7 +48,7 @@ const AuthenticatedView = () => {
         comment: "",
       });
       queryClient.invalidateQueries({
-        queryKey: CommentQueryKeys.list(params.article_id!),
+        queryKey: commentKeyFactor.list(params.article_id!).queryKey,
       });
     });
   };
@@ -77,7 +77,7 @@ const AuthenticatedView = () => {
 
       <shared.ErrorMessage errors={errors} name="comment" />
 
-      <p className="text-xs text-center text-gray-500 ms-auto mt-2">
+      <p className="mt-2 text-xs text-center text-gray-500 ms-auto">
         상대방을 향한 비난이나 욕설은 차단 등의 조치가 취해질 수 있습니다.
       </p>
     </>
@@ -87,14 +87,14 @@ const AuthenticatedView = () => {
 const UnauthenticatedView = () => {
   return (
     <div className="relative mb-5">
-      <div className="absolute z-20 flex items-center justify-center flex-col w-full">
+      <div className="absolute z-20 flex flex-col items-center justify-center w-full">
         <FaLock size={80} className="text-black/90" />
-        <h3 className="font-bold text-2xl mt-5">
+        <h3 className="mt-5 text-2xl font-bold">
           댓글 작성 기능은 로그인 후 이용 가능합니다.
         </h3>
       </div>
 
-      <div className="blur-md select-none">
+      <div className="select-none blur-md">
         <div className="mt-2 mb-2">
           <textarea
             id="comment"

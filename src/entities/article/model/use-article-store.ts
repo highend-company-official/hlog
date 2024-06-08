@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import { createSelectors } from "@/shared";
-import { ArticleFilterType } from "../queries";
+import { ArticleFilterType } from "../query";
 
 export type ViewMode = "card" | "list" | "gallery";
 

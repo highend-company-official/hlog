@@ -45,6 +45,7 @@ export const UserSchema = z.object({
   profile_url: z.string().url(),
   link: z.string().url(),
   phone: z.string(),
+  verified: z.enum(["pending", "none", "verified"]),
   description: z.string(),
   created_at: z.date(),
 });

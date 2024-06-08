@@ -16,3 +16,4 @@ export { default as Switch } from "./switch";
 export { default as Table } from "./table";
 export { default as TextArea } from "./textarea";
 export { default as ToastBase } from "./toast";
+export { default as QueryBoundary } from "./query-boundary";

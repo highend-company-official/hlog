@@ -1,7 +1,7 @@
 import { supabase } from "@/shared";
 
 import { SortType } from "../model";
-import { ArticleFilterType } from "../queries";
+import { ArticleFilterType } from "../query";
 
 type ArticlesResponseType = {
   id: string;

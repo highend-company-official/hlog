@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
 import * as shared from "@/shared";
-import { quitUser } from "@/entities/auth";
+import { authKeyFactor, quitUser } from "@/entities/auth";
 
 const QuitButton = () => {
   const navigate = useNavigate();
-  const params = useParams<{ user_id: string }>();
   const queryClient = useQueryClient();
   const { open } = shared.useToast();
 
@@ -18,11 +17,7 @@ const QuitButton = () => {
       await quitUser();
 
       queryClient.refetchQueries({
-        queryKey: [
-          shared.QUERY_CONSTS.SESSION,
-          shared.QUERY_CONSTS.USER,
-          params.user_id,
-        ],
+        queryKey: authKeyFactor.session.queryKey,
       });
       open({
         type: "success",

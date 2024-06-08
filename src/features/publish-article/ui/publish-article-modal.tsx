@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { convertToRaw } from "draft-js";
 
-import { If, Modal, Skeleton, QUERY_CONSTS, Stepper, useToast } from "@/shared";
+import { If, Modal, Skeleton, Stepper, useToast } from "@/shared";
 
 import { useEditorUtils } from "@/widgets/editor/hooks";
-import { useEditorStore } from "@/entities/article";
+import { articleKeyFactor, useEditorStore } from "@/entities/article";
 
 import { useCreateArticle } from "../lib";
 
@@ -63,7 +63,7 @@ const PublishArticleModal = ({ open, onClose }: Props) => {
         staleTime: 5000,
       });
       resetSavedContent();
-      queryClient.invalidateQueries({ queryKey: [QUERY_CONSTS.ARTICLE] });
+      queryClient.invalidateQueries({ queryKey: articleKeyFactor._def });
       navigate(`/article-read/${response.id}`, { replace: true });
     });
   };

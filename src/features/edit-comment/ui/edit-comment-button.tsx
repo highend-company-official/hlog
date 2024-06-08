@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { ErrorMessage, Modal, TextArea, useOverlay, useToast } from "@/shared";
 
-import { CommentQueryKeys } from "@/entities/comment";
+import { commentKeyFactor } from "@/entities/comment";
 import { useUpdateComment } from "../lib";
 
 type FormValue = {
@@ -92,7 +92,7 @@ const EditCommentButton = ({ body, commentId }: Props) => {
           staleTime: 3000,
         });
         queryClient.invalidateQueries({
-          queryKey: CommentQueryKeys.list(params.article_id!),
+          queryKey: commentKeyFactor.list(params.article_id!).queryKey,
         });
       })
       .catch((error: string) => {

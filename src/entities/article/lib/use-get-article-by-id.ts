@@ -2,7 +2,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { getArticleById } from "../api";
-import { articleKeyFactor } from "../queries";
+import { articleKeyFactor } from "../query";
 
 const useGetArticleById = (articleId: string) => {
   const queryKey = articleKeyFactor.detail(articleId).queryKey;

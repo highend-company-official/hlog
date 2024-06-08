@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
+import { profileKeyFactor } from "@/entities/profile";
 import * as shared from "@/shared";
-import ProfileQueryKey from "@/entities/profile/constants/query-key-factor";
 
 const fetchUser = (userId: string) => {
   return shared.supabase
@@ -14,7 +14,8 @@ const fetchUser = (userId: string) => {
         profile_url,
         description,
         phone,
-        link
+        link,
+        verified
       `
     )
     .match({ id: userId })
@@ -22,12 +23,9 @@ const fetchUser = (userId: string) => {
     .single<shared.UserType>();
 };
 
-const useFetchUser = (userId: string | null) => {
-  const queryKey = ProfileQueryKey.user(userId);
+const useFetchUser = (userId: string) => {
+  const queryKey = profileKeyFactor.detail(userId).queryKey;
   const queryFn = async () => {
-    if (!userId) {
-      return null;
-    }
     const resposne = await fetchUser(userId);
     return resposne.data;
   };

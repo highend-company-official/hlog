@@ -1,4 +1,4 @@
 export * from "./api";
-export * from "./queries";
+export * from "./query";
 export * from "./lib";
 export * from "./model";

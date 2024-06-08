@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import * as shared from "@/shared";
-import { AuthQueryKey } from "@/entities/auth";
+import { authKeyFactor } from "@/entities/auth";
 
 const useSession = () => {
   const queryFn = async () => {
@@ -9,7 +9,7 @@ const useSession = () => {
   };
 
   return useSuspenseQuery({
-    queryKey: AuthQueryKey.session,
+    queryKey: authKeyFactor.session.queryKey,
     queryFn,
     select: (data) => data.session,
   });

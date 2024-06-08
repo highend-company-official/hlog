@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Modal, useOverlay, useToast } from "@/shared";
 
-import { CommentQueryKeys } from "@/entities/comment";
+import { commentKeyFactor } from "@/entities/comment";
 
 import { useDeleteComment } from "../lib";
 
@@ -45,7 +45,7 @@ const DeleteCommentButton = ({ commentId }: Props) => {
       .then(() => {
         exit();
         queryClient.invalidateQueries({
-          queryKey: CommentQueryKeys.list(params.article_id!),
+          queryKey: commentKeyFactor.list(params.article_id!).queryKey,
         });
         openToast({
           type: "success",

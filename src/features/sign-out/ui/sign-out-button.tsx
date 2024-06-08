@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
 
-import { AuthQueryKey, signOut } from "@/entities/auth";
+import { authKeyFactor, signOut } from "@/entities/auth";
 
 const SignOutButton = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const SignOutButton = () => {
 
     navigate("/", { replace: true });
     queryClient.refetchQueries({
-      queryKey: AuthQueryKey.session,
+      queryKey: authKeyFactor.session.queryKey,
     });
   };
 

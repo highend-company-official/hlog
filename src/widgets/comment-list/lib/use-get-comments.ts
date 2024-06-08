@@ -1,11 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { CommentQueryKeys } from "@/entities/comment";
+import { commentKeyFactor } from "@/entities/comment";
 
 import { getComments } from "../api";
 
 const useGetComments = (articleId: string) => {
-  const queryKey = CommentQueryKeys.list(articleId);
+  const queryKey = commentKeyFactor.list(articleId).queryKey;
   const queryFn = async () => {
     const response = await getComments(articleId);
 

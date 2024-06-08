@@ -18,6 +18,7 @@ export const ArticleSchema = z.object({
     username: z.string(),
     profile_url: z.string(),
   }),
+  categories: z.array(z.string()),
   likes: z.number(),
 });
 

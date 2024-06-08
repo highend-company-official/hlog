@@ -20,9 +20,7 @@ type ArticleResponseType = {
     username: string;
     profile_url: string;
   };
-  categories: {
-    category: string;
-  }[];
+  categories: string[];
 };
 
 const getArticles = async (filterType: ArticleFilterType) => {
@@ -30,7 +28,17 @@ const getArticles = async (filterType: ArticleFilterType) => {
     .from("articles")
     .select(
       `
-      *,
+      id, 
+      created_at, 
+      title, 
+      thumbnail, 
+      summary, 
+      verified, 
+      user_id, 
+      has_comments, 
+      has_like, 
+      has_hit, 
+      hits, 
       profiles(id, profile_url, username),
       likes(count),
       categories(category)
@@ -93,15 +101,16 @@ const getArticles = async (filterType: ArticleFilterType) => {
     verified: article.verified,
     has_like: article.has_like,
     has_hit: article.has_hit,
-    user_id: article.user_id,
     has_comments: article.has_comments,
     likes: article.likes?.[0]?.count ?? 0,
+    categories: article.categories.map(
+      ({ category }: { category: string }) => category
+    ),
     profile: {
       id: article.profiles.id,
       profile_url: article.profiles.profile_url,
       username: article.profiles.username,
     },
-    categories: article.article_categories,
   }));
 
   return articles;

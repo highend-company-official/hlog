@@ -18,7 +18,7 @@ type Props = ArticleType & PropsWithChildren;
 
 const MetaDataView = (props: Props) => {
   const navigate = useNavigate();
-  const profileData = useProfile(props.profile.user_id);
+  const profileData = useProfile(props.profile.id);
 
   const { read: readThumbnails } = useBucket("thumbnails");
   const { open: openThumbnailOverlay } = useOverlay();
@@ -47,12 +47,15 @@ const MetaDataView = (props: Props) => {
 
       <section className="col-span-6 col-start-3 flex flex-col mt-5 justify-between min-h-[50px] w-full break-keep text-wrap break-words">
         <h3 className="text-5xl font-semibold text-black">{props?.title}</h3>
+        {props.categories.map((category) => (
+          <div className="mt-3 text-sm text-primary"># {category}</div>
+        ))}
         <div className="flex items-center mt-6 transition ease-in-out">
           <img
             src={profileData?.profile_url}
             alt={props?.profile.username}
             className="object-cover w-10 h-10 mr-4 rounded-full cursor-pointer"
-            onClick={() => navigate(`/profile/${props.profile.user_id}`)}
+            onClick={() => navigate(`/profile/${props.profile.id}`)}
           />
           <span className="text-sm text-pretty">{props?.profile.username}</span>
           <If

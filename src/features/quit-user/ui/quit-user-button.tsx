@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { FaUserSlash } from "react-icons/fa";
 
 import * as shared from "@/shared";
 import { quitUser } from "@/entities/auth";
@@ -44,11 +43,10 @@ const QuitButton = () => {
     <>
       <button
         type="button"
-        className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 mb-2"
+        className="flex items-center justify-center w-full mt-4 mb-10 underline w-fill"
         onClick={() => setIsModalOpen(true)}
       >
         회원탈퇴
-        <FaUserSlash className="ml-3" size={20} />
       </button>
 
       <shared.Modal open={isModalOpen}>

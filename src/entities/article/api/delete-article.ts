@@ -1,10 +1,10 @@
 import { supabase } from "@/shared";
 
-const deleteArticle = async (articleIds: string[]) => {
+const deleteArticle = async (articleId: string) => {
   const response = await supabase
     .from("articles")
     .delete()
-    .in("id", articleIds)
+    .eq("id", articleId)
     .throwOnError();
 
   return response.data;

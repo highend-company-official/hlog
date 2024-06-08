@@ -20,9 +20,6 @@ type State = {
 type Action = {
   setFilter: (newFilter: ArticleFilterType) => void;
   changeViewMode: (mode: ViewMode) => void;
-  addToDeleteArticleList: (id: string) => void;
-  removeFromDeleteArticleList: (id: string) => void;
-  resetDeleteArticleList: () => void;
 };
 
 const useArticleStoreBase = create<State & Action>((set) => ({
@@ -36,17 +33,6 @@ const useArticleStoreBase = create<State & Action>((set) => ({
     })),
   deleteArticleList: [],
   changeViewMode: (mode) => set(() => ({ articleViewMode: mode })),
-  addToDeleteArticleList: (id) =>
-    set((state) => ({
-      deleteArticleList: [...state.deleteArticleList, id],
-    })),
-  removeFromDeleteArticleList: (id) =>
-    set((state) => ({
-      deleteArticleList: state.deleteArticleList.filter(
-        (articleId) => articleId !== id
-      ),
-    })),
-  resetDeleteArticleList: () => set({ deleteArticleList: [] }),
 }));
 
 const useArticleStore = createSelectors(useArticleStoreBase);

@@ -1,29 +1,34 @@
+import { useQueryClient } from "@tanstack/react-query";
+
+import { articleKeyFactor } from "@/entities/article";
 import { Modal, useToast } from "@/shared";
 
-import { useArticleStore } from "@/entities/article";
 import { useDeleteArticle } from "../lib";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onDelete: () => void;
+  articleId: string;
 };
 
-const DeleteArticleModal = ({ isOpen, onClose, onDelete }: Props) => {
-  const { deleteArticleList, resetDeleteArticleList } = useArticleStore();
-  const { mutateAsync: deleteArticle, isPending } = useDeleteArticle();
+const DeleteArticleModal = ({ isOpen, onClose, articleId }: Props) => {
   const { open } = useToast();
+  const queryClient = useQueryClient();
+  const { mutateAsync: deleteArticle, isPending } = useDeleteArticle();
 
   const handleDeleteArticle = async () => {
     try {
-      deleteArticle(deleteArticleList);
-      resetDeleteArticleList();
+      await deleteArticle(articleId);
+
       open({
         type: "success",
         content: "성공적으로 삭제를 완료했습니다.",
         staleTime: 3000,
       });
-      onDelete();
+
+      queryClient.invalidateQueries({
+        queryKey: articleKeyFactor.list._def,
+      });
     } catch (error) {
       open({
         type: "error",
@@ -42,6 +47,7 @@ const DeleteArticleModal = ({ isOpen, onClose, onDelete }: Props) => {
         <Modal.Button disabled={isPending} type="normal" onClick={onClose}>
           취소
         </Modal.Button>
+        <div className="ml-3"></div>
         <Modal.Button
           disabled={isPending}
           type="decline"

@@ -7,13 +7,13 @@ import {
 
 import * as pages from "@/pages";
 
-import { ProfileInfo } from "@/entities/profile/ui";
 import { AuthLayout } from "@/widgets/auth-layout";
-import { ProfileArticles } from "@/widgets/profile-articles";
-import { ProfileSettings } from "@/widgets/profile-settings";
+import { ProfileSettingsContainer } from "@/widgets/profile-settings";
+import { ProfileInfoContainer } from "@/widgets/profile-info";
 import * as shared from "@/shared";
 
 import * as hocs from "./hocs";
+import { ProfileArticlesContainer } from "@/widgets/profile-articles";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,17 +38,19 @@ const router = createBrowserRouter(
         <Route
           index
           element={
-            <hocs.SearchContainer>
-              <ProfileInfo />
-            </hocs.SearchContainer>
+            <Suspense fallback={<shared.Skeleton height={800} />}>
+              <hocs.SearchContainer>
+                <ProfileInfoContainer />
+              </hocs.SearchContainer>
+            </Suspense>
           }
         />
         <Route
           path="articles"
           element={
-            <Suspense>
+            <Suspense fallback={<shared.Skeleton height={800} />}>
               <hocs.SearchContainer>
-                <ProfileArticles />
+                <ProfileArticlesContainer />
               </hocs.SearchContainer>
             </Suspense>
           }
@@ -56,10 +58,10 @@ const router = createBrowserRouter(
         <Route
           path="settings"
           element={
-            <Suspense>
+            <Suspense fallback={<shared.Skeleton height={800} />}>
               <hocs.PrivateRoute>
                 <hocs.SearchContainer>
-                  <ProfileSettings />
+                  <ProfileSettingsContainer />
                 </hocs.SearchContainer>
               </hocs.PrivateRoute>
             </Suspense>

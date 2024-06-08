@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import classNames from "classnames";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosLink } from "react-icons/io";
@@ -6,6 +5,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { useParams } from "react-router-dom";
 
 import * as shared from "@/shared";
+
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 type Params = {
@@ -70,7 +70,7 @@ const AuthorizationView = () => {
               src={getProfileURL()}
               onClick={() => handleOpenProfileDetail(getProfileURL())}
               alt={userData.username}
-              className="object-cover w-64 h-64 rounded-full select-none cursor-pointer"
+              className="object-cover w-64 h-64 rounded-full cursor-pointer select-none"
             />
           }
           falseRender={
@@ -85,7 +85,7 @@ const AuthorizationView = () => {
             </div>
           }
         />
-        <span className="text-2xl mt-7 text-black mb-4">
+        <span className="mb-4 text-2xl text-black mt-7">
           {userData.username}
         </span>
 
@@ -166,7 +166,7 @@ const UnAuthorizationView = () => {
             </div>
           }
         />
-        <span className="text-2xl mt-7 text-black mb-4">
+        <span className="mb-4 text-2xl text-black mt-7">
           {userData.username}
         </span>
         <div className="flex">
@@ -183,19 +183,26 @@ const UnAuthorizationView = () => {
   );
 };
 
-const ProfileInfo = () => {
+const ProfileInfoContainer = () => {
   const { user_id } = useParams<Params>();
   const { isMySession } = shared.useIsMySession(user_id!);
 
   return (
-    <Suspense fallback={<shared.Skeleton height={600} />}>
+    <>
+      <header className="pb-4 mb-10 border-b border-solid">
+        <h2 className="text-4xl font-semibold ">프로필 정보</h2>
+        <span className="text-sm text-subTitle">
+          유저의 프로필 정보를 나타냅니다.
+        </span>
+      </header>
+
       <shared.If
         condition={isMySession}
         trueRender={<AuthorizationView />}
         falseRender={<UnAuthorizationView />}
       />
-    </Suspense>
+    </>
   );
 };
 
-export default ProfileInfo;
+export default ProfileInfoContainer;

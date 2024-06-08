@@ -45,7 +45,7 @@ const MetaDataView = (props: Props) => {
       />
 
       <section className="col-span-6 col-start-3 flex flex-col mt-5 justify-between min-h-[50px] w-full break-keep text-wrap break-words">
-        <h3 className="text-5xl font-semibold text-gray-700">{props?.title}</h3>
+        <h3 className="text-5xl font-semibold text-black">{props?.title}</h3>
         <div className="flex items-center mt-6 transition ease-in-out">
           <img
             src={profileData?.profile_url}

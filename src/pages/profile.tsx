@@ -1,16 +1,21 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
-import * as shared from "@/shared";
 import { ProfileTab } from "@/entities/profile";
+import * as shared from "@/shared";
+import { Header } from "@/widgets/header";
 
 const ProfilePage = () => {
   return (
-    <Suspense fallback={<shared.Skeleton height={500} />}>
+    <>
+      <Header />
+
       <ProfileTab>
-        <Outlet />
+        <Suspense fallback={<shared.Skeleton height={500} />}>
+          <Outlet />
+        </Suspense>
       </ProfileTab>
-    </Suspense>
+    </>
   );
 };
 

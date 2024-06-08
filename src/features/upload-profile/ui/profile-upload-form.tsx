@@ -5,6 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { MdDone, MdModeEdit } from "react-icons/md";
 
 import {
+  profileKeyFactor,
   usePatchProfileImage,
   usePatchProfileImageReset,
 } from "@/entities/profile";
@@ -12,7 +13,6 @@ import {
   Blockquote,
   If,
   Modal,
-  QUERY_CONSTS,
   isProviderURL,
   useBucket,
   useFetchUser,
@@ -66,7 +66,7 @@ const ProfileUploadForm = () => {
       });
       setTempProfileData(null);
       queryClient.invalidateQueries({
-        queryKey: [QUERY_CONSTS.USER, params.user_id!],
+        queryKey: profileKeyFactor.detail(params.user_id!).queryKey,
       });
     } catch (error) {
       open({
@@ -91,7 +91,7 @@ const ProfileUploadForm = () => {
       });
       setIsResetProfileModalOpen(false);
       queryClient.invalidateQueries({
-        queryKey: [QUERY_CONSTS.USER, params.user_id!],
+        queryKey: profileKeyFactor.detail(params.user_id!).queryKey,
       });
     } catch (error: unknown) {
       open({

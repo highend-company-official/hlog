@@ -3,7 +3,7 @@ import defaultProfile from "@/shared/assets/default-profile.jpg";
 
 import useFetchUser from "./use-fetch-user";
 
-const useProfile = (userId: string): UserType | null => {
+const useProfile = (userId: string | undefined): UserType | null => {
   const { read: readProfiles } = useBucket("profiles");
   const { data } = useFetchUser(userId);
 

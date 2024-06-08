@@ -1,12 +1,3 @@
-export const QUERY_CONSTS = {
-  USER: "USER" as const,
-  ARTICLE: "ARTICLE" as const,
-  SESSION: "SESSION" as const,
-  COMMENT: "COMMENT" as const,
-  SEARCH: "SEARCH" as const,
-  LIKE: "LIKE" as const,
-};
-
 export const STORAGE_CONSTS = {
   HLOG_EDITOR: "HLOG_EDITOR" as const,
 };

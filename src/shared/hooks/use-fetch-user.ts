@@ -23,9 +23,13 @@ const fetchUser = (userId: string) => {
     .single<shared.UserType>();
 };
 
-const useFetchUser = (userId: string) => {
-  const queryKey = profileKeyFactor.detail(userId).queryKey;
+const useFetchUser = (userId: string | undefined) => {
+  const queryKey = profileKeyFactor.detail(userId!).queryKey;
   const queryFn = async () => {
+    if (!userId) {
+      return null;
+    }
+
     const resposne = await fetchUser(userId);
     return resposne.data;
   };

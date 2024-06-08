@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 
 import * as shared from "@/shared";
-import { signIn } from "@/entities/auth";
+import { authKeyFactor, signIn } from "@/entities/auth";
 
 type FormValues = {
   email: string;
@@ -33,7 +33,7 @@ const SignInForm = () => {
 
         if (!error) {
           queryClient.refetchQueries({
-            queryKey: [shared.QUERY_CONSTS.SESSION],
+            queryKey: authKeyFactor.session.queryKey,
           });
 
           open({

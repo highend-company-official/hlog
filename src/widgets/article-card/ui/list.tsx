@@ -1,10 +1,18 @@
-import { ArticleType, getElapsedTime, useBucket } from "@/shared";
+import {
+  ArticleType,
+  If,
+  getElapsedTime,
+  useBucket,
+  useProfile,
+} from "@/shared";
+import { PiSealCheckFill } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
 type ArticleCardProps = Omit<ArticleType, "body" | "verified">;
 
 const List = (props: ArticleCardProps) => {
   const { read } = useBucket("thumbnails");
+  const profileData = useProfile(props.profile.user_id);
 
   return (
     <Link to={`/article-read/${props.id}`}>
@@ -13,19 +21,26 @@ const List = (props: ArticleCardProps) => {
           <img
             src={read(props.thumbnail)}
             alt={props.title}
-            className="w-full h-full rounded-md object-cover"
+            className="object-cover w-full h-full rounded-md"
           />
         </div>
         <div className="pl-5 w-[50%] flex flex-col justify-center">
           <span className="font-bold group-hover:text-primary">
-            {props.title} [{props.likes}]
+            {props.title}
           </span>
-          <p className=" text-gray-400 truncate max-sm:hidden">
+
+          <p className="text-gray-400 truncate max-sm:hidden">
             {props.summary}
           </p>
         </div>
-        <div className="flex ml-auto mr-3 text-slate-500 items-center justify-center">
+        <div className="flex items-center justify-center ml-auto mr-3 text-slate-500">
           <span>{props.profile.username}</span>
+          <If
+            condition={profileData?.verified === "verified"}
+            trueRender={
+              <PiSealCheckFill size={20} className="ml-1 text-primary" />
+            }
+          />
           <span className="mx-2">|</span>
           <span>{getElapsedTime(props.created_at)}</span>
         </div>

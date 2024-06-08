@@ -1,12 +1,15 @@
-import { ArticleType, useBucket } from "@/shared";
+import { ArticleType, If, useBucket, useProfile } from "@/shared";
+import { PiSealCheckFill } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
 type ArticleCardProps = Omit<ArticleType, "body" | "verified">;
 
 const Gallery = (props: ArticleCardProps) => {
   const { read } = useBucket("thumbnails");
+  const profileData = useProfile(props.profile.user_id);
+
   return (
-    <div className="relative transition ease-in h-full place-items-center group rounded-md overflow-hidden">
+    <div className="relative h-full overflow-hidden transition ease-in rounded-md place-items-center group">
       <Link to={`/article-read/${props.id}`}>
         <img
           src={read(props.thumbnail)}
@@ -22,8 +25,14 @@ const Gallery = (props: ArticleCardProps) => {
             {props.summary}
           </p>
 
-          <span className="hidden absolute bottom-[1rem] right-[1rem] group-hover:inline-block">
+          <span className="hidden absolute bottom-[1rem] right-[1rem] group-hover:flex">
             {props.profile.username}
+            <If
+              condition={profileData?.verified === "verified"}
+              trueRender={
+                <PiSealCheckFill size={20} className="ml-1 text-white" />
+              }
+            />
           </span>
         </div>
       </Link>

@@ -12,6 +12,7 @@ import {
 
 import "draft-js/dist/Draft.css";
 import dayjs from "dayjs";
+import { PiSealCheckFill } from "react-icons/pi";
 
 type Props = ArticleType & PropsWithChildren;
 
@@ -53,9 +54,15 @@ const MetaDataView = (props: Props) => {
             className="object-cover w-10 h-10 mr-4 rounded-full cursor-pointer"
             onClick={() => navigate(`/profile/${props.profile.user_id}`)}
           />
-          <span className="text-sm text-pretty">
-            {props?.profile.username} |{" "}
-            {dayjs(props.created_at).format("YYYY-MM-DD")}
+          <span className="text-sm text-pretty">{props?.profile.username}</span>
+          <If
+            condition={profileData?.verified === "verified"}
+            trueRender={
+              <PiSealCheckFill size={20} className="ml-1 text-primary" />
+            }
+          />
+          <span className="ml-auto text-sm text-pretty">
+            발행일 : {dayjs(props.created_at).format("YYYY-MM-DD")}
           </span>
         </div>
       </section>

@@ -17,7 +17,7 @@ const ArticleDetailViewContainer = () => {
 
   if (!data) {
     return (
-      <div className="flex flex-col items-center justify-center w-full p-8 text-center bg-white">
+      <div className="flex flex-col items-center justify-center w-full p-8 text-center bg-white pt-52">
         <h1 className="mb-4 text-4xl font-bold">404</h1>
         <p className="text-gray-600">아티클을 찾을 수 없습니다.</p>
         <div

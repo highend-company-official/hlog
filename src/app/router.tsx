@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import {
   Route,
   createBrowserRouter,
@@ -38,52 +37,56 @@ const router = createBrowserRouter(
         <Route
           index
           element={
-            <Suspense fallback={<shared.Skeleton height={800} />}>
+            <shared.QueryBoundary
+              loadingFallback={<shared.Skeleton height={800} />}
+            >
               <hocs.SearchContainer>
                 <ProfileInfoContainer />
               </hocs.SearchContainer>
-            </Suspense>
+            </shared.QueryBoundary>
           }
         />
         <Route
           path="articles"
           element={
-            <Suspense fallback={<shared.Skeleton height={800} />}>
+            <shared.QueryBoundary
+              loadingFallback={<shared.Skeleton height={800} />}
+            >
               <hocs.SearchContainer>
                 <ProfileArticlesContainer />
               </hocs.SearchContainer>
-            </Suspense>
+            </shared.QueryBoundary>
           }
         />
         <Route
           path="settings"
           element={
-            <Suspense fallback={<shared.Skeleton height={800} />}>
+            <shared.QueryBoundary
+              loadingFallback={<shared.Skeleton height={800} />}
+            >
               <hocs.PrivateRoute>
                 <hocs.SearchContainer>
                   <ProfileSettingsContainer />
                 </hocs.SearchContainer>
               </hocs.PrivateRoute>
-            </Suspense>
+            </shared.QueryBoundary>
           }
         />
       </Route>
       <Route
         path="article-write"
         element={
-          <Suspense fallback={<shared.Skeleton height={600} />}>
-            <hocs.PrivateRoute>
-              <pages.ArticleWrite />
-            </hocs.PrivateRoute>
-          </Suspense>
+          <hocs.PrivateRoute>
+            <pages.ArticleWrite />
+          </hocs.PrivateRoute>
         }
       />
       <Route
         path="auth"
         element={
-          <Suspense>
+          <shared.QueryBoundary>
             <AuthLayout />
-          </Suspense>
+          </shared.QueryBoundary>
         }
       >
         <Route path="sign-in" element={<pages.SignInPage />} />

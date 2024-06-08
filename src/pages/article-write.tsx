@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { useBeforeunload } from "react-beforeunload";
 
 import * as shared from "@/shared";
@@ -8,8 +7,6 @@ import { ArticleTitleInput, EditorCore, Toolbar } from "@/widgets/editor";
 
 const ArticleWrite = () => {
   const { open: openPublishModal } = shared.useOverlay();
-  const { data: session } = shared.useSession();
-  const profile = shared.useProfile(session?.user.id);
 
   const handleClickPublish = () => {
     openPublishModal(({ isOpen, exit }) => (
@@ -22,16 +19,16 @@ const ArticleWrite = () => {
   return (
     <>
       <div className="min-h-screen pt-20 bg-slate-200">
-        <Suspense fallback={<shared.Skeleton />}>
-          <Toolbar onPulish={handleClickPublish} />
+        <Toolbar onPulish={handleClickPublish} />
 
-          <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
-            <ArticleTitleInput />
-            <shared.Divider />
-            <div className="mt-7" />
-            <EditorCore isVerified={profile?.verified === "verified"} />
-          </div>
-        </Suspense>
+        <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
+          <ArticleTitleInput />
+          <shared.Divider />
+          <div className="mt-7" />
+          <shared.QueryBoundary>
+            <EditorCore />
+          </shared.QueryBoundary>
+        </div>
       </div>
     </>
   );

@@ -125,6 +125,7 @@ const SettingPart = () => {
         />
         <div className="mb-4" />
       </div>
+
       <shared.Blockquote>
         <span>
           설정에 실수가 있어도 걱정하지 마세요. <br />

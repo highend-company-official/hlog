@@ -62,6 +62,7 @@ const PublishArticleModal = ({ open, onClose }: Props) => {
         content: "발행에 성공했습니다!",
         staleTime: 5000,
       });
+      onClose();
       resetSavedContent();
       queryClient.invalidateQueries({ queryKey: articleKeyFactor._def });
       navigate(`/article-read/${response.id}`, { replace: true });

@@ -48,7 +48,9 @@ const MetaDataView = (props: Props) => {
       <section className="col-span-6 col-start-3 flex flex-col mt-5 justify-between min-h-[50px] w-full break-keep text-wrap break-words">
         <h3 className="text-5xl font-semibold text-black">{props?.title}</h3>
         {props.categories.map((category) => (
-          <div className="mt-3 text-sm text-primary"># {category}</div>
+          <div className="mt-3 text-sm text-primary" key={category}>
+            # {category}
+          </div>
         ))}
         <div className="flex items-center mt-6 transition ease-in-out">
           <img

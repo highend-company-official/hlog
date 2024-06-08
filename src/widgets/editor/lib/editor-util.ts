@@ -1,6 +1,12 @@
-import { AtomicBlockUtils, EditorState } from "draft-js";
+import {
+  AtomicBlockUtils,
+  ContentBlock,
+  ContentState,
+  EditorState,
+} from "draft-js";
 
 import { supabase } from "@/shared";
+import { Image } from "../ui/custom-block";
 
 type InsertImageParams = {
   url: string;
@@ -39,6 +45,7 @@ type UploadImageParams = {
   file: File;
   successCb: (url: string) => void;
   errorCb: (error: string) => void;
+  finallyCb?: () => void;
 };
 
 export const uploadImage = async ({
@@ -46,6 +53,7 @@ export const uploadImage = async ({
   file,
   successCb,
   errorCb,
+  finallyCb,
 }: UploadImageParams) => {
   try {
     const { data, error } = await supabase.storage
@@ -65,5 +73,31 @@ export const uploadImage = async ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     errorCb(error.message);
+  } finally {
+    finallyCb?.();
   }
+};
+
+export const blockRenderFn = (
+  block: ContentBlock,
+  contentState: ContentState,
+  props?: unknown
+) => {
+  if (block.getType() === "atomic") {
+    const entity = block.getEntityAt(0);
+    if (!entity) return null;
+    const type = contentState.getEntity(entity).getType();
+
+    if (type === "image") {
+      return {
+        component: Image,
+        editable: false,
+        props,
+      };
+    }
+
+    return null;
+  }
+
+  return null;
 };

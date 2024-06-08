@@ -1,12 +1,11 @@
 import bindingKeyFunction from "./binding-key-function";
-import blockRenderFn from "./block-render-function";
 import matchKeyCommand from "./match-key-command";
-import { addImage, uploadImage } from "./image-util";
+import { addImage, uploadImage, blockRenderFn } from "./editor-util";
 
 export {
   bindingKeyFunction,
-  blockRenderFn,
   addImage,
   uploadImage,
   matchKeyCommand,
+  blockRenderFn,
 };

@@ -44,7 +44,9 @@ const Card = (props: ArticleCardProps) => {
         </span>
 
         {props.categories.map((category) => (
-          <div className="mt-3 text-sm text-primary"># {category}</div>
+          <div key={category} className="mt-3 text-sm text-primary">
+            # {category}
+          </div>
         ))}
 
         <p className="text-wrap break-words mt-2 h-[120px] text-gray-500 line-clamp-5">

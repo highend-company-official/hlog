@@ -17,7 +17,7 @@ import { ProfileArticlesContainer } from "@/widgets/profile-articles";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <>
+    <Route element={<hocs.OverlayContainer />}>
       <Route
         index
         element={
@@ -90,7 +90,7 @@ const router = createBrowserRouter(
         <Route path="sign-up" element={<pages.SignUpPage />} />
       </Route>
       <Route path="*" element={<pages.NotFoundPage />} />
-    </>
+    </Route>
   )
 );
 

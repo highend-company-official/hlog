@@ -17,22 +17,13 @@ const root = createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
     <hocs.QueryClient>
-      <QueryBoundary
-        loadingFallback={<Skeleton height={300} />}
-        errorFallback={({ reset }) => (
-          <div>
-            Error <button onClick={reset}>RESET</button>
-          </div>
-        )}
-      >
-        <hocs.OverlayContainer>
-          <hocs.ToastContainer>
-            <RouterProvider
-              router={router}
-              fallbackElement={<CgSpinner size={80} className="animate-spin" />}
-            />
-          </hocs.ToastContainer>
-        </hocs.OverlayContainer>
+      <QueryBoundary loadingFallback={<Skeleton height={300} />}>
+        <hocs.ToastContainer>
+          <RouterProvider
+            router={router}
+            fallbackElement={<CgSpinner size={80} className="animate-spin" />}
+          />
+        </hocs.ToastContainer>
       </QueryBoundary>
     </hocs.QueryClient>
   </React.StrictMode>

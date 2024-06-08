@@ -1,12 +1,13 @@
-import { Fragment, PropsWithChildren } from "react";
+import { Fragment } from "react";
 import { useOverlayStore } from "../model";
+import { Outlet } from "react-router-dom";
 
-const OverlayContainer = ({ children }: PropsWithChildren) => {
+const OverlayContainer = () => {
   const { overlayMap } = useOverlayStore();
 
   return (
     <>
-      {children}
+      <Outlet />
       {[...overlayMap.entries()].map(([id, element]) => (
         <Fragment key={id}>{element}</Fragment>
       ))}

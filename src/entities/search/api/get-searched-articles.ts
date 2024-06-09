@@ -1,6 +1,6 @@
 import { supabase } from "@/shared";
 
-const getSearchedArticles = async () => {
+const getSearchedArticles = async (search: string) => {
   const baseQuery = supabase
     .from("articles")
     .select(
@@ -15,7 +15,8 @@ const getSearchedArticles = async () => {
       categories(category)
       `
     )
-    .throwOnError();
+    .throwOnError()
+    .textSearch("title", search);
 
   const { data, error } = await baseQuery;
 

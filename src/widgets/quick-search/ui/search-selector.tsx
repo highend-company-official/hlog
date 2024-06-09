@@ -1,9 +1,10 @@
-import { If } from "@/shared";
+import { If, QueryBoundary, Skeleton } from "@/shared";
 
 import { useSearchStore } from "@/entities/search";
 
 import { ProfileSearchSection } from "@/features/search-profile";
 import { ArticleSearchSection } from "@/features/search-article";
+import { ImSpinner8 } from "react-icons/im";
 
 const SearchSelector = () => {
   const { query, mode } = useSearchStore();
@@ -18,7 +19,13 @@ const SearchSelector = () => {
   }
 
   return (
-    <>
+    <QueryBoundary
+      loadingFallback={
+        <div className="w-full h-[300px] flex items-center justify-center">
+          <ImSpinner8 size={24} className="animate-spin" />
+        </div>
+      }
+    >
       <If
         condition={mode === "article"}
         trueRender={
@@ -42,7 +49,7 @@ const SearchSelector = () => {
           </>
         }
       />
-    </>
+    </QueryBoundary>
   );
 };
 

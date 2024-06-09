@@ -2,13 +2,10 @@ import { Link } from "react-router-dom";
 
 import defaultProfile from "@/shared/assets/default-profile.jpg";
 import { useBucket } from "@/shared";
-import { useSearchStore } from "@/entities/search";
+import { useGetSearchedProfiles, useSearchStore } from "@/entities/search";
 
-type Props = {
-  id: string;
-  username: string;
-  profile_url: string;
-};
+type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
+type Props = ArrayElement<ReturnType<typeof useGetSearchedProfiles>["data"]>;
 
 const ProfileSearchItem = ({ id, username, profile_url }: Props) => {
   const { read } = useBucket("profiles");

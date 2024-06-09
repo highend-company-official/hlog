@@ -1,17 +1,24 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
 import { useSearchStore } from "@/entities/search";
+import { useDebounce } from "@/shared";
 
 const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { query, setQuery } = useSearchStore();
+  const { setQuery } = useSearchStore();
+  const [searchInput, setSearchInput] = useState("");
+  const debouncedQuery = useDebounce(searchInput, 300);
 
   const handleChangeSearchInput = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setQuery(event.target.value);
+    setSearchInput(event.target.value);
   };
+
+  useEffect(() => {
+    setQuery(debouncedQuery);
+  }, [debouncedQuery]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -32,7 +39,7 @@ const SearchBar = () => {
           autoComplete="off"
           className="w-full h-[3.5rem] focus:outline-none pl-3 pr-4 text-lg min-w-0"
           type="text"
-          value={query}
+          value={searchInput}
           onChange={handleChangeSearchInput}
         />
       </form>

@@ -2,16 +2,17 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { FaBook } from "react-icons/fa";
 
-import { useSearchStore } from "@/entities/search";
+import { useGetSearchedArticles, useSearchStore } from "@/entities/search";
 
-type Props = {
-  id: string;
-  title: string;
-  username: string;
-  created_at: Date;
-};
+type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
+type Props = ArrayElement<ReturnType<typeof useGetSearchedArticles>["data"]>;
 
-const ArticleSearchItem = ({ id, title, username, created_at }: Props) => {
+const ArticleSearchItem = ({
+  id,
+  title,
+  profile: { username },
+  created_at,
+}: Props) => {
   const { setIsSearchOpen, reset } = useSearchStore();
 
   const handleClose = () => {

@@ -7,9 +7,16 @@ import { useSearchStore } from "@/entities/search";
 
 import { SearchInput } from ".";
 import SearchSelector from "./search-selector";
+import classNames from "classnames";
+
+const buttonClassName = (isActive: boolean) =>
+  classNames("b-2 flex-1 w-full h-full p-4 transition ease-in-out", {
+    "border-primary border-solid border-b-4": isActive,
+  });
 
 const QuickSearch = () => {
-  const { isSearchOpen, setIsSearchOpen, reset } = useSearchStore();
+  const { isSearchOpen, setIsSearchOpen, reset, mode, setMode } =
+    useSearchStore();
   const overlayRef = useRef(null);
 
   const handleClose = () => {
@@ -48,6 +55,22 @@ const QuickSearch = () => {
                 exit={{ opacity: 0 }}
               >
                 <SearchInput />
+
+                <nav className="w-full p-4 flex">
+                  <button
+                    className={buttonClassName(mode === "article")}
+                    onClick={() => setMode("article")}
+                  >
+                    아티클
+                  </button>
+                  <button
+                    className={buttonClassName(mode === "profile")}
+                    onClick={() => setMode("profile")}
+                  >
+                    프로필
+                  </button>
+                </nav>
+
                 <SearchSelector />
               </motion.div>
             </div>

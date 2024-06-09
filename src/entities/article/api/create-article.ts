@@ -1,5 +1,5 @@
 import { RawDraftContentState } from "draft-js";
-import { ArticleType, generateRandomId, supabase } from "@/shared";
+import { generateRandomId, supabase } from "@/shared";
 
 type Params = {
   articleMetaData: {
@@ -14,11 +14,8 @@ type Params = {
   thumbnailFile: File;
 };
 
-const createArticle = async ({
-  articleMetaData,
-  thumbnailFile,
-}: Params): Promise<ArticleType> => {
-  const { data } = await supabase.storage
+const createArticle = async ({ articleMetaData, thumbnailFile }: Params) => {
+  const { data: thumbnailData } = await supabase.storage
     .from("thumbnails")
     .upload(`${generateRandomId()}`, thumbnailFile, {
       cacheControl: "3600",
@@ -29,8 +26,8 @@ const createArticle = async ({
     .from("articles")
     .insert({
       title: articleMetaData.title,
-      thumbnail: data?.path,
-      body: articleMetaData.body,
+      thumbnail: thumbnailData?.path,
+      body: JSON.stringify(articleMetaData.body),
       summary: articleMetaData.summary,
       has_comments: articleMetaData.has_comments,
       has_like: articleMetaData.has_like,
@@ -41,7 +38,13 @@ const createArticle = async ({
     .throwOnError()
     .single();
 
-  return response.data;
+  const { data, error } = response;
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
 };
 
 export default createArticle;

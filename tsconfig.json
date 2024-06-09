@@ -31,7 +31,8 @@
     "src/features/.temp/auth",
     "src/features/.temp/comment",
     "src/features/.temp/article-read",
-    "src/widgets/comment-card/ui/.tsx"
+    "src/widgets/comment-card/ui/.tsx",
+    "types"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { articleKeyFactor, getArticles } from "@/entities/article";
 
 const useGetSearchedArticles = (search: string) => {
-  const queryKey = articleKeyFactor.list({ search }).queryKey;
+  const queryKey = articleKeyFactor.searchList(search).queryKey;
   const queryFn = async () => {
     const response = await getArticles({ search });
 

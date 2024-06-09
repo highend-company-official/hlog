@@ -3,26 +3,6 @@ import { supabase } from "@/shared";
 import { ArticleFilterType } from "../query";
 import { SortType } from "../model";
 
-type ArticleResponseType = {
-  id: string;
-  created_at: Date;
-  title: string;
-  thumbnail: string;
-  summary: string;
-  verified: "pending" | "verified" | "none";
-  has_comments: boolean;
-  has_like: boolean;
-  has_hit: boolean;
-  hits: number;
-  likes: number;
-  profile: {
-    id: string;
-    username: string;
-    profile_url: string;
-  };
-  categories: string[];
-};
-
 const getArticles = async (filterType: ArticleFilterType) => {
   let baseQuery = supabase
     .from("articles")
@@ -33,8 +13,6 @@ const getArticles = async (filterType: ArticleFilterType) => {
       title, 
       thumbnail, 
       summary, 
-      verified, 
-      user_id, 
       has_comments, 
       has_like, 
       has_hit, 
@@ -45,10 +23,6 @@ const getArticles = async (filterType: ArticleFilterType) => {
       `
     )
     .throwOnError();
-
-  if (filterType.search) {
-    baseQuery = baseQuery.ilike("title", `%${filterType.search}%`);
-  }
 
   if (filterType.categories && filterType.categories.length > 0) {
     const categoryIds = filterType.categories;
@@ -91,25 +65,22 @@ const getArticles = async (filterType: ArticleFilterType) => {
     throw error;
   }
 
-  const articles: ArticleResponseType[] = data.map((article) => ({
+  const articles = data.map(({ profiles, ...article }) => ({
     id: article.id,
     title: article.title,
     thumbnail: article.thumbnail,
     summary: article.summary,
     hits: article.hits,
     created_at: new Date(article.created_at),
-    verified: article.verified,
     has_like: article.has_like,
     has_hit: article.has_hit,
     has_comments: article.has_comments,
     likes: article.likes?.[0]?.count ?? 0,
-    categories: article.categories.map(
-      ({ category }: { category: string }) => category
-    ),
+    categories: article.categories.map(({ category }) => category),
     profile: {
-      id: article.profiles.id,
-      profile_url: article.profiles.profile_url,
-      username: article.profiles.username,
+      id: profiles!.id,
+      profile_url: profiles!.profile_url,
+      username: profiles!.username,
     },
   }));
 

@@ -6,6 +6,7 @@ import * as shared from "@/shared";
 import { DeleteCommentButton } from "@/features/delete-comment";
 import { EditCommentButton } from "@/features/edit-comment";
 import { articleKeyFactor } from "@/entities/article";
+import { PiSealCheckFill } from "react-icons/pi";
 
 type Params = {
   article_id: string;
@@ -37,7 +38,11 @@ const CommentCard = (props: shared.CommentType) => {
             alt={profileData.username}
             className="object-cover w-10 h-10 mr-3 rounded-full"
           />
-          <span className="font-bold">{profileData.username}</span>
+          <span className="font-bold mr-2">{profileData.username}</span>
+          <shared.If
+            condition={profileData?.verified === "verified"}
+            trueRender={<PiSealCheckFill size={20} className="text-primary" />}
+          />
         </div>
 
         <shared.If

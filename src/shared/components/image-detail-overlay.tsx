@@ -22,15 +22,14 @@ const ImageDetailOverlay = ({ open, url, onClose }: Props) => {
       transition={{
         duration: 0.1,
       }}
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full max-h-full overflow-x-hidden overflow-y-auto bg-black/30"
+      className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center bg-black/30"
     >
-      <div className="flex flex-col items-center justify-center w-8/12">
-        <img src={url} alt="" className="w-full" />
+      <div className="relative flex items-center justify-center w-full h-full p-4">
+        <img src={url} alt="" className="max-w-full max-h-full" />
+        <button className="absolute top-4 right-4" onClick={onClose}>
+          <IoMdClose size={50} className="text-white" />
+        </button>
       </div>
-
-      <button className="fixed right-8 top-8" onClick={onClose}>
-        <IoMdClose size={50} className="text-white" />
-      </button>
     </motion.div>
   );
 };

@@ -10,6 +10,7 @@ import {
   Button,
   Skeleton,
   useProfile,
+  QueryBoundary,
 } from "@/shared";
 import { useGetTopNotice } from "@/entities/notice";
 
@@ -45,10 +46,28 @@ const UnAuthenticatedView = () => {
   );
 };
 
+const NoticeSection = () => {
+  const { data } = useGetTopNotice();
+  return (
+    <div className="flex items-center ml-4">
+      {data?.title ? (
+        <>
+          <div className="bg-primary text-white px-2 py-1 rounded-full mr-1 text-xs">
+            공지
+          </div>
+          <Link className="text-md font-semibold underline" to={`/notice`}>
+            {data.title}
+          </Link>
+        </>
+      ) : (
+        <span className="text-sm">등록된 공지가 없습니다.</span>
+      )}
+    </div>
+  );
+};
+
 function Header() {
   const navigate = useNavigate();
-  const { data } = useGetTopNotice();
-
   const { setIsSearchOpen } = useSearchStore();
 
   return (
@@ -62,20 +81,9 @@ function Header() {
           </Link>
         </h1>
 
-        <div className="flex items-center ml-4">
-          {data?.title ? (
-            <>
-              <div className="bg-primary text-white px-2 py-1 rounded-full mr-1 text-xs">
-                공지
-              </div>
-              <Link className="text-md font-semibold underline" to={`/notice`}>
-                {data.title}
-              </Link>
-            </>
-          ) : (
-            <span className="text-sm">등록된 공지가 없습니다.</span>
-          )}
-        </div>
+        <QueryBoundary loadingFallback={<Skeleton />}>
+          <NoticeSection />
+        </QueryBoundary>
       </div>
 
       <ul className="flex items-center">
@@ -97,20 +105,18 @@ function Header() {
           </div>
         </li>
 
-        <Suspense
-          fallback={
-            <>
-              <div className="py-5">
-                <Skeleton width={150} height={40} />
-              </div>
-            </>
+        <QueryBoundary
+          loadingFallback={
+            <div className="py-5">
+              <Skeleton width={150} height={40} />
+            </div>
           }
         >
           <Authentication
             authenticatedView={<AuthenticatedView />}
             unauthenticatedView={<UnAuthenticatedView />}
           />
-        </Suspense>
+        </QueryBoundary>
       </ul>
     </header>
   );

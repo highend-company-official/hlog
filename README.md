@@ -1,6 +1,7 @@
 # HLOG
+![image](https://github.com/Hong-JunHyeok/HLOG/assets/48292190/3a37b102-e82c-477a-bcbc-273c28cc964a)
 
-본 서비스는 FSD 아키텍처를 준수하고 있습니다.
+본 서비스는 **FSD 아키텍처**를 준수하고 있습니다.
 
 ## Layers
 

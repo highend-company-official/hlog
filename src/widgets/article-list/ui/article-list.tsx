@@ -11,7 +11,7 @@ import {
 
 const CardContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="grid gap-4 auto-rows-[minmax(0,600px)] grid-cols-2 max-md:grid-cols-1">
+    <div className="grid gap-4 auto-rows-[minmax(600px)] grid-cols-2 max-md:grid-cols-1">
       {children}
     </div>
   );
@@ -42,7 +42,9 @@ const ContainerRouter: React.FC<
 };
 
 type ArticleListProps = {
-  cardComponent: React.FC<Omit<shared.ArticleType, "body">>;
+  cardComponent: React.FC<
+    shared.ArrayElement<ReturnType<typeof useGetArticles>["data"]>
+  >;
 };
 
 const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {

@@ -2,7 +2,7 @@ import { supabase } from "@/shared";
 
 const patchProfileImage = async (userId: string, profile: File) => {
   const extension = profile.name.split(".").pop();
-  const fileUrl = `${userId}.${extension}`;
+  const fileUrl = `${userId}-${Date.now()}.${extension}`;
 
   await supabase.storage.from("profiles").upload(fileUrl, profile, {
     cacheControl: "3600",

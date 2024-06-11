@@ -1,19 +1,20 @@
-import { ArticleType, If, useBucket, useProfile } from "@/shared";
+import { useGetArticles } from "@/entities/article";
+import { ArrayElement, If, useBucket, useProfile } from "@/shared";
 import { PiSealCheckFill } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
-type ArticleCardProps = Omit<ArticleType, "body" | "verified">;
+type ArticleCardProps = ArrayElement<ReturnType<typeof useGetArticles>["data"]>;
 
 const Gallery = (props: ArticleCardProps) => {
   const { read } = useBucket("thumbnails");
-  const profileData = useProfile(props.profile.user_id);
+  const profileData = useProfile(props.profile.id);
 
   return (
     <div className="relative h-full overflow-hidden transition ease-in rounded-md place-items-center group">
       <Link to={`/article-read/${props.id}`}>
         <img
-          src={read(props.thumbnail)}
-          alt={props.title}
+          src={read(props.thumbnail ?? "")}
+          alt={props.title ?? ""}
           className="object-cover w-full h-full"
         />
 

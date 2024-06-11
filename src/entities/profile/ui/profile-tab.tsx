@@ -4,8 +4,8 @@ import { IoMdSettings } from "react-icons/io";
 import { MdOutlineArticle } from "react-icons/md";
 import { NavLink, useParams } from "react-router-dom";
 
-import { If, useIsMySession } from "@/shared";
-import { Suspense } from "react";
+import { If, QueryBoundary, useIsMySession } from "@/shared";
+import { PropsWithChildren } from "react";
 
 type Props = {
   user_id: string;
@@ -47,7 +47,7 @@ const PrivateNavLink = ({
   );
 };
 
-const ProfileTab = ({ children }: { children: React.ReactNode }) => {
+const ProfileTab = ({ children }: PropsWithChildren) => {
   return (
     <div className="grid grid-cols-6 pt-[60px]">
       <aside className="h-screen col-span-1 px-4 pt-10 border-r border-solid">
@@ -68,13 +68,13 @@ const ProfileTab = ({ children }: { children: React.ReactNode }) => {
           <MdOutlineArticle size={16} className="mr-4" />
           아티클
         </NavLink>
-        <Suspense>
+        <QueryBoundary>
           <PrivateNavLink
             to="settings"
             label="설정"
             icon={<IoMdSettings size={16} className="mr-4" />}
           />
-        </Suspense>
+        </QueryBoundary>
       </aside>
 
       <main className="col-span-5 px-10 pt-16">{children}</main>

@@ -36,7 +36,7 @@ type Props = {
 
 const Toolbar = ({ onPulish }: Props) => {
   const navigate = useNavigate();
-  const { editorMetaData, setEditorMetaData } = useEditorStore();
+  const { editorMetaData, content, setContent } = useEditorStore();
   const { open: openDescriptionModal } = useOverlay();
 
   const handleClickDescription = () => {
@@ -47,33 +47,27 @@ const Toolbar = ({ onPulish }: Props) => {
 
   const isPublishDisabled =
     editorMetaData.title.trim() === "" ||
-    !editorMetaData.content.getCurrentContent().hasText();
+    !content.getCurrentContent().hasText();
 
   const toggleInline =
     (type: DraftInlineStyleType) =>
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
-      setEditorMetaData({
-        ...editorMetaData,
-        content: RichUtils.toggleInlineStyle(editorMetaData.content, type),
-      });
+      setContent(RichUtils.toggleInlineStyle(content, type));
     };
 
   const toggleBlock = (type: DraftBlockType) => {
-    setEditorMetaData({
-      ...editorMetaData,
-      content: RichUtils.toggleBlockType(editorMetaData.content, type),
-    });
+    setContent(RichUtils.toggleBlockType(content, type));
   };
 
   const isActiveInlineStyle = (type: string): boolean => {
-    const currentStyle = editorMetaData.content.getCurrentInlineStyle();
+    const currentStyle = content.getCurrentInlineStyle();
     return currentStyle.has(type);
   };
 
   const isActiveBlockStyle = (type: string): boolean => {
-    const selection = editorMetaData.content.getSelection();
-    const blockType = editorMetaData.content
+    const selection = content.getSelection();
+    const blockType = content
       .getCurrentContent()
       .getBlockForKey(selection.getStartKey())
       .getType();

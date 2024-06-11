@@ -196,11 +196,13 @@ const ProfileInfoContainer = () => {
         </span>
       </header>
 
-      <shared.If
-        condition={isMySession}
-        trueRender={<AuthorizationView />}
-        falseRender={<UnAuthorizationView />}
-      />
+      <shared.QueryBoundary>
+        <shared.If
+          condition={isMySession}
+          trueRender={<AuthorizationView />}
+          falseRender={<UnAuthorizationView />}
+        />
+      </shared.QueryBoundary>
     </>
   );
 };

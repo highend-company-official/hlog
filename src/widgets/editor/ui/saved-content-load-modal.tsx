@@ -1,5 +1,3 @@
-import { EditorState } from "draft-js";
-
 import { Modal } from "@/shared";
 import { useEditorStore } from "@/entities/article";
 
@@ -11,18 +9,18 @@ type Props = {
 };
 
 const SavedContentLoadModal = ({ open, onClose }: Props) => {
-  const { loadSavedContent } = useEditorUtils();
-  const { setEditorMetaData } = useEditorStore();
+  const { loadSavedEditorMetaData } = useEditorUtils();
+  const { setEditorMetaData, setContent } = useEditorStore();
 
   const loadContentToEditor = () => {
-    const loadedContent = loadSavedContent();
+    const loadedContent = loadSavedEditorMetaData();
 
     if (loadedContent) {
-      setEditorMetaData({
-        ...loadedContent,
-        content: EditorState.createWithContent(loadedContent.content),
-      });
+      const { content, ...metaData } = loadedContent;
+      setEditorMetaData(metaData);
+      setContent(content);
     }
+
     onClose();
   };
 

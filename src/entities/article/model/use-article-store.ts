@@ -6,7 +6,7 @@ import { ArticleFilterType } from "../query";
 export type ViewMode = "card" | "list" | "gallery";
 
 export enum SortType {
-  trend = "trend",
+  // trend = "trend",
   old = "old",
   new = "new",
 }
@@ -25,7 +25,7 @@ type Action = {
 const useArticleStoreBase = create<State & Action>((set) => ({
   articleViewMode: "card",
   filter: {
-    sortType: SortType.trend,
+    sortType: SortType.new,
   },
   setFilter: (newFilter) =>
     set((state) => ({

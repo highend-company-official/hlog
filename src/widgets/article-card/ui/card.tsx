@@ -1,11 +1,13 @@
 import dayjs from "dayjs";
-import { ArticleType, If, useBucket, useProfile } from "@/shared";
 import { BiSolidLike } from "react-icons/bi";
-import { IoMdEye } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { PiSealCheckFill } from "react-icons/pi";
+import { FaCommentAlt } from "react-icons/fa";
 
-type ArticleCardProps = Omit<ArticleType, "body">;
+import { useGetArticles } from "@/entities/article";
+import { ArrayElement, If, useBucket, useProfile } from "@/shared";
+
+type ArticleCardProps = ArrayElement<ReturnType<typeof useGetArticles>["data"]>;
 
 const Card = (props: ArticleCardProps) => {
   const navigate = useNavigate();
@@ -16,8 +18,8 @@ const Card = (props: ArticleCardProps) => {
   return (
     <section className="relative flex flex-col w-full h-full transition ease-in">
       <img
-        src={readThubmnails(props.thumbnail)}
-        alt={props.title}
+        src={readThubmnails(props.thumbnail ?? "")}
+        alt={props.title ?? ""}
         className="rounded-md object-cover w-full h-[273px]"
       />
 
@@ -38,40 +40,42 @@ const Card = (props: ArticleCardProps) => {
         </div>
       </div>
 
-      <div className="inline-block w-full mt-2">
+      <div className="flex justify-between">
+        <span className="text-sm font-light text-gray-600">
+          {dayjs(props.created_at).format("YYYY-MM-DD")}
+        </span>
+
+        <div className="flex items-center gap-2 mr-2 text-sm">
+          <div className="flex items-center text-sm">
+            <BiSolidLike className="mr-1" />
+            <span>{props.likeCount}</span>
+          </div>
+
+          <div className="flex items-center text-sm">
+            <FaCommentAlt className="mr-1 " />
+            <span>{props.commentCount}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="inline-block w-full mt-1">
         <span className="text-4xl font-semibold text-black break-words ease-in-out text-wrap break-wordsbreak-keep mb-2transition line-clamp-1">
           {props.title}
         </span>
 
-        {props.categories.map((category) => (
-          <div key={category} className="mt-3 text-sm text-primary">
-            # {category}
+        {props.categories.length > 0 && (
+          <div className="flex flex-wrap">
+            {props.categories.map((category) => (
+              <div key={category} className="mt-1 text-sm text-primary">
+                # {category}
+              </div>
+            ))}
           </div>
-        ))}
+        )}
 
-        <p className="text-wrap break-words mt-2 h-[120px] text-gray-500 line-clamp-5">
+        <p className="text-wrap break-words mt-2 mb-4 h-[80px] text-gray-500 line-clamp-5">
           {props.summary}
         </p>
-      </div>
-
-      <div className="flex justify-between mt-auto">
-        <span className="text-sm font-light text-gray-600">
-          {props.updated_at
-            ? dayjs(props.updated_at).format("YYYY-MM-DD")
-            : dayjs(props.created_at).format("YYYY-MM-DD")}
-        </span>
-
-        <div className="flex items-center gap-1 mr-2 text-sm">
-          <div className="flex items-center text-sm">
-            <BiSolidLike className="mr-1" />
-            <span>{props.likes}</span>
-          </div>
-
-          <div className="flex items-center text-sm">
-            <IoMdEye className="mr-1 " />
-            <span>{props.hits}</span>
-          </div>
-        </div>
       </div>
 
       <button

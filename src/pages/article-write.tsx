@@ -1,36 +1,20 @@
-import { useBeforeunload } from "react-beforeunload";
+import { useParams } from "react-router-dom";
 
 import * as shared from "@/shared";
-
-import { PublishArticleModal } from "@/features/publish-article";
-import { ArticleTitleInput, EditorCore, Toolbar } from "@/widgets/editor";
+import { ArticleWriteContainer } from "@/widgets/article-write-container";
+import { ArticleEditContainer } from "@/widgets/article-edit-container";
 
 const ArticleWrite = () => {
-  const { open: openPublishModal } = shared.useOverlay();
+  const params = useParams<{ article_id: string }>();
 
-  const handleClickPublish = () => {
-    openPublishModal(({ isOpen, exit }) => (
-      <PublishArticleModal open={isOpen} onClose={exit} />
-    ));
-  };
-
-  useBeforeunload((event) => event.preventDefault());
+  const isEditMode = !!params.article_id;
 
   return (
-    <>
-      <div className="min-h-screen pt-20 bg-slate-200">
-        <Toolbar onPulish={handleClickPublish} />
-
-        <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
-          <ArticleTitleInput />
-          <shared.Divider />
-          <div className="mt-7" />
-          <shared.QueryBoundary>
-            <EditorCore />
-          </shared.QueryBoundary>
-        </div>
-      </div>
-    </>
+    <shared.If
+      condition={isEditMode}
+      trueRender={<ArticleEditContainer />}
+      falseRender={<ArticleWriteContainer />}
+    />
   );
 };
 

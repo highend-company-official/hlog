@@ -37,44 +37,44 @@ const router = createBrowserRouter(
         <Route
           index
           element={
-            <shared.QueryBoundary
-              loadingFallback={<shared.Skeleton height={800} />}
-            >
-              <hocs.SearchContainer>
+            <hocs.SearchContainer>
+              <shared.QueryBoundary
+                loadingFallback={<shared.Skeleton height={800} />}
+              >
                 <ProfileInfoContainer />
-              </hocs.SearchContainer>
-            </shared.QueryBoundary>
+              </shared.QueryBoundary>
+            </hocs.SearchContainer>
           }
         />
         <Route
           path="articles"
           element={
-            <shared.QueryBoundary
-              loadingFallback={<shared.Skeleton height={800} />}
-            >
-              <hocs.SearchContainer>
+            <hocs.SearchContainer>
+              <shared.QueryBoundary
+                loadingFallback={<shared.Skeleton height={800} />}
+              >
                 <ProfileArticlesContainer />
-              </hocs.SearchContainer>
-            </shared.QueryBoundary>
+              </shared.QueryBoundary>
+            </hocs.SearchContainer>
           }
         />
         <Route
           path="settings"
           element={
-            <shared.QueryBoundary
-              loadingFallback={<shared.Skeleton height={800} />}
-            >
-              <hocs.PrivateRoute>
-                <hocs.SearchContainer>
+            <hocs.PrivateRoute>
+              <hocs.SearchContainer>
+                <shared.QueryBoundary
+                  loadingFallback={<shared.Skeleton height={800} />}
+                >
                   <ProfileSettingsContainer />
-                </hocs.SearchContainer>
-              </hocs.PrivateRoute>
-            </shared.QueryBoundary>
+                </shared.QueryBoundary>
+              </hocs.SearchContainer>
+            </hocs.PrivateRoute>
           }
         />
       </Route>
       <Route
-        path="article-write"
+        path="article-write/:article_id?"
         element={
           <hocs.PrivateRoute>
             <pages.ArticleWrite />

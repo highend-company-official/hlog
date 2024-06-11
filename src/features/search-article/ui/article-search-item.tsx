@@ -3,8 +3,8 @@ import dayjs from "dayjs";
 import { FaBook } from "react-icons/fa";
 
 import { useGetSearchedArticles, useSearchStore } from "@/entities/search";
+import { ArrayElement } from "@/shared";
 
-type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
 type Props = ArrayElement<ReturnType<typeof useGetSearchedArticles>["data"]>;
 
 const ArticleSearchItem = ({

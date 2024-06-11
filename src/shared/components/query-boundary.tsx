@@ -5,6 +5,7 @@ import { QueryErrorResetBoundary, useQueryClient } from "@tanstack/react-query";
 
 import { ErrorBoundary } from "react-error-boundary";
 import Button from "./button";
+import { CgSpinner } from "react-icons/cg";
 
 type Props = {
   children: React.ReactNode;
@@ -35,7 +36,11 @@ const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({ reset }) => {
 
 const QueryBoundary = ({
   children,
-  loadingFallback = <></>,
+  loadingFallback = (
+    <div className="flex flex-col items-center justify-center w-full py-20 text-center">
+      <CgSpinner className="animate-spin" />
+    </div>
+  ),
   errorFallback = DefaultErrorFallback,
 }: Props) => {
   const queryClient = useQueryClient();

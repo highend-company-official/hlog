@@ -1,8 +1,9 @@
-import { Link, useParams } from "react-router-dom";
+import classNames from "classnames";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MdDelete, MdEdit } from "react-icons/md";
 
 import {
-  ArticleType,
+  ArrayElement,
   getElapsedTime,
   useBucket,
   useIsMySession,
@@ -10,14 +11,17 @@ import {
 } from "@/shared";
 
 import { DeleteArticleModal } from "@/features/delete-article";
-import classNames from "classnames";
+import { useFetchUserArticles } from "@/widgets/profile-articles";
 
-type ProfileArticleCardProps = Omit<ArticleType, "body" | "verified">;
+type ArticleCardProps = ArrayElement<
+  ReturnType<typeof useFetchUserArticles>["data"]
+>;
 
-const ProfileArticleCard = (props: ProfileArticleCardProps) => {
+const ProfileArticleCard = (props: ArticleCardProps) => {
   const { user_id } = useParams<{
     user_id: string;
   }>();
+  const navigate = useNavigate();
   const { open: openDeleteModal } = useOverlay();
   const { isMySession } = useIsMySession(user_id!);
   const { read } = useBucket("thumbnails");
@@ -39,14 +43,14 @@ const ProfileArticleCard = (props: ProfileArticleCardProps) => {
           className="grid items-center w-full h-20 grid-cols-12 gap-4 transition ease-in-out col-span-full hover:bg-black/10 rounded-xl group"
         >
           <img
-            src={read(props.thumbnail)}
-            alt={props.title}
+            src={read(props.thumbnail ?? "")}
+            alt={props.title ?? ""}
             className="object-cover h-20 col-span-1 max-w-20 rounded-xl max-xl:hidden"
           />
 
           <div className="col-span-8">
             <span className="font-bold group-hover:text-primary">
-              {props.title} [{props.likes}]
+              {props.title} [{props.commentCount}]
             </span>
             <p className="text-gray-400 truncate max-md:hidden">
               {props.summary}
@@ -62,10 +66,16 @@ const ProfileArticleCard = (props: ProfileArticleCardProps) => {
 
         {isMySession && (
           <div className="flex">
-            <button className={classNames(buttonClassName)}>
+            <button
+              onClick={() => navigate(`/article-write/${props.id}`)}
+              type="button"
+              className={classNames(buttonClassName)}
+            >
               <MdEdit />
             </button>
+
             <button
+              type="button"
               className={classNames(buttonClassName, "hover:text-error")}
               onClick={handleOpenDeleteModal}
             >

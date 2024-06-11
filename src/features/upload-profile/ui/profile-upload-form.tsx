@@ -13,19 +13,19 @@ import {
   Blockquote,
   If,
   Modal,
-  isProviderURL,
-  useBucket,
   useFetchUser,
+  useProfile,
   useToast,
 } from "@/shared";
-import defaultProfile from "@/shared/assets/default-profile.jpg";
+
+import ProfileImageContainer from "./profile-image-container";
 
 const ProfileUploadForm = () => {
   const params = useParams<{ user_id: string }>();
   const queryClient = useQueryClient();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const { read } = useBucket("profiles");
+
   const { data: userData } = useFetchUser(params.user_id!);
+  const profileData = useProfile(params.user_id!);
 
   const { open } = useToast();
   const { mutateAsync: uploadProfileImage } = usePatchProfileImage(
@@ -36,35 +36,18 @@ const ProfileUploadForm = () => {
     userData!.profile_url!
   );
 
-  const [tempProfileData, setTempProfileData] = useState<File | null>(null);
   const [isResetProfileModalOpen, setIsResetProfileModalOpen] = useState(false);
 
   const hasProfile = !!userData?.profile_url;
 
-  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.currentTarget && event.currentTarget.files) {
-      const file = event.currentTarget.files[0];
-      setTempProfileData(file);
-    }
-  };
-
-  const handleClickInput = () => {
-    if (inputRef.current) {
-      inputRef.current.click();
-    }
-  };
-
-  const handleUploadProfile = async () => {
-    if (!tempProfileData) return;
-
+  const handleUploadProfile = async (file: File) => {
     try {
-      await uploadProfileImage(tempProfileData);
+      await uploadProfileImage(file);
       open({
         type: "success",
         content: "프로필 설정에 성공했습니다.",
         staleTime: 3000,
       });
-      setTempProfileData(null);
       queryClient.invalidateQueries({
         queryKey: profileKeyFactor.detail(params.user_id!).queryKey,
       });
@@ -75,10 +58,6 @@ const ProfileUploadForm = () => {
         staleTime: 3000,
       });
     }
-  };
-
-  const handleResetTempProfile = () => {
-    setTempProfileData(null);
   };
 
   const handleResetProfile = async () => {
@@ -102,65 +81,16 @@ const ProfileUploadForm = () => {
     }
   };
 
+  if (!profileData) return null;
+
   return (
     <>
       <div className="flex justify-center">
         <div className="relative my-4 rounded-full shadow-md select-none bg-black/10">
-          <If
-            condition={hasProfile}
-            trueRender={
-              <img
-                src={
-                  isProviderURL(userData?.profile_url ?? "")
-                    ? userData!.profile_url
-                    : read(userData!.profile_url)
-                }
-                alt={userData?.username}
-                className="object-cover w-full h-full rounded-full"
-              />
-            }
-            falseRender={
-              <img
-                src={
-                  tempProfileData
-                    ? URL.createObjectURL(tempProfileData)
-                    : defaultProfile
-                }
-                alt=""
-                className="object-cover w-full h-full rounded-full"
-              />
-            }
-          />
-
-          <If
-            condition={!!tempProfileData}
-            trueRender={
-              <div className="absolute flex h-10 bg-white rounded-full shadow right-3 bottom-3">
-                <button
-                  onClick={handleResetTempProfile}
-                  type="button"
-                  className="flex items-center justify-center mx-2 text-error"
-                >
-                  <IoMdClose size={20} className="text-black" />
-                </button>
-                <button
-                  onClick={handleUploadProfile}
-                  type="button"
-                  className="flex items-center justify-center mx-2"
-                >
-                  <MdDone size={20} className="text-primary" />
-                </button>
-              </div>
-            }
-            falseRender={
-              <button
-                onClick={handleClickInput}
-                type="button"
-                className="absolute flex items-center justify-center w-10 h-10 rounded-full shadow bg-primary right-3 bottom-3"
-              >
-                <MdModeEdit size={20} className="text-white" />
-              </button>
-            }
+          <ProfileImageContainer
+            src={profileData.profile_url}
+            alt={profileData.username}
+            onUpload={handleUploadProfile}
           />
         </div>
       </div>
@@ -181,14 +111,6 @@ const ProfileUploadForm = () => {
             아직 프로필 사진이 등록되지 않았습니다. 프로필 사진을 등록해주세요.
           </Blockquote>
         }
-      />
-
-      <input
-        type="file"
-        accept="image/*"
-        hidden
-        ref={inputRef}
-        onChange={handleChangeInput}
       />
 
       <Modal open={isResetProfileModalOpen}>

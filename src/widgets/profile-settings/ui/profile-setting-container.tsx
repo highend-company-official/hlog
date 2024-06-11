@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-
 import { UserQuitButton } from "@/features/quit-user";
 import { SignOutButton } from "@/features/sign-out";
 import { ProfileUploadForm } from "@/features/upload-profile";

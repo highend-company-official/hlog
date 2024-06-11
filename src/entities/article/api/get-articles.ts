@@ -18,11 +18,31 @@ const getArticles = async (filterType: ArticleFilterType) => {
       has_hit, 
       hits, 
       profiles(id, profile_url, username),
+      categories(category),
       likes(count),
-      categories(category)
+      comments(count)
       `
     )
     .throwOnError();
+
+  if (filterType.sortType === SortType.new) {
+    baseQuery = baseQuery.order("created_at", { ascending: false });
+  } else if (filterType.sortType === SortType.old) {
+    baseQuery = baseQuery.order("created_at", { ascending: true });
+  }
+  // TODO
+  // else if (filterType.sortType === SortType.trend) {
+  //   baseQuery = baseQuery
+  //     // .order("created_at", { ascending: false })
+  //     .order("likes.count", {
+  //       referencedTable: "likes",
+  //       ascending: false,
+  //     })
+  //     .order("count", {
+  //       referencedTable: "comments",
+  //       ascending: false,
+  //     });
+  // }
 
   if (filterType.categories && filterType.categories.length > 0) {
     const categoryIds = filterType.categories;
@@ -44,21 +64,6 @@ const getArticles = async (filterType: ArticleFilterType) => {
     }
   }
 
-  if (filterType.userId) {
-    baseQuery = baseQuery.eq("user_id", filterType.userId);
-  }
-
-  if (filterType.sortType === SortType.new) {
-    baseQuery = baseQuery.order("created_at", { ascending: false });
-  } else if (filterType.sortType === SortType.old) {
-    baseQuery = baseQuery.order("created_at", { ascending: true });
-  } else if (filterType.sortType === SortType.trend) {
-    baseQuery = baseQuery.order("count", {
-      referencedTable: "likes",
-      ascending: false,
-    });
-  }
-
   const { data, error } = await baseQuery;
 
   if (error) {
@@ -75,7 +80,8 @@ const getArticles = async (filterType: ArticleFilterType) => {
     has_like: article.has_like,
     has_hit: article.has_hit,
     has_comments: article.has_comments,
-    likes: article.likes?.[0]?.count ?? 0,
+    likeCount: article.likes[0].count ?? 0,
+    commentCount: article.comments[0].count ?? 0,
     categories: article.categories.map(({ category }) => category),
     profile: {
       id: profiles!.id,

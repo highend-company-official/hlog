@@ -23,7 +23,6 @@ import {
   addImage,
   uploadImage,
 } from "../lib";
-import SavedContentLoadModal from "./saved-content-load-modal";
 
 import { KeyCommandType } from "../constants";
 import { CodeBlock } from "./custom-block";
@@ -37,19 +36,14 @@ type Props = {
 };
 
 const EditorCore = ({ readOnly = false, editorState }: Props) => {
-  const { open: openArticleOverlay } = shared.useOverlay();
+  const { open: openArticleImageOverlay } = shared.useOverlay();
   const { open: openFileUploadOverlay, exit: exitFileUploadOverlay } =
     shared.useOverlay();
 
-  const {
-    editorMetaData,
-    setEditorMetaData,
-    reset: resetEditorStore,
-  } = useEditorStore();
+  const { reset: resetEditorStore, setContent, content } = useEditorStore();
   const { open: toastOpen } = shared.useToast();
   const { read: readArticles } = shared.useBucket("articles");
-  const { open } = shared.useOverlay();
-  const { loadSavedContent, saveCurrentContent } = useEditorUtils();
+  const { saveCurrentContent } = useEditorUtils();
   const { data: session } = shared.useSession();
   const profile = shared.useProfile(session?.user.id);
 
@@ -75,22 +69,16 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
   };
 
   const toggleInline = (type: DraftInlineStyleType) => {
-    setEditorMetaData({
-      ...editorMetaData,
-      content: RichUtils.toggleInlineStyle(editorMetaData.content, type),
-    });
+    setContent(RichUtils.toggleInlineStyle(content, type));
   };
 
   const toggleBlock = (type: DraftBlockType) => {
-    setEditorMetaData({
-      ...editorMetaData,
-      content: RichUtils.toggleBlockType(editorMetaData.content, type),
-    });
+    setContent(RichUtils.toggleBlockType(content, type));
   };
 
   // Event Handlers
   const handleSaveEditor = () => {
-    if (editorMetaData.content.getCurrentContent().getPlainText() === "") {
+    if (content.getCurrentContent().getPlainText() === "") {
       toastOpen({
         type: "warning",
         content: "저장을 위해서 내용을 입력해주세요",
@@ -121,10 +109,6 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
     return isHandled;
   };
 
-  const handleChangeEditor = (editorContent: EditorState) => {
-    setEditorMetaData({ ...editorMetaData, content: editorContent });
-  };
-
   const handleUploadedSuccess = (url: string) => {
     // Image Upload
     toastOpen({
@@ -132,13 +116,12 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
       content: "이미지 업로드 완료",
       staleTime: 3000,
     });
-    setEditorMetaData({
-      ...editorMetaData,
-      content: addImage({
+    setContent(
+      addImage({
         url: readArticles(url),
-        editorState: editorMetaData.content,
-      }),
-    });
+        editorState: content,
+      })
+    );
   };
 
   const handleUploadedError = (error: string) => {
@@ -200,18 +183,10 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
     return "handled";
   };
 
-  const handleOpenArticleDetail = (url: string) =>
-    openArticleOverlay(({ isOpen, exit }) => (
+  const handleOpenArticleImageDetail = (url: string) =>
+    openArticleImageOverlay(({ isOpen, exit }) => (
       <shared.ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
     ));
-
-  shared.useMount(() => {
-    if (loadSavedContent() && !readOnly) {
-      open(({ exit, isOpen }) => (
-        <SavedContentLoadModal open={isOpen} onClose={exit} />
-      ));
-    }
-  });
 
   shared.useUnmount(() => resetEditorStore());
 
@@ -222,17 +197,15 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
         readOnly={readOnly}
         blockStyleFn={blockStyleFn}
         placeholder={shared.EDITOR_CONST.PLACEHOLDER}
-        editorState={
-          readOnly && editorState ? editorState : editorMetaData.content
-        }
-        onChange={handleChangeEditor}
+        editorState={readOnly && editorState ? editorState : content}
+        onChange={setContent}
         handleKeyCommand={handleKeyCommand}
         keyBindingFn={bindingKeyFunction}
         handlePastedFiles={handlePasteFile}
         handleDroppedFiles={handleDroppedFile}
         blockRendererFn={(block) =>
-          blockRenderFn(block, editorMetaData.content.getCurrentContent(), {
-            onClick: handleOpenArticleDetail,
+          blockRenderFn(block, content.getCurrentContent(), {
+            onClick: handleOpenArticleImageDetail,
           })
         }
         blockRenderMap={blockRenderMap}

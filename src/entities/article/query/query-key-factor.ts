@@ -3,7 +3,6 @@ import { SortType } from "../model";
 
 export type ArticleFilterType = {
   categories?: string[];
-  userId?: string;
   sortType?: SortType;
 };
 
@@ -12,4 +11,5 @@ export const articleKeyFactor = createQueryKeys("article", {
   detail: (articleId: string) => [articleId],
   articleLiked: (userId: string, articleId: string) => [userId, articleId],
   searchList: (search: string) => [search],
+  profileList: (userId: string) => [userId],
 });

@@ -1,11 +1,10 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 
-import { IoMdTrendingUp } from "react-icons/io";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { PiSortDescendingLight, PiSortAscendingLight } from "react-icons/pi";
 
 import { SortType, useArticleStore } from "@/entities/article";
-import { Dropdown, useOutsideClick } from "@/shared";
+import { Dropdown } from "@/shared";
 
 const SortItem = ({
   sortType,
@@ -45,7 +44,7 @@ const SortArticleSelector = () => {
   const { filter, setFilter } = useArticleStore();
 
   const SORT_MAP = {
-    trend: <SortItem icon={<IoMdTrendingUp />} sortType="트렌드" />,
+    // trend: <SortItem icon={<IoMdTrendingUp />} sortType="트렌드" />,
     new: <SortItem icon={<PiSortDescendingLight />} sortType="최신 순" />,
     old: <SortItem icon={<PiSortAscendingLight />} sortType="오래된 순" />,
   };
@@ -59,7 +58,7 @@ const SortArticleSelector = () => {
   return (
     <Dropdown>
       <CustomDropdownTrigger
-        label={SORT_MAP[filter.sortType ?? SortType.trend]}
+        label={SORT_MAP[filter.sortType ?? SortType.new]}
       />
       <Dropdown.Menu>
         {Object.entries(SORT_MAP).map(([key, value]) => {

@@ -1,8 +1,7 @@
-import { EditorState, convertFromRaw } from "draft-js";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Divider } from "@/shared";
-import { EditorCore } from "@/widgets/editor";
+import { EditorCore, useEditorUtils } from "@/widgets/editor";
 import { useGetArticleById } from "@/entities/article";
 import { LikeArticleButton } from "@/features/like-article";
 import { CreateCommentForm } from "@/features/create-comment";
@@ -13,6 +12,7 @@ import MetaDataView from "./meta-data-view";
 const ArticleDetailViewContainer = () => {
   const navigate = useNavigate();
   const params = useParams<{ article_id: string }>();
+  const { parseSavedContentToState } = useEditorUtils();
   const { data } = useGetArticleById(params.article_id!);
 
   if (!data) {
@@ -30,9 +30,7 @@ const ArticleDetailViewContainer = () => {
     );
   }
 
-  const editorState = EditorState.createWithContent(
-    convertFromRaw(JSON.parse(data.body))
-  );
+  const editorState = parseSavedContentToState(data.body ?? "");
 
   return (
     <article className="grid content-center grid-cols-10 pt-24 mx-8">

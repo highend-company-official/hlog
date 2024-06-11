@@ -1,13 +1,17 @@
 import React from "react";
-import { useArticleStore, type ViewMode } from "@/entities/article";
+import {
+  useArticleStore,
+  useGetArticles,
+  type ViewMode,
+} from "@/entities/article";
 
-import { ArticleType } from "@/shared";
+import { ArrayElement } from "@/shared";
 
 import Card from "./card";
 import List from "./list";
 import Gallery from "./gallery";
 
-type ArticleCardProps = Omit<ArticleType, "body">;
+type ArticleCardProps = ArrayElement<ReturnType<typeof useGetArticles>["data"]>;
 
 const ArticleCardRender: React.FC<
   { viewMode: ViewMode } & ArticleCardProps

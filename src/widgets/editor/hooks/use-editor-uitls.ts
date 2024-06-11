@@ -1,8 +1,8 @@
 import {
+  ContentState,
   convertFromRaw,
   convertToRaw,
   EditorState,
-  RawDraftContentState,
 } from "draft-js";
 import { useCallback } from "react";
 
@@ -11,7 +11,7 @@ import * as shared from "@/shared";
 
 type LocalStorageType = {
   title: string;
-  content: RawDraftContentState;
+  content: string;
   summary: string;
   thumbnail: File | null;
   hasComment: boolean;
@@ -20,46 +20,68 @@ type LocalStorageType = {
 };
 
 const useEditorUtils = () => {
-  const { editorMetaData, setEditorMetaData } = useEditorStore();
+  const { editorMetaData, setEditorMetaData, content, setContent } =
+    useEditorStore();
   const [editorLocalStorage, setEditorLocalStoage] =
     shared.useLocalStorage<LocalStorageType | null>(
       shared.STORAGE_CONSTS.HLOG_EDITOR,
       null
     );
 
+  const parseSavedContentToState = (targetContent: string) => {
+    const json = JSON.parse(targetContent);
+    return EditorState.createWithContent(convertFromRaw(json));
+  };
+
+  const parseEditorStateToSave = (targetContent: EditorState) => {
+    return JSON.stringify(convertToRaw(targetContent.getCurrentContent()));
+  };
+
   const saveCurrentContent = useCallback(() => {
     setEditorLocalStoage({
       ...editorMetaData,
-      content: convertToRaw(editorMetaData.content.getCurrentContent()),
+      content: parseEditorStateToSave(content),
     });
   }, [editorMetaData, setEditorLocalStoage]);
 
-  const loadSavedContent = useCallback(() => {
+  const loadSavedEditorMetaData = useCallback(() => {
     if (editorLocalStorage) {
       return {
         ...editorLocalStorage,
-        content: convertFromRaw(editorLocalStorage.content),
+        content: parseSavedContentToState(editorLocalStorage.content),
       };
     }
   }, [editorLocalStorage]);
 
-  const resetSavedContent = useCallback(() => {
+  const getPlaneTextLength = (content: ContentState) => {
+    const blocks = convertToRaw(content).blocks;
+    const value = blocks
+      .map((block) => (!block.text.trim() && "\n") || block.text)
+      .join("\n");
+
+    return value.length;
+  };
+
+  const resetSavedEditorMetaData = useCallback(() => {
     setEditorMetaData({
       title: "",
-      content: EditorState.createEmpty(),
       summary: "",
       thumbnail: null,
       hasComment: true,
       hasLike: true,
       hasHit: true,
     });
+    setContent(EditorState.createEmpty());
     setEditorLocalStoage(null);
   }, [setEditorLocalStoage, setEditorMetaData]);
 
   return {
     saveCurrentContent,
-    resetSavedContent,
-    loadSavedContent,
+    resetSavedEditorMetaData,
+    loadSavedEditorMetaData,
+    parseSavedContentToState,
+    parseEditorStateToSave,
+    getPlaneTextLength,
   };
 };
 

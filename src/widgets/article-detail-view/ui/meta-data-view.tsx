@@ -2,7 +2,6 @@ import { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  ArticleType,
   If,
   ImageDetailOverlay,
   useBucket,
@@ -13,8 +12,9 @@ import {
 import "draft-js/dist/Draft.css";
 import dayjs from "dayjs";
 import { PiSealCheckFill } from "react-icons/pi";
+import { useGetArticleById } from "@/entities/article";
 
-type Props = ArticleType & PropsWithChildren;
+type Props = ReturnType<typeof useGetArticleById>["data"] & PropsWithChildren;
 
 const MetaDataView = (props: Props) => {
   const navigate = useNavigate();
@@ -32,26 +32,28 @@ const MetaDataView = (props: Props) => {
       <ImageDetailOverlay
         open={isOpen}
         onClose={exit}
-        url={readThumbnails(props!.thumbnail)}
+        url={readThumbnails(props.thumbnail!)}
       />
     ));
 
   return (
     <>
       <img
-        src={readThumbnails(props!.thumbnail)}
-        alt={props.summary}
+        src={readThumbnails(props.thumbnail!)}
+        alt={props.summary!}
         className="object-cover col-start-3 w-full rounded-xl h-[400px] cursor-pointer shadow-md col-span-6 hover:shadow-2xl transition ease-in-out"
         onClick={handleOpenThumbnailDetail}
       />
 
       <section className="col-span-6 col-start-3 flex flex-col mt-5 justify-between min-h-[50px] w-full break-keep text-wrap break-words">
         <h3 className="text-5xl font-semibold text-black">{props?.title}</h3>
-        {props.categories.map((category) => (
-          <div className="mt-3 text-sm text-primary" key={category}>
-            # {category}
-          </div>
-        ))}
+        <div className="flex flex-wrap">
+          {props.categories!.map(({ id, category }) => (
+            <div className="mt-1 mr-1 text-sm text-primary" key={id}>
+              # {category}
+            </div>
+          ))}
+        </div>
         <div className="flex items-center mt-6 transition ease-in-out">
           <img
             src={profileData?.profile_url}

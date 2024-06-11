@@ -12,7 +12,6 @@ import {
   useProfile,
 } from "@/shared";
 import { useGetTopNotice } from "@/entities/notice";
-import { BiSolidMegaphone } from "react-icons/bi";
 
 const AuthenticatedView = () => {
   const navigate = useNavigate();

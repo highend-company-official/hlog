@@ -1,9 +1,6 @@
-import { CommentType, supabase } from "@/shared";
+import { supabase } from "@/shared";
 
-const createComment = async (
-  articleId: string,
-  body: string
-): Promise<CommentType> => {
+const createComment = async (articleId: string, body: string) => {
   const response = await supabase
     .from("comments")
     .insert({

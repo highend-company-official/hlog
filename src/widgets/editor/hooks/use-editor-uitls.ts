@@ -5,6 +5,7 @@ import {
   EditorState,
 } from "draft-js";
 import { useCallback } from "react";
+import { TablesInsert } from "types/generated-database.types";
 
 import { useEditorStore } from "@/entities/article";
 import * as shared from "@/shared";
@@ -14,6 +15,7 @@ type LocalStorageType = {
   content: string;
   summary: string;
   thumbnail: File | null;
+  category: TablesInsert<"categories">[];
   hasComment: boolean;
   hasLike: boolean;
   hasHit: boolean;
@@ -67,6 +69,7 @@ const useEditorUtils = () => {
       title: "",
       summary: "",
       thumbnail: null,
+      category: [],
       hasComment: true,
       hasLike: true,
       hasHit: true,

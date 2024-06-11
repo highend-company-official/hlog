@@ -1,8 +1,6 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { IoMdClose } from "react-icons/io";
-import { MdDone, MdModeEdit } from "react-icons/md";
+import { useQueryClient } from "@tanstack/react-query";
 
 import {
   profileKeyFactor,

@@ -13,7 +13,7 @@ function HomePage() {
       <Header />
       <HomeBanner />
 
-      <div className="grid w-full grid-cols-4">
+      <div className="grid w-full grid-cols-4 max-md:pt-14">
         <aside className="relative col-span-1 p-4 max-md:hidden">
           <QueryBoundary loadingFallback={<Skeleton height={800} />}>
             <ArticleCategorySelector />

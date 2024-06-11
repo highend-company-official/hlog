@@ -36,7 +36,7 @@ const CommentCard = (props: shared.CommentType) => {
           <img
             src={profileData?.profile_url}
             alt={profileData.username}
-            className="object-cover w-10 h-10 mr-3 rounded-full"
+            className="object-cover w-10 h-10 mr-3 rounded-full max-md:hidden"
           />
           <span className="font-bold mr-2">{profileData.username}</span>
           <shared.If
@@ -53,7 +53,7 @@ const CommentCard = (props: shared.CommentType) => {
                 작성자
               </span>
 
-              <div className="ml-auto">
+              <div className="ml-auto max-md:hidden">
                 <EditCommentButton commentId={props.id} body={props.body} />
                 <DeleteCommentButton commentId={props.id} />
               </div>

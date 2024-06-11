@@ -41,11 +41,11 @@ const MetaDataView = (props: Props) => {
       <img
         src={readThumbnails(props.thumbnail!)}
         alt={props.summary!}
-        className="object-cover col-start-3 w-full rounded-xl h-[400px] cursor-pointer shadow-md col-span-6 hover:shadow-2xl transition ease-in-out"
+        className="object-cover col-start-3 w-full rounded-xl h-[400px] cursor-pointer shadow-md col-span-6 hover:shadow-2xl transition ease-in-out max-md:col-span-10 max-md:col-start-1"
         onClick={handleOpenThumbnailDetail}
       />
 
-      <section className="col-span-6 col-start-3 flex flex-col mt-5 justify-between min-h-[50px] w-full break-keep text-wrap break-words">
+      <section className="col-span-6 col-start-3 flex flex-col mt-5 justify-between min-h-[50px] w-full break-keep text-wrap break-words max-md:col-span-10 max-md:col-start-1">
         <h3 className="text-5xl font-semibold text-black">{props?.title}</h3>
         <div className="flex flex-wrap">
           {props.categories!.map(({ id, category }) => (
@@ -77,7 +77,7 @@ const MetaDataView = (props: Props) => {
       <If
         condition={!!props?.summary}
         trueRender={
-          <div className="w-full col-span-6 col-start-3 p-4 mt-4 text-lg break-words bg-gray-100 rounded-xl text-wrap">
+          <div className="w-full col-span-6 col-start-3 p-4 mt-4 text-lg break-words bg-gray-100 rounded-xl text-wrap max-md:col-span-10 max-md:col-start-1">
             <h4 className="font-bold text-black">아티클 요약</h4>
             <span className="text-subTitle">{props?.summary}</span>
           </div>

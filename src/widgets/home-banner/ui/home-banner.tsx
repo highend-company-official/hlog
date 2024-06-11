@@ -2,7 +2,7 @@ import bannerVideo from "@/shared/assets/banner-video.mp4";
 
 const HomeBanner = () => {
   return (
-    <section className="relative col-span-4 w-full bg-black h-[400px] overflow-hidden">
+    <section className="relative col-span-4 w-full bg-black h-[400px] overflow-hidden max-md:hidden">
       <video className="w-full h-full object-cover" autoPlay loop muted>
         <source src={bannerVideo} type="video/mp4" />
       </video>

@@ -1,7 +1,6 @@
-import { Suspense } from "react";
 import { useParams } from "react-router-dom";
 
-import { CommentType, Skeleton } from "@/shared";
+import { CommentType, QueryBoundary, Skeleton } from "@/shared";
 
 import { useGetComments } from "../lib";
 
@@ -26,11 +25,11 @@ const CommentList = ({ renderCard: CommentCard }: CommentListProps) => {
   }
 
   return (
-    <Suspense fallback={<Skeleton height={500} />}>
+    <QueryBoundary loadingFallback={<Skeleton height={500} />}>
       {data.map((commentData) => (
         <CommentCard key={commentData.id} {...commentData} />
       ))}
-    </Suspense>
+    </QueryBoundary>
   );
 };
 

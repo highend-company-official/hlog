@@ -48,7 +48,7 @@ const UnAuthenticatedView = () => {
 const NoticeSection = () => {
   const { data } = useGetTopNotice();
   return (
-    <div className="flex items-center ml-4">
+    <div className="flex items-center ml-4 max-md:hidden">
       {data?.title ? (
         <>
           <div className="bg-primary text-white px-2 py-1 rounded-full mr-1 text-xs">
@@ -85,7 +85,7 @@ function Header() {
         </QueryBoundary>
       </div>
 
-      <ul className="flex items-center">
+      <ul className="flex items-center max-md:hidden">
         <li id="search">
           <div
             className="mr-8 cursor-pointer"

@@ -36,7 +36,7 @@ const ArticleDetailViewContainer = () => {
     <article className="grid content-center grid-cols-10 pt-24 mx-8">
       <MetaDataView {...data} />
 
-      <div className="col-span-6 col-start-3">
+      <div className="col-span-6 col-start-3 max-md:col-span-10 max-md:col-start-1">
         <EditorCore readOnly editorState={editorState} />
 
         <LikeArticleButton />

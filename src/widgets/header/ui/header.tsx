@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { FaPen } from "react-icons/fa";
 import { LuSearch } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";

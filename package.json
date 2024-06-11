@@ -6,9 +6,9 @@
   "source": "index.html",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --base=/",
+    "build": "tsc && vite build",
     "lint": "eslint",
-    "preview": "vite build --base=/ && vite preview",
+    "preview": "vite build && vite preview",
     "gen:types": "npx supabase gen types typescript --project-id '$PROJECT_REF' --schema public > types/supabase.ts"
   },
   "dependencies": {

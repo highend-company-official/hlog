@@ -22,7 +22,7 @@ const ArticleSearchItem = ({
 
   return (
     <li
-      className="mx-6 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group"
+      className="mx-3 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group"
       onClick={handleClose}
     >
       <Link to={`/article-read/${id}`}>
@@ -33,8 +33,9 @@ const ArticleSearchItem = ({
           />
           <h3 className="font-bold group-hover:text-white">{title}</h3>
           <div className="flex ml-auto group-hover:text-white">
-            <span>{username}</span>
-            <span>{dayjs(created_at).format("YYYY-MM-YY")}</span>
+            <span>
+              {username} | {dayjs(created_at).format("YYYY-MM-YY")}
+            </span>
           </div>
         </div>
       </Link>

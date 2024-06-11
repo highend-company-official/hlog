@@ -185,6 +185,27 @@ export type Database = {
           }
         ];
       };
+      notices: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          id: string;
+          title: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          title?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          title?: string | null;
+        };
+        Relationships: [];
+      };
       profile_settings: {
         Row: {
           bio: Json | null;

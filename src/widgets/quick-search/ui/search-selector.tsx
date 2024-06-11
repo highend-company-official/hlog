@@ -1,4 +1,4 @@
-import { If, QueryBoundary, Skeleton } from "@/shared";
+import { If, QueryBoundary } from "@/shared";
 
 import { useSearchStore } from "@/entities/search";
 
@@ -30,9 +30,7 @@ const SearchSelector = () => {
         condition={mode === "article"}
         trueRender={
           <>
-            <span className="my-2 ml-3 text-lg font-semibold">
-              검색된 아티클
-            </span>
+            <div className="ml-3 mb-4 text-lg font-semibold">검색된 아티클</div>
             <ArticleSearchSection />
           </>
         }
@@ -42,9 +40,7 @@ const SearchSelector = () => {
         condition={mode === "profile"}
         trueRender={
           <>
-            <span className="my-2 ml-3 text-lg font-semibold">
-              검색된 프로필
-            </span>
+            <div className="ml-3 mb-4 text-lg font-semibold">검색된 프로필</div>
             <ProfileSearchSection />
           </>
         }

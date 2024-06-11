@@ -22,7 +22,7 @@ const ArticleCategorySelector = () => {
   };
 
   return (
-    <div className="sticky p-4 text-black top-20">
+    <div className="p-4 text-black top-20">
       <h3 className="text-3xl font-bold">카테고리</h3>
       <p className="text-sm">원하는 카테고리를 기반으로 탐색해보세요.</p>
 

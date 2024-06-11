@@ -17,7 +17,7 @@ const ProfileSearchItem = ({ id, username, profile_url }: Props) => {
 
   return (
     <li
-      className="mx-6 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group"
+      className="mx-3 mb-3 list-none transition ease-in-out rounded-md hover:bg-primary group"
       onClick={handleClose}
     >
       <Link to={`/profile/${id}`}>

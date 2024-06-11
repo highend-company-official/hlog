@@ -6,32 +6,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSearchStore } from "@/entities/search";
 import {
   useSession,
-  useFetchUser,
-  useBucket,
-  isProviderURL,
   Authentication,
   Button,
   Skeleton,
+  useProfile,
 } from "@/shared";
-import defaultProfile from "@/shared/assets/default-profile.jpg";
+import { useGetTopNotice } from "@/entities/notice";
+import { BiSolidMegaphone } from "react-icons/bi";
 
 const AuthenticatedView = () => {
   const navigate = useNavigate();
-  const { read } = useBucket("profiles");
   const { data: session } = useSession();
-  const { data: userData } = useFetchUser(session?.user.id ?? null);
+  const profileData = useProfile(session?.user.id);
 
   return (
     <img
-      src={
-        userData?.profile_url
-          ? isProviderURL(userData?.profile_url)
-            ? userData?.profile_url
-            : read(userData?.profile_url)
-          : defaultProfile
-      }
+      src={profileData?.profile_url}
       className="object-cover w-8 h-8 rounded-full shadow-sm cursor-pointer"
-      alt={userData?.username}
+      alt={profileData?.username}
       onClick={() => {
         navigate(`/profile/${session?.user.id}`);
       }}
@@ -56,6 +48,8 @@ const UnAuthenticatedView = () => {
 
 function Header() {
   const navigate = useNavigate();
+  const { data } = useGetTopNotice();
+
   const { setIsSearchOpen } = useSearchStore();
 
   return (
@@ -68,6 +62,21 @@ function Header() {
             </span>
           </Link>
         </h1>
+
+        <div className="flex items-center ml-4">
+          {data?.title ? (
+            <>
+              <div className="bg-primary text-white px-2 py-1 rounded-full mr-1 text-xs">
+                공지
+              </div>
+              <Link className="text-md font-semibold underline" to={`/notice`}>
+                {data.title}
+              </Link>
+            </>
+          ) : (
+            <span className="text-sm">등록된 공지가 없습니다.</span>
+          )}
+        </div>
       </div>
 
       <ul className="flex items-center">

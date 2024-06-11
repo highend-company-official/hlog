@@ -45,7 +45,7 @@ const ProfileArticleCard = (props: ArticleCardProps) => {
           <img
             src={read(props.thumbnail ?? "")}
             alt={props.title ?? ""}
-            className="object-cover h-20 col-span-1 max-w-20 rounded-xl max-xl:hidden"
+            className="object-cover w-full h-20 col-span-1 max-w-20 rounded-xl max-xl:hidden"
           />
 
           <div className="col-span-8">

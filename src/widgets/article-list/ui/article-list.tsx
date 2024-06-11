@@ -55,10 +55,10 @@ const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
   if (articles?.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center w-full mt-32">
-        <ImFileEmpty size={180} />
+        <ImFileEmpty size={100} />
 
-        <h3 className="mt-12 text-4xl">준비된 게시글이 없습니다.</h3>
-        <span className="my-5">HLOG에 기여해주세요.</span>
+        <h3 className="mt-12 text-2xl font-bold">준비된 게시글이 없습니다.</h3>
+        <span className="my-5 text-sm">HLOG에 기여해주세요.</span>
         <shared.Button onClick={() => navigate("/article-write")}>
           글 작성
         </shared.Button>

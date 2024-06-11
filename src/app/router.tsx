@@ -9,10 +9,10 @@ import * as pages from "@/pages";
 import { AuthLayout } from "@/widgets/auth-layout";
 import { ProfileSettingsContainer } from "@/widgets/profile-settings";
 import { ProfileInfoContainer } from "@/widgets/profile-info";
-import * as shared from "@/shared";
-
-import * as hocs from "./hocs";
 import { ProfileArticlesContainer } from "@/widgets/profile-articles";
+
+import * as shared from "@/shared";
+import * as hocs from "./hocs";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +22,14 @@ const router = createBrowserRouter(
         element={
           <hocs.SearchContainer>
             <pages.HomePage />
+          </hocs.SearchContainer>
+        }
+      />
+      <Route
+        path="notice"
+        element={
+          <hocs.SearchContainer>
+            <pages.NoticePage />
           </hocs.SearchContainer>
         }
       />

@@ -38,7 +38,7 @@ const QueryBoundary = ({
   children,
   loadingFallback = (
     <div className="flex flex-col items-center justify-center w-full py-20 text-center">
-      <CgSpinner className="animate-spin" />
+      <CgSpinner className="animate-spin" size={50} />
     </div>
   ),
   errorFallback = DefaultErrorFallback,

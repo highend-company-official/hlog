@@ -10,7 +10,6 @@ export default defineConfig({
   },
   plugins: [react()],
   base: "./",
-  // Vite에서 Global 세팅을 기본적으로 해주지 않기 때문
   define: {
     global: "window",
   },

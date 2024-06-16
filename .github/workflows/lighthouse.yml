@@ -10,11 +10,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: "14"
       - name: Install dependencies
         run: yarn install
 
-      - name: Lighthouse audit
+      - name: Run Lighthouse CI
         run: yarn lhci
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

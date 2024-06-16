@@ -6,10 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - run: npm install && npm install -g @lhci/cli@0.6.x
-      - run: |
-          nohup npm run preview &
-          sleep 20
-      - run: lhci autorun
+      - run: npm install -g @lhci/cli@0.6.x
+      - run: lhci autorun --url=https://tech-hlog.vercel.app/
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

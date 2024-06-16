@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
-        run: yarn
+        run: yarn install
 
-      - name: lighthouse mobile audit
+      - name: lighthouse audit
         run: yarn lhci
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

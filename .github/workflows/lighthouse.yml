@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   lighthouse:
     name: Lighthouse CI
@@ -10,10 +11,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: "18"
+          node-version: "22.2.0"
+
       - name: Install dependencies
         run: yarn install
 

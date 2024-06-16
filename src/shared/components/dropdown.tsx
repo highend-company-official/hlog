@@ -47,19 +47,18 @@ const DropdownContainer = ({
   className?: string;
 }) => {
   const context = useContext(dropdownContext);
-
-  if (!context) return null;
-
-  const [, setIsOpen] = context;
-
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const setClose = () => setIsOpen(false);
 
   useOutsideClick(dropdownRef, () => {
     setClose();
     onClose?.();
   });
+
+  if (!context) return null;
+
+  const [, setIsOpen] = context;
+
+  const setClose = () => setIsOpen(false);
 
   return (
     <div

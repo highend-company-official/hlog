@@ -13,6 +13,8 @@ const config: Config.InitialOptions = {
       tsconfig: "tsconfig.json",
     },
   },
+  testEnvironment: "jsdom",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };
 
 export default config;

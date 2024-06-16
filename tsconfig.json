@@ -26,13 +26,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src",
-    "src/features/.temp/auth",
-    "src/features/.temp/comment",
-    "src/features/.temp/article-read",
-    "src/widgets/comment-card/ui/.tsx",
-    "types"
-  ],
+  "include": ["src", "types", "jest.setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

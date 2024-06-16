@@ -9,6 +9,7 @@ const Authentication = ({ authenticatedView, unauthenticatedView }: Props) => {
   const { data: session } = useSession();
 
   if (session) return <>{authenticatedView}</>;
+
   return <>{unauthenticatedView}</>;
 };
 

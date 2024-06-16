@@ -73,6 +73,7 @@ const SettingPart = () => {
           <span className="text-black/50">(Optional)</span>
         </label>
         <textarea
+          maxLength={300}
           id="summary"
           value={editorMetaData.summary}
           className="w-full p-4 text-base text-black border border-gray-300 rounded-lg resize-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500"

@@ -4,6 +4,7 @@ const getNotices = async () => {
   const baseQuery = supabase
     .from("notices")
     .select("id, title, created_at")
+    .order("created_at", { ascending: false })
     .throwOnError();
 
   const { data, error } = await baseQuery;

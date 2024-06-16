@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "lint": "eslint",
     "test": "jest",
-    "preview": "vite build && vite preview",
+    "preview": "vite preview",
     "gen:types": "npx supabase gen types typescript --project-id '$PROJECT_REF' --schema public > types/supabase.ts",
     "lhci": "lhci autorun"
   },

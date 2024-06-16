@@ -2,6 +2,7 @@ import * as React from "react";
 import { CgSpinner } from "react-icons/cg";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 import { QueryBoundary, Skeleton } from "@/shared";
 
@@ -26,5 +27,6 @@ root.render(
         </hocs.ToastContainer>
       </QueryBoundary>
     </hocs.QueryClient>
+    <SpeedInsights />
   </React.StrictMode>
 );

@@ -10,7 +10,8 @@
     "lint": "eslint",
     "test": "jest",
     "preview": "vite build && vite preview",
-    "gen:types": "npx supabase gen types typescript --project-id '$PROJECT_REF' --schema public > types/supabase.ts"
+    "gen:types": "npx supabase gen types typescript --project-id '$PROJECT_REF' --schema public > types/supabase.ts",
+    "lhci": "lhci autorun"
   },
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.4",
@@ -44,6 +45,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.13.0",
     "@tanstack/react-query-devtools": "^5.29.2",
     "@testing-library/dom": "^10.1.0",
     "@testing-library/jest-dom": "^6.4.6",

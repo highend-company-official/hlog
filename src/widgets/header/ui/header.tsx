@@ -12,6 +12,7 @@ import {
   QueryBoundary,
 } from "@/shared";
 import { useGetTopNotice } from "@/entities/notice";
+import { memo } from "react";
 
 const AuthenticatedView = () => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const NoticeSection = () => {
   );
 };
 
-function Header() {
+const Header = memo(() => {
   const navigate = useNavigate();
   const { setIsSearchOpen } = useSearchStore();
 
@@ -119,6 +120,8 @@ function Header() {
       </ul>
     </header>
   );
-}
+});
+
+Header.displayName = "Header";
 
 export default Header;

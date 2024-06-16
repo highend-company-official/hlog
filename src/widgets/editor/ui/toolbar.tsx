@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import classNames from "classnames";
 import { IoHelp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ type ToolbarItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   disabled?: boolean;
 };
 
-const ToolbarItem = (props: ToolbarItemProps) => {
+const ToolbarItem = memo((props: ToolbarItemProps) => {
   return (
     <button
       {...props}
@@ -28,52 +28,66 @@ const ToolbarItem = (props: ToolbarItemProps) => {
       )}
     />
   );
-};
+});
 
 type Props = {
   onPulish: () => void;
 };
 
-const Toolbar = ({ onPulish }: Props) => {
+const Toolbar = memo(({ onPulish }: Props) => {
   const navigate = useNavigate();
   const { editorMetaData, content, setContent } = useEditorStore();
   const { open: openDescriptionModal } = useOverlay();
 
-  const handleClickDescription = () => {
+  const handleClickDescription = useCallback(() => {
     openDescriptionModal(({ isOpen, exit }) => (
       <ShortcutDescriptionModal open={isOpen} onClose={exit} />
     ));
-  };
+  }, [openDescriptionModal]);
 
-  const isPublishDisabled =
-    editorMetaData.title.trim() === "" ||
-    !content.getCurrentContent().hasText();
-
-  const toggleInline =
+  const toggleInline = useCallback(
     (type: DraftInlineStyleType) =>
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-      setContent(RichUtils.toggleInlineStyle(content, type));
-    };
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        setContent(RichUtils.toggleInlineStyle(content, type));
+      },
+    [content, setContent]
+  );
 
-  const toggleBlock = (type: DraftBlockType) => {
-    setContent(RichUtils.toggleBlockType(content, type));
-  };
+  const toggleBlock = useCallback(
+    (type: DraftBlockType) => () => {
+      setContent(RichUtils.toggleBlockType(content, type));
+    },
+    [content, setContent]
+  );
 
-  const isActiveInlineStyle = (type: string): boolean => {
-    const currentStyle = content.getCurrentInlineStyle();
-    return currentStyle.has(type);
-  };
+  const getIsActiveInlineStyle = useCallback(
+    (type: string): boolean => {
+      const currentStyle = content.getCurrentInlineStyle();
+      return currentStyle.has(type);
+    },
+    [content]
+  );
 
-  const isActiveBlockStyle = (type: string): boolean => {
-    const selection = content.getSelection();
-    const blockType = content
-      .getCurrentContent()
-      .getBlockForKey(selection.getStartKey())
-      .getType();
+  const getIsActiveBlockStyle = useCallback(
+    (type: string): boolean => {
+      const selection = content.getSelection();
+      const blockType = content
+        .getCurrentContent()
+        .getBlockForKey(selection.getStartKey())
+        .getType();
 
-    return blockType === type;
-  };
+      return blockType === type;
+    },
+    [content]
+  );
+
+  const isPublishDisabled = useMemo(
+    () =>
+      editorMetaData.title.trim() === "" ||
+      !content.getCurrentContent().hasText(),
+    [content, editorMetaData.title]
+  );
 
   return (
     <>
@@ -88,8 +102,8 @@ const Toolbar = ({ onPulish }: Props) => {
           {HEADERS_MAP.map(({ type, label }) => (
             <ToolbarItem
               key={type}
-              onClick={() => toggleBlock(type)}
-              selected={isActiveBlockStyle(type)}
+              onClick={toggleBlock(type)}
+              selected={getIsActiveBlockStyle(type)}
             >
               {label}
             </ToolbarItem>
@@ -101,7 +115,7 @@ const Toolbar = ({ onPulish }: Props) => {
             <ToolbarItem
               key={type}
               onClick={toggleInline(type)}
-              selected={isActiveInlineStyle(type)}
+              selected={getIsActiveInlineStyle(type)}
             >
               {icon}
             </ToolbarItem>
@@ -110,8 +124,8 @@ const Toolbar = ({ onPulish }: Props) => {
           {BLOCK_MAP.map(({ type, icon }) => (
             <ToolbarItem
               key={type}
-              onClick={() => toggleBlock(type)}
-              selected={isActiveBlockStyle(type)}
+              onClick={toggleBlock(type)}
+              selected={getIsActiveBlockStyle(type)}
             >
               {icon}
             </ToolbarItem>
@@ -132,6 +146,9 @@ const Toolbar = ({ onPulish }: Props) => {
       </div>
     </>
   );
-};
+});
+
+ToolbarItem.displayName = "Toolbar Item";
+Toolbar.displayName = "Toolbar";
 
 export default Toolbar;

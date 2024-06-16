@@ -29,13 +29,14 @@ import { CodeBlock } from "./custom-block";
 
 import "draft-js/dist/Draft.css";
 import FileUploadOverlay from "./file-upload-overlay";
+import { memo, useCallback } from "react";
 
 type Props = {
   readOnly?: boolean;
   editorState?: EditorState; // Read Only 일 경우에 이 값을 넘겨주어여함.
 };
 
-const EditorCore = ({ readOnly = false, editorState }: Props) => {
+const EditorCore = memo(({ readOnly = false, editorState }: Props) => {
   const { open: openArticleImageOverlay } = shared.useOverlay();
   const { open: openFileUploadOverlay, exit: exitFileUploadOverlay } =
     shared.useOverlay();
@@ -57,27 +58,36 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
     })
   );
 
-  const handleOpenFileUploadOverlay = () =>
-    openFileUploadOverlay(({ isOpen }) => (
-      <FileUploadOverlay isOpen={isOpen} />
-    ));
+  const handleOpenFileUploadOverlay = useCallback(
+    () =>
+      openFileUploadOverlay(({ isOpen }) => (
+        <FileUploadOverlay isOpen={isOpen} />
+      )),
+    [openFileUploadOverlay]
+  );
 
-  const blockStyleFn = (contentBlock: ContentBlock) => {
+  const blockStyleFn = useCallback((contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
 
     return shared.STYLE_MAPPER[type];
-  };
+  }, []);
 
-  const toggleInline = (type: DraftInlineStyleType) => {
-    setContent(RichUtils.toggleInlineStyle(content, type));
-  };
+  const toggleInline = useCallback(
+    (type: DraftInlineStyleType) => {
+      setContent(RichUtils.toggleInlineStyle(content, type));
+    },
+    [content, setContent]
+  );
 
-  const toggleBlock = (type: DraftBlockType) => {
-    setContent(RichUtils.toggleBlockType(content, type));
-  };
+  const toggleBlock = useCallback(
+    (type: DraftBlockType) => {
+      setContent(RichUtils.toggleBlockType(content, type));
+    },
+    [content, setContent]
+  );
 
   // Event Handlers
-  const handleSaveEditor = () => {
+  const handleSaveEditor = useCallback(() => {
     if (content.getCurrentContent().getPlainText() === "") {
       toastOpen({
         type: "warning",
@@ -95,98 +105,136 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
       hasCloseButton: false,
       staleTime: 3000,
     });
-  };
+  }, [content, saveCurrentContent, toastOpen]);
 
-  const handleKeyCommand = (command: KeyCommandType) => {
-    const isHandled = matchKeyCommand({
-      command,
-      onBlockCommand: toggleBlock,
-      onInlineCommand: toggleInline,
-      onRefreshCommand: () => null,
-      onSaveCommand: handleSaveEditor,
-    });
+  const handleKeyCommand = useCallback(
+    (command: KeyCommandType) => {
+      const isHandled = matchKeyCommand({
+        command,
+        onBlockCommand: toggleBlock,
+        onInlineCommand: toggleInline,
+        onRefreshCommand: () => null,
+        onSaveCommand: handleSaveEditor,
+      });
 
-    return isHandled;
-  };
+      return isHandled;
+    },
+    [handleSaveEditor, toggleBlock, toggleInline]
+  );
 
-  const handleUploadedSuccess = (url: string) => {
-    // Image Upload
-    toastOpen({
-      type: "success",
-      content: "이미지 업로드 완료",
-      staleTime: 3000,
-    });
-    setContent(
-      addImage({
-        url: readArticles(url),
-        editorState: content,
-      })
-    );
-  };
-
-  const handleUploadedError = (error: string) => {
-    toastOpen({
-      type: "error",
-      content: error,
-      staleTime: 3000,
-    });
-  };
-
-  const handlePasteFile = (files: Blob[]): DraftHandleValue => {
-    if (!isVerified) {
+  const handleUploadedSuccess = useCallback(
+    (url: string) => {
+      // Image Upload
       toastOpen({
-        type: "warning",
-        content: "해당 기능은 인증된 유저만 사용할 수 있습니다.",
+        type: "success",
+        content: "이미지 업로드 완료",
         staleTime: 3000,
       });
-      return "not-handled";
-    }
+      setContent(
+        addImage({
+          url: readArticles(url),
+          editorState: content,
+        })
+      );
+    },
+    [content, readArticles, setContent, toastOpen]
+  );
 
-    const pastedFile = files[0];
-
-    handleOpenFileUploadOverlay();
-    uploadImage({
-      file: pastedFile as File,
-      path: shared.generateRandomId(),
-      successCb: handleUploadedSuccess,
-      errorCb: handleUploadedError,
-      finallyCb: exitFileUploadOverlay,
-    });
-
-    return "handled";
-  };
-
-  const handleDroppedFile = (
-    _: SelectionState,
-    files: Blob[]
-  ): DraftHandleValue => {
-    if (!isVerified) {
+  const handleUploadedError = useCallback(
+    (error: string) => {
       toastOpen({
-        type: "warning",
-        content: "해당 기능은 인증된 유저만 사용할 수 있습니다.",
+        type: "error",
+        content: error,
         staleTime: 3000,
       });
-      return "not-handled";
-    }
+    },
+    [toastOpen]
+  );
 
-    handleOpenFileUploadOverlay();
-    const droppedFile = files[0];
+  const handlePasteFile = useCallback(
+    (files: Blob[]): DraftHandleValue => {
+      if (!isVerified) {
+        toastOpen({
+          type: "warning",
+          content: "해당 기능은 인증된 유저만 사용할 수 있습니다.",
+          staleTime: 3000,
+        });
+        return "not-handled";
+      }
 
-    uploadImage({
-      file: droppedFile as File,
-      path: shared.generateRandomId(),
-      successCb: handleUploadedSuccess,
-      errorCb: handleUploadedError,
-      finallyCb: exitFileUploadOverlay,
-    });
+      const pastedFile = files[0];
 
-    return "handled";
-  };
+      handleOpenFileUploadOverlay();
+      uploadImage({
+        file: pastedFile as File,
+        path: shared.generateRandomId(),
+        successCb: handleUploadedSuccess,
+        errorCb: handleUploadedError,
+        finallyCb: exitFileUploadOverlay,
+      });
 
-  const handleOpenArticleImageDetail = (url: string) =>
-    openArticleImageOverlay(({ isOpen, exit }) => (
-      <shared.ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
-    ));
+      return "handled";
+    },
+    [
+      exitFileUploadOverlay,
+      handleOpenFileUploadOverlay,
+      handleUploadedError,
+      handleUploadedSuccess,
+      isVerified,
+      toastOpen,
+    ]
+  );
+
+  const handleDroppedFile = useCallback(
+    (_: SelectionState, files: Blob[]): DraftHandleValue => {
+      if (!isVerified) {
+        toastOpen({
+          type: "warning",
+          content: "해당 기능은 인증된 유저만 사용할 수 있습니다.",
+          staleTime: 3000,
+        });
+        return "not-handled";
+      }
+
+      handleOpenFileUploadOverlay();
+      const droppedFile = files[0];
+
+      uploadImage({
+        file: droppedFile as File,
+        path: shared.generateRandomId(),
+        successCb: handleUploadedSuccess,
+        errorCb: handleUploadedError,
+        finallyCb: exitFileUploadOverlay,
+      });
+
+      return "handled";
+    },
+    [
+      exitFileUploadOverlay,
+      handleOpenFileUploadOverlay,
+      handleUploadedError,
+      handleUploadedSuccess,
+      isVerified,
+      toastOpen,
+    ]
+  );
+
+  const handleOpenArticleImageDetail = useCallback(
+    (url: string) =>
+      openArticleImageOverlay(({ isOpen, exit }) => (
+        <shared.ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
+      )),
+    [openArticleImageOverlay]
+  );
+
+  const blockRenderingFn = useCallback(
+    (block: ContentBlock) => {
+      blockRenderFn(block, content.getCurrentContent(), {
+        onClick: handleOpenArticleImageDetail,
+      });
+    },
+    [content, handleOpenArticleImageDetail]
+  );
 
   shared.useUnmount(() => resetEditorStore());
 
@@ -203,15 +251,13 @@ const EditorCore = ({ readOnly = false, editorState }: Props) => {
         keyBindingFn={bindingKeyFunction}
         handlePastedFiles={handlePasteFile}
         handleDroppedFiles={handleDroppedFile}
-        blockRendererFn={(block) =>
-          blockRenderFn(block, content.getCurrentContent(), {
-            onClick: handleOpenArticleImageDetail,
-          })
-        }
+        blockRendererFn={blockRenderingFn}
         blockRenderMap={blockRenderMap}
       />
     </div>
   );
-};
+});
+
+EditorCore.displayName = "Editor Core";
 
 export default EditorCore;

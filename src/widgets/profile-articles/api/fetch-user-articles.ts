@@ -1,7 +1,7 @@
 import { supabase } from "@/shared";
 
 const fetchUserArticles = async (userId: string) => {
-  let baseQuery = supabase
+  const baseQuery = supabase
     .from("articles")
     .select(
       `

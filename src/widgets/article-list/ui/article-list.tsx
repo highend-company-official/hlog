@@ -66,7 +66,9 @@ const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
     }
   }, [fetchNextPage, inView]);
 
-  if (articles?.pages.length === 0) {
+  const articleList = articles?.pages?.flat();
+
+  if (articleList.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center w-full mt-32">
         <ImFileEmpty size={100} />
@@ -85,11 +87,9 @@ const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
       <div className="mt-3" />
 
       <ContainerRouter viewMode={articleViewMode}>
-        {articles?.pages?.flatMap((articles) =>
-          articles.map((article) => (
-            <ArticleCard key={article.id} {...article} />
-          ))
-        )}
+        {articleList.map((article) => (
+          <ArticleCard key={article.id} {...article} />
+        ))}
 
         <div ref={ref} />
       </ContainerRouter>

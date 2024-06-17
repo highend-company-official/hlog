@@ -83,8 +83,6 @@
     "ts-jest": "^29.1.4",
     "ts-node": "^10.9.2",
     "typescript": "5.2.2",
-    "vite": "^5.2.11",
-    "vite-plugin-pages": "^0.32.2",
-    "vite-plugin-pages-sitemap": "^1.7.1"
+    "vite": "^5.2.11"
   }
 }

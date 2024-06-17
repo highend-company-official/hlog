@@ -14,7 +14,7 @@ async function withEmail({ email, password, username }: EmailSignUpParams) {
       data: {
         username,
       },
-      emailRedirectTo: "http://localhost:5173/",
+      emailRedirectTo: "https://tech-hlog.vercel.app/",
     },
   });
 

@@ -9,7 +9,7 @@ import { profileKeyFactor } from "@/entities/profile";
 const VerifyEmailForm = () => {
   const { data: session } = useSession();
 
-  const userId = session?.user.id!;
+  const userId = session!.user.id!;
   const profileData = useProfile(userId);
   const queryClient = useQueryClient();
   const { mutateAsync } = usePostVerifyUser(userId);

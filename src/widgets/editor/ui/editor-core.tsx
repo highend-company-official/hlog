@@ -29,12 +29,26 @@ import { CodeBlock } from "./custom-block";
 
 import "draft-js/dist/Draft.css";
 import FileUploadOverlay from "./file-upload-overlay";
-import { memo, useCallback } from "react";
+import { Component, PropsWithChildren, memo, useCallback } from "react";
 
 type Props = {
   readOnly?: boolean;
   editorState?: EditorState; // Read Only 일 경우에 이 값을 넘겨주어여함.
 };
+
+class EditorWrapper extends Component<PropsWithChildren> {
+  constructor(props: PropsWithChildren) {
+    super(props);
+  }
+
+  componentDidCatch() {
+    this.forceUpdate();
+  }
+
+  render() {
+    return this.props.children;
+  }
+}
 
 const EditorCore = memo(({ readOnly = false, editorState }: Props) => {
   const { open: openArticleImageOverlay } = shared.useOverlay();
@@ -239,7 +253,7 @@ const EditorCore = memo(({ readOnly = false, editorState }: Props) => {
   shared.useUnmount(() => resetEditorStore());
 
   return (
-    <div id="hlog">
+    <EditorWrapper>
       <Editor
         spellCheck={false}
         readOnly={readOnly}
@@ -254,7 +268,7 @@ const EditorCore = memo(({ readOnly = false, editorState }: Props) => {
         blockRendererFn={blockRenderingFn}
         blockRenderMap={blockRenderMap}
       />
-    </div>
+    </EditorWrapper>
   );
 });
 

@@ -1,10 +1,11 @@
 div.DraftEditor-root {
-  height: 100%;
+  height: auto;
 }
 
 div.DraftEditor-editorContainer,
 div.public-DraftEditor-content {
-  min-height: 600px;
+  min-height: 300px;
+  height: auto;
 }
 
 div.public-DraftEditorPlaceholder-root {

@@ -1,5 +1,4 @@
-import { FaPen } from "react-icons/fa";
-import { LuSearch } from "react-icons/lu";
+import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useSearchStore } from "@/entities/search";
@@ -20,14 +19,25 @@ const AuthenticatedView = () => {
   const profileData = useProfile(session?.user.id);
 
   return (
-    <img
-      src={profileData?.profile_url}
-      className="object-cover w-8 h-8 rounded-full shadow-sm cursor-pointer"
-      alt={profileData?.username}
-      onClick={() => {
-        navigate(`/profile/${session?.user.id}`);
-      }}
-    />
+    <>
+      <li id="write">
+        <div
+          className="px-2 py-2 mr-8 text-xs text-white rounded-md cursor-pointer bg-primary"
+          onClick={() => navigate("/article-write")}
+        >
+          글 작성
+        </div>
+      </li>
+
+      <img
+        src={profileData?.profile_url}
+        className="object-cover w-8 h-8 rounded-full shadow-sm cursor-pointer"
+        alt={profileData?.username}
+        onClick={() => {
+          navigate(`/profile/${session?.user.id}`);
+        }}
+      />
+    </>
   );
 };
 
@@ -52,10 +62,10 @@ const NoticeSection = () => {
     <div className="flex items-center ml-4 max-md:hidden">
       {data?.title ? (
         <>
-          <div className="bg-primary text-white px-2 py-1 rounded-full mr-1 text-xs">
+          <div className="px-2 py-1 mr-1 text-xs text-white rounded-full bg-primary">
             공지
           </div>
-          <Link className="text-md font-semibold underline" to={`/notice`}>
+          <Link className="font-semibold underline text-md" to={`/notice`}>
             {data.title}
           </Link>
         </>
@@ -67,7 +77,6 @@ const NoticeSection = () => {
 };
 
 const Header = memo(() => {
-  const navigate = useNavigate();
   const { setIsSearchOpen } = useSearchStore();
 
   return (
@@ -75,7 +84,7 @@ const Header = memo(() => {
       <div className="flex items-center">
         <h1 className="text-2xl font-semibold">
           <Link to="/">
-            <span className="relative inline-block bg-primary px-2 py-1">
+            <span className="relative inline-block px-2 py-1 bg-primary">
               <span className="relative text-white">HLOG</span>
             </span>
           </Link>
@@ -89,19 +98,13 @@ const Header = memo(() => {
       <ul className="flex items-center max-md:hidden">
         <li id="search">
           <div
-            className="mr-8 cursor-pointer"
+            className="w-[200px] rounded-full bg-black/10 mr-8 cursor-pointer flex px-3 py-2 hover:bg-black/20 transition ease-in-out"
             onClick={() => setIsSearchOpen(true)}
           >
-            <LuSearch size={24} />
-          </div>
-        </li>
-
-        <li id="write">
-          <div
-            className="mr-8 cursor-pointer"
-            onClick={() => navigate("/article-write")}
-          >
-            <FaPen size={24} />
+            <span className="text-sm truncate text-black/40">
+              검색어를 입력하세요
+            </span>
+            <FaSearch className="ml-auto text-black" size={16} />
           </div>
         </li>
 

@@ -42,7 +42,7 @@ const PublishArticleModal = ({ open, onClose }: Props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { open: openToast } = useToast();
-  const { content, editorMetaData } = useEditorStore();
+  const { content, editorMetaData, setEditorMetaData } = useEditorStore();
   const { resetSavedEditorMetaData, parseEditorStateToSave } = useEditorUtils();
   const { mutateAsync: publishArticle, isPending } = useCreateArticle();
 
@@ -52,6 +52,19 @@ const PublishArticleModal = ({ open, onClose }: Props) => {
     setCurrentStep((prev) => Math.min(prev + 1, Steps.preview));
   const goToPreviousStep = () =>
     setCurrentStep((prev) => Math.max(prev - 1, Steps.setting));
+
+  const handleCloseModal = () => {
+    setEditorMetaData({
+      ...editorMetaData,
+      summary: "",
+      category: [],
+      hasComment: true,
+      hasLike: true,
+      hasHit: true,
+      thumbnail: null,
+    });
+    onClose();
+  };
 
   const handleUploadArticle = async () => {
     const { title, hasComment, hasHit, hasLike, summary, thumbnail, category } =
@@ -91,7 +104,7 @@ const PublishArticleModal = ({ open, onClose }: Props) => {
       case Steps.setting:
         return (
           <>
-            <Modal.Button type="normal" onClick={onClose}>
+            <Modal.Button type="normal" onClick={handleCloseModal}>
               취소
             </Modal.Button>
             <div className="ml-2" />

@@ -9,10 +9,10 @@ import { profileKeyFactor } from "@/entities/profile";
 const VerifyEmailForm = () => {
   const { data: session } = useSession();
 
-  const userId = session!.user.id!;
+  const userId = session?.user.id;
   const profileData = useProfile(userId);
   const queryClient = useQueryClient();
-  const { mutateAsync } = usePostVerifyUser(userId);
+  const { mutateAsync } = usePostVerifyUser(userId!);
   const { open } = useToast();
 
   const handleVerify = async () => {
@@ -23,7 +23,7 @@ const VerifyEmailForm = () => {
       staleTime: 3000,
     });
     queryClient.invalidateQueries({
-      queryKey: profileKeyFactor.detail(userId).queryKey,
+      queryKey: profileKeyFactor.detail(userId!).queryKey,
     });
   };
 

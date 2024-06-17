@@ -46,7 +46,7 @@ const ProfileImageContainer = (props: Props) => {
       <img
         src={tempProfileData ? URL.createObjectURL(tempProfileData) : props.src}
         alt={props.alt}
-        className="object-cover w-full rounded-full"
+        className="object-cover w-64 h-64 transition ease-in-out rounded-full cursor-pointer select-none hover:shadow-xl"
       />
 
       {/* Edit Util Buttons */}

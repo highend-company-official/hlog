@@ -13,9 +13,7 @@ const ModalContainer = ({ open, children }: Props) => {
     <shared.Portal portalId={shared.PORTAL_CONSTS.MODAL}>
       <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full max-h-full overflow-x-hidden overflow-y-auto bg-black/30">
         <div className="absolute w-full max-w-2xl max-h-full p-4">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            {children}
-          </div>
+          <div className="relative bg-white rounded-lg shadow">{children}</div>
         </div>
       </div>
     </shared.Portal>

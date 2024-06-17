@@ -20,7 +20,7 @@ const ShortcutDescriptionModal = ({ open, onClose }: Props) => {
     <Modal open={open}>
       <Modal.Content>
         <div className="relative overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+          <table className="w-full text-sm text-left text-gray-500 rtl:text-right">
             <thead className="text-xs text-white uppercase bg-primary/80">
               <tr>
                 <th scope="col" className="px-6 py-3">
@@ -35,7 +35,7 @@ const ShortcutDescriptionModal = ({ open, onClose }: Props) => {
               <tr className="bg-white border-b">
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-gray-400"
+                  className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap"
                 >
                   (<Kbd>Command</Kbd>
                   <span className="mx-2">or</span>

@@ -5,7 +5,7 @@ const Row = ({ target, value }: { target: string; value: string | number }) => (
   <tr className="bg-white border-b">
     <th
       scope="row"
-      className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-gray-400"
+      className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap"
     >
       {target}
     </th>
@@ -23,7 +23,7 @@ const PreviewPart = () => {
         설정한 내용을 확인해보세요.
       </span>
 
-      <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+      <table className="w-full text-sm text-left text-gray-500 rtl:text-right">
         <thead className="text-xs text-white uppercase bg-primary/80">
           <tr>
             <th scope="col" className="px-6 py-3">

@@ -13,21 +13,21 @@ type Props = {
 };
 
 const Success = () => (
-  <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+  <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
     <FaCheckCircle className="w-5 h-5" />
     <span className="sr-only">Check icon</span>
   </div>
 );
 
 const Warning = () => (
-  <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+  <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg">
     <RiErrorWarningFill className="w-5 h-5" />
     <span className="sr-only">Warning icon</span>
   </div>
 );
 
 const Error = () => (
-  <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+  <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
     <MdError className="w-5 h-5" />
     <span className="sr-only">Error icon</span>
   </div>

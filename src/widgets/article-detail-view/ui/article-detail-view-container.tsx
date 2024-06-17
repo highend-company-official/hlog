@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Divider, SEO } from "@/shared";
+import { Divider, SEO, useBucket } from "@/shared";
 import { EditorCore, useEditorUtils } from "@/widgets/editor";
 import { useGetArticleById } from "@/entities/article";
 import { LikeArticleButton } from "@/features/like-article";
@@ -13,6 +13,7 @@ const ArticleDetailViewContainer = () => {
   const navigate = useNavigate();
   const params = useParams<{ article_id: string }>();
   const { parseSavedContentToState } = useEditorUtils();
+  const { read: readThumbnails } = useBucket("thumbnails");
   const { data } = useGetArticleById(params.article_id!);
 
   if (!data) {
@@ -38,7 +39,7 @@ const ArticleDetailViewContainer = () => {
         title={`HLOG | ${data.title}`}
         description={data.summary ?? undefined}
         url={`https://tech-hlog.vercel.app/article-read/${data.id}`}
-        image={data.thumbnail ?? undefined}
+        image={readThumbnails(data.thumbnail ?? "")}
         keywords="기술 블로그, 최신 기술 뉴스, 튜토리얼, 프로그래밍, 소프트웨어 개발, AI, 머신러닝, 데이터 과학"
       />
 

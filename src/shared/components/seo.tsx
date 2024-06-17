@@ -24,7 +24,7 @@ const SEO = ({ title, description, image, url, keywords }: Props) => {
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:url" content={url} />
-      <meta property="og:site_name" content="Tech-Hlog" />
+      <meta property="og:site_name" content={title} />
       {/* End Open Graph / Facebook */}
 
       {/* Twitter */}

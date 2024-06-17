@@ -44,7 +44,7 @@ const useEditorUtils = () => {
       ...editorMetaData,
       content: parseEditorStateToSave(content),
     });
-  }, [editorMetaData, setEditorLocalStoage]);
+  }, [content, editorMetaData, setEditorLocalStoage]);
 
   const loadSavedEditorMetaData = useCallback(() => {
     if (editorLocalStorage) {
@@ -76,7 +76,7 @@ const useEditorUtils = () => {
     });
     setContent(EditorState.createEmpty());
     setEditorLocalStoage(null);
-  }, [setEditorLocalStoage, setEditorMetaData]);
+  }, [setContent, setEditorLocalStoage, setEditorMetaData]);
 
   return {
     saveCurrentContent,

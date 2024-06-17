@@ -49,7 +49,7 @@
 }
 
 .hlog-paragraph {
-  line-height: 27px;
+  line-height: 30px !important;
   font-size: 17px;
   letter-spacing: 0em;
   line-height: 1.6;
@@ -64,6 +64,11 @@
   border-left-width: 4px;
   border-color: rgb(37 99 235);
   border-style: solid;
+}
+
+.hlog-unordered-list-item,
+.hlog-ordered-list-item {
+  line-height: 30px !important;
 }
 
 /* Entity Styles */

@@ -4,6 +4,7 @@ import { SortType } from "../model";
 export type ArticleFilterType = {
   categories?: string[];
   sortType?: SortType;
+  page: number;
 };
 
 export const articleKeyFactor = createQueryKeys("article", {

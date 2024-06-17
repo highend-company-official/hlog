@@ -1,5 +1,6 @@
 import { ImFileEmpty } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 
 import * as shared from "@/shared";
 
@@ -8,6 +9,7 @@ import {
   useGetArticles,
   type ViewMode,
 } from "@/entities/article";
+import { useEffect } from "react";
 
 const CardContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
@@ -43,16 +45,28 @@ const ContainerRouter: React.FC<
 
 type ArticleListProps = {
   cardComponent: React.FC<
-    shared.ArrayElement<ReturnType<typeof useGetArticles>["data"]>
+    shared.ArrayElement<ReturnType<typeof useGetArticles>["data"]["pages"][0]>
   >;
 };
 
 const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
   const navigate = useNavigate();
   const { articleViewMode, filter } = useArticleStore();
-  const { data: articles } = useGetArticles(filter);
+  const { data: articles, fetchNextPage } = useGetArticles({
+    categories: filter.categories,
+    sortType: filter.sortType,
+    page: 0,
+  });
 
-  if (articles?.length === 0) {
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView]);
+
+  if (articles?.pages.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center w-full mt-32">
         <ImFileEmpty size={100} />
@@ -71,9 +85,13 @@ const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
       <div className="mt-3" />
 
       <ContainerRouter viewMode={articleViewMode}>
-        {articles.map((article) => (
-          <ArticleCard key={article.id} {...article} />
-        ))}
+        {articles?.pages?.flatMap((articles) =>
+          articles.map((article) => (
+            <ArticleCard key={article.id} {...article} />
+          ))
+        )}
+
+        <div ref={ref} />
       </ContainerRouter>
     </>
   );

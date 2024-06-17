@@ -30,19 +30,6 @@ const getArticles = async (filterType: ArticleFilterType) => {
   } else if (filterType.sortType === SortType.old) {
     baseQuery = baseQuery.order("created_at", { ascending: true });
   }
-  // TODO
-  // else if (filterType.sortType === SortType.trend) {
-  //   baseQuery = baseQuery
-  //     // .order("created_at", { ascending: false })
-  //     .order("likes.count", {
-  //       referencedTable: "likes",
-  //       ascending: false,
-  //     })
-  //     .order("count", {
-  //       referencedTable: "comments",
-  //       ascending: false,
-  //     });
-  // }
 
   if (filterType.categories && filterType.categories.length > 0) {
     const categoryIds = filterType.categories;
@@ -64,7 +51,10 @@ const getArticles = async (filterType: ArticleFilterType) => {
     }
   }
 
-  const { data, error } = await baseQuery;
+  const from = filterType.page * 10;
+  const to = from + 10 - 1;
+
+  const { data, error } = await baseQuery.range(from, to);
 
   if (error) {
     throw error;

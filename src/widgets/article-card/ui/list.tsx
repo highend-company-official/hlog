@@ -1,3 +1,7 @@
+import { PiSealCheckFill } from "react-icons/pi";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import { useGetArticles } from "@/entities/article";
 import {
   ArrayElement,
@@ -6,10 +10,10 @@ import {
   useBucket,
   useProfile,
 } from "@/shared";
-import { PiSealCheckFill } from "react-icons/pi";
-import { Link } from "react-router-dom";
 
-type ArticleCardProps = ArrayElement<ReturnType<typeof useGetArticles>["data"]>;
+type ArticleCardProps = ArrayElement<
+  ReturnType<typeof useGetArticles>["data"]["pages"][0]
+>;
 
 const List = (props: ArticleCardProps) => {
   const { read } = useBucket("thumbnails");
@@ -17,7 +21,15 @@ const List = (props: ArticleCardProps) => {
 
   return (
     <Link to={`/article-read/${props.id}`}>
-      <li className="flex flex-[1_3] w-full h-[85px] mb-2 list-none transition ease-in border-solid group hover:bg-black/10 rounded-xl">
+      <motion.div
+        initial={{ opacity: 0.5 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          easings: "easeInOut",
+          duration: 1,
+        }}
+        className="flex flex-[1_3] w-full h-[85px] mb-2 list-none transition ease-in border-solid group hover:bg-black/10 rounded-xl"
+      >
         <div className="w-[130px] h-[85px]">
           <img
             src={read(props.thumbnail ?? "")}
@@ -45,7 +57,7 @@ const List = (props: ArticleCardProps) => {
           <span className="mx-2">|</span>
           <span>{getElapsedTime(props.created_at)}</span>
         </div>
-      </li>
+      </motion.div>
     </Link>
   );
 };

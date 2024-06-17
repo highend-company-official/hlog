@@ -11,7 +11,9 @@ import Card from "./card";
 import List from "./list";
 import Gallery from "./gallery";
 
-type ArticleCardProps = ArrayElement<ReturnType<typeof useGetArticles>["data"]>;
+type ArticleCardProps = ArrayElement<
+  ReturnType<typeof useGetArticles>["data"]["pages"][0]
+>;
 
 const ArticleCardRender: React.FC<
   { viewMode: ViewMode } & ArticleCardProps

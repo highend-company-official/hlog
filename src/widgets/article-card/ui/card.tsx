@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { BiSolidLike } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { PiSealCheckFill } from "react-icons/pi";
@@ -7,14 +8,24 @@ import { FaCommentAlt } from "react-icons/fa";
 import { useGetArticles } from "@/entities/article";
 import { ArrayElement, If, useBucket, useProfile } from "@/shared";
 
-type ArticleCardProps = ArrayElement<ReturnType<typeof useGetArticles>["data"]>;
+type ArticleCardProps = ArrayElement<
+  ReturnType<typeof useGetArticles>["data"]["pages"][0]
+>;
 
 const Card = (props: ArticleCardProps) => {
   const { read: readThubmnails } = useBucket("thumbnails");
   const profileData = useProfile(props.profile.id);
 
   return (
-    <section className="relative flex flex-col w-full h-full transition ease-in group">
+    <motion.div
+      initial={{ opacity: 0.5 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        easings: "easeInOut",
+        duration: 1,
+      }}
+      className="relative flex flex-col w-full h-full transition ease-in-out group"
+    >
       <Link to={`/article-read/${props.id}`}>
         <img
           src={readThubmnails(props.thumbnail ?? "")}
@@ -79,7 +90,7 @@ const Card = (props: ArticleCardProps) => {
           </p>
         </div>
       </Link>
-    </section>
+    </motion.div>
   );
 };
 

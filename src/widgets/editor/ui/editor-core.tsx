@@ -29,13 +29,7 @@ import { CodeBlock } from "./custom-block";
 
 import "draft-js/dist/Draft.css";
 import FileUploadOverlay from "./file-upload-overlay";
-import {
-  Component,
-  PropsWithChildren,
-  memo,
-  useCallback,
-  useEffect,
-} from "react";
+import { Component, PropsWithChildren, memo, useCallback } from "react";
 
 type Props = {
   readOnly?: boolean;
@@ -228,19 +222,6 @@ const EditorCore = memo(({ readOnly = false, editorState }: Props) => {
         <shared.ImageDetailOverlay open={isOpen} onClose={exit} url={url} />
       )),
     [openArticleImageOverlay]
-  );
-
-  useEffect(
-    function autoSave() {
-      const interval = setInterval(() => {
-        handleSaveEditor();
-      }, 30000);
-
-      return () => {
-        clearInterval(interval);
-      };
-    },
-    [handleSaveEditor]
   );
 
   shared.useUnmount(() => resetEditorStore());

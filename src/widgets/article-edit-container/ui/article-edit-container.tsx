@@ -17,7 +17,7 @@ const ArticleEditContainer = () => {
   const params = useParams<{ article_id: string }>();
   const { open: openEditOverlay } = shared.useOverlay();
   const { setEditorMetaData, setContent } = useEditorStore();
-  const { parseSavedContentToState } = useEditorUtils();
+  const { parseSavedContentToState, saveCurrentContent } = useEditorUtils();
 
   const { data } = useGetArticleById(params.article_id!);
 
@@ -41,7 +41,20 @@ const ArticleEditContainer = () => {
 
       setContent(parseSavedContentToState(data.body ?? ""));
     }
-  }, [data]);
+  }, [data, parseSavedContentToState, setContent, setEditorMetaData]);
+
+  useEffect(
+    function autoSave() {
+      const interval = setInterval(() => {
+        saveCurrentContent();
+      }, 30000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    },
+    [saveCurrentContent]
+  );
 
   useBeforeunload((event) => event.preventDefault());
 

@@ -38,7 +38,7 @@ const CommentCard = (props: shared.CommentType) => {
             alt={profileData.username}
             className="object-cover w-10 h-10 mr-3 rounded-full max-md:hidden"
           />
-          <span className="font-bold mr-2">{profileData.username}</span>
+          <span className="mr-2 font-bold">{profileData.username}</span>
           <shared.If
             condition={profileData?.verified === "verified"}
             trueRender={<PiSealCheckFill size={20} className="text-primary" />}
@@ -46,7 +46,7 @@ const CommentCard = (props: shared.CommentType) => {
         </div>
 
         <shared.If
-          condition={profileData.id === session?.user.id}
+          condition={articleData.profile.id === session?.user.id}
           trueRender={
             <>
               <span className="px-3 py-1 ml-3 text-sm text-white rounded-full bg-primary">

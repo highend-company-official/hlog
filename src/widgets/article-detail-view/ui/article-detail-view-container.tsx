@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Divider } from "@/shared";
+import { Divider, SEO } from "@/shared";
 import { EditorCore, useEditorUtils } from "@/widgets/editor";
 import { useGetArticleById } from "@/entities/article";
 import { LikeArticleButton } from "@/features/like-article";
@@ -33,25 +33,35 @@ const ArticleDetailViewContainer = () => {
   const editorState = parseSavedContentToState(data.body ?? "");
 
   return (
-    <article className="grid content-center grid-cols-10 pt-24 mx-8">
-      <MetaDataView {...data} />
+    <>
+      <SEO
+        title={`HLOG | ${data.title}`}
+        description={data.summary ?? undefined}
+        url={`https://tech-hlog.vercel.app/article-read/${data.id}`}
+        image={data.thumbnail ?? undefined}
+        keywords="기술 블로그, 최신 기술 뉴스, 튜토리얼, 프로그래밍, 소프트웨어 개발, AI, 머신러닝, 데이터 과학"
+      />
 
-      <div className="col-span-6 col-start-3 max-md:col-span-10 max-md:col-start-1">
-        <EditorCore readOnly editorState={editorState} />
+      <article className="grid content-center grid-cols-10 pt-24 mx-8">
+        <MetaDataView {...data} />
 
-        <LikeArticleButton />
+        <div className="col-span-6 col-start-3 max-md:col-span-10 max-md:col-start-1">
+          <EditorCore readOnly editorState={editorState} />
 
-        <Divider />
+          <LikeArticleButton />
 
-        <CreateCommentForm />
+          <Divider />
 
-        <div className="py-6" />
+          <CreateCommentForm />
 
-        <CommentList renderCard={CommentCard} />
+          <div className="py-6" />
 
-        <div className="mb-10" />
-      </div>
-    </article>
+          <CommentList renderCard={CommentCard} />
+
+          <div className="mb-10" />
+        </div>
+      </article>
+    </>
   );
 };
 

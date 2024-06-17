@@ -17,3 +17,4 @@ export { default as Table } from "./table";
 export { default as TextArea } from "./textarea";
 export { default as ToastBase } from "./toast";
 export { default as QueryBoundary } from "./query-boundary";
+export { default as SEO } from "./seo";

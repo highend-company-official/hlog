@@ -41,9 +41,8 @@ const Bio = ({ label, icon, value }: BioProps) => {
 };
 
 const AuthorizationView = () => {
-  const { read } = shared.useBucket("profiles");
   const { user_id } = useParams<Params>();
-  const { data: userData } = shared.useFetchUser(user_id!);
+  const profile = shared.useProfile(user_id);
   const { data: session } = shared.useSession();
   const { open: openProfileDetail } = shared.useOverlay();
 
@@ -53,23 +52,23 @@ const AuthorizationView = () => {
     ));
   };
 
-  if (!userData || !session) return null;
-
-  const getProfileURL = () =>
-    shared.isProviderURL(userData.profile_url)
-      ? userData.profile_url
-      : read(userData.profile_url);
+  if (!profile || !session) return null;
 
   return (
     <>
+      <shared.SEO
+        title={`HLOG | ${profile.username}남의 프로필`}
+        image={profile.profile_url}
+        keywords="기술 블로그, 최신 기술 뉴스, 튜토리얼, 프로그래밍, 소프트웨어 개발, AI, 머신러닝, 데이터 과학"
+      />
       <div className="flex flex-col items-center justify-center">
         <shared.If
-          condition={!!userData.profile_url}
+          condition={!!profile.profile_url}
           trueRender={
             <img
-              src={getProfileURL()}
-              onClick={() => handleOpenProfileDetail(getProfileURL())}
-              alt={userData.username}
+              src={profile.profile_url}
+              onClick={() => handleOpenProfileDetail(profile.profile_url)}
+              alt={profile.username}
               className="object-cover w-64 h-64 transition ease-in-out rounded-full cursor-pointer select-none hover:shadow-xl"
             />
           }
@@ -78,7 +77,7 @@ const AuthorizationView = () => {
               <div className="w-64">
                 <img
                   src={defaultProfile}
-                  alt={userData.username}
+                  alt={profile.username}
                   className="object-cover w-64 h-64 rounded-full select-none"
                 />
               </div>
@@ -86,17 +85,17 @@ const AuthorizationView = () => {
           }
         />
         <span className="mb-4 text-2xl text-black mt-7">
-          {userData.username}
+          {profile.username}
         </span>
 
         <div className="flex">
           <Bio
             label="Email"
-            value={userData.email}
+            value={profile.email}
             icon={<MdOutlineMailOutline />}
           />
-          <Bio label="Phone" value={userData.phone} icon={<FaPhoneAlt />} />
-          <Bio label="Link" value={userData.link} icon={<IoIosLink />} />
+          <Bio label="Phone" value={profile.phone} icon={<FaPhoneAlt />} />
+          <Bio label="Link" value={profile.link} icon={<IoIosLink />} />
         </div>
       </div>
 
@@ -124,8 +123,7 @@ const AuthorizationView = () => {
 
 const UnAuthorizationView = () => {
   const { user_id } = useParams<Params>();
-  const { data: userData } = shared.useFetchUser(user_id!);
-  const { read } = shared.useBucket("profiles");
+  const profile = shared.useProfile(user_id);
   const { open: openProfileDetail } = shared.useOverlay();
 
   const handleOpenProfileDetail = (url: string) => {
@@ -134,23 +132,23 @@ const UnAuthorizationView = () => {
     ));
   };
 
-  if (!userData) return null;
-
-  const getProfileURL = () =>
-    shared.isProviderURL(userData.profile_url)
-      ? userData.profile_url
-      : read(userData.profile_url);
+  if (!profile) return null;
 
   return (
     <>
+      <shared.SEO
+        title={`HLOG | ${profile.username}남의 프로필`}
+        image={profile.profile_url}
+        keywords="기술 블로그, 최신 기술 뉴스, 튜토리얼, 프로그래밍, 소프트웨어 개발, AI, 머신러닝, 데이터 과학"
+      />
       <div className="flex flex-col items-center justify-center">
         <shared.If
-          condition={!!userData.profile_url}
+          condition={!!profile.profile_url}
           trueRender={
             <img
-              src={getProfileURL()}
-              onClick={() => handleOpenProfileDetail(getProfileURL())}
-              alt={userData.username}
+              src={profile.profile_url}
+              onClick={() => handleOpenProfileDetail(profile.profile_url)}
+              alt={profile.username}
               className="object-cover w-64 h-64 transition ease-in-out rounded-full cursor-pointer hover:shadow-xl"
             />
           }
@@ -159,7 +157,7 @@ const UnAuthorizationView = () => {
               <div className="w-64">
                 <img
                   src={defaultProfile}
-                  alt={userData.username}
+                  alt={profile.username}
                   className="object-cover w-64 h-64 rounded-full select-none"
                 />
               </div>
@@ -167,16 +165,16 @@ const UnAuthorizationView = () => {
           }
         />
         <span className="mb-4 text-2xl text-black mt-7">
-          {userData.username}
+          {profile.username}
         </span>
         <div className="flex">
           <Bio
             label="Email"
-            value={userData.email}
+            value={profile.email}
             icon={<MdOutlineMailOutline />}
           />
-          <Bio label="Phone" value={userData.phone} icon={<FaPhoneAlt />} />
-          <Bio label="Link" value={userData.link} icon={<IoIosLink />} />
+          <Bio label="Phone" value={profile.phone} icon={<FaPhoneAlt />} />
+          <Bio label="Link" value={profile.link} icon={<IoIosLink />} />
         </div>
       </div>
     </>

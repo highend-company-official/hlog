@@ -5,11 +5,17 @@ import { ArticleList, ArticleListSkeleton } from "@/widgets/article-list";
 import { ArticleViewOptionToolbar } from "@/widgets/article-view-option-toolbar";
 import { ArticleCategorySelector } from "@/features/set-article-category";
 import { VerifyEmailForm } from "@/features/verify-user";
-import { QueryBoundary, Skeleton } from "@/shared";
+import { QueryBoundary, SEO, Skeleton } from "@/shared";
 
 function HomePage() {
   return (
     <>
+      <SEO
+        title="HLOG | 홈"
+        description="최신 기술 뉴스, 튜토리얼, 리뷰를 제공하는 Tech-Hlog입니다. 프로그래밍, 소프트웨어 개발, AI, 머신러닝, 데이터 과학 관련 정보를 확인하세요."
+        url="https://tech-hlog.vercel.app"
+        keywords="기술 블로그, 최신 기술 뉴스, 튜토리얼, 프로그래밍, 소프트웨어 개발, AI, 머신러닝, 데이터 과학"
+      />
       <Header />
       <HomeBanner />
 

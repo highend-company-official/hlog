@@ -14,8 +14,8 @@ type Params = {
 const ProfileArticlesContainer = () => {
   const { user_id } = useParams<Params>();
 
-  const { data: userData } = shared.useFetchUser(user_id!);
   const { data: userArticlesData } = useFetchUserArticles(user_id!);
+  const profile = shared.useProfile(user_id);
 
   const articleMap = useMemo(() => {
     return (
@@ -25,10 +25,16 @@ const ProfileArticlesContainer = () => {
     );
   }, [userArticlesData]);
 
-  if (!userArticlesData || !userData) return null;
+  if (!userArticlesData || !profile) return null;
 
   return (
     <>
+      <shared.SEO
+        title={`HLOG | ${profile.username}남의 프로필`}
+        image={profile?.profile_url}
+        keywords="기술 블로그, 최신 기술 뉴스, 튜토리얼, 프로그래밍, 소프트웨어 개발, AI, 머신러닝, 데이터 과학"
+      />
+
       <header className="pb-4 mb-10 border-b border-solid">
         <h2 className="text-4xl font-semibold">유저 아티클</h2>
         <span className="text-sm text-subTitle">

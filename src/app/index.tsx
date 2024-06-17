@@ -12,21 +12,26 @@ import router from "./router";
 import "./styles/normalize.css";
 import "./styles/inline-style.css";
 import "./styles/editor-style.css";
+import { HelmetProvider } from "react-helmet-async";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
+const helmetContext = {};
+
 root.render(
   <React.StrictMode>
-    <hocs.QueryClient>
-      <QueryBoundary loadingFallback={<Skeleton height={300} />}>
-        <hocs.ToastContainer>
-          <RouterProvider
-            router={router}
-            fallbackElement={<CgSpinner size={80} className="animate-spin" />}
-          />
-        </hocs.ToastContainer>
-      </QueryBoundary>
-    </hocs.QueryClient>
+    <HelmetProvider context={helmetContext}>
+      <hocs.QueryClient>
+        <QueryBoundary loadingFallback={<Skeleton height={300} />}>
+          <hocs.ToastContainer>
+            <RouterProvider
+              router={router}
+              fallbackElement={<CgSpinner size={80} className="animate-spin" />}
+            />
+          </hocs.ToastContainer>
+        </QueryBoundary>
+      </hocs.QueryClient>
+    </HelmetProvider>
     <SpeedInsights />
   </React.StrictMode>
 );

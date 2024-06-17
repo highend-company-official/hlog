@@ -13,11 +13,13 @@ const ArticleCategorySelector = () => {
     if (selectedValues.includes(targetValue)) {
       setFilter({
         categories: selectedValues.filter((value) => value !== targetValue),
+        page: 0,
       });
       return;
     }
     setFilter({
       categories: [...selectedValues, targetValue],
+      page: 0,
     });
   };
 

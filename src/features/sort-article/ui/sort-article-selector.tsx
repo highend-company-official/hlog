@@ -51,6 +51,7 @@ const SortArticleSelector = () => {
 
   const handleChangeSortType = (sortType: SortType) => {
     setFilter({
+      page: 0,
       sortType,
     });
   };

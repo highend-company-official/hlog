@@ -26,6 +26,7 @@ const useArticleStoreBase = create<State & Action>((set) => ({
   articleViewMode: "card",
   filter: {
     sortType: SortType.new,
+    page: 0,
   },
   setFilter: (newFilter) =>
     set((state) => ({

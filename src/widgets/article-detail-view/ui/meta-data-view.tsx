@@ -77,7 +77,7 @@ const MetaDataView = (props: Props) => {
       <If
         condition={!!props?.summary}
         trueRender={
-          <div className="w-full col-span-6 col-start-3 p-4 mt-4 text-lg break-words bg-gray-100 rounded-xl text-wrap max-md:col-span-10 max-md:col-start-1">
+          <div className="w-full col-span-6 col-start-3 p-4 mt-4 mb-8 text-lg break-words bg-gray-100 rounded-xl text-wrap max-md:col-span-10 max-md:col-start-1">
             <h4 className="font-bold text-black">아티클 요약</h4>
             <span className="text-subTitle">{props?.summary}</span>
           </div>

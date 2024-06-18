@@ -2,6 +2,7 @@ import { UserQuitButton } from "@/features/quit-user";
 import { SignOutButton } from "@/features/sign-out";
 import { ProfileUploadForm } from "@/features/upload-profile";
 import { UserInfoSettingForm } from "@/features/edit-user-info";
+import { SEO } from "@/shared";
 
 export type Options = {
   isDarkMode: boolean;
@@ -11,6 +12,7 @@ export type Options = {
 const ProfileSettingsContainer = () => {
   return (
     <>
+      <SEO title="HLOG | 프로필 설정" />
       <header className="pb-4 mb-10 border-b border-solid">
         <h2 className="text-4xl font-semibold">프로필 설정</h2>
         <span className="text-sm text-subTitle">

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -15,8 +16,9 @@ const SignUpForm = () => {
   const { register, handleSubmit } = useForm<FormValues>();
   const navigate = useNavigate();
   const { open } = shared.useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleEmailSignUp = handleSubmit((data) => {
+  const handleEmailSignUp = handleSubmit(async (data) => {
     const { email, password, confirmPassword, username } = data;
 
     if (password !== confirmPassword) {
@@ -28,44 +30,45 @@ const SignUpForm = () => {
       return;
     }
 
-    signUp
-      .withEmail({
+    try {
+      setIsLoading(true);
+      const { error } = await signUp.withEmail({
         email,
         password,
         username,
-      })
-      .then(({ error }) => {
-        if (error?.name === "AuthApiError" && error.status === 429) {
-          open({
-            type: "error",
-            content: "이메일 요금 제한을 초과했습니다",
-            hasCloseButton: true,
-          });
-        }
+      });
 
-        if (!error) {
-          open({
-            type: "success",
-            content: "회원가입에 성공했습니다",
-            hasCloseButton: true,
-            staleTime: 3000,
-          });
-          open({
-            type: "warning",
-            content: "로그인하기 위해서 이메일 인증을 해주세요!",
-            hasCloseButton: true,
-          });
-          navigate("/auth/sign-in");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
+      if (error?.name === "AuthApiError" && error.status === 429) {
         open({
           type: "error",
-          content: "에러가 발생했습니다.",
+          content: "이메일 요금 제한을 초과했습니다",
           hasCloseButton: true,
         });
+      }
+
+      if (!error) {
+        open({
+          type: "success",
+          content: "회원가입에 성공했습니다",
+          hasCloseButton: true,
+          staleTime: 3000,
+        });
+        open({
+          type: "warning",
+          content: "로그인하기 위해서 이메일 인증을 해주세요!",
+          hasCloseButton: true,
+        });
+        navigate("/auth/sign-in");
+      }
+    } catch (error) {
+      open({
+        type: "error",
+        content: "에러가 발생했습니다.",
+        hasCloseButton: true,
       });
+    } finally {
+      setIsLoading(false);
+    }
   });
 
   return (
@@ -136,10 +139,7 @@ const SignUpForm = () => {
         />
       </div>
 
-      <shared.Button
-        type="submit"
-        className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      >
+      <shared.Button disabled={isLoading} type="submit" className="w-full">
         회원가입
       </shared.Button>
       <p className="text-sm font-light text-gray-500">

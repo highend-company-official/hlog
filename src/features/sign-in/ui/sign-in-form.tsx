@@ -5,6 +5,7 @@ import { FaGithub } from "react-icons/fa";
 
 import * as shared from "@/shared";
 import { authKeyFactor, signIn } from "@/entities/auth";
+import { useState } from "react";
 
 type FormValues = {
   email: string;
@@ -16,49 +17,64 @@ const SignInForm = () => {
   const queryClient = useQueryClient();
   const { open } = shared.useToast();
   const { register, handleSubmit } = useForm<FormValues>();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleEmailSignIn = handleSubmit((data) => {
+  const handleEmailSignIn = handleSubmit(async (data) => {
     const { email, password } = data;
+    setIsLoading(true);
 
-    signIn
-      .withEmail({ email, password })
-      .then(({ error }) => {
-        if (error?.name === "AuthApiError" && error.status === 400) {
-          open({
-            type: "error",
-            content: "로그인 정보가 맞지 않습니다. 다시 시도해주세요.",
-            hasCloseButton: true,
-          });
-        }
+    try {
+      const { error } = await signIn.withEmail({ email, password });
 
-        if (!error) {
-          queryClient.refetchQueries({
-            queryKey: authKeyFactor.session.queryKey,
-          });
-
-          open({
-            type: "success",
-            content: "로그인에 성공했습니다!",
-            hasCloseButton: true,
-            staleTime: 3000,
-          });
-
-          navigate("/", {
-            replace: true,
-          });
-        }
-      })
-      .catch(() => {
+      if (error?.name === "AuthApiError" && error.status === 400) {
         open({
           type: "error",
-          content: "문제가 발생했습니다.",
+          content: "로그인 정보가 맞지 않습니다. 다시 시도해주세요.",
           hasCloseButton: true,
         });
+      }
+
+      if (!error) {
+        queryClient.refetchQueries({
+          queryKey: authKeyFactor.session.queryKey,
+        });
+
+        open({
+          type: "success",
+          content: "로그인에 성공했습니다!",
+          hasCloseButton: true,
+          staleTime: 3000,
+        });
+
+        navigate("/", {
+          replace: true,
+        });
+      }
+    } catch (error) {
+      open({
+        type: "error",
+        content: "문제가 발생했습니다.",
+        hasCloseButton: true,
       });
+    } finally {
+      setIsLoading(false);
+    }
   });
 
-  const handleGithubSignIn = () => {
-    signIn.withGithub();
+  const handleGithubSignIn = async () => {
+    setIsLoading(true);
+
+    try {
+      await signIn.withGithub();
+    } catch (error) {
+      open({
+        type: "error",
+        content: "문제가 발생했습니다.",
+        hasCloseButton: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -95,32 +111,21 @@ const SignInForm = () => {
           {...register("password")}
         />
       </div>
-      <div className="flex items-center">
-        <Link
-          to="#"
-          className="text-sm font-medium text-primary-600 hover:underline"
-          // TODO: 비밀번호 잊었나요? 만들기
-        >
-          비밀번호를 잊으셨나요?
-        </Link>
-      </div>
-      <shared.Button
-        type="submit"
-        className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-      >
+      <shared.Button type="submit" disabled={isLoading} className="w-full">
         로그인
       </shared.Button>
 
       <shared.Divider>또는</shared.Divider>
 
-      <div
-        role="button"
-        className="flex items-center justify-center w-full px-4 py-3 mt-2 text-sm font-bold text-gray-100 bg-gray-900 rounded-lg cursor-pointer"
+      <button
+        type="button"
+        disabled={isLoading}
+        className="flex items-center justify-center w-full px-4 py-3 mt-2 text-sm font-bold text-gray-100 bg-gray-900 rounded-lg cursor-pointer disabled:bg-gray-900/50 disabled:cursor-not-allowed disabled:text-white/50"
         onClick={handleGithubSignIn}
       >
         <FaGithub size={26} />
         <span className="pl-3">Github로 로그인하기</span>
-      </div>
+      </button>
 
       <p className="text-sm font-light text-gray-500 ">
         아직 계정이 없으신가요?

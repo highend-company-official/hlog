@@ -26,9 +26,18 @@ const SignInForm = () => {
     try {
       const { error } = await signIn.withEmail({ email, password });
 
-      if (error?.name === "AuthApiError" && error.status === 400) {
+      console.log(error?.message);
+      if (error?.message === "Email not confirmed") {
         open({
-          type: "error",
+          type: "warning",
+          content: "아직 이메일 인증이 되지 않았습니다.",
+          hasCloseButton: true,
+        });
+      }
+
+      if (error?.message === "Invalid login credentials") {
+        open({
+          type: "warning",
           content: "로그인 정보가 맞지 않습니다. 다시 시도해주세요.",
           hasCloseButton: true,
         });
@@ -62,9 +71,8 @@ const SignInForm = () => {
   });
 
   const handleGithubSignIn = async () => {
-    setIsLoading(true);
-
     try {
+      setIsLoading(true);
       await signIn.withGithub();
     } catch (error) {
       open({
@@ -120,7 +128,7 @@ const SignInForm = () => {
       <button
         type="button"
         disabled={isLoading}
-        className="flex items-center justify-center w-full px-4 py-3 mt-2 text-sm font-bold text-gray-100 bg-gray-900 rounded-lg cursor-pointer disabled:bg-gray-900/50 disabled:cursor-not-allowed disabled:text-white/50"
+        className="flex items-center justify-center w-full px-4 py-3 mt-2 text-sm font-bold text-gray-100 transition ease-in-out bg-gray-900 rounded-lg cursor-pointer disabled:bg-gray-900/50 disabled:cursor-not-allowed disabled:text-white/50"
         onClick={handleGithubSignIn}
       >
         <FaGithub size={26} />

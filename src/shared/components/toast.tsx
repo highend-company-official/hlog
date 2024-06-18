@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { MdError } from "react-icons/md";
@@ -41,7 +42,13 @@ const ToastBase = ({
   staleTime,
 }: Props) => {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0.5, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{
+        easings: "easeInOut",
+        duration: 0.8,
+      }}
       className="relative flex flex-col items-start w-full p-4 mb-4 text-gray-500 bg-white rounded-lg shadow top-3 right-3"
       role="alert"
     >
@@ -81,7 +88,7 @@ const ToastBase = ({
           </div>
         }
       />
-    </div>
+    </motion.div>
   );
 };
 

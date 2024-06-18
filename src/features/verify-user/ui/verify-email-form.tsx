@@ -5,6 +5,7 @@ import { Button, If, useProfile, useSession, useToast } from "@/shared";
 
 import { usePostVerifyUser } from "../lib";
 import { profileKeyFactor } from "@/entities/profile";
+import { Link } from "react-router-dom";
 
 const VerifyEmailForm = () => {
   const { data: session } = useSession();
@@ -27,7 +28,20 @@ const VerifyEmailForm = () => {
     });
   };
 
-  if (!session || !profileData) return null;
+  if (!session || !profileData)
+    return (
+      <div className="sticky flex flex-col items-center p-4 mx-auto text-black rounded-md shadow-md top-20">
+        <h3 className="text-lg font-semibold">환영합니다 HLOG입니다.</h3>
+        <p className="text-base">HLOG의 다양한 기능을 사용해보세요.</p>
+        <p className="text-base">최신 정보와 흥미로운 콘텐츠를 제공합니다.</p>
+        <Link
+          to="/auth/sign-up"
+          className="mt-4 leading-5 underline text-primary"
+        >
+          회원가입
+        </Link>
+      </div>
+    );
 
   return (
     <div className="sticky flex flex-col items-center p-4 mx-auto text-black rounded-md shadow-md top-20">
@@ -37,7 +51,7 @@ const VerifyEmailForm = () => {
         condition={profileData.verified === "none"}
         trueRender={
           <>
-            <h3>환영합니다 {profileData?.username}님,</h3>
+            <h3>환영합니다 {profileData.username}님,</h3>
             <p className="text-base">
               유저 인증을 요청하여 아래 기능들을 사용해보세요.
             </p>

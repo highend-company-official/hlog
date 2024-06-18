@@ -30,7 +30,7 @@ const SearchSelector = () => {
         condition={mode === "article"}
         trueRender={
           <>
-            <div className="ml-3 mb-4 text-lg font-semibold">검색된 아티클</div>
+            <div className="mb-4 ml-3 text-lg font-semibold">검색된 아티클</div>
             <ArticleSearchSection />
           </>
         }
@@ -40,7 +40,7 @@ const SearchSelector = () => {
         condition={mode === "profile"}
         trueRender={
           <>
-            <div className="ml-3 mb-4 text-lg font-semibold">검색된 프로필</div>
+            <div className="mb-4 ml-3 text-lg font-semibold">검색된 프로필</div>
             <ProfileSearchSection />
           </>
         }

@@ -18,7 +18,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     setQuery(debouncedQuery);
-  }, [debouncedQuery]);
+  }, [debouncedQuery, setQuery]);
 
   useEffect(() => {
     inputRef.current?.focus();

@@ -1,3 +1,4 @@
+import { Component, PropsWithChildren, lazy, memo, useCallback } from "react";
 import {
   DraftBlockType,
   DraftHandleValue,
@@ -7,9 +8,12 @@ import {
   ContentBlock,
   type DraftInlineStyleType,
   DefaultDraftBlockRenderMap,
-  Editor,
 } from "draft-js";
 import Immutable from "immutable";
+
+const Editor = lazy(() =>
+  import("draft-js").then((module) => ({ default: module.Editor }))
+);
 
 import * as shared from "@/shared";
 
@@ -29,7 +33,6 @@ import { CodeBlock } from "./custom-block";
 
 import "draft-js/dist/Draft.css";
 import FileUploadOverlay from "./file-upload-overlay";
-import { Component, PropsWithChildren, memo, useCallback } from "react";
 
 type Props = {
   readOnly?: boolean;

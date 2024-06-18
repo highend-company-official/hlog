@@ -1,5 +1,4 @@
 import * as React from "react";
-import { CgSpinner } from "react-icons/cg";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -24,10 +23,7 @@ root.render(
       <hocs.QueryClient>
         <QueryBoundary loadingFallback={<Skeleton height={300} />}>
           <hocs.ToastContainer>
-            <RouterProvider
-              router={router}
-              fallbackElement={<CgSpinner size={80} className="animate-spin" />}
-            />
+            <RouterProvider router={router} />
           </hocs.ToastContainer>
         </QueryBoundary>
       </hocs.QueryClient>

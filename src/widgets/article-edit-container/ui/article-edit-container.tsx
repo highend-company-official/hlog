@@ -27,21 +27,24 @@ const ArticleEditContainer = () => {
     ));
   };
 
-  useEffect(() => {
-    if (data) {
-      setEditorMetaData({
-        summary: data.summary ?? "",
-        title: data.title ?? "",
-        hasComment: data.has_comments ?? true,
-        hasHit: data.has_hit ?? true,
-        hasLike: data.has_like ?? true,
-        category: data.categories ?? [],
-        thumbnail: null, // FIXME
-      });
+  useEffect(
+    function hydrateValues() {
+      if (data) {
+        setEditorMetaData({
+          summary: data.summary ?? "",
+          title: data.title ?? "",
+          hasComment: data.has_comments ?? true,
+          hasHit: data.has_hit ?? true,
+          hasLike: data.has_like ?? true,
+          category: data.categories ?? [],
+          thumbnail: null, // FIXME
+        });
 
-      setContent(parseSavedContentToState(data.body ?? ""));
-    }
-  }, [data, parseSavedContentToState, setContent, setEditorMetaData]);
+        setContent(parseSavedContentToState(data.body ?? ""));
+      }
+    },
+    [data, parseSavedContentToState, setContent, setEditorMetaData]
+  );
 
   useEffect(
     function autoSave() {
@@ -59,20 +62,18 @@ const ArticleEditContainer = () => {
   useBeforeunload((event) => event.preventDefault());
 
   return (
-    <>
-      <div className="min-h-screen pt-20 bg-slate-200">
-        <Toolbar onPulish={handleClickEdit} />
+    <div className="min-h-screen pt-20 bg-slate-200">
+      <Toolbar onPulish={handleClickEdit} />
 
-        <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
-          <ArticleTitleInput />
-          <shared.Divider />
-          <div className="mt-7" />
-          <shared.QueryBoundary>
-            <EditorCore />
-          </shared.QueryBoundary>
-        </div>
+      <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
+        <ArticleTitleInput />
+        <shared.Divider />
+        <div className="mt-7" />
+        <shared.QueryBoundary>
+          <EditorCore />
+        </shared.QueryBoundary>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -30,10 +30,10 @@ const useEditorUtils = () => {
       null
     );
 
-  const parseSavedContentToState = (targetContent: string) => {
+  const parseSavedContentToState = useCallback((targetContent: string) => {
     const json = JSON.parse(targetContent);
     return EditorState.createWithContent(convertFromRaw(json));
-  };
+  }, []);
 
   const parseEditorStateToSave = (targetContent: EditorState) => {
     return JSON.stringify(convertToRaw(targetContent.getCurrentContent()));
@@ -53,7 +53,7 @@ const useEditorUtils = () => {
         content: parseSavedContentToState(editorLocalStorage.content),
       };
     }
-  }, [editorLocalStorage]);
+  }, [editorLocalStorage, parseSavedContentToState]);
 
   const getPlaneTextLength = (content: ContentState) => {
     const blocks = convertToRaw(content).blocks;

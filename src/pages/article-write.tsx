@@ -12,8 +12,16 @@ const ArticleWrite = () => {
   return (
     <shared.If
       condition={isEditMode}
-      trueRender={<ArticleEditContainer />}
-      falseRender={<ArticleWriteContainer />}
+      trueRender={
+        <shared.QueryBoundary>
+          <ArticleEditContainer />
+        </shared.QueryBoundary>
+      }
+      falseRender={
+        <shared.QueryBoundary>
+          <ArticleWriteContainer />
+        </shared.QueryBoundary>
+      }
     />
   );
 };

@@ -33,20 +33,16 @@ const ArticleWriteContainer = () => {
   });
 
   return (
-    <>
-      <div className="min-h-screen pt-20 bg-slate-200">
-        <Toolbar onPulish={handleClickPublish} />
+    <div className="min-h-screen pt-20 bg-slate-200">
+      <Toolbar onPulish={handleClickPublish} />
 
-        <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
-          <ArticleTitleInput />
-          <shared.Divider />
-          <div className="mt-7" />
-          <shared.QueryBoundary>
-            <EditorCore />
-          </shared.QueryBoundary>
-        </div>
+      <div className="max-w-[1000px] mx-auto py-14 px-24 bg-white h-full">
+        <ArticleTitleInput />
+        <shared.Divider />
+        <div className="mt-7" />
+        <EditorCore />
       </div>
-    </>
+    </div>
   );
 };
 

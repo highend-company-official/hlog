@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Divider, SEO, useBucket } from "@/shared";
+import { Divider, If, SEO, useBucket } from "@/shared";
 import { EditorCore, useEditorUtils } from "@/widgets/editor";
 import { useGetArticleById } from "@/entities/article";
 import { LikeArticleButton } from "@/features/like-article";
@@ -49,16 +49,46 @@ const ArticleDetailViewContainer = () => {
         <div className="col-span-6 col-start-3 max-md:col-span-10 max-md:col-start-1">
           <EditorCore readOnly editorState={editorState} />
 
-          <LikeArticleButton />
+          <If
+            condition={data.has_like ?? true}
+            trueRender={<LikeArticleButton />}
+            falseRender={
+              <div className="p-4 text-blue-700 bg-blue-100 rounded-md shadow-md">
+                <p className="font-semibold">
+                  좋아요 기능이 비활성화되었습니다.
+                </p>
+                <p className="text-sm">
+                  작성자가 이 글에 대해 좋아요 기능을 사용할 수 없게
+                  설정했습니다.
+                </p>
+              </div>
+            }
+          />
 
-          <Divider />
+          <div className="my-4">
+            <Divider />
+          </div>
 
-          <CreateCommentForm />
+          <If
+            condition={data.has_comments ?? true}
+            trueRender={
+              <>
+                <CreateCommentForm />
 
-          <div className="py-6" />
+                <div className="py-6" />
 
-          <CommentList renderCard={CommentCard} />
-
+                <CommentList renderCard={CommentCard} />
+              </>
+            }
+            falseRender={
+              <div className="p-4 text-blue-700 bg-blue-100 rounded-md shadow-md">
+                <p className="font-semibold">댓글 기능이 비활성화되었습니다.</p>
+                <p className="text-sm">
+                  작성자가 이 글에 대해 댓글 기능을 사용할 수 없게 설정했습니다.
+                </p>
+              </div>
+            }
+          />
           <div className="mb-10" />
         </div>
       </article>

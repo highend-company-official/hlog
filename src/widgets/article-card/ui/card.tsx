@@ -58,15 +58,19 @@ const Card = (props: ArticleCardProps) => {
           </span>
 
           <div className="flex items-center gap-2 mr-2 text-sm">
-            <div className="flex items-center text-sm">
-              <BiSolidLike className="mr-1" />
-              <span>{props.likeCount}</span>
-            </div>
+            {props.has_like && (
+              <div className="flex items-center text-sm">
+                <BiSolidLike className="mr-1" />
+                <span>{props.likeCount}</span>
+              </div>
+            )}
 
-            <div className="flex items-center text-sm">
-              <FaCommentAlt className="mr-1 " />
-              <span>{props.commentCount}</span>
-            </div>
+            {props.has_comments && (
+              <div className="flex items-center text-sm">
+                <FaCommentAlt className="mr-1 " />
+                <span>{props.commentCount}</span>
+              </div>
+            )}
           </div>
         </div>
 

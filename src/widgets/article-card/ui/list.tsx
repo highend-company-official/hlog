@@ -39,7 +39,7 @@ const List = (props: ArticleCardProps) => {
         </div>
         <div className="pl-5 w-[50%] flex flex-col justify-center">
           <span className="font-bold group-hover:text-primary">
-            {props.title} [{props.commentCount}]
+            {props.title} {props.has_comments && `[${props.commentCount}]`}
           </span>
 
           <p className="text-gray-400 truncate max-sm:hidden">

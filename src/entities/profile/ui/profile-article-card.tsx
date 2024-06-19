@@ -50,7 +50,7 @@ const ProfileArticleCard = memo((props: ArticleCardProps) => {
 
         <div className="col-span-8">
           <span className="font-bold group-hover:text-primary">
-            {props.title} [{props.commentCount}]
+            {props.title} {props.has_comments && `[${props.commentCount}]`}
           </span>
           <p className="text-gray-400 truncate max-md:hidden">
             {props.summary}

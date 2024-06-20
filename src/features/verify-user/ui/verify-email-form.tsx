@@ -30,7 +30,7 @@ const VerifyEmailForm = () => {
 
   if (!session || !profileData)
     return (
-      <div className="sticky flex flex-col items-center p-4 mx-auto text-black rounded-md shadow-md top-20">
+      <div className="flex flex-col items-center p-4 mx-auto text-black rounded-md shadow-md">
         <h3 className="text-lg font-semibold">환영합니다 HLOG입니다.</h3>
         <p className="text-base">HLOG의 다양한 기능을 사용해보세요.</p>
         <p className="text-base">최신 정보와 흥미로운 콘텐츠를 제공합니다.</p>
@@ -44,7 +44,7 @@ const VerifyEmailForm = () => {
     );
 
   return (
-    <div className="sticky flex flex-col items-center p-4 mx-auto text-black rounded-md shadow-md top-20">
+    <div className="flex flex-col items-center p-4 mx-auto text-black rounded-md shadow-md">
       <PiSealCheckFill size={80} className="text-primary" />
 
       <If

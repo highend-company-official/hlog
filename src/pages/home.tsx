@@ -6,6 +6,7 @@ import { ArticleViewOptionToolbar } from "@/widgets/article-view-option-toolbar"
 import { ArticleCategorySelector } from "@/features/set-article-category";
 import { VerifyEmailForm } from "@/features/verify-user";
 import { QueryBoundary, SEO, Skeleton } from "@/shared";
+import AdsBlock from "@/shared/components/ads-block";
 
 function HomePage() {
   return (
@@ -34,10 +35,22 @@ function HomePage() {
           </QueryBoundary>
         </main>
 
-        <aside className="relative col-span-1 px-8 pt-4 max-md:hidden">
-          <QueryBoundary loadingFallback={<Skeleton height={800} />}>
-            <VerifyEmailForm />
-          </QueryBoundary>
+        <aside className="relative flex flex-col col-span-1 px-8 pt-4 max-md:hidden">
+          <div className="sticky top-20">
+            <QueryBoundary loadingFallback={<Skeleton height={800} />}>
+              <VerifyEmailForm />
+            </QueryBoundary>
+
+            <div className="flex flex-col items-center p-4 mx-auto mt-3 text-black rounded-md shadow-md">
+              <AdsBlock
+                client="ca-pub-3070256927583867"
+                slot="6515104479"
+                format="auto"
+                responsive="true"
+                className="block"
+              />
+            </div>
+          </div>
         </aside>
       </div>
     </>

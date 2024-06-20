@@ -26,7 +26,7 @@ const AdsBlock = ({ className, client, slot, format, responsive }: Props) => {
 
   return (
     <ins
-      className={className}
+      className={"adsbygoogle" + className}
       data-ad-client={client}
       data-ad-slot={slot}
       data-ad-format={format}

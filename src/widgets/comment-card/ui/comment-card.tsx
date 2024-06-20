@@ -46,7 +46,7 @@ const CommentCard = (props: shared.CommentType) => {
         </div>
 
         <shared.If
-          condition={articleData.profile.id === session?.user.id}
+          condition={props.profiles.id === session?.user.id}
           trueRender={
             <>
               <span className="px-3 py-1 ml-3 text-sm text-white rounded-full bg-primary">

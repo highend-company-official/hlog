@@ -41,7 +41,10 @@ function HomePage() {
               <VerifyEmailForm />
             </QueryBoundary>
 
-            <div className="flex flex-col items-center w-full p-4 mx-auto mt-3 text-black rounded-md shadow-md">
+            <div
+              className="flex flex-col items-center w-full p-4 mx-auto mt-3 text-black rounded-md shadow-md"
+              style={{ minWidth: "180px", margin: "auto", textAlign: "center" }}
+            >
               <AdsBlock
                 client="ca-pub-3070256927583867"
                 slot="6515104479"

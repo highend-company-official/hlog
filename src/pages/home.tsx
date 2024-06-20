@@ -35,8 +35,8 @@ function HomePage() {
           </QueryBoundary>
         </main>
 
-        <aside className="relative flex flex-col col-span-1 px-8 pt-4 max-md:hidden">
-          <div className="sticky top-20">
+        <aside className="relative flex flex-col w-full col-span-1 px-8 pt-4 max-md:hidden">
+          <div className="sticky w-full top-20">
             <QueryBoundary loadingFallback={<Skeleton height={800} />}>
               <VerifyEmailForm />
             </QueryBoundary>

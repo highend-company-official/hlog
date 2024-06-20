@@ -41,6 +41,7 @@ const AdsBlock = ({ client, slot, format, responsive }: Props) => {
     <ins
       style={{
         display: "block",
+        minWidth: "180px",
       }}
       className="adsbygoogle"
       data-ad-client={client}

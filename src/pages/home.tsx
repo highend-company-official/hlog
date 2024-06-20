@@ -41,13 +41,12 @@ function HomePage() {
               <VerifyEmailForm />
             </QueryBoundary>
 
-            <div className="flex flex-col items-center p-4 mx-auto mt-3 text-black rounded-md shadow-md">
+            <div className="flex flex-col items-center w-full p-4 mx-auto mt-3 text-black rounded-md shadow-md">
               <AdsBlock
                 client="ca-pub-3070256927583867"
                 slot="6515104479"
                 format="auto"
                 responsive="true"
-                className="block"
               />
             </div>
           </div>

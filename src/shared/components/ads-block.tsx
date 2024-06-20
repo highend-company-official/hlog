@@ -1,23 +1,36 @@
 import { useEffect } from "react";
 
 type Props = {
-  className?: string;
   client: string;
   slot: string;
   format: string;
   responsive: string;
 };
 
-const AdsBlock = ({ className, client, slot, format, responsive }: Props) => {
+const AdsBlock = ({ client, slot, format, responsive }: Props) => {
   useEffect(() => {
-    if (process.env.NODE_ENV === "production")
+    const pushAd = () => {
       try {
         //@ts-ignore
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-        console.log("Advertise is pushed");
+        const adsbygoogle = window.adsbygoogle;
+        // console.log({ adsbygoogle })
+        adsbygoogle.push({});
       } catch (e) {
-        console.error("AdvertiseError", e);
+        console.error(e);
       }
+    };
+
+    const interval = setInterval(() => {
+      //@ts-ignore
+      if (window.adsbygoogle) {
+        pushAd();
+        clearInterval(interval);
+      }
+    }, 300);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   //production이 아닌 경우 대체 컴포넌트 표시
@@ -26,7 +39,7 @@ const AdsBlock = ({ className, client, slot, format, responsive }: Props) => {
 
   return (
     <ins
-      className={`adsbygoogle ${className}`}
+      className="adsbygoogle"
       data-ad-client={client}
       data-ad-slot={slot}
       data-ad-format={format}

@@ -16,8 +16,12 @@ const useGetArticles = (filterType: ArticleFilterType) => {
     queryKey,
     queryFn,
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
-      return lastPage.length === 10 ? filterType.page + 1 : undefined;
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length < 10) {
+        return undefined;
+      }
+
+      return allPages.length;
     },
   });
 };

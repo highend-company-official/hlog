@@ -13,7 +13,7 @@ import { useEffect } from "react";
 
 const CardContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="grid gap-4 auto-rows-[minmax(600px)] grid-cols-2 max-md:grid-cols-1">
+    <div className="gap-4 grid grid-cols-2 max-md:grid-cols-1 auto-rows-[minmax(600px)]">
       {children}
     </div>
   );
@@ -24,7 +24,7 @@ const ListContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
 };
 const GalleryContainer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="grid gap-4 auto-rows-[minmax(0,300px)] grid-cols-2 max-md:grid-cols-1">
+    <div className="gap-4 grid grid-cols-2 max-md:grid-cols-1 auto-rows-[minmax(0,300px)]">
       {children}
     </div>
   );
@@ -70,10 +70,10 @@ const ArticleList = ({ cardComponent: ArticleCard }: ArticleListProps) => {
 
   if (articleList.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center w-full mt-32">
+      <div className="flex flex-col justify-center items-center mt-32 w-full">
         <ImFileEmpty size={100} />
 
-        <h3 className="mt-12 text-2xl font-bold">준비된 게시글이 없습니다.</h3>
+        <h3 className="mt-12 font-bold text-2xl">준비된 게시글이 없습니다.</h3>
         <span className="my-5 text-sm">HLOG에 기여해주세요.</span>
         <shared.Button onClick={() => navigate("/article-write")}>
           글 작성

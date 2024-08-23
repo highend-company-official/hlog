@@ -20,14 +20,14 @@ function HomePage() {
       <Header />
       <HomeBanner />
 
-      <div className="grid w-full grid-cols-4 max-md:pt-14">
-        <aside className="relative col-span-1 p-4 max-md:hidden">
+      <div className="grid grid-cols-4 max-md:pt-14 w-full">
+        <aside className="relative max-md:hidden col-span-1 p-4">
           <QueryBoundary loadingFallback={<Skeleton height={800} />}>
             <ArticleCategorySelector />
           </QueryBoundary>
         </aside>
 
-        <main className="w-full col-span-2 col-start-2 mx-auto mt-4 max-md:col-span-4 max-md:px-4">
+        <main className="col-span-2 max-md:col-span-4 col-start-2 mx-auto mt-4 max-md:px-4 w-full">
           <ArticleViewOptionToolbar />
 
           <QueryBoundary loadingFallback={<ArticleListSkeleton />}>
@@ -35,13 +35,13 @@ function HomePage() {
           </QueryBoundary>
         </main>
 
-        <aside className="relative flex flex-col w-full col-span-1 px-8 pt-4 max-md:hidden">
-          <div className="sticky w-full top-20">
+        <aside className="relative flex flex-col max-md:hidden col-span-1 px-8 pt-4 w-full">
+          <div className="top-20 sticky w-full">
             <QueryBoundary loadingFallback={<Skeleton height={800} />}>
               <VerifyEmailForm />
             </QueryBoundary>
 
-            <div className="flex flex-col items-center w-full p-4 mx-auto mt-3 text-black rounded-md shadow-md">
+            <div className="flex flex-col items-center shadow-md mx-auto mt-3 rounded-md w-full text-black overflow-hidden">
               <AdsBlock
                 client="ca-pub-3070256927583867"
                 slot="6515104479"
